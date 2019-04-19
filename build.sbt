@@ -1,4 +1,4 @@
-name := "Placeholder root project"
+name := "Foo root project"
 
 scalaVersion in ThisBuild := "2.12.4"
 
@@ -12,7 +12,7 @@ lazy val root = project.in(file(".")).
 lazy val cross = crossProject.in(file(".")).
   settings(
     name := "foo",
-    version := "0.1"
+    version := "0.1-SNAPSHOT"
   ).
   jvmSettings(
     // Add JVM-specific settings here

@@ -1,6 +1,4 @@
-.idea/.name
-.idea/*.xml
-.idea/libraries
-.idea/modules
-project/*
+.idea/*
+.git/*
 target/*
+project/target/*
