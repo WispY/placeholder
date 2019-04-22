@@ -25,6 +25,7 @@ lazy val cross = crossProject.in(file(".")).
     version := "0.1"
   ).
   jvmSettings(
+    name := "jvm",
     libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.5.22",
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8",
@@ -36,6 +37,7 @@ lazy val cross = crossProject.in(file(".")).
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.22" % Test,
   ).
   jsSettings(
+    name := "js",
     // calls main method when js file is loaded
     scalaJSUseMainModuleInitializer := true,
     // dom - basic dom operations lib

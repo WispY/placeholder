@@ -5,3 +5,4 @@ project/target/*
 out/.*
 out/*.js
 out/timestamp.txt
+*.class
