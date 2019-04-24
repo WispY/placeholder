@@ -70,8 +70,8 @@ def writeFile(file: String, content: String): Unit = {
 }
 
 moveJS := {
-  moveFile("./js/target/scala-2.12/cross-fastopt.js", "./out/cross-fastopt.js")
-  moveFile("./js/target/scala-2.12/cross-fastopt.js.map", "./out/cross-fastopt.js.map")
+  moveFile("./js/target/scala-2.12/js-fastopt.js", "./out/cross-fastopt.js")
+  moveFile("./js/target/scala-2.12/js-fastopt.js.map", "./out/cross-fastopt.js.map")
 }
 
 pushJS := {
