@@ -25,6 +25,8 @@ object config {
   val FlowerClusterMaxCount: Int = 4
   /** Maximum delay of flowers opening within the cluster */
   val FlowerAnimationDelay: Int = 30
+  /** Distance from mouse to flower cluster that will trigger it's animation */
+  val FlowerOpenDistance: Int = 8
 
   /** Describes the basic animation speed */
   val AnimationDelay: FiniteDuration = 300.millis

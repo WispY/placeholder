@@ -50,6 +50,12 @@ object vec {
     def min: Double = x min y
 
     def max: Double = x max y
+
+    def near(other: Vec2d, radius: Double): Boolean = {
+      val diff = this - other
+      val squared = diff * diff
+      squared.x + squared.y < radius * radius
+    }
   }
 
   object Vec2d {

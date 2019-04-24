@@ -30,6 +30,7 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
   var animationStart = 0L
   var treeBuffer: List[(Container, Container)] = Nil
   var currentTreeContainers: List[Container] = Nil
+  var closedFlowers: List[FlowerCluster] = Nil
 
   override lazy val create: Future[Unit] = Future {
     log.info("[game stage] setting up...")
@@ -83,6 +84,17 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
       }
     }
 
+    controller.model.mouse /> { case mouse if !animating =>
+      closedFlowers = closedFlowers.filter { cluster =>
+        if (mouse.near(cluster.getGlobalPosition(), FlowerOpenDistance * controller.model.scale.read)) {
+          cluster.open()
+          false
+        } else {
+          true
+        }
+      }
+    }
+
     log.info("[game stage] created")
   }
 
@@ -100,10 +112,10 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
         .positionAt(node.asset.rootAnchor.flip)
       if (spawnFlowers) {
         node.asset.flowerAnchors.foreach { anchor =>
-          new FlowerCluster(random.nextLong).withPixi { pixi =>
+          closedFlowers = closedFlowers :+ new FlowerCluster(random.nextLong).withPixi { pixi =>
             val absolutePosition = offset + node.asset.rootAnchor.flip + anchor
             pixi.positionAt(absolutePosition).addTo(flowerContainer)
-          }.open()
+          }
         }
       }
       node.branches.foreach(b => rec(sub, b, offset + position))

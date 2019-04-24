@@ -51,12 +51,12 @@ object data extends GlobalContext {
   }
 
   /** Represents the wrapper that can mutate it's value */
-  trait Writable[A] extends Data[A] {
+  trait Writeable[A] extends Data[A] {
     /** Mutates the current value into a given one */
     def write(a: A): A
   }
 
-  private class Implementation[A](default: A) extends Writable[A] with Logging {
+  private class Implementation[A](default: A) extends Writeable[A] with Logging {
     private var value: A = default
     private var listeners: List[TransitionListener[A]] = Nil
 
@@ -109,10 +109,10 @@ object data extends GlobalContext {
 
   object Data {
     /** Creates the writable data source */
-    def source[A](default: A): Writable[A] = new Implementation(default)
+    def source[A](default: A): Writeable[A] = new Implementation(default)
 
     /** Creates the writable data source */
-    def apply[A](default: A): Writable[A] = Data.source(default)
+    def apply[A](default: A): Writeable[A] = Data.source(default)
   }
 
 }

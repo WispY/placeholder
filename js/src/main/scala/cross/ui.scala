@@ -46,6 +46,7 @@ object ui extends GlobalContext with Logging {
     app.renderer.view.style.display = "block"
     app.renderer.autoResize = true
     controller.model.screen /> { case size => app.renderer.resize(size.x, size.y) }
+    controller.model.tick /> { case tick => controller.setMousePosition(app.renderer.plugins.interaction.mouse.global) }
     document.body.appendChild(app.view)
     app
   }

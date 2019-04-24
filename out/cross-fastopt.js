@@ -2278,6 +2278,7 @@ function $c_Lcross_config$() {
   this.FlowerClusterMinCount$1 = 0;
   this.FlowerClusterMaxCount$1 = 0;
   this.FlowerAnimationDelay$1 = 0;
+  this.FlowerOpenDistance$1 = 0;
   this.AnimationDelay$1 = null
 }
 $c_Lcross_config$.prototype = new $h_O();
@@ -2298,6 +2299,7 @@ $c_Lcross_config$.prototype.init___ = (function() {
   this.FlowerClusterMinCount$1 = 3;
   this.FlowerClusterMaxCount$1 = 4;
   this.FlowerAnimationDelay$1 = 30;
+  this.FlowerOpenDistance$1 = 8;
   var this$4 = new $c_s_concurrent_duration_package$DurationInt().init___I(300);
   var unit = $m_ju_concurrent_TimeUnit$().MILLISECONDS$1;
   this.AnimationDelay$1 = $m_s_concurrent_duration_package$DurationInt$().durationIn$extension__I__ju_concurrent_TimeUnit__s_concurrent_duration_FiniteDuration(this$4.scala$concurrent$duration$DurationInt$$n$1, unit);
@@ -2702,6 +2704,9 @@ $c_Lcross_mvc$Controller.prototype.bind__p1__V = (function() {
 });
 $c_Lcross_mvc$Controller.prototype.markLoaded__V = (function() {
   this.model$1.loaded$1.write__O__O(true)
+});
+$c_Lcross_mvc$Controller.prototype.setMousePosition__Lcross_vec$Vec2d__V = (function(mouse) {
+  this.model$1.mouse$1.write__O__O(mouse)
 });
 $c_Lcross_mvc$Controller.prototype.animatedTree__p1__Lcross_mvc$TreeNode__sci_List__sci_List = (function(root, tail) {
   _animatedTree: while (true) {
@@ -8100,6 +8105,18 @@ $c_Lcross_stage_GameStage$FlowerCluster.prototype.pixiFlowers$lzycompute__p1__sc
   };
   return this.pixiFlowers$1
 });
+function $is_Lcross_stage_GameStage$FlowerCluster(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcross_stage_GameStage$FlowerCluster)))
+}
+function $as_Lcross_stage_GameStage$FlowerCluster(obj) {
+  return (($is_Lcross_stage_GameStage$FlowerCluster(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "cross.stage.GameStage$FlowerCluster"))
+}
+function $isArrayOf_Lcross_stage_GameStage$FlowerCluster(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcross_stage_GameStage$FlowerCluster)))
+}
+function $asArrayOf_Lcross_stage_GameStage$FlowerCluster(obj, depth) {
+  return (($isArrayOf_Lcross_stage_GameStage$FlowerCluster(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcross.stage.GameStage$FlowerCluster;", depth))
+}
 var $d_Lcross_stage_GameStage$FlowerCluster = new $TypeData().initClass({
   Lcross_stage_GameStage$FlowerCluster: 0
 }, false, "cross.stage.GameStage$FlowerCluster", {
@@ -9173,16 +9190,16 @@ $c_sr_AbstractFunction2.prototype.toString__T = (function() {
   return "<function2>"
 });
 /** @constructor */
-function $c_sr_AbstractFunction6() {
+function $c_sr_AbstractFunction7() {
   $c_O.call(this)
 }
-$c_sr_AbstractFunction6.prototype = new $h_O();
-$c_sr_AbstractFunction6.prototype.constructor = $c_sr_AbstractFunction6;
+$c_sr_AbstractFunction7.prototype = new $h_O();
+$c_sr_AbstractFunction7.prototype.constructor = $c_sr_AbstractFunction7;
 /** @constructor */
-function $h_sr_AbstractFunction6() {
+function $h_sr_AbstractFunction7() {
   /*<skip>*/
 }
-$h_sr_AbstractFunction6.prototype = $c_sr_AbstractFunction6.prototype;
+$h_sr_AbstractFunction7.prototype = $c_sr_AbstractFunction7.prototype;
 /** @constructor */
 function $c_sr_BooleanRef() {
   $c_O.call(this);
@@ -9622,6 +9639,9 @@ $c_Lcross_ui$.prototype.startPixi__Lcross_mvc$Controller__Lcross_pixi_Applicatio
   var this$6 = controller.model$1.screen$1;
   var code = new $c_Lcross_ui$$anonfun$startPixi$1().init___Lcross_pixi_Application(app);
   $f_Lcross_data$Data__$$div$greater__s_PartialFunction__Lcross_data$Data(this$6, code);
+  var this$7 = controller.model$1.tick$1;
+  var code$1 = new $c_Lcross_ui$$anonfun$startPixi$2().init___Lcross_mvc$Controller__Lcross_pixi_Application(controller, app);
+  $f_Lcross_data$Data__$$div$greater__s_PartialFunction__Lcross_data$Data(this$7, code$1);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(app.view);
   return app
 });
@@ -12421,14 +12441,16 @@ $c_Lcross_app$.prototype.main__AT__V = (function(args) {
 });
 $c_Lcross_app$.prototype.delayedEndpoint$cross$app$1__V = (function() {
   $g.PIXI.settings.SCALE_MODE = $uD($g.PIXI.SCALE_MODES.NEAREST);
-  var jsx$5 = new $c_Lcross_data$Implementation().init___O($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
-  var jsx$4 = $m_Lcross_mvc$Model$().apply$default$2__Lcross_data$Writable();
-  var jsx$3 = new $c_Lcross_data$Implementation().init___O(1.0);
+  var jsx$6 = new $c_Lcross_data$Implementation().init___O($m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
+  var jsx$5 = $m_Lcross_mvc$Model$().apply$default$2__Lcross_data$Writeable();
+  var jsx$4 = new $c_Lcross_data$Implementation().init___O(1.0);
   var $default = $m_Lcross_mvc$Stages$().Loading$2;
-  var jsx$2 = new $c_Lcross_data$Implementation().init___O($default);
+  var jsx$3 = new $c_Lcross_data$Implementation().init___O($default);
+  var $default$1 = $m_Lcross_vec$Vec2d$().Zero$1;
+  var jsx$2 = new $c_Lcross_data$Implementation().init___O($default$1);
   var jsx$1 = new $c_Lcross_data$Implementation().init___O(false);
-  var $default$1 = $m_sci_Nil$();
-  this.model$1 = new $c_Lcross_mvc$Model().init___Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable(jsx$5, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lcross_data$Implementation().init___O($default$1));
+  var $default$2 = $m_sci_Nil$();
+  this.model$1 = new $c_Lcross_mvc$Model().init___Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable(jsx$6, jsx$5, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lcross_data$Implementation().init___O($default$2));
   this.controller$1 = new $c_Lcross_mvc$Controller().init___Lcross_mvc$Model(this.model$1);
   $m_Lcross_ui$().load__Lcross_mvc$Controller__s_concurrent_Future(this.controller$1).flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(ui$2) {
@@ -12548,7 +12570,7 @@ var $d_Lcross_data$Implementation = new $TypeData().initClass({
 }, false, "cross.data$Implementation", {
   Lcross_data$Implementation: 1,
   O: 1,
-  Lcross_data$Writable: 1,
+  Lcross_data$Writeable: 1,
   Lcross_data$Data: 1,
   Lcross_logging$Logging: 1
 });
@@ -13958,6 +13980,7 @@ function $c_Lcross_mvc$Model() {
   this.screen$1 = null;
   this.scale$1 = null;
   this.stage$1 = null;
+  this.mouse$1 = null;
   this.loaded$1 = null;
   this.trees$1 = null
 }
@@ -13972,7 +13995,17 @@ $c_Lcross_mvc$Model.prototype.productPrefix__T = (function() {
   return "Model"
 });
 $c_Lcross_mvc$Model.prototype.productArity__I = (function() {
-  return 6
+  return 7
+});
+$c_Lcross_mvc$Model.prototype.init___Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable__Lcross_data$Writeable = (function(tick, screen, scale, stage, mouse, loaded, trees) {
+  this.tick$1 = tick;
+  this.screen$1 = screen;
+  this.scale$1 = scale;
+  this.stage$1 = stage;
+  this.mouse$1 = mouse;
+  this.loaded$1 = loaded;
+  this.trees$1 = trees;
+  return this
 });
 $c_Lcross_mvc$Model.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
@@ -13984,35 +14017,42 @@ $c_Lcross_mvc$Model.prototype.equals__O__Z = (function(x$1) {
     if ((x === x$2)) {
       var x$3 = this.screen$1;
       var x$4 = Model$1.screen$1;
-      var jsx$4 = (x$3 === x$4)
+      var jsx$5 = (x$3 === x$4)
+    } else {
+      var jsx$5 = false
+    };
+    if (jsx$5) {
+      var x$5 = this.scale$1;
+      var x$6 = Model$1.scale$1;
+      var jsx$4 = (x$5 === x$6)
     } else {
       var jsx$4 = false
     };
     if (jsx$4) {
-      var x$5 = this.scale$1;
-      var x$6 = Model$1.scale$1;
-      var jsx$3 = (x$5 === x$6)
+      var x$7 = this.stage$1;
+      var x$8 = Model$1.stage$1;
+      var jsx$3 = (x$7 === x$8)
     } else {
       var jsx$3 = false
     };
     if (jsx$3) {
-      var x$7 = this.stage$1;
-      var x$8 = Model$1.stage$1;
-      var jsx$2 = (x$7 === x$8)
+      var x$9 = this.mouse$1;
+      var x$10 = Model$1.mouse$1;
+      var jsx$2 = (x$9 === x$10)
     } else {
       var jsx$2 = false
     };
     if (jsx$2) {
-      var x$9 = this.loaded$1;
-      var x$10 = Model$1.loaded$1;
-      var jsx$1 = (x$9 === x$10)
+      var x$11 = this.loaded$1;
+      var x$12 = Model$1.loaded$1;
+      var jsx$1 = (x$11 === x$12)
     } else {
       var jsx$1 = false
     };
     if (jsx$1) {
-      var x$11 = this.trees$1;
-      var x$12 = Model$1.trees$1;
-      return (x$11 === x$12)
+      var x$13 = this.trees$1;
+      var x$14 = Model$1.trees$1;
+      return (x$13 === x$14)
     } else {
       return false
     }
@@ -14039,10 +14079,14 @@ $c_Lcross_mvc$Model.prototype.productElement__I__O = (function(x$1) {
       break
     }
     case 4: {
-      return this.loaded$1;
+      return this.mouse$1;
       break
     }
     case 5: {
+      return this.loaded$1;
+      break
+    }
+    case 6: {
       return this.trees$1;
       break
     }
@@ -14060,15 +14104,6 @@ $c_Lcross_mvc$Model.prototype.hashCode__I = (function() {
 });
 $c_Lcross_mvc$Model.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
-});
-$c_Lcross_mvc$Model.prototype.init___Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable__Lcross_data$Writable = (function(tick, screen, scale, stage, loaded, trees) {
-  this.tick$1 = tick;
-  this.screen$1 = screen;
-  this.scale$1 = scale;
-  this.stage$1 = stage;
-  this.loaded$1 = loaded;
-  this.trees$1 = trees;
-  return this
 });
 function $is_Lcross_mvc$Model(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcross_mvc$Model)))
@@ -14095,9 +14130,9 @@ var $d_Lcross_mvc$Model = new $TypeData().initClass({
 $c_Lcross_mvc$Model.prototype.$classData = $d_Lcross_mvc$Model;
 /** @constructor */
 function $c_Lcross_mvc$Model$() {
-  $c_sr_AbstractFunction6.call(this)
+  $c_sr_AbstractFunction7.call(this)
 }
-$c_Lcross_mvc$Model$.prototype = new $h_sr_AbstractFunction6();
+$c_Lcross_mvc$Model$.prototype = new $h_sr_AbstractFunction7();
 $c_Lcross_mvc$Model$.prototype.constructor = $c_Lcross_mvc$Model$;
 /** @constructor */
 function $h_Lcross_mvc$Model$() {
@@ -14107,20 +14142,20 @@ $h_Lcross_mvc$Model$.prototype = $c_Lcross_mvc$Model$.prototype;
 $c_Lcross_mvc$Model$.prototype.init___ = (function() {
   return this
 });
-$c_Lcross_mvc$Model$.prototype.apply$default$2__Lcross_data$Writable = (function() {
-  var $default = new $c_Lcross_vec$Vec2i().init___I__I(0, 0);
-  return new $c_Lcross_data$Implementation().init___O($default)
-});
 $c_Lcross_mvc$Model$.prototype.toString__T = (function() {
   return "Model"
+});
+$c_Lcross_mvc$Model$.prototype.apply$default$2__Lcross_data$Writeable = (function() {
+  var $default = new $c_Lcross_vec$Vec2i().init___I__I(0, 0);
+  return new $c_Lcross_data$Implementation().init___O($default)
 });
 var $d_Lcross_mvc$Model$ = new $TypeData().initClass({
   Lcross_mvc$Model$: 0
 }, false, "cross.mvc$Model$", {
   Lcross_mvc$Model$: 1,
-  sr_AbstractFunction6: 1,
+  sr_AbstractFunction7: 1,
   O: 1,
-  F6: 1,
+  F7: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
@@ -14387,6 +14422,7 @@ function $c_Lcross_stage_GameStage() {
   this.animationStart$1 = $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong();
   this.treeBuffer$1 = null;
   this.currentTreeContainers$1 = null;
+  this.closedFlowers$1 = null;
   this.toPixi$1 = null;
   this.ec$1 = null;
   this.log$1 = null;
@@ -14480,6 +14516,7 @@ $c_Lcross_stage_GameStage.prototype.rec$1__p1__Lcross_pixi_Container__Lcross_mvc
     while ((!these.isEmpty__Z())) {
       var arg1 = these.head__O();
       var anchor = $as_Lcross_vec$Vec2i(arg1);
+      var this$14 = this.closedFlowers$1;
       var this$9 = new $c_Lcross_stage_GameStage$FlowerCluster().init___J__Lcross_mvc$Controller__Lcross_pixi_Application(random$1.self$1.nextLong__J(), this.cross$stage$GameStage$$controller$f, this.app$1);
       var arg1$1 = this$9.pixiContainer__Lcross_pixi_Container();
       var absolutePosition = offset.$$plus__Lcross_vec$Vec2i__Lcross_vec$Vec2i(node.asset$1.rootAnchor$1.flip__Lcross_vec$Vec2i()).$$plus__Lcross_vec$Vec2i__Lcross_vec$Vec2i(anchor);
@@ -14487,19 +14524,21 @@ $c_Lcross_stage_GameStage.prototype.rec$1__p1__Lcross_pixi_Container__Lcross_mvc
       $m_Lcross_imp$();
       var a$4 = $m_Lcross_imp$DisplayObjectOps$().positionAt$extension__Lcross_pixi_DisplayObject__Lcross_vec$Vec2d__Lcross_pixi_DisplayObject(($m_Lcross_imp$(), arg1$1), ($m_Lcross_imp$(), new $c_Lcross_vec$Vec2d().init___D__D(absolutePosition.x$1, absolutePosition.y$1)));
       jsx$5.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$4, flowerContainer$1);
-      this$9.open__V();
-      var this$13 = these;
-      these = this$13.tail__sci_List()
+      var this$13 = $m_sci_List$();
+      var bf = this$13.ReusableCBFInstance$2;
+      this.closedFlowers$1 = $as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(this$14, this$9, bf));
+      var this$15 = these;
+      these = this$15.tail__sci_List()
     }
   };
-  var this$14 = node.branches$1;
-  var these$1 = this$14;
+  var this$16 = node.branches$1;
+  var these$1 = this$16;
   while ((!these$1.isEmpty__Z())) {
     var arg1$2 = these$1.head__O();
     var b = $as_Lcross_mvc$TreeNode(arg1$2);
     this.rec$1__p1__Lcross_pixi_Container__Lcross_mvc$TreeNode__Lcross_vec$Vec2i__Z__s_util_Random__Lcross_pixi_Container__V(sub, b, offset.$$plus__Lcross_vec$Vec2i__Lcross_vec$Vec2i(position), spawnFlowers$1, random$1, flowerContainer$1);
-    var this$15 = these$1;
-    these$1 = this$15.tail__sci_List()
+    var this$17 = these$1;
+    these$1 = this$17.tail__sci_List()
   }
 });
 $c_Lcross_stage_GameStage.prototype.pixiFlowers$lzycompute__p1__Lcross_pixi_Container = (function() {
@@ -14522,6 +14561,7 @@ $c_Lcross_stage_GameStage.prototype.init___Lcross_mvc$Controller__Lcross_pixi_Ap
   this.animationStart$1 = $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong();
   this.treeBuffer$1 = $m_sci_Nil$();
   this.currentTreeContainers$1 = $m_sci_Nil$();
+  this.closedFlowers$1 = $m_sci_Nil$();
   this.toPixi$1 = this.pixiContainer__Lcross_pixi_Container();
   return this
 });
@@ -14612,6 +14652,9 @@ $c_Lcross_stage_GameStage.prototype.create$lzycompute__p1__s_concurrent_Future =
         var this$18 = $this.cross$stage$GameStage$$controller$f.model$1.tick$1;
         var code$2 = new $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$2().init___Lcross_stage_GameStage($this);
         $f_Lcross_data$Data__$$div$greater__s_PartialFunction__Lcross_data$Data(this$18, code$2);
+        var this$19 = $this.cross$stage$GameStage$$controller$f.model$1.mouse$1;
+        var code$3 = new $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3().init___Lcross_stage_GameStage($this);
+        $f_Lcross_data$Data__$$div$greater__s_PartialFunction__Lcross_data$Data(this$19, code$3);
         $this.log$1.info__T__V("[game stage] created")
       })
     })(this)), this.ec$1);
@@ -15118,6 +15161,11 @@ $c_Lcross_vec$Vec2d.prototype.$$minus__Lcross_vec$Vec2d__Lcross_vec$Vec2d = (fun
 $c_Lcross_vec$Vec2d.prototype.productPrefix__T = (function() {
   return "Vec2d"
 });
+$c_Lcross_vec$Vec2d.prototype.near__Lcross_vec$Vec2d__D__Z = (function(other, radius) {
+  var diff = this.$$minus__Lcross_vec$Vec2d__Lcross_vec$Vec2d(other);
+  var squared = diff.$$times__Lcross_vec$Vec2d__Lcross_vec$Vec2d(diff);
+  return ((squared.x$1 + squared.y$1) < (radius * radius))
+});
 $c_Lcross_vec$Vec2d.prototype.productArity__I = (function() {
   return 2
 });
@@ -15153,6 +15201,9 @@ $c_Lcross_vec$Vec2d.prototype.productElement__I__O = (function(x$1) {
 });
 $c_Lcross_vec$Vec2d.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lcross_vec$Vec2d.prototype.$$times__Lcross_vec$Vec2d__Lcross_vec$Vec2d = (function(v) {
+  return new $c_Lcross_vec$Vec2d().init___D__D((this.x$1 * v.x$1), (this.y$1 * v.y$1))
 });
 $c_Lcross_vec$Vec2d.prototype.init___D__D = (function(x, y) {
   this.x$1 = x;
@@ -18651,14 +18702,6 @@ $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1.prototype.init___
   return this
 });
 $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1.prototype.applyOrElse__sci_List__F1__O = (function(x1, $default) {
-  var these = x1;
-  while ((!these.isEmpty__Z())) {
-    var arg1 = these.head__O();
-    var tree = $as_Lcross_mvc$TreeNode(arg1);
-    this.$$outer$2.log$1.info__T__V(("[game stage] got tree: " + tree));
-    var this$1 = these;
-    these = this$1.tail__sci_List()
-  };
   var jsx$1 = $m_Lcross_imp$ContainerOps$();
   $m_Lcross_imp$();
   var a = this.$$outer$2.pixiTree__Lcross_pixi_Container();
@@ -18668,16 +18711,16 @@ $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1.prototype.applyOr
   var a$1 = this.$$outer$2.pixiFlowers__Lcross_pixi_Container();
   jsx$2.removeChildren$extension__Lcross_pixi_Container__Lcross_pixi_Container(a$1);
   var jsx$6 = this.$$outer$2;
-  var this$4 = $m_sci_List$();
-  var bf = this$4.ReusableCBFInstance$2;
-  var this$10 = $as_sci_List($f_sc_IterableLike__zipWithIndex__scg_CanBuildFrom__O(x1, bf));
-  var f = (function(this$2$1, x1$2) {
+  var this$3 = $m_sci_List$();
+  var bf = this$3.ReusableCBFInstance$2;
+  var this$9 = $as_sci_List($f_sc_IterableLike__zipWithIndex__scg_CanBuildFrom__O(x1, bf));
+  var f = (function($this, x1$2) {
     return (function(x0$1$2) {
       var x0$1 = $as_T2(x0$1$2);
       if ((x0$1 !== null)) {
-        var tree$1 = $as_Lcross_mvc$TreeNode(x0$1.$$und1__O());
+        var tree = $as_Lcross_mvc$TreeNode(x0$1.$$und1__O());
         var index = $uI(x0$1.$$und2__O());
-        var x1$2$1 = this$2$1.$$outer$2.buildTree__Lcross_mvc$TreeNode__Z__T2(tree$1, (index === (((-1) + $f_sc_LinearSeqOptimized__length__I(x1$2)) | 0)));
+        var x1$2$1 = $this.$$outer$2.buildTree__Lcross_mvc$TreeNode__Z__T2(tree, (index === (((-1) + $f_sc_LinearSeqOptimized__length__I(x1$2)) | 0)));
         if ((x1$2$1 === null)) {
           throw new $c_s_MatchError().init___O(x1$2$1)
         };
@@ -18686,59 +18729,59 @@ $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1.prototype.applyOr
         var jsx$3 = $m_Lcross_imp$DisplayObjectOps$();
         $m_Lcross_imp$();
         var a$2 = $m_Lcross_imp$DisplayObjectOps$().visibleTo$extension__Lcross_pixi_DisplayObject__Z__Lcross_pixi_DisplayObject(($m_Lcross_imp$(), tc), false);
-        jsx$3.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$2, this$2$1.$$outer$2.pixiTree__Lcross_pixi_Container());
+        jsx$3.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$2, $this.$$outer$2.pixiTree__Lcross_pixi_Container());
         var jsx$4 = $m_Lcross_imp$DisplayObjectOps$();
         $m_Lcross_imp$();
         var a$3 = $m_Lcross_imp$DisplayObjectOps$().visibleTo$extension__Lcross_pixi_DisplayObject__Z__Lcross_pixi_DisplayObject(($m_Lcross_imp$(), fc), false);
-        jsx$4.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$3, this$2$1.$$outer$2.pixiFlowers__Lcross_pixi_Container());
+        jsx$4.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$3, $this.$$outer$2.pixiFlowers__Lcross_pixi_Container());
         return new $c_T2().init___O__O(tc, fc)
       } else {
         throw new $c_s_MatchError().init___O(x0$1)
       }
     })
   })(this, x1);
-  var this$9 = $m_sci_List$();
-  var bf$1 = this$9.ReusableCBFInstance$2;
+  var this$8 = $m_sci_List$();
+  var bf$1 = this$8.ReusableCBFInstance$2;
   if ((bf$1 === $m_sci_List$().ReusableCBFInstance$2)) {
-    if ((this$10 === $m_sci_Nil$())) {
+    if ((this$9 === $m_sci_Nil$())) {
       var jsx$5 = $m_sci_Nil$()
     } else {
-      var arg1$1 = this$10.head__O();
-      var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
+      var arg1 = this$9.head__O();
+      var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
       var t = h;
-      var rest = this$10.tail__sci_List();
+      var rest = this$9.tail__sci_List();
       while ((rest !== $m_sci_Nil$())) {
-        var arg1$2 = rest.head__O();
-        var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$2), $m_sci_Nil$());
+        var arg1$1 = rest.head__O();
+        var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
         t.tl$5 = nx;
         t = nx;
-        var this$11 = rest;
-        rest = this$11.tail__sci_List()
+        var this$10 = rest;
+        rest = this$10.tail__sci_List()
       };
       var jsx$5 = h
     }
   } else {
-    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$10, bf$1);
-    var these$1 = this$10;
-    while ((!these$1.isEmpty__Z())) {
-      var arg1$3 = these$1.head__O();
-      b.$$plus$eq__O__scm_Builder(f(arg1$3));
-      var this$12 = these$1;
-      these$1 = this$12.tail__sci_List()
+    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$9, bf$1);
+    var these = this$9;
+    while ((!these.isEmpty__Z())) {
+      var arg1$2 = these.head__O();
+      b.$$plus$eq__O__scm_Builder(f(arg1$2));
+      var this$11 = these;
+      these = this$11.tail__sci_List()
     };
     var jsx$5 = b.result__O()
   };
   jsx$6.treeBuffer$1 = $as_sci_List(jsx$5);
-  var this$13 = this.$$outer$2.treeBuffer$1;
-  if ($f_sc_TraversableOnce__nonEmpty__Z(this$13)) {
+  var this$12 = this.$$outer$2.treeBuffer$1;
+  if ($f_sc_TraversableOnce__nonEmpty__Z(this$12)) {
     var jsx$7 = this.$$outer$2;
-    var this$14 = this.$$outer$2.cross$stage$GameStage$$controller$f.model$1.tick$1;
-    jsx$7.animationStart$1 = $uJ(this$14.value$1);
+    var this$13 = this.$$outer$2.cross$stage$GameStage$$controller$f.model$1.tick$1;
+    jsx$7.animationStart$1 = $uJ(this$13.value$1);
     this.$$outer$2.animating$1 = true;
     return (void 0)
   } else {
-    var this$15 = this.$$outer$2.pixiSpawnTree__Lcross_component_Button();
-    $f_Lcross_component_Interactive__setEnabled__Z__Lcross_component_Interactive(this$15, true);
+    var this$14 = this.$$outer$2.pixiSpawnTree__Lcross_component_Button();
+    $f_Lcross_component_Interactive__setEnabled__Z__Lcross_component_Interactive(this$14, true);
     return (void 0)
   }
 });
@@ -18763,6 +18806,72 @@ var $d_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1 = new $TypeDa
   Ljava_io_Serializable: 1
 });
 $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1.prototype.$classData = $d_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$1;
+/** @constructor */
+function $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3() {
+  $c_sr_AbstractPartialFunction.call(this);
+  this.$$outer$2 = null
+}
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype = new $h_sr_AbstractPartialFunction();
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.constructor = $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3;
+/** @constructor */
+function $h_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3() {
+  /*<skip>*/
+}
+$h_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype = $c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype;
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.applyOrElse__Lcross_vec$Vec2d__F1__O = (function(x3, $default) {
+  if ((!this.$$outer$2.animating$1)) {
+    var jsx$3 = this.$$outer$2;
+    var this$1 = this.$$outer$2.closedFlowers$1;
+    $m_sci_List$();
+    var b = new $c_scm_ListBuffer().init___();
+    var these = this$1;
+    while ((!these.isEmpty__Z())) {
+      var arg1 = these.head__O();
+      var cluster = $as_Lcross_stage_GameStage$FlowerCluster(arg1);
+      var jsx$2 = $m_Lcross_imp$().pointToVec__Lcross_pixi_Point__Lcross_vec$Vec2d(($m_Lcross_imp$(), cluster.pixiContainer__Lcross_pixi_Container()).getGlobalPosition());
+      var jsx$1 = $m_Lcross_config$().FlowerOpenDistance$1;
+      var this$4 = this.$$outer$2.cross$stage$GameStage$$controller$f.model$1.scale$1;
+      if ((((!x3.near__Lcross_vec$Vec2d__D__Z(jsx$2, (jsx$1 * $uD(this$4.value$1)))) || (cluster.open__V(), false)) !== false)) {
+        b.$$plus$eq__O__scm_ListBuffer(arg1)
+      };
+      var this$5 = these;
+      these = this$5.tail__sci_List()
+    };
+    jsx$3.closedFlowers$1 = b.toList__sci_List();
+    return (void 0)
+  } else {
+    return $default.apply__O__O(x3)
+  }
+});
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.init___Lcross_stage_GameStage = (function($$outer) {
+  if (($$outer === null)) {
+    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+  } else {
+    this.$$outer$2 = $$outer
+  };
+  return this
+});
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.isDefinedAt__O__Z = (function(x) {
+  return this.isDefinedAt__Lcross_vec$Vec2d__Z($as_Lcross_vec$Vec2d(x))
+});
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.isDefinedAt__Lcross_vec$Vec2d__Z = (function(x3) {
+  return (!this.$$outer$2.animating$1)
+});
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.applyOrElse__O__F1__O = (function(x, $default) {
+  return this.applyOrElse__Lcross_vec$Vec2d__F1__O($as_Lcross_vec$Vec2d(x), $default)
+});
+var $d_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3 = new $TypeData().initClass({
+  Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3: 0
+}, false, "cross.stage.GameStage$$anonfun$$nestedInanonfun$create$1$3", {
+  Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3: 1,
+  sr_AbstractPartialFunction: 1,
+  O: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3.prototype.$classData = $d_Lcross_stage_GameStage$$anonfun$$nestedInanonfun$create$1$3;
 /** @constructor */
 function $c_Lcross_ui$$anonfun$bindStageTransitions$1() {
   $c_sr_AbstractPartialFunction.call(this);
@@ -21089,6 +21198,50 @@ var $d_Lcross_stage_GameStage$Flower$$anonfun$open$1 = new $TypeData().initClass
   Ljava_io_Serializable: 1
 });
 $c_Lcross_stage_GameStage$Flower$$anonfun$open$1.prototype.$classData = $d_Lcross_stage_GameStage$Flower$$anonfun$open$1;
+/** @constructor */
+function $c_Lcross_ui$$anonfun$startPixi$2() {
+  $c_sr_AbstractPartialFunction$mcVJ$sp.call(this);
+  this.controller$2$3 = null;
+  this.app$1$3 = null
+}
+$c_Lcross_ui$$anonfun$startPixi$2.prototype = new $h_sr_AbstractPartialFunction$mcVJ$sp();
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.constructor = $c_Lcross_ui$$anonfun$startPixi$2;
+/** @constructor */
+function $h_Lcross_ui$$anonfun$startPixi$2() {
+  /*<skip>*/
+}
+$h_Lcross_ui$$anonfun$startPixi$2.prototype = $c_Lcross_ui$$anonfun$startPixi$2.prototype;
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.applyOrElse__J__F1__O = (function(x2, $default) {
+  this.controller$2$3.setMousePosition__Lcross_vec$Vec2d__V($m_Lcross_imp$().pointToVec__Lcross_pixi_Point__Lcross_vec$Vec2d(this.app$1$3.renderer.plugins.interaction.mouse.global))
+});
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.isDefinedAt__J__Z = (function(x2) {
+  return true
+});
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.isDefinedAt__O__Z = (function(x) {
+  return this.isDefinedAt__J__Z($uJ(x))
+});
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.applyOrElse__O__F1__O = (function(x, $default) {
+  return this.applyOrElse__J__F1__O($uJ(x), $default)
+});
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.init___Lcross_mvc$Controller__Lcross_pixi_Application = (function(controller$2, app$1) {
+  this.controller$2$3 = controller$2;
+  this.app$1$3 = app$1;
+  return this
+});
+var $d_Lcross_ui$$anonfun$startPixi$2 = new $TypeData().initClass({
+  Lcross_ui$$anonfun$startPixi$2: 0
+}, false, "cross.ui$$anonfun$startPixi$2", {
+  Lcross_ui$$anonfun$startPixi$2: 1,
+  sr_AbstractPartialFunction$mcVJ$sp: 1,
+  sr_AbstractPartialFunction: 1,
+  O: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  s_Function1$mcVJ$sp: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcross_ui$$anonfun$startPixi$2.prototype.$classData = $d_Lcross_ui$$anonfun$startPixi$2;
 /** @constructor */
 function $c_jl_JSConsoleBasedPrintStream() {
   $c_Ljava_io_PrintStream.call(this);

@@ -14,5 +14,7 @@ class SystemRenderer extends js.Object {
 
   var backgroundColor: Double = js.native
 
+  val plugins: RendererPlugins = js.native
+
   def resize(width: Double, height: Double): Unit = js.native
 }

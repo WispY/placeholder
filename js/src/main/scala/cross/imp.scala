@@ -328,7 +328,7 @@ object imp extends GlobalContext {
     def **(multiplier: Double): FiniteDuration = (duration.toMillis * multiplier).toLong.millis
   }
 
-  implicit class DataOptionOps[A](val data: Writable[Option[A]]) extends AnyVal {
+  implicit class DataOptionOps[A](val data: Writeable[Option[A]]) extends AnyVal {
     /** Sets optional value to Some given value */
     def writeSome(a: A): Unit = data.write(Some(a))
 

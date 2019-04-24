@@ -15,13 +15,14 @@ import scala.util.Random
 object mvc extends GlobalContext with Logging {
 
   /** Contains application internal state */
-  case class Model(tick: Writable[Long] = Data(0),
-                   screen: Writable[Vec2i] = Data(0 xy 0),
-                   scale: Writable[Double] = Data(1.0),
-                   stage: Writable[Stages.Value] = Data(Stages.Loading),
+  case class Model(tick: Writeable[Long] = Data(0),
+                   screen: Writeable[Vec2i] = Data(0 xy 0),
+                   scale: Writeable[Double] = Data(1.0),
+                   stage: Writeable[Stages.Value] = Data(Stages.Loading),
+                   mouse: Writeable[Vec2d] = Data(Vec2d.Zero),
 
-                   loaded: Writable[Boolean] = Data(false),
-                   trees: Writable[List[TreeNode]] = Data(Nil))
+                   loaded: Writeable[Boolean] = Data(false),
+                   trees: Writeable[List[TreeNode]] = Data(Nil))
 
   object Stages extends Enumeration {
     val Loading, Game = Value
@@ -72,6 +73,10 @@ object mvc extends GlobalContext with Logging {
     /** Requests to go to Game stage */
     def jumpToGame(): Unit = model.stage.write(Stages.Game)
 
+    /** Updates the global mouse position on the screen */
+    def setMousePosition(mouse: Vec2d): Unit = model.mouse.write(mouse)
+
+    /** Requests to spawn the new random tree */
     def respawnTree(): Unit = {
       val tree = randomTree
       model.trees.write(animatedTree(tree, tree :: Nil))
