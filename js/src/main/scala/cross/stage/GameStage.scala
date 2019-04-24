@@ -26,6 +26,10 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
   lazy val pixiTree = pixiCenter.sub
   lazy val pixiFlowers = pixiCenter.sub
   val treePosition = 0 xy 95
+  var animating = false
+  var animationStart = 0L
+  var treeBuffer: List[(Container, Container)] = Nil
+  var currentTreeContainers: List[Container] = Nil
 
   override lazy val create: Future[Unit] = Future {
     log.info("[game stage] setting up...")
@@ -45,32 +49,68 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
     pixiTree.positionAt(treePosition)
     pixiFlowers.positionAt(treePosition)
 
-    controller.model.tree /> {
-      case Some(tree) =>
-        val random = new Random()
-        pixiSpawnTree.setEnabled(true)
+    controller.model.trees /> {
+      case trees =>
         pixiTree.removeChildren
         pixiFlowers.removeChildren
-
-        def rec(parent: Container, node: TreeNode, offset: Vec2i): Unit = {
-          val position = node.asset.rootAnchor.flip + node.asset.branchAnchor
-          val sub = parent.sub
-            .positionAt(position)
-          node.asset.asset.sprite
-            .addTo(parent)
-            .positionAt(node.asset.rootAnchor.flip)
-          node.asset.flowerAnchors.foreach { anchor =>
-            new FlowerCluster(random.nextLong).withPixi { pixi =>
-              val absolutePosition = offset + node.asset.rootAnchor.flip + anchor
-              pixi.positionAt(absolutePosition).addTo(pixiFlowers)
-            }.open()
-          }
-          node.branches.foreach(b => rec(sub, b, offset + position))
+        treeBuffer = trees.zipWithIndex.map { case (tree, index) =>
+          val (tc, fc) = buildTree(tree, spawnFlowers = index == trees.size - 1)
+          tc.visibleTo(false).addTo(pixiTree)
+          fc.visibleTo(false).addTo(pixiFlowers)
+          (tc, fc)
         }
-
-        rec(pixiTree, tree, 0 xy 0)
+        if (treeBuffer.nonEmpty) {
+          animationStart = controller.model.tick.read
+          animating = true
+        } else {
+          pixiSpawnTree.setEnabled(true)
+        }
     }
+
+    controller.model.tick /> { case tick if animating =>
+      if (tick - animationStart >= TreeSpawnAnimationDelay) {
+        animationStart = tick
+        val (tc, fc) = treeBuffer.head
+        tc.visibleTo(true)
+        fc.visibleTo(true)
+        currentTreeContainers.foreach(c => c.detach)
+        currentTreeContainers = tc :: fc :: Nil
+        treeBuffer = treeBuffer.tail
+        if (treeBuffer.isEmpty) {
+          animating = false
+          pixiSpawnTree.enable()
+        }
+      }
+    }
+
     log.info("[game stage] created")
+  }
+
+  def buildTree(tree: TreeNode, spawnFlowers: Boolean): (Container, Container) = {
+    val random = new Random()
+    val treeContainer = new Container()
+    val flowerContainer = new Container()
+
+    def rec(parent: Container, node: TreeNode, offset: Vec2i): Unit = {
+      val position = node.asset.rootAnchor.flip + node.asset.branchAnchor
+      val sub = parent.sub
+        .positionAt(position)
+      node.asset.asset.sprite
+        .addTo(parent)
+        .positionAt(node.asset.rootAnchor.flip)
+      if (spawnFlowers) {
+        node.asset.flowerAnchors.foreach { anchor =>
+          new FlowerCluster(random.nextLong).withPixi { pixi =>
+            val absolutePosition = offset + node.asset.rootAnchor.flip + anchor
+            pixi.positionAt(absolutePosition).addTo(flowerContainer)
+          }.open()
+        }
+      }
+      node.branches.foreach(b => rec(sub, b, offset + position))
+    }
+
+    rec(treeContainer, tree, 0 xy 0)
+    (treeContainer, flowerContainer)
   }
 
   override def fadeIn(): Animation = pixiContainer.fadeIn

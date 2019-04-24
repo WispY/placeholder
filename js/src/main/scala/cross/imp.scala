@@ -366,20 +366,6 @@ object imp extends GlobalContext {
     }
   }
 
-  implicit class TraversableOps[A](val list: Traversable[A]) extends AnyVal {
-    /** Safely calculates min for non-empty seqs */
-    def minOpt(implicit ordering: Ordering[A]): Option[A] = list match {
-      case empty if empty.isEmpty => None
-      case values => Some(values.min)
-    }
-
-    /** Safely calculates max for non-empty seqs */
-    def maxOpt(implicit ordering: Ordering[A]): Option[A] = list match {
-      case empty if empty.isEmpty => None
-      case values => Some(values.max)
-    }
-  }
-
   implicit class ListVec2iOps(val list: Traversable[Vec2i]) extends AnyVal {
     /** Returns the min to max range of X values */
     def rangeX: Option[Vec2i] = list match {

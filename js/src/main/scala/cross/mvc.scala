@@ -21,14 +21,14 @@ object mvc extends GlobalContext with Logging {
                    stage: Writable[Stages.Value] = Data(Stages.Loading),
 
                    loaded: Writable[Boolean] = Data(false),
-                   tree: Writable[Option[TreeNode]] = Data(None))
+                   trees: Writable[List[TreeNode]] = Data(Nil))
 
   object Stages extends Enumeration {
     val Loading, Game = Value
   }
 
   object TreeVariations extends Enumeration {
-    val Straight, Left, Right = Value
+    val Straight, Left____, Right___ = Value
   }
 
   case class Asset(path: String)
@@ -59,7 +59,6 @@ object mvc extends GlobalContext with Logging {
     private def bind(): Unit = {
       model.screen /> { case size =>
         val scale = ((size / BaseScreenSize).min min MaxScale) max MinScale
-        log.info(s"size [$size] basic [${(size / BaseScreenSize).min}] scale [$scale]")
         model.scale.write(scale.toInt)
       }
     }
@@ -73,56 +72,82 @@ object mvc extends GlobalContext with Logging {
     /** Requests to go to Game stage */
     def jumpToGame(): Unit = model.stage.write(Stages.Game)
 
-    def respawnTree(): Unit = model.tree.write(Some(randomTree))
+    def respawnTree(): Unit = {
+      val tree = randomTree
+      model.trees.write(animatedTree(tree, tree :: Nil))
+    }
+
+    private val twoMapping = List(
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: Nil,
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Straight) :: (+1, +0, TreeVariations.Right___) :: Nil,
+
+      (+1, +0, TreeVariations.Left____) :: (+1, +1, TreeVariations.Straight) :: Nil,
+      (+1, +0, TreeVariations.Left____) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+1, +0, TreeVariations.Straight) :: (+1, +1, TreeVariations.Right___) :: Nil,
+
+      (+1, -1, TreeVariations.Left____) :: (+1, +1, TreeVariations.Straight) :: Nil,
+      (+1, -1, TreeVariations.Left____) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Straight) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Straight) :: (+1, +1, TreeVariations.Straight) :: Nil,
+
+
+      (+2, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: Nil,
+      (+2, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Right___) :: Nil,
+      (+2, -1, TreeVariations.Straight) :: (+1, +0, TreeVariations.Right___) :: Nil,
+
+      (+1, +0, TreeVariations.Left____) :: (+2, +1, TreeVariations.Straight) :: Nil,
+      (+1, +0, TreeVariations.Left____) :: (+2, +1, TreeVariations.Right___) :: Nil,
+      (+1, +0, TreeVariations.Straight) :: (+2, +1, TreeVariations.Right___) :: Nil,
+    )
+
+    private val threeMapping = List(
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: (+2, +1, TreeVariations.Right___) :: Nil,
+      (+2, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+2, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Left____) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+2, -1, TreeVariations.Straight) :: (+1, +0, TreeVariations.Straight) :: (+1, +1, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Right___) :: (+2, +1, TreeVariations.Right___) :: Nil,
+      (+1, -1, TreeVariations.Left____) :: (+1, +0, TreeVariations.Straight) :: (+2, +1, TreeVariations.Straight) :: Nil,
+    )
 
     private def randomTree: TreeNode = {
       val random = new Random()
+      val maxLevel = branches.map(b => b.level).max
 
-      def randomBranch(level: Int, rotation: Int): TreeAsset = random.oneOf(branches.filter(b => b.level == level && b.rotation == rotation))
+      def rec(asset: TreeAsset): TreeNode = {
+        val childCount = if (asset.level == maxLevel) 0 else if (random.nextDouble() < TreeTripleBranchChance) 3 else 2
+        val mapping = childCount match {
+          case 0 => Nil
+          case 2 => twoMapping
+          case 3 => threeMapping
+        }
+        val children = random
+          .shuffle(mapping)
+          .map { list =>
+            list.flatMap { case (levelGain, rotationGain, variation) =>
+              branches.find(b => b.level == asset.level + levelGain && b.rotation == asset.rotation + rotationGain && b.variation == variation)
+            }
+          }
+          .find { assets => assets.size == childCount }
+          .map(assets => assets.map(rec))
+        TreeNode(asset, children.getOrElse(Nil))
+      }
 
-      TreeNode(
-        asset = randomBranch(0, 0),
-        branches = List(
-          TreeNode(
-            asset = randomBranch(1, -1),
-            branches = List(
-              TreeNode(
-                asset = randomBranch(2, -2),
-                branches = List(
-                  TreeNode(randomBranch(3, -3)),
-                  TreeNode(randomBranch(3, -1))
-                )
-              ),
-              TreeNode(
-                asset = randomBranch(2, 0),
-                branches = List(
-                  TreeNode(randomBranch(3, -1)),
-                  TreeNode(randomBranch(3, +1))
-                )
-              )
-            )
-          ),
-          TreeNode(
-            asset = randomBranch(1, +1),
-            branches = List(
-              TreeNode(
-                asset = randomBranch(2, 0),
-                branches = List(
-                  TreeNode(randomBranch(3, -1)),
-                  TreeNode(randomBranch(3, +1))
-                )
-              ),
-              TreeNode(
-                asset = randomBranch(2, +2),
-                branches = List(
-                  TreeNode(randomBranch(3, +1)),
-                  TreeNode(randomBranch(3, +3))
-                )
-              )
-            )
-          )
-        )
-      )
+      rec(random.oneOf(branches.filter(b => b.level == 0)))
+    }
+
+    private def animatedTree(root: TreeNode, tail: List[TreeNode]): List[TreeNode] = {
+      downgradeTree(root) match {
+        case Some(frame) => animatedTree(frame, frame +: tail)
+        case None => tail
+      }
+    }
+
+    private def downgradeTree(root: TreeNode): Option[TreeNode] = {
+      branches
+        .find(b => b.level == (root.asset.level + 1) && b.rotation == root.asset.rotation && b.variation == root.asset.variation)
+        .map(asset => TreeNode(asset, root.branches.flatMap(downgradeTree)))
     }
   }
 

@@ -42,8 +42,8 @@ val branchesDefs = branches.map {
   case Info(path, level, variation, rotation, (rx, ry), (bx, by), flowers) =>
     val variationKey = variation match {
       case "S" => "Straight"
-      case "L" => "Left"
-      case "R" => "Right"
+      case "L" => "Left____"
+      case "R" => "Right___"
     }
     val flowersString = flowers.map { case (fx, fy) => s"$fx xy $fy" }.mkString(", ")
     s"""    TreeAsset(asset = Asset("$path"), level = $level, rotation = $rotation, variation = $variationKey, rootAnchor = $rx xy $ry, branchAnchor = $bx xy $by, flowerAnchors = List($flowersString))"""

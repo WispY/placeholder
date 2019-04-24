@@ -12,10 +12,19 @@ object config {
   /** Describes the maximum UI scale */
   val MaxScale: Int = 5
 
+  /** How likely the parent branch will split into three */
+  val TreeTripleBranchChance: Double = 0.3
+  /** Delay between frames of tree spawn animation */
+  val TreeSpawnAnimationDelay: Int = 3
+
+  /** How far flowers can go apart in the cluster */
   val FlowerClusterSpread: Int = 5
-  val FlowerClusterMinCount: Int = 2
+  /** Minimum number of flowers in the cluster */
+  val FlowerClusterMinCount: Int = 3
+  /** Maximum number of flowers in the cluster */
   val FlowerClusterMaxCount: Int = 4
-  val FlowerAnimationDelay: Int = 5
+  /** Maximum delay of flowers opening within the cluster */
+  val FlowerAnimationDelay: Int = 30
 
   /** Describes the basic animation speed */
   val AnimationDelay: FiniteDuration = 300.millis
