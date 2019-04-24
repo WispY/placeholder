@@ -1,0 +1,9 @@
+[info] Packaging W:\Git\placeholder\jvm\target\scala-2.12\foo_2.12-0.1-SNAPSHOT.jar ...
+[debug] Input file mappings:
+[debug] 	Main$.class
+[debug] 	  W:\Git\placeholder\jvm\target\scala-2.12\classes\Main$.class
+[debug] 	Main.class
+[debug] 	  W:\Git\placeholder\jvm\target\scala-2.12\classes\Main.class
+[debug] 	MyLibrary.class
+[debug] 	  W:\Git\placeholder\jvm\target\scala-2.12\classes\MyLibrary.class
+[info] Done packaging.

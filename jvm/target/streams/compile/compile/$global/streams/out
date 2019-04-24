@@ -1,0 +1,8 @@
+[0m[[0m[31merror[0m] [0m[0mW:\Git\placeholder\shared\src\main\scala\cross\binary.scala:40:94: macro implementation has incompatible shape:[0m
+[0m[[0m[31merror[0m] [0m[0m required: (c: scala.reflect.macros.blackbox.Context)(constructor: c.Expr[(P1, P2) => A], p1: c.Expr[cross.binary.BinaryFormat[P1]], p2: c.Expr[cross.binary.BinaryFormat[P2]]): c.Expr[cross.binary.BinaryFormat[A]][0m
+[0m[[0m[31merror[0m] [0m[0m or      : (c: scala.reflect.macros.blackbox.Context)(constructor: c.Tree, p1: c.Tree, p2: c.Tree): c.Tree[0m
+[0m[[0m[31merror[0m] [0m[0m found   : (c: scala.reflect.macros.blackbox.Context)(constructor: c.Tree)(p1: c.Tree, p2: c.Tree): c.Expr[cross.binary.BF[A]][0m
+[0m[[0m[31merror[0m] [0m[0mnumber of parameter sections differ[0m
+[0m[[0m[31merror[0m] [0m[0m  def format2T[P1, P2, A](constructor: (P1, P2) => A, p1: BF[P1], p2: BF[P2]): BF[A] = macro format2[A][0m
+[0m[[0m[31merror[0m] [0m[0m                                                                                             ^[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m

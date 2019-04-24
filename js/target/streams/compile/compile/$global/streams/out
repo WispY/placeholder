@@ -1,0 +1,18 @@
+[warn] W:\Git\placeholder\js\src\main\scala\cross\pixi\TextureCache.scala:7:7: Top-level native JS classes and objects should have an @JSGlobal or @JSImport annotation. This will be enforced in 1.0.
+[warn]   If migrating from 0.6.14 or earlier, the equivalent behavior is an @JSGlobal without parameter.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressMissingJSGlobalDeprecations` to scalac)
+[warn] class TextureCache extends js.Object {
+[warn]       ^
+[warn] W:\Git\placeholder\js\src\main\scala\cross\pixi\Textures.scala:7:7: Top-level native JS classes and objects should have an @JSGlobal or @JSImport annotation. This will be enforced in 1.0.
+[warn]   If migrating from 0.6.14 or earlier, the equivalent behavior is an @JSGlobal without parameter.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressMissingJSGlobalDeprecations` to scalac)
+[warn] class Textures extends js.Object {
+[warn]       ^
+[warn] W:\Git\placeholder\js\src\main\scala\cross\pixi\resources.scala:7:8: Top-level native JS classes and objects should have an @JSGlobal or @JSImport annotation. This will be enforced in 1.0.
+[warn]   If migrating from 0.6.14 or earlier, the equivalent behavior is an @JSGlobal without parameter.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressMissingJSGlobalDeprecations` to scalac)
+[warn] object resources extends js.Object {
+[warn]        ^
+[warn] there were four deprecation warnings (since 2.11.0); re-run with -deprecation for details
+[warn] there were 5 feature warnings; re-run with -feature for details
+[warn] 5 warnings found
