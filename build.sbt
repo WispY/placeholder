@@ -17,12 +17,11 @@ lazy val root = project.in(file(".")).
     publishLocal := {}
   )
 
-libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
-
 lazy val cross = crossProject.in(file(".")).
   settings(
     name := "cross",
-    version := "0.1"
+    version := "0.1",
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
   ).
   jvmSettings(
     name := "jvm",

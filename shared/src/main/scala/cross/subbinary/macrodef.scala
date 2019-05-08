@@ -38,10 +38,10 @@ object macrodef {
     }
     c.Expr[BF[A]] {
       q"""
-      import akka.util.ByteString
+      import cross.binary.ByteList
       new cross.binary.BinaryFormat[$tpe] {
-        def read(bytes0: ByteString): ($tpe, ByteString) = { $read }
-        def append(a: $tpe, bytes0: ByteString): ByteString = { $write }
+        def read(bytes0: ByteList): ($tpe, ByteList) = { $read }
+        def append(a: $tpe, bytes0: ByteList): ByteList = { $write }
       }
       """
     }

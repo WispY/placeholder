@@ -1,18 +1,17 @@
 package cross
 
-import akka.util.ByteString
 import cross.binary._
 import cross.pattern._
 import cross.subbinary.formats._
 
 class BinarySpec extends Spec {
-  val recompile = 2
+  val recompile = 1
 
   "binary" can {
     def check[A](a: A)(implicit format: BF[A]): Unit = {
-      ByteString.empty
+      ByteList.empty
         .chain { bytes => format.append(a, bytes) }
-        .chain { bytes => format.read(bytes) shouldBe(a, ByteString.empty) }
+        .chain { bytes => format.read(bytes) shouldBe(a, ByteList.empty) }
     }
 
     case class Person(name: String, age: Int)
@@ -25,7 +24,7 @@ class BinarySpec extends Spec {
     "format two persons" in {
       val personA = Person("John", 42)
       val personB = Person("Amelie", 24)
-      ByteString.empty
+      ByteList.empty
         .chain { bytes => personFormat.append(personA, bytes) }
         .chain { bytes => personFormat.append(personB, bytes) }
         .chain { bytes =>
@@ -36,7 +35,7 @@ class BinarySpec extends Spec {
         .chain { bytes =>
           val (person, next) = personFormat.read(bytes)
           person shouldBe personB
-          next shouldBe ByteString.empty
+          next shouldBe ByteList.empty
         }
     }
 
