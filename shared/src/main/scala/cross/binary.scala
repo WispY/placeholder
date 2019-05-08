@@ -15,15 +15,9 @@ object binary extends defaults {
 
     /** Writes the message A to the bytes string advancing it's position */
     def append(a: A, bytes: ByteList): ByteList
-  }
 
-  object BinaryFormat {
-    /** Builds format from two functions */
-    def apply[A](r: ByteList => (A, ByteList), w: (A, ByteList) => ByteList): BinaryFormat[A] = new BinaryFormat[A] {
-      override def read(bytes: ByteList): (A, ByteList) = r.apply(bytes)
-
-      override def append(a: A, bytes: ByteList): ByteList = w.apply(a, bytes)
-    }
+    /** Tells whether or now the format supports the given value */
+    def isDefinedFor(a: Any): Boolean
   }
 
   type BF[A] = BinaryFormat[A]
@@ -43,6 +37,11 @@ object binary extends defaults {
       a.foldLeft(next) { case (current, element) =>
         current + element.toBinary
       }
+    }
+
+    override def isDefinedFor(a: Any): Boolean = a match {
+      case list: List[_] => true
+      case other => false
     }
   }
 

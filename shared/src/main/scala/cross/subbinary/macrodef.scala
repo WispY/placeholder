@@ -42,6 +42,10 @@ object macrodef {
       new cross.binary.BinaryFormat[$tpe] {
         def read(bytes0: ByteList): ($tpe, ByteList) = { $read }
         def append(a: $tpe, bytes0: ByteList): ByteList = { $write }
+        def isDefinedFor(a: Any): Boolean = a match {
+          case m: $tpe => true
+          case other => false
+        }
       }
       """
     }
