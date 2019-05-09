@@ -1,14 +1,14 @@
 package cross
 
 import cross.animation._
+import cross.common._
 import cross.component._
 import cross.global.GlobalContext
-import cross.imp._
+import cross.ops._
 import cross.logging.Logging
 import cross.mvc._
 import cross.pixi._
 import cross.stage._
-import cross.vec._
 import org.scalajs.dom._
 
 import scala.concurrent.Future

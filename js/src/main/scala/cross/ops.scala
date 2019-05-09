@@ -3,26 +3,23 @@ package cross
 import java.util.UUID
 
 import cross.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
+import cross.common._
 import cross.component.Component
 import cross.config._
-import cross.data._
 import cross.global.GlobalContext
 import cross.mvc._
-import cross.pattern._
 import cross.pixi._
 import cross.spring.SpritePositionSpring
-import cross.vec._
 import org.scalajs.dom
 
 import scala.annotation.tailrec
-import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success, Try}
 
 //noinspection LanguageFeature
-object imp extends GlobalContext {
+object ops extends GlobalContext {
   /** Converts scala map into javascript object */
   implicit def mapToJs[A](map: Map[String, A]): js.Dictionary[A] = map.toJSDictionary
 
@@ -230,44 +227,6 @@ object imp extends GlobalContext {
     def set(vec: Vec2d): Unit = p.set(vec.x, vec.y)
   }
 
-  implicit class DoubleOps(val double: Double) extends AnyVal {
-    /** Formats the given double with given number of digits after point */
-    def pretty(digits: Int = 2): String = String.format(s"%.${digits}f", double: java.lang.Double)
-
-    /** Normalizes the rotation by removing extra PIs */
-    def normalRotation: Double = {
-      if (double > Math.PI || double < -Math.PI) double - Math.PI * (double / Math.PI).toInt
-      else double
-    }
-
-    /** Converts value to radians */
-    def rad: Double = double / 180 * Math.PI
-  }
-
-  implicit class DoubleTupleOps(val tuple: (Double, Double)) extends AnyVal {
-    /** Returns a number between two components according to progress */
-    def %%(progress: Double): Double = tuple._1 + (tuple._2 - tuple._1) * progress
-
-    /** Returns a number either at the end of the range or between the range */
-    def %%%(range: (Double, Double), current: Double): Double = {
-      if (current <= range._1) {
-        tuple._1
-      } else if (current >= range._2) {
-        tuple._2
-      } else {
-        tuple %% ((current - range._1) / (range._2 - range._1))
-      }
-    }
-
-    /** Returns a rotation between two components according to progress, normalizes the components */
-    def rotationProgress(progress: Double): Double = {
-      val (a, b) = tuple
-      val (an, bn) = (a.normalRotation, b.normalRotation)
-      val diff = List(bn - an, bn + Math.PI * 2 - an, bn - Math.PI * 2 - an).minBy(diff => diff.abs)
-      (a, a + diff) %% progress
-    }
-  }
-
   implicit class TextStyleOps(val style: TextStyle) extends AnyVal {
     /** Creates a text object from given style */
     def text(text: String): Text = new Text(text, style)
@@ -320,67 +279,6 @@ object imp extends GlobalContext {
         .lineTo(0, c)
         .lineTo(c, 0)
         .endFill()
-    }
-  }
-
-  implicit class FiniteDurationOps(val duration: FiniteDuration) extends AnyVal {
-    /** Multiplies the duration by given number */
-    def **(multiplier: Double): FiniteDuration = (duration.toMillis * multiplier).toLong.millis
-  }
-
-  implicit class DataOptionOps[A](val data: Writeable[Option[A]]) extends AnyVal {
-    /** Sets optional value to Some given value */
-    def writeSome(a: A): Unit = data.write(Some(a))
-
-    /** Updates the optional value, if present */
-    def update(code: A => A): Unit = {
-      val current = data.read
-      val next = current.map(code)
-      next.foreach(v => data.write(Some(v)))
-    }
-  }
-
-  implicit class DataOptionOptionOps[A](val data: Data[Option[Option[A]]]) extends AnyVal {
-    /** Unwraps the inner option for double option data */
-    def flatten: Data[Option[A]] = data /~ { case Some(Some(a)) => a }
-  }
-
-  implicit class FutureOps[A](val future: Future[A]) extends AnyVal {
-    /** Clears the future value into unit */
-    def clear: Future[Unit] = future.map(a => ())
-
-    /** Appends the next future without data dependency */
-    def >>[B](other: Future[B]): Future[Unit] = future.flatMap(any => other).clear
-  }
-
-  implicit class MapOps[A, B](val map: Map[A, B]) extends AnyVal {
-    /** Ensures that value exists in mutable map reference */
-    def ensure(key: A, rewrite: Map[A, B] => Unit)(code: => B): B = {
-      map.get(key) match {
-        case Some(value) => value
-        case None =>
-          val value = code
-          rewrite.apply(map + (key -> value))
-          value
-      }
-    }
-  }
-
-  implicit class ListVec2iOps(val list: Traversable[Vec2i]) extends AnyVal {
-    /** Returns the min to max range of X values */
-    def rangeX: Option[Vec2i] = list match {
-      case empty if empty.isEmpty => None
-      case nonempty =>
-        val xs = list.map(v => v.x)
-        Some(xs.min xy xs.max)
-    }
-
-    /** Returns the min to max range of Y values */
-    def rangeY: Option[Vec2i] = list match {
-      case empty if empty.isEmpty => None
-      case nonempty =>
-        val ys = list.map(v => v.y)
-        Some(ys.min xy ys.max)
     }
   }
 

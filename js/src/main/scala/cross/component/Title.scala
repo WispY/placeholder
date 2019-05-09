@@ -1,6 +1,6 @@
 package cross.component
 
-import cross.imp._
+import cross.ops._
 import cross.mvc.Asset
 import cross.pixi._
 

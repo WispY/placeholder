@@ -1,7 +1,8 @@
 package cross
 
 import cross.binary._
-import cross.pattern._
+import cross.common._
+import cross.protocol._
 import cross.subbinary.formats._
 import cross.subbinary.registry.Registry
 
@@ -9,9 +10,9 @@ class BinarySpec extends Spec {
   val recompile = 1
 
   /** Marker trait for all messages */
-  trait Message
+  trait TestMessage
 
-  case class Person(name: String, age: Int) extends Message
+  case class Person(name: String, age: Int) extends TestMessage
 
   "binary" can {
     implicit val personFormat: BF[Person] = binaryFormat2(Person)
@@ -59,6 +60,14 @@ class BinarySpec extends Spec {
       check(ListTypes("lorem" :: "ipsum" :: Nil, 1 :: 2 :: 3 :: Nil, 1.2 :: 3.4 :: Nil, true :: false :: Nil))
     }
 
+    "format options" in {
+      case class OptionTypes(string: Option[String], int: Option[Int], double: Option[Double], boolean: Option[Boolean])
+      implicit val optionFormat: BF[OptionTypes] = binaryFormat4(OptionTypes)
+
+      check(OptionTypes(Some("lorem"), Some(1), Some(1.2), Some(true)))
+      check(OptionTypes(None, None, None, None))
+    }
+
     "defined for person" in {
       personFormat.isDefinedFor(Person("John", 42)) shouldBe true
       personFormat.isDefinedFor("John") shouldBe false
@@ -66,16 +75,16 @@ class BinarySpec extends Spec {
   }
 
   "registry" can {
-    case class Address(city: String, zip: Int) extends Message
+    case class Address(city: String, zip: Int) extends TestMessage
 
-    val registry = Registry[Message](
+    val testRegistry = Registry[TestMessage](
       binaryFormat2(Person),
       binaryFormat2(Address)
     )
 
-    def check[A <: Message](a: A): Unit = {
-      registry.write(a).validate { bytes =>
-        registry.read(bytes) shouldBe(a, ByteList.empty)
+    def check[A <: TestMessage](a: A): Unit = {
+      testRegistry.write(a).validate { bytes =>
+        testRegistry.read(bytes) shouldBe(a, ByteList.empty)
       }
     }
 
@@ -85,6 +94,21 @@ class BinarySpec extends Spec {
 
     "format address" in {
       check(Address("Jersey City", 1234))
+    }
+  }
+
+  "protocol" can {
+    def check[A <: Message](a: A): Unit = {
+      registry.write(a).validate { bytes =>
+        registry.read(bytes) shouldBe(a, ByteList.empty)
+      }
+    }
+
+    "format manager messages" in {
+      check(Connect(None))
+      check(Connect(Some(Session(uuid))))
+
+      check(Connected(Session(uuid), Player(uuid)))
     }
   }
 }

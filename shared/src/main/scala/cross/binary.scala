@@ -3,6 +3,7 @@ package cross
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets.UTF_8
 
+import cross.common._
 import cross.subbinary.defaults
 import cross.subbinary.defaults._
 
@@ -17,7 +18,17 @@ object binary extends defaults {
     def append(a: A, bytes: ByteList): ByteList
 
     /** Tells whether or now the format supports the given value */
-    def isDefinedFor(a: Any): Boolean
+    def isDefinedFor(a: Any): Boolean = false
+
+    /** Creates a new binary format based on this one and type mapping */
+    def map[B](constructor: A => B, destructor: B => A): BF[B] = {
+      val delegate = this
+      new BF[B] {
+        override def read(bytes: ByteList): (B, ByteList) = delegate.read(bytes).chain { case (a, tail) => constructor.apply(a) -> tail }
+
+        override def append(a: B, bytes: ByteList): ByteList = delegate.append(destructor.apply(a), bytes)
+      }
+    }
   }
 
   type BF[A] = BinaryFormat[A]
@@ -38,12 +49,10 @@ object binary extends defaults {
         current + element.toBinary
       }
     }
-
-    override def isDefinedFor(a: Any): Boolean = a match {
-      case list: List[_] => true
-      case other => false
-    }
   }
+
+  /** Reads and writes optional A */
+  implicit def optionFormat[A: BF]: BF[Option[A]] = listFormat[A].map(list => list.headOption, option => option.toList)
 
   /** Represents a lazy byte array */
   case class ByteList(parts: List[ByteBuffer]) {

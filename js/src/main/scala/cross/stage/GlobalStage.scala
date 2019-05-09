@@ -3,7 +3,7 @@ package cross.stage
 import cross.animation.{Animation, EmptyAnimation}
 import cross.component.Stage
 import cross.global.GlobalContext
-import cross.imp._
+import cross.ops._
 import cross.logging.Logging
 import cross.mvc.Controller
 import cross.pixi.{Application, DisplayObject}

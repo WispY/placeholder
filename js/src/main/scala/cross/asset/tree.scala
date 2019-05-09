@@ -1,9 +1,9 @@
  //1
 package cross.asset //2
  //3
-import cross.mvc.TreeVariations._
-import cross.mvc.{Asset, TreeAsset}
-import cross.vec._ //6
+import cross.mvc.TreeVariations._ //4
+import cross.mvc.{Asset, TreeAsset} //5
+import cross.common._ //6
  //7
 object tree { //8
 val branches = List( //9

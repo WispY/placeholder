@@ -70,7 +70,7 @@ package cross.asset
 
 import cross.mvc.TreeVariations._
 import cross.mvc.{Asset, TreeAsset}
-import cross.vec._
+import cross.common._
 
 object tree {
   val branches = List(

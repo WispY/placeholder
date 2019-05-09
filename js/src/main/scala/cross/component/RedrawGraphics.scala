@@ -1,6 +1,6 @@
 package cross.component
 
-import cross.imp._
+import cross.ops._
 import cross.pixi._
 
 /** Represents the graphics that can change the fill color */

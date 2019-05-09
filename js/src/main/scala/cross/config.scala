@@ -1,6 +1,6 @@
 package cross
 
-import cross.vec._
+import cross.common._
 
 import scala.concurrent.duration._
 

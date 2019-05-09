@@ -1,16 +1,16 @@
-
-package cross.subbinary
-
-import cross.binary._
-import cross.subbinary.macrodef._
-
-import scala.languageFeature.experimental.macros
-import scala.reflect.macros.blackbox
-
-/** Generated. Macros that build binary formats for case classes of any size */
-object formats {
-  implicit val macros: macros = scala.language.experimental.macros
-
+ //1
+package cross.subbinary //2
+ //3
+import cross.binary._ //4
+import cross.subbinary.macrodef._ //5
+ //6
+import scala.languageFeature.experimental.macros //7
+import scala.reflect.macros.blackbox //8
+ //9
+/** Generated. Macros that build binary formats for case classes of any size */ //10
+object formats { //11
+implicit val macros: macros = scala.language.experimental.macros //12
+ //13
   def binaryFormat0[A](constructor: () => A): BF[A] = macro format0[A]
 
   def binaryFormat1[P1, A](constructor: (P1) => A)(implicit p1: BF[P1]): BF[A] = macro format1[A]
@@ -55,8 +55,8 @@ object formats {
 
   def binaryFormat21[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, A](constructor: (P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21) => A)(implicit p1: BF[P1], p2: BF[P2], p3: BF[P3], p4: BF[P4], p5: BF[P5], p6: BF[P6], p7: BF[P7], p8: BF[P8], p9: BF[P9], p10: BF[P10], p11: BF[P11], p12: BF[P12], p13: BF[P13], p14: BF[P14], p15: BF[P15], p16: BF[P16], p17: BF[P17], p18: BF[P18], p19: BF[P19], p20: BF[P20], p21: BF[P21]): BF[A] = macro format21[A]
 
-  def binaryFormat22[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, A](constructor: (P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22) => A)(implicit p1: BF[P1], p2: BF[P2], p3: BF[P3], p4: BF[P4], p5: BF[P5], p6: BF[P6], p7: BF[P7], p8: BF[P8], p9: BF[P9], p10: BF[P10], p11: BF[P11], p12: BF[P12], p13: BF[P13], p14: BF[P14], p15: BF[P15], p16: BF[P16], p17: BF[P17], p18: BF[P18], p19: BF[P19], p20: BF[P20], p21: BF[P21], p22: BF[P22]): BF[A] = macro format22[A]
-
+  def binaryFormat22[P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, A](constructor: (P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22) => A)(implicit p1: BF[P1], p2: BF[P2], p3: BF[P3], p4: BF[P4], p5: BF[P5], p6: BF[P6], p7: BF[P7], p8: BF[P8], p9: BF[P9], p10: BF[P10], p11: BF[P11], p12: BF[P12], p13: BF[P13], p14: BF[P14], p15: BF[P15], p16: BF[P16], p17: BF[P17], p18: BF[P18], p19: BF[P19], p20: BF[P20], p21: BF[P21], p22: BF[P22]): BF[A] = macro format22[A] //22
+ //23
   def format0[A: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree): c.Expr[BF[A]] = formatX(c)(constructor, Nil)
 
   def format1[A: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)(p1: c.Tree): c.Expr[BF[A]] = formatX(c)(constructor, p1 :: Nil)
@@ -101,6 +101,5 @@ object formats {
 
   def format21[A: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)(p1: c.Tree, p2: c.Tree, p3: c.Tree, p4: c.Tree, p5: c.Tree, p6: c.Tree, p7: c.Tree, p8: c.Tree, p9: c.Tree, p10: c.Tree, p11: c.Tree, p12: c.Tree, p13: c.Tree, p14: c.Tree, p15: c.Tree, p16: c.Tree, p17: c.Tree, p18: c.Tree, p19: c.Tree, p20: c.Tree, p21: c.Tree): c.Expr[BF[A]] = formatX(c)(constructor, p1 :: p2 :: p3 :: p4 :: p5 :: p6 :: p7 :: p8 :: p9 :: p10 :: p11 :: p12 :: p13 :: p14 :: p15 :: p16 :: p17 :: p18 :: p19 :: p20 :: p21 :: Nil)
 
-  def format22[A: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)(p1: c.Tree, p2: c.Tree, p3: c.Tree, p4: c.Tree, p5: c.Tree, p6: c.Tree, p7: c.Tree, p8: c.Tree, p9: c.Tree, p10: c.Tree, p11: c.Tree, p12: c.Tree, p13: c.Tree, p14: c.Tree, p15: c.Tree, p16: c.Tree, p17: c.Tree, p18: c.Tree, p19: c.Tree, p20: c.Tree, p21: c.Tree, p22: c.Tree): c.Expr[BF[A]] = formatX(c)(constructor, p1 :: p2 :: p3 :: p4 :: p5 :: p6 :: p7 :: p8 :: p9 :: p10 :: p11 :: p12 :: p13 :: p14 :: p15 :: p16 :: p17 :: p18 :: p19 :: p20 :: p21 :: p22 :: Nil)
-}
-  
+  def format22[A: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)(p1: c.Tree, p2: c.Tree, p3: c.Tree, p4: c.Tree, p5: c.Tree, p6: c.Tree, p7: c.Tree, p8: c.Tree, p9: c.Tree, p10: c.Tree, p11: c.Tree, p12: c.Tree, p13: c.Tree, p14: c.Tree, p15: c.Tree, p16: c.Tree, p17: c.Tree, p18: c.Tree, p19: c.Tree, p20: c.Tree, p21: c.Tree, p22: c.Tree): c.Expr[BF[A]] = formatX(c)(constructor, p1 :: p2 :: p3 :: p4 :: p5 :: p6 :: p7 :: p8 :: p9 :: p10 :: p11 :: p12 :: p13 :: p14 :: p15 :: p16 :: p17 :: p18 :: p19 :: p20 :: p21 :: p22 :: Nil) //31
+} //32
