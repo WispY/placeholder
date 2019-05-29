@@ -7,7 +7,6 @@ import scala.sys.process._
 import scala.util.Try
 
 name := "cross-project"
-
 scalaVersion in ThisBuild := "2.12.8"
 
 lazy val root = project.in(file(".")).
@@ -25,10 +24,19 @@ lazy val cross = crossProject.in(file(".")).
   ).
   jvmSettings(
     name := "jvm",
+
+    resolvers += Resolver.jcenterRepo,
+
     libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8",
+    // logging
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3",
+    libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
+    // akka
     libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.5.22",
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22",
+    // discord client
+    libraryDependencies += "net.dv8tion" % "JDA" % "3.8.3_463",
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.22" % Test,
