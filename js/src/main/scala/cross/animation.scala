@@ -3,7 +3,7 @@ package cross
 import java.util.UUID
 
 import cross.common._
-import cross.config._
+import cross.configjs._
 import cross.global.GlobalContext
 import cross.mvc.Controller
 import cross.ops._

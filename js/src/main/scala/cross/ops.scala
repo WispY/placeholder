@@ -5,7 +5,7 @@ import java.util.UUID
 import cross.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
 import cross.common._
 import cross.component.Component
-import cross.config._
+import cross.configjs._
 import cross.global.GlobalContext
 import cross.mvc._
 import cross.pixi._

@@ -57,7 +57,7 @@ lazy val crossJS = cross.js
 lazy val moveJS = taskKey[Unit]("moveJS")
 lazy val pushJS = taskKey[Unit]("pushJS")
 
-def moveFile(from: String, to: String): Unit = {
+def copyFile(from: String, to: String): Unit = {
   val in = new File(from).toPath
   val out = new File(to)
   out.delete()
@@ -65,7 +65,20 @@ def moveFile(from: String, to: String): Unit = {
   val stream = new FileOutputStream(out)
   Files.copy(in, stream)
   Try(stream.close())
+}
+
+def moveFile(from: String, to: String): Unit = {
+  copyFile(from, to)
   new File(from).delete()
+}
+
+def copyFolder(from: String, to: String): Unit = {
+  Option(new File(from).listFiles())
+    .getOrElse(Array())
+    .foreach {
+      case folder if folder.isDirectory => copyFolder(s"$from/${folder.getName}", s"$to/${folder.getName}")
+      case file => copyFile(s"$from/${file.getName}", s"$to/${file.getName}")
+    }
 }
 
 def writeFile(file: String, content: String): Unit = {
@@ -83,8 +96,9 @@ moveJS := {
 
 pushJS := {
   writeFile("./out/timestamp.txt", ZonedDateTime.now(ZoneId.of("UTC")).format(ISO_ZONED_DATE_TIME))
+  copyFolder("./out", "./deploy")
   val commands = List(
-    """cd ./out""",
+    // """cd ./out""",
     """git add .""",
     """git commit -m "js deployment"""",
     """git push"""

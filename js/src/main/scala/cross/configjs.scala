@@ -4,7 +4,7 @@ import cross.common._
 
 import scala.concurrent.duration._
 
-object config {
+object configjs {
   /** Describes the screen size where cards should be displayed at maximum size */
   val BaseScreenSize: Vec2i = 256 xy 256
   /** Describes the minimum UI scale */

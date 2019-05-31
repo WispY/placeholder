@@ -34,15 +34,15 @@ object logging {
 
   /** Prints logs to browser console */
   object BrowserLogApi extends LogApi with GlobalContext {
-    override def wire(message: String): Unit = if (config.log.Wire) {
+    override def wire(message: String): Unit = if (configjs.log.Wire) {
       dom.window.console.warn(message)
     }
 
-    override def debug(message: String): Unit = if (config.log.Debug) {
+    override def debug(message: String): Unit = if (configjs.log.Debug) {
       dom.window.console.log(s"${System.currentTimeMillis()} $message")
     }
 
-    override def info(message: String): Unit = if (config.log.Info) {
+    override def info(message: String): Unit = if (configjs.log.Info) {
       dom.window.console.log(message)
     }
 
@@ -50,11 +50,11 @@ object logging {
       this.info(message)
     }
 
-    override def warn(message: String): Unit = if (config.log.Warnings) {
+    override def warn(message: String): Unit = if (configjs.log.Warnings) {
       dom.window.console.warn(message)
     }
 
-    override def error(message: String, error: Throwable): Unit = if (config.log.Errors) {
+    override def error(message: String, error: Throwable): Unit = if (configjs.log.Errors) {
       dom.console.error(message)
       error.printStackTrace()
     }

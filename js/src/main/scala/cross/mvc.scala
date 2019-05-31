@@ -2,7 +2,7 @@ package cross
 
 import cross.asset.tree._
 import cross.common._
-import cross.config._
+import cross.configjs._
 import cross.global.GlobalContext
 import cross.logging.Logging
 import cross.timer.Timer

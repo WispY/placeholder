@@ -5,6 +5,7 @@ import cross.asset.flower._
 import cross.asset.ui._
 import cross.common._
 import cross.component.{Button, Component, Stage}
+import cross.configjs._
 import cross.global.GlobalContext
 import cross.logging.Logging
 import cross.mvc.{Asset, Controller, TreeNode}

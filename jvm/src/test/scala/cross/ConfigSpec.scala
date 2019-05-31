@@ -5,7 +5,7 @@ import cross.subconfig.defaults._
 import cross.subconfig.formats._
 
 class ConfigSpec extends Spec {
-  private val recompile = 2
+  private val recompile = 1
   implicit val reader: ConfigReader = JvmReader
 
   before {

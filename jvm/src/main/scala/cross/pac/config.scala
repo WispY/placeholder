@@ -18,6 +18,6 @@ object config {
   implicit val reader: ConfigReader = JvmReader
   implicit val pacConfigFormat: CF[PacConfig] = configFormat2(PacConfig)
 
-  val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
+  val Config: PacConfig = null // configureNamespace("pac", Some(DefaultPacConfig))
 
 }
