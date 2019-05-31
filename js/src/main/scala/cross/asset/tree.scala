@@ -1,9 +1,9 @@
  //1
 package cross.asset //2
  //3
-import cross.mvc.TreeVariations._ //4
-import cross.mvc.{Asset, TreeAsset} //5
-import cross.common._ //6
+import cross.common._
+import cross.mvc.TreeVariations._
+import cross.mvc.{Asset, TreeAsset} //6
  //7
 object tree { //8
 val branches = List( //9
@@ -54,6 +54,66 @@ val branches = List( //9
     TreeAsset(asset = Asset("/image/3S+3-1.png"), level = 3, rotation = +3, variation = Straight, rootAnchor = 3 xy 22, branchAnchor = 27 xy 11, flowerAnchors = List(16 xy 18, 22 xy 10)),
     TreeAsset(asset = Asset("/image/3S-1-1.png"), level = 3, rotation = -1, variation = Straight, rootAnchor = 22 xy 28, branchAnchor = 11 xy 4, flowerAnchors = List(12 xy 6, 14 xy 15)),
     TreeAsset(asset = Asset("/image/3S-2-1.png"), level = 3, rotation = -2, variation = Straight, rootAnchor = 24 xy 25, branchAnchor = 5 xy 6, flowerAnchors = List(7 xy 8, 13 xy 12, 16 xy 19)),
-    TreeAsset(asset = Asset("/image/3S-3-1.png"), level = 3, rotation = -3, variation = Straight, rootAnchor = 28 xy 22, branchAnchor = 4 xy 11, flowerAnchors = List(5 xy 13, 11 xy 13, 16 xy 18)) //10
+    TreeAsset(asset = Asset("/image/3S-3-1.png"), level = 3, rotation = -3, variation = Straight, rootAnchor = 28 xy 22, branchAnchor = 4 xy 11, flowerAnchors = List(5 xy 13, 11 xy 13, 16 xy 18)),
+    TreeAsset(asset = Asset("/image/4L+0-1.png"), level = 4, rotation = +0, variation = Left____, rootAnchor = 16 xy 29, branchAnchor = 10 xy 2, flowerAnchors = List(11 xy 4, 11 xy 17, 15 xy 26)),
+    TreeAsset(asset = Asset("/image/4L+1-1.png"), level = 4, rotation = +1, variation = Left____, rootAnchor = 11 xy 28, branchAnchor = 16 xy 2, flowerAnchors = List(10 xy 26, 12 xy 15, 14 xy 5)),
+    TreeAsset(asset = Asset("/image/4L+2-1.png"), level = 4, rotation = +2, variation = Left____, rootAnchor = 7 xy 25, branchAnchor = 21 xy 3, flowerAnchors = List(8 xy 22, 12 xy 11, 19 xy 5)),
+    TreeAsset(asset = Asset("/image/4L+3-1.png"), level = 4, rotation = +3, variation = Left____, rootAnchor = 5 xy 21, branchAnchor = 25 xy 5, flowerAnchors = List(8 xy 19, 14 xy 10, 24 xy 7)),
+    TreeAsset(asset = Asset("/image/4L+4-1.png"), level = 4, rotation = +4, variation = Left____, rootAnchor = 2 xy 16, branchAnchor = 29 xy 10, flowerAnchors = List(7 xy 14, 16 xy 11, 26 xy 11)),
+    TreeAsset(asset = Asset("/image/4L-1-1.png"), level = 4, rotation = -1, variation = Left____, rootAnchor = 21 xy 27, branchAnchor = 5 xy 6, flowerAnchors = List(8 xy 10, 14 xy 17, 19 xy 25)),
+    TreeAsset(asset = Asset("/image/4L-2-1.png"), level = 4, rotation = -2, variation = Left____, rootAnchor = 25 xy 25, branchAnchor = 3 xy 10, flowerAnchors = List(4 xy 13, 11 xy 16, 19 xy 24)),
+    TreeAsset(asset = Asset("/image/4L-3-1.png"), level = 4, rotation = -3, variation = Left____, rootAnchor = 28 xy 21, branchAnchor = 2 xy 15, flowerAnchors = List(5 xy 16, 14 xy 20, 24 xy 23)),
+    TreeAsset(asset = Asset("/image/4L-4-1.png"), level = 4, rotation = -4, variation = Left____, rootAnchor = 29 xy 15, branchAnchor = 2 xy 21, flowerAnchors = List(5 xy 20, 15 xy 21, 25 xy 16)),
+    TreeAsset(asset = Asset("/image/4R+0-1.png"), level = 4, rotation = +0, variation = Right___, rootAnchor = 15 xy 29, branchAnchor = 21 xy 2, flowerAnchors = List(18 xy 28, 19 xy 19, 22 xy 5)),
+    TreeAsset(asset = Asset("/image/4R+1-1.png"), level = 4, rotation = +1, variation = Right___, rootAnchor = 10 xy 27, branchAnchor = 26 xy 6, flowerAnchors = List(15 xy 25, 18 xy 17, 24 xy 10, 25 xy 5)),
+    TreeAsset(asset = Asset("/image/4R+2-1.png"), level = 4, rotation = +2, variation = Right___, rootAnchor = 6 xy 25, branchAnchor = 28 xy 10, flowerAnchors = List(10 xy 25, 18 xy 19, 28 xy 12)),
+    TreeAsset(asset = Asset("/image/4R+3-1.png"), level = 4, rotation = +3, variation = Right___, rootAnchor = 3 xy 20, branchAnchor = 29 xy 15, flowerAnchors = List(7 xy 22, 17 xy 18, 27 xy 16)),
+    TreeAsset(asset = Asset("/image/4R+4-1.png"), level = 4, rotation = +4, variation = Right___, rootAnchor = 2 xy 15, branchAnchor = 29 xy 21, flowerAnchors = List(5 xy 16, 14 xy 20, 28 xy 20)),
+    TreeAsset(asset = Asset("/image/4R-1-1.png"), level = 4, rotation = -1, variation = Right___, rootAnchor = 20 xy 28, branchAnchor = 15 xy 2, flowerAnchors = List(16 xy 4, 19 xy 12, 22 xy 25)),
+    TreeAsset(asset = Asset("/image/4R-2-1.png"), level = 4, rotation = -2, variation = Right___, rootAnchor = 25 xy 25, branchAnchor = 10 xy 3, flowerAnchors = List(12 xy 4, 19 xy 11, 23 xy 22)),
+    TreeAsset(asset = Asset("/image/4R-3-1.png"), level = 4, rotation = -3, variation = Right___, rootAnchor = 27 xy 21, branchAnchor = 6 xy 5, flowerAnchors = List(8 xy 6, 15 xy 10, 19 xy 14, 26 xy 19)),
+    TreeAsset(asset = Asset("/image/4R-4-1.png"), level = 4, rotation = -4, variation = Right___, rootAnchor = 29 xy 16, branchAnchor = 2 xy 10, flowerAnchors = List(6 xy 11, 15 xy 10, 23 xy 11, 27 xy 16)),
+    TreeAsset(asset = Asset("/image/4S+0-1.png"), level = 4, rotation = +0, variation = Straight, rootAnchor = 15 xy 29, branchAnchor = 16 xy 2, flowerAnchors = List(15 xy 2, 15 xy 17, 17 xy 8, 17 xy 25)),
+    TreeAsset(asset = Asset("/image/4S+1-1.png"), level = 4, rotation = +1, variation = Straight, rootAnchor = 10 xy 27, branchAnchor = 21 xy 4, flowerAnchors = List(13 xy 24, 15 xy 14, 21 xy 8)),
+    TreeAsset(asset = Asset("/image/4S+2-1.png"), level = 4, rotation = +2, variation = Straight, rootAnchor = 6 xy 25, branchAnchor = 25 xy 7, flowerAnchors = List(8 xy 23, 16 xy 14, 23 xy 10)),
+    TreeAsset(asset = Asset("/image/4S+3-1.png"), level = 4, rotation = +3, variation = Straight, rootAnchor = 4 xy 21, branchAnchor = 27 xy 10, flowerAnchors = List(7 xy 21, 17 xy 16, 23 xy 10)),
+    TreeAsset(asset = Asset("/image/4S+4-1.png"), level = 4, rotation = +4, variation = Straight, rootAnchor = 2 xy 15, branchAnchor = 29 xy 16, flowerAnchors = List(4 xy 14, 10 xy 17, 20 xy 15, 27 xy 16)),
+    TreeAsset(asset = Asset("/image/4S-1-1.png"), level = 4, rotation = -1, variation = Straight, rootAnchor = 21 xy 27, branchAnchor = 10 xy 4, flowerAnchors = List(11 xy 7, 15 xy 17, 20 xy 22)),
+    TreeAsset(asset = Asset("/image/4S-2-1.png"), level = 4, rotation = -2, variation = Straight, rootAnchor = 25 xy 25, branchAnchor = 6 xy 7, flowerAnchors = List(7 xy 8, 13 xy 15, 18 xy 16, 22 xy 24)),
+    TreeAsset(asset = Asset("/image/4S-3-1.png"), level = 4, rotation = -3, variation = Straight, rootAnchor = 27 xy 21, branchAnchor = 4 xy 10, flowerAnchors = List(8 xy 13, 16 xy 14, 25 xy 20)),
+    TreeAsset(asset = Asset("/image/4S-4-1.png"), level = 4, rotation = -4, variation = Straight, rootAnchor = 29 xy 15, branchAnchor = 2 xy 16, flowerAnchors = List(4 xy 17, 13 xy 17, 19 xy 14, 26 xy 16)),
+    TreeAsset(asset = Asset("/image/5L+0-1.png"), level = 5, rotation = +0, variation = Left____, rootAnchor = 16 xy 30, branchAnchor = 10 xy 1, flowerAnchors = List(10 xy 3, 11 xy 10, 12 xy 15, 13 xy 24)),
+    TreeAsset(asset = Asset("/image/5L+1-1.png"), level = 5, rotation = +1, variation = Left____, rootAnchor = 10 xy 29, branchAnchor = 17 xy 1, flowerAnchors = List(10 xy 24, 11 xy 16, 14 xy 10, 16 xy 2)),
+    TreeAsset(asset = Asset("/image/5L+2-1.png"), level = 5, rotation = +2, variation = Left____, rootAnchor = 6 xy 25, branchAnchor = 22 xy 2, flowerAnchors = List(7 xy 22, 11 xy 15, 15 xy 11, 19 xy 5)),
+    TreeAsset(asset = Asset("/image/5L+3-1.png"), level = 5, rotation = +3, variation = Left____, rootAnchor = 4 xy 21, branchAnchor = 26 xy 5, flowerAnchors = List(6 xy 19, 13 xy 13, 18 xy 10, 24 xy 6)),
+    TreeAsset(asset = Asset("/image/5L+4-1.png"), level = 5, rotation = +4, variation = Left____, rootAnchor = 2 xy 15, branchAnchor = 30 xy 10, flowerAnchors = List(5 xy 13, 14 xy 11, 20 xy 11, 29 xy 10)),
+    TreeAsset(asset = Asset("/image/5L+5-1.png"), level = 5, rotation = +5, variation = Left____, rootAnchor = 3 xy 10, branchAnchor = 30 xy 17, flowerAnchors = List(4 xy 10, 13 xy 10, 19 xy 13, 28 xy 16)),
+    TreeAsset(asset = Asset("/image/5L-1-1.png"), level = 5, rotation = -1, variation = Left____, rootAnchor = 21 xy 28, branchAnchor = 5 xy 5, flowerAnchors = List(6 xy 6, 11 xy 15, 15 xy 22, 19 xy 25)),
+    TreeAsset(asset = Asset("/image/5L-2-1.png"), level = 5, rotation = -2, variation = Left____, rootAnchor = 25 xy 25, branchAnchor = 2 xy 9, flowerAnchors = List(3 xy 10, 8 xy 15, 15 xy 20, 22 xy 24)),
+    TreeAsset(asset = Asset("/image/5L-3-1.png"), level = 5, rotation = -3, variation = Left____, rootAnchor = 28 xy 21, branchAnchor = 1 xy 14, flowerAnchors = List(2 xy 14, 7 xy 17, 16 xy 19, 24 xy 21)),
+    TreeAsset(asset = Asset("/image/5L-4-1.png"), level = 5, rotation = -4, variation = Left____, rootAnchor = 29 xy 15, branchAnchor = 1 xy 21, flowerAnchors = List(3 xy 21, 10 xy 20, 18 xy 19, 27 xy 17)),
+    TreeAsset(asset = Asset("/image/5L-5-1.png"), level = 5, rotation = -5, variation = Left____, rootAnchor = 27 xy 9, branchAnchor = 5 xy 26, flowerAnchors = List(6 xy 25, 12 xy 22, 19 xy 18, 25 xy 12)),
+    TreeAsset(asset = Asset("/image/5R+0-1.png"), level = 5, rotation = +0, variation = Right___, rootAnchor = 15 xy 30, branchAnchor = 21 xy 1, flowerAnchors = List(16 xy 29, 19 xy 22, 20 xy 13, 21 xy 2)),
+    TreeAsset(asset = Asset("/image/5R+1-1.png"), level = 5, rotation = +1, variation = Right___, rootAnchor = 9 xy 28, branchAnchor = 26 xy 5, flowerAnchors = List(11 xy 28, 18 xy 20, 23 xy 12, 25 xy 6)),
+    TreeAsset(asset = Asset("/image/5R+2-1.png"), level = 5, rotation = +2, variation = Right___, rootAnchor = 6 xy 25, branchAnchor = 29 xy 9, flowerAnchors = List(8 xy 25, 17 xy 20, 22 xy 16, 27 xy 11)),
+    TreeAsset(asset = Asset("/image/5R+3-1.png"), level = 5, rotation = +3, variation = Right___, rootAnchor = 3 xy 21, branchAnchor = 30 xy 14, flowerAnchors = List(5 xy 21, 14 xy 20, 22 xy 18, 29 xy 15)),
+    TreeAsset(asset = Asset("/image/5R+4-1.png"), level = 5, rotation = +4, variation = Right___, rootAnchor = 1 xy 15, branchAnchor = 30 xy 21, flowerAnchors = List(3 xy 16, 11 xy 19, 19 xy 20, 28 xy 21)),
+    TreeAsset(asset = Asset("/image/5R+5-1.png"), level = 5, rotation = +5, variation = Right___, rootAnchor = 4 xy 9, branchAnchor = 26 xy 26, flowerAnchors = List(4 xy 10, 8 xy 16, 19 xy 22, 25 xy 26)),
+    TreeAsset(asset = Asset("/image/5R-1-1.png"), level = 5, rotation = -1, variation = Right___, rootAnchor = 21 xy 29, branchAnchor = 14 xy 1, flowerAnchors = List(15 xy 2, 18 xy 9, 20 xy 17, 22 xy 26)),
+    TreeAsset(asset = Asset("/image/5R-2-1.png"), level = 5, rotation = -2, variation = Right___, rootAnchor = 25 xy 25, branchAnchor = 9 xy 2, flowerAnchors = List(11 xy 3, 17 xy 11, 20 xy 15, 24 xy 22)),
+    TreeAsset(asset = Asset("/image/5R-3-1.png"), level = 5, rotation = -3, variation = Right___, rootAnchor = 27 xy 22, branchAnchor = 5 xy 5, flowerAnchors = List(8 xy 6, 16 xy 11, 21 xy 15, 27 xy 20)),
+    TreeAsset(asset = Asset("/image/5R-4-1.png"), level = 5, rotation = -4, variation = Right___, rootAnchor = 30 xy 16, branchAnchor = 1 xy 10, flowerAnchors = List(3 xy 10, 11 xy 11, 17 xy 11, 24 xy 13)),
+    TreeAsset(asset = Asset("/image/5R-5-1.png"), level = 5, rotation = -5, variation = Right___, rootAnchor = 29 xy 10, branchAnchor = 1 xy 17, flowerAnchors = List(4 xy 15, 13 xy 13, 21 xy 10, 27 xy 9)),
+    TreeAsset(asset = Asset("/image/5S+0-1.png"), level = 5, rotation = +0, variation = Straight, rootAnchor = 15 xy 30, branchAnchor = 16 xy 1, flowerAnchors = List(15 xy 13, 15 xy 20, 16 xy 5, 16 xy 29)),
+    TreeAsset(asset = Asset("/image/5S+1-1.png"), level = 5, rotation = +1, variation = Straight, rootAnchor = 9 xy 28, branchAnchor = 21 xy 3, flowerAnchors = List(11 xy 26, 14 xy 19, 17 xy 12, 20 xy 5)),
+    TreeAsset(asset = Asset("/image/5S+2-1.png"), level = 5, rotation = +2, variation = Straight, rootAnchor = 5 xy 26, branchAnchor = 26 xy 6, flowerAnchors = List(7 xy 25, 13 xy 18, 19 xy 13, 25 xy 7)),
+    TreeAsset(asset = Asset("/image/5S+3-1.png"), level = 5, rotation = +3, variation = Straight, rootAnchor = 2 xy 20, branchAnchor = 29 xy 11, flowerAnchors = List(5 xy 19, 13 xy 16, 21 xy 14, 27 xy 11)),
+    TreeAsset(asset = Asset("/image/5S+4-1.png"), level = 5, rotation = +4, variation = Straight, rootAnchor = 1 xy 16, branchAnchor = 30 xy 16, flowerAnchors = List(3 xy 15, 13 xy 16, 21 xy 15, 29 xy 16)),
+    TreeAsset(asset = Asset("/image/5S+5-1.png"), level = 5, rotation = +5, variation = Straight, rootAnchor = 3 xy 9, branchAnchor = 28 xy 21, flowerAnchors = List(4 xy 10, 12 xy 14, 19 xy 17, 27 xy 21)),
+    TreeAsset(asset = Asset("/image/5S-1-1.png"), level = 5, rotation = -1, variation = Straight, rootAnchor = 20 xy 29, branchAnchor = 11 xy 2, flowerAnchors = List(12 xy 4, 15 xy 13, 16 xy 19, 20 xy 27)),
+    TreeAsset(asset = Asset("/image/5S-2-1.png"), level = 5, rotation = -2, variation = Straight, rootAnchor = 26 xy 26, branchAnchor = 6 xy 5, flowerAnchors = List(7 xy 6, 12 xy 12, 18 xy 17, 24 xy 25)),
+    TreeAsset(asset = Asset("/image/5S-3-1.png"), level = 5, rotation = -3, variation = Straight, rootAnchor = 28 xy 22, branchAnchor = 3 xy 10, flowerAnchors = List(4 xy 10, 10 xy 13, 18 xy 17, 25 xy 20)),
+    TreeAsset(asset = Asset("/image/5S-4-1.png"), level = 5, rotation = -4, variation = Straight, rootAnchor = 30 xy 15, branchAnchor = 1 xy 15, flowerAnchors = List(2 xy 15, 9 xy 15, 18 xy 16, 27 xy 15)),
+    TreeAsset(asset = Asset("/image/5S-5-1.png"), level = 5, rotation = -5, variation = Straight, rootAnchor = 29 xy 11, branchAnchor = 2 xy 20, flowerAnchors = List(4 xy 20, 12 xy 17, 19 xy 15, 28 xy 12)) //10
 ) //11
 } //12

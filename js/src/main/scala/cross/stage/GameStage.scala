@@ -5,7 +5,6 @@ import cross.asset.flower._
 import cross.asset.ui._
 import cross.common._
 import cross.component.{Button, Component, Stage}
-import cross.config._
 import cross.global.GlobalContext
 import cross.logging.Logging
 import cross.mvc.{Asset, Controller, TreeNode}
@@ -22,20 +21,32 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
   lazy val pixiCenter = centerStage
   lazy val pixiSky = pixiCenter.sub
   lazy val pixiSpawnTree = Button(`asset-tree-normal`, `asset-tree-hover`, `asset-tree-pressed`, `asset-tree-normal`)
+  lazy val pixiIslandBack = pixiCenter.sub
   lazy val pixiTree = pixiCenter.sub
+  lazy val pixiIslandFront = pixiCenter.sub
   lazy val pixiFlowers = pixiCenter.sub
-  val treePosition = 0 xy 95
+  lazy val pixiIsland = `asset-island-front-1`.sprite
+
+  val treePosition = 0 xy 85
+  val islandPosition = -64 xy (treePosition.y - 13)
+
   var animating = false
   var animationStart = 0L
   var treeBuffer: List[(Container, Container)] = Nil
   var currentTreeContainers: List[Container] = Nil
   var closedFlowers: List[FlowerCluster] = Nil
+  var shadow = 0
+  val islandAssets = List(`asset-island-front-1`, `asset-island-front-2`, `asset-island-front-3`, `asset-island-front-4`, `asset-island-front-5`)
 
   override lazy val create: Future[Unit] = Future {
     log.info("[game stage] setting up...")
     pixiCenter.addTo(pixiContainer)
     pixiSky.positionAt(treePosition)
     `asset-sky`.sprite.anchorAtCenter.addTo(pixiSky)
+    pixiIslandBack.positionAt(islandPosition)
+    pixiTree.positionAt(treePosition)
+    pixiIslandFront.positionAt(islandPosition)
+    pixiFlowers.positionAt(treePosition)
     pixiSpawnTree
       .onClick { button =>
         button.setEnabled(false)
@@ -46,11 +57,14 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
           .addTo(pixiCenter)
           .positionAt(0 xy 110)
       }
-    pixiTree.positionAt(treePosition)
-    pixiFlowers.positionAt(treePosition)
+
+    `asset-island-back`.sprite.addTo(pixiIslandBack)
+    pixiIsland.addTo(pixiIslandFront)
 
     controller.model.trees /> {
       case trees =>
+        shadow = 0
+        pixiIsland.texture = islandAssets.head.texture
         pixiTree.removeChildren
         pixiFlowers.removeChildren
         treeBuffer = trees.zipWithIndex.map { case (tree, index) =>
@@ -69,6 +83,8 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
 
     controller.model.tick /> { case tick if animating =>
       if (tick - animationStart >= TreeSpawnAnimationDelay) {
+        shadow = shadow + 1
+        pixiIsland.texture = islandAssets.lift(shadow).getOrElse(islandAssets.last).texture
         animationStart = tick
         val (tc, fc) = treeBuffer.head
         tc.visibleTo(true)
