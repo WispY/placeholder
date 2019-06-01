@@ -3,9 +3,9 @@ package cross
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets.UTF_8
 
-import cross.common._
 import cross.subbinary.defaults
 import cross.subbinary.defaults._
+import cross.common._
 
 object binary extends defaults {
 

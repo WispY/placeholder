@@ -3,31 +3,40 @@ import java.nio.file.Files
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import java.time.{ZoneId, ZonedDateTime}
 
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
 import scala.sys.process._
 import scala.util.Try
 
 name := "cross-project"
 scalaVersion in ThisBuild := "2.12.8"
 
-lazy val root = project.in(file(".")).
-  aggregate(crossJS, crossJVM).
-  settings(
-    publish := {},
-    publishLocal := {}
-  )
-
-lazy val cross = crossProject.in(file(".")).
-  settings(
-    name := "cross",
+lazy val macros = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
+  .in(file("macros"))
+  .settings(
+    name := "macros",
     version := "0.1",
     libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
-  ).
-  jvmSettings(
+  )
+  .jvmSettings(name := "macros-jvm")
+  .jsSettings(name := "macros-js")
+
+lazy val macrosJS = macros.js
+lazy val macrosJVM = macros.jvm
+
+lazy val cross = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Full)
+  .in(file("."))
+  .settings(
+    name := "cross",
+    version := "0.1"
+  )
+  .jvmSettings(
     name := "jvm",
 
     resolvers += Resolver.jcenterRepo,
 
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8",
     // logging
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3",
     libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
@@ -42,14 +51,15 @@ lazy val cross = crossProject.in(file(".")).
     libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.22" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-http-testkit" % "10.1.8" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.22" % Test,
-  ).
-  jsSettings(
+  )
+  .jsSettings(
     name := "js",
     // calls main method when js file is loaded
     scalaJSUseMainModuleInitializer := true,
     // dom - basic dom operations lib
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2"
   )
+  .dependsOn(macros)
 
 lazy val crossJVM = cross.jvm
 lazy val crossJS = cross.js
@@ -61,6 +71,7 @@ def copyFile(from: String, to: String): Unit = {
   val in = new File(from).toPath
   val out = new File(to)
   out.delete()
+  println(s"Copying [${in.toAbsolutePath}] to [${out.getAbsolutePath}]")
   out.createNewFile()
   val stream = new FileOutputStream(out)
   Files.copy(in, stream)
@@ -73,6 +84,7 @@ def moveFile(from: String, to: String): Unit = {
 }
 
 def copyFolder(from: String, to: String): Unit = {
+  new File(to).mkdirs()
   Option(new File(from).listFiles())
     .getOrElse(Array())
     .foreach {
@@ -98,10 +110,10 @@ pushJS := {
   writeFile("./out/timestamp.txt", ZonedDateTime.now(ZoneId.of("UTC")).format(ISO_ZONED_DATE_TIME))
   copyFolder("./out", "./deploy")
   val commands = List(
-    // """cd ./out""",
+    """cd ./deploy""",
     """git add .""",
     """git commit -m "js deployment"""",
-    """git push"""
+    """git push origin master --recurse-submodules=check"""
   )
   s"cmd /C ${commands.mkString(" & ")}".!
 }
