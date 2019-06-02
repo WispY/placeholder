@@ -3,35 +3,53 @@ package cross
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets.UTF_8
 
-import cross.subbinary.defaults
-import cross.subbinary.defaults._
-import cross.common._
+import cross.format._
 
-object binary extends defaults {
+object binary {
 
   /** Reads and writes the message A using byte strings */
-  trait BinaryFormat[A] {
-    /** Reads the message A from buffer and advances it's position */
-    def read(bytes: ByteList): (A, ByteList)
+  type BinaryFormat[A] = AbstractFormat[A, ByteList]
+  type BF[A] = BinaryFormat[A]
 
-    /** Writes the message A to the bytes string advancing it's position */
-    def append(a: A, bytes: ByteList): ByteList
-
-    /** Tells whether or now the format supports the given value */
-    def isDefinedFor(a: Any): Boolean = false
-
-    /** Creates a new binary format based on this one and type mapping */
-    def map[B](constructor: A => B, destructor: B => A): BF[B] = {
-      val delegate = this
-      new BF[B] {
-        override def read(bytes: ByteList): (B, ByteList) = delegate.read(bytes).chain { case (a, tail) => constructor.apply(a) -> tail }
-
-        override def append(a: B, bytes: ByteList): ByteList = delegate.append(destructor.apply(a), bytes)
-      }
-    }
+  /** Provides the unit for binary format */
+  implicit val binaryType: FormatType[ByteList] = new FormatType[ByteList] {
+    override def unit: ByteList = ByteList.empty
   }
 
-  type BF[A] = BinaryFormat[A]
+  /** Reads and writes strings */
+  implicit val stringFormat: BF[String] = new BinaryFormat[String] {
+    override def read(bytes: ByteList): (String, ByteList) = bytes.readString
+
+    override def append(a: String, bytes: ByteList): ByteList = bytes + a
+  }
+
+  /** Reads and writes ints */
+  implicit val intFormat: BF[Int] = new BinaryFormat[Int] {
+    override def read(bytes: ByteList): (Int, ByteList) = bytes.readInt
+
+    override def append(a: Int, bytes: ByteList): ByteList = bytes + a
+  }
+
+  /** Reads and writes booleans */
+  implicit val booleanFormat: BF[Boolean] = new BinaryFormat[Boolean] {
+    override def read(bytes: ByteList): (Boolean, ByteList) = bytes.readBoolean
+
+    override def append(a: Boolean, bytes: ByteList): ByteList = bytes + a
+  }
+
+  /** Reads and writes doubles */
+  implicit val doubleFormat: BF[Double] = new BinaryFormat[Double] {
+    override def read(bytes: ByteList): (Double, ByteList) = bytes.readDouble
+
+    override def append(a: Double, bytes: ByteList): ByteList = bytes + a
+  }
+
+  /** Reads and writes longs */
+  implicit val longFormat: BF[Long] = new BinaryFormat[Long] {
+    override def read(bytes: ByteList): (Long, ByteList) = bytes.readLong
+
+    override def append(a: Long, bytes: ByteList): ByteList = bytes + a
+  }
 
   /** Reads and writes lists of A */
   implicit def listFormat[A: BF]: BF[List[A]] = new BinaryFormat[List[A]] {
@@ -46,7 +64,7 @@ object binary extends defaults {
     override def append(a: List[A], bytes: ByteList): ByteList = {
       val next = bytes + a.size
       a.foldLeft(next) { case (current, element) =>
-        current + element.toBinary
+        current + element.format
       }
     }
   }
@@ -154,6 +172,37 @@ object binary extends defaults {
     val empty: ByteList = ByteList(Nil)
 
     val emptyBuffer: ByteBuffer = ByteBuffer.allocate(0)
+  }
+
+  /** Indexes the formats with ids to be able to read any message */
+  class Registry[A](formats: List[BF[_ <: A]]) {
+    private val indexed = formats.zipWithIndex
+
+    /** Writes the message into the byte list marking it with id from registry */
+    def write(value: A): ByteList = {
+      indexed.find { case (format, index) => format.isDefinedFor(value) } match {
+        case Some((format, index)) =>
+          format.asInstanceOf[BF[A]].append(value, ByteList.empty + index)
+        case None =>
+          throw new IllegalArgumentException(s"no format is defined for value: $value")
+      }
+    }
+
+    /** Reads the message from the byte list used the id prepended to message */
+    def read(buffer: ByteList): A = {
+      val (id, tail) = buffer.readInt
+      formats.lift(id) match {
+        case Some(format) =>
+          format.read(tail).asInstanceOf[A]
+        case None =>
+          throw new IllegalArgumentException(s"no format found to read message with id: $id")
+      }
+    }
+  }
+
+  object Registry {
+    /** Creates new registry from given list of formats */
+    def apply[A](formats: BF[_ <: A]*): Registry[A] = new Registry[A](formats.toList)
   }
 
 }

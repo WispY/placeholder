@@ -1,8 +1,7 @@
 package cross
 
 import cross.binary._
-import cross.subbinary.formats._
-import cross.subbinary.registry.Registry
+import cross.format._
 
 /** Contains all messages to interact with server via websockets */
 //noinspection TypeAnnotation
@@ -46,7 +45,7 @@ object protocol {
   implicit val f1 = stringFormat.map[Session](Session.apply, a => a.id)
 
   val registry = Registry[Message](
-    binaryFormat1(Connect),
-    binaryFormat2(Connected)
+    format1(Connect),
+    format2(Connected)
   )
 }

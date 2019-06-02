@@ -1,7 +1,7 @@
 import java.io.FileWriter
 
 val root = sys.env.getOrElse("PLACEHOLDER_ROOT", throw new IllegalStateException("PLACEHOLDER_ROOT env not found"))
-val outputFile = s"$root/shared/src/main/scala/cross/subconfig/formats.scala"
+val outputFile = s"$root/macros/src/main/scala/cross/subconfig/formats.scala"
 val count = 22
 val output =
   s"""
