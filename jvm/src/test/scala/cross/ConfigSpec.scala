@@ -3,6 +3,8 @@ package cross
 import cross.config._
 import cross.format._
 
+import scala.concurrent.duration._
+
 class ConfigSpec extends Spec {
   private val recompile = 1
 
@@ -67,6 +69,18 @@ class ConfigSpec extends Spec {
       sys.props.put("book.chapters.1", "Two")
       sys.props.put("book.author.0", "WispY")
       configureNamespace[Book]("book", None) shouldBe sample
+    }
+
+    "read finite duration" in {
+      sys.props.put("ns.empty", "")
+      sys.props.put("ns.zeroMs", "0ms")
+      sys.props.put("ns.twoMinutes", "2m")
+      sys.props.put("ns.dayAndSecond", "1d1s")
+      sys.props.put("ns.allUnits", "1d1h1m1s1ms")
+      configurePath[FiniteDuration](path("ns", "empty")) shouldBe 0.millis
+      configurePath[FiniteDuration](path("ns", "zeroMs")) shouldBe 0.millis
+      configurePath[FiniteDuration](path("ns", "dayAndSecond")) shouldBe (1.day + 1.second)
+      configurePath[FiniteDuration](path("ns", "allUnits")) shouldBe (1.day + 1.hour + 1.minute + 1.second + 1.milli)
     }
   }
 

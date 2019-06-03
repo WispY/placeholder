@@ -7,6 +7,5 @@ crossJS/clean crossJS/fastOptJS moveJS pushJS
 
 Server:
 ```
--Dpac.discordToken="" -Dpac.discordServer="kate & leo" -Dpac.discordChannel="bot-tests"
--Dpac.discordToken="" -Dpac.discordServer="poku club" -Dpac.discordChannel="art_challenge"
+-Dpac.bot.token="" -Dpac.bot.server="poku club"  -Dpac.bot.channel="art_challenge" -Dpac.processor.mongo=""
 ```

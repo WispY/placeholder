@@ -2,6 +2,8 @@ package cross
 
 import cross.format._
 
+import scala.concurrent.duration._
+
 object config {
   /** Global configuration reader */
   private var globalReader: ConfigReader = _
@@ -67,6 +69,41 @@ object config {
 
   /** Reads doubles */
   implicit val doubleFormat: CF[Double] = stringFormat.map(v => v.toDouble, v => v.toString)
+
+  /** Reads finite durations */
+  implicit val durationFormat: CF[FiniteDuration] = stringFormat.map(
+    { string =>
+      val total = "([0-9]+)(d|h|ms|s|m)".r.findAllMatchIn(string).foldLeft(0L) { case (sum, part) =>
+        val amount = part.group(1).toInt
+        val duration = part.group(2) match {
+          case "d" => amount.days
+          case "h" => amount.hours
+          case "m" => amount.minutes
+          case "s" => amount.seconds
+          case "ms" => amount.millis
+        }
+        sum + duration.toMillis
+      }
+      total.millis
+    },
+    { duration =>
+      val (ignored, stringified) = List(
+        1.day -> "d",
+        1.hour -> "h",
+        1.minute -> "m",
+        1.second -> "s",
+        1.millis -> "ms"
+      ).foldLeft(duration, "") { case ((left, string), (unitDuration, unitName)) =>
+        val amount = left.toMillis / unitDuration.toMillis
+        if (amount > 0) {
+          (left - amount * unitDuration, s"$string$amount$unitName")
+        } else {
+          (left, string)
+        }
+      }
+      stringified
+    }
+  )
 
   /** Reads lists of A */
   implicit def listFormat[A: CF]: CF[List[A]] = new ConfigFormat[List[A]] {
