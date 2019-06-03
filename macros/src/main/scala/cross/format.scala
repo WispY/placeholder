@@ -71,6 +71,9 @@ object format {
   implicit class AnyFormatOps[A](val a: A) extends AnyVal {
     /** Formats the object into B */
     def format[B](path: Path = Nil)(implicit fmt: AbstractFormat[A, B], tpe: FormatType[B]): B = fmt.append(path, a, tpe.unit)
+
+    /** Appends the object to B */
+    def format[B](path: Path, b: B)(implicit fmt: AbstractFormat[A, B]): B = fmt.append(path, a, b)
   }
 
   implicit val macros: macros = scala.language.experimental.macros

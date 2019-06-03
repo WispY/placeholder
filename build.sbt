@@ -46,7 +46,10 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22",
     // discord client
     libraryDependencies += "net.dv8tion" % "JDA" % "3.8.3_463",
-
+    // mongo
+    libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "2.6.0",
+    libraryDependencies += "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.4" % Test,
+    // akka
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.22" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-http-testkit" % "10.1.8" % Test,
