@@ -1,45 +1,47 @@
 package cross
 
 import cross.config._
-import cross.subconfig.defaults._
-import cross.subconfig.formats._
+import cross.format._
 
 class ConfigSpec extends Spec {
   private val recompile = 1
-  implicit val reader: ConfigReader = JvmReader
 
   before {
     sys.props.clear()
+    setGlobalReader(JvmReader)
   }
+
+  /** Creates field path from string list */
+  def path(list: String*): Path = list.map(s => FieldPathSegment(s)).toList
 
   "config" can {
     "read present system property" in {
       sys.props.put("foo.bar.baz", "configured")
-      configurePath("foo" :: "bar" :: "baz" :: Nil, Some("missing")) shouldBe "configured"
+      configurePath(path("foo", "bar", "baz"), Some("missing")) shouldBe "configured"
     }
 
     "read missing system property" in {
-      configurePath("foo" :: "bar" :: "baz" :: Nil, Some("missing")) shouldBe "missing"
+      configurePath(path("foo", "bar", "baz"), Some("missing")) shouldBe "missing"
     }
 
     "fail to read missing system property" in {
-      intercept[RuntimeException](configurePath[String]("foo" :: "bar" :: "baz" :: Nil)).getMessage shouldBe "missing string: foo.bar.baz"
+      intercept[IllegalArgumentException](configurePath[String](path("foo", "bar", "baz"))).getMessage shouldBe "missing string: foo.bar.baz"
     }
 
     "read different types" in {
       sys.props.put("ns.string", "string")
       sys.props.put("ns.int", "123")
       sys.props.put("ns.double", "1.23")
-      configurePath[String]("ns" :: "string" :: Nil) shouldBe "string"
-      configurePath[Int]("ns" :: "int" :: Nil) shouldBe 123
-      configurePath[Double]("ns" :: "double" :: Nil) shouldBe 1.23
+      configurePath[String](path("ns", "string")) shouldBe "string"
+      configurePath[Int](path("ns", "int")) shouldBe 123
+      configurePath[Double](path("ns", "double")) shouldBe 1.23
 
-      intercept[RuntimeException](configurePath[Int]("ns" :: "string" :: Nil)).getMessage shouldBe "failed to read: ns.string"
+      intercept[IllegalArgumentException](configurePath[Int](path("ns", "string"))).getMessage shouldBe "failed to read: ns.string"
     }
 
     "read person" in {
       case class Person(name: String, age: Int)
-      implicit val personFormat: CF[Person] = configFormat2(Person)
+      implicit val personFormat: CF[Person] = format2(Person)
       val sample = Person("John", 23)
       configureNamespace[Person]("person", Some(sample)) shouldBe sample
 
@@ -50,7 +52,7 @@ class ConfigSpec extends Spec {
 
     "read lists and options" in {
       case class Book(pages: List[Int], chapters: List[String], author: Option[String])
-      implicit val bookFormat: CF[Book] = configFormat3(Book)
+      implicit val bookFormat: CF[Book] = format3(Book)
       val sample = Book(1 :: 2 :: 3 :: Nil, "One" :: "Two" :: Nil, Some("WispY"))
       configureNamespace[Book]("book", Some(sample)) shouldBe sample
 

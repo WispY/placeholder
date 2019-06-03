@@ -2,21 +2,17 @@ package cross
 
 import scala.languageFeature.experimental.macros
 import scala.reflect.macros.blackbox
+import scala.util.control.NonFatal
 
 object format {
-
-  /** Defines the target type of formatting */
-  trait FormatType[A] {
-    def unit: A
-  }
 
   /** Reads and writes the object A as format B */
   trait AbstractFormat[A, B] {
     /** Reads the object A from formatted form B */
-    def read(formatted: B): (A, B)
+    def read(path: Path, formatted: B): (A, B)
 
     /** Writes the object A info formatted form B */
-    def append(a: A, formatted: B): B
+    def append(path: Path, a: A, formatted: B): B
 
     /** Tells whether or now the format supports the given value */
     def isDefinedFor(a: Any): Boolean = false
@@ -25,13 +21,18 @@ object format {
     def map[C](constructor: A => C, destructor: C => A): AbstractFormat[C, B] = {
       val delegate = this
       new AbstractFormat[C, B] {
-        override def read(formatted: B): (C, B) = {
-          val (c, tail) = delegate.read(formatted)
-          constructor.apply(c) -> tail
+        override def read(path: Path, formatted: B): (C, B) = {
+          val (c, tail) = delegate.read(path, formatted)
+          val mapped = try {
+            constructor.apply(c)
+          } catch {
+            case NonFatal(up) => throw new IllegalArgumentException(s"failed to read: ${path.stringify}", up)
+          }
+          mapped -> tail
         }
 
-        override def append(c: C, formatted: B): B = {
-          delegate.append(destructor.apply(c), formatted)
+        override def append(path: Path, c: C, formatted: B): B = {
+          delegate.append(path, destructor.apply(c), formatted)
         }
       }
     }
@@ -39,9 +40,37 @@ object format {
 
   type AF[A, B] = AbstractFormat[A, B]
 
+  /** Defines the target type of formatting */
+  trait FormatType[A] {
+    def unit: A
+  }
+
+  /** Defines a segment of the path to the value */
+  sealed trait PathSegment {
+    /** Returns the string representation of this segment */
+    def stringify: String
+  }
+
+  type Path = List[PathSegment]
+
+  /** Defines the array element path */
+  case class ArrayPathSegment(index: Int) extends PathSegment {
+    override def stringify: String = index.toString
+  }
+
+  /** Defines the object field path */
+  case class FieldPathSegment(name: String) extends PathSegment {
+    override def stringify: String = name
+  }
+
+  implicit class PathListOps(val path: Path) extends AnyVal {
+    /** Returns path in dot notation */
+    def stringify: String = path.map(s => s.stringify).mkString(".")
+  }
+
   implicit class AnyFormatOps[A](val a: A) extends AnyVal {
     /** Formats the object into B */
-    def format[B](implicit fmt: AbstractFormat[A, B], tpe: FormatType[B]): B = fmt.append(a, tpe.unit)
+    def format[B](path: Path = Nil)(implicit fmt: AbstractFormat[A, B], tpe: FormatType[B]): B = fmt.append(path, a, tpe.unit)
   }
 
   implicit val macros: macros = scala.language.experimental.macros
@@ -50,12 +79,14 @@ object format {
     import c.universe._
     val tpe = weakTypeOf[A]
     val fmt = weakTypeOf[B]
+    val fields = tpe.decls.collectFirst { case primary: MethodSymbol if primary.isPrimaryConstructor => primary }.get.paramLists.head
     val read = {
-      val (lines, names) = parts.zipWithIndex.map { case (part, i) =>
+      val (lines, names) = parts.zip(fields).zipWithIndex.map { case ((part, field), i) =>
         val value = TermName(s"value$i")
         val currentFormat = TermName(s"format$i")
         val nextFormat = TermName(s"format${i + 1}")
-        val line = (tail: c.Tree) => q"val ($value, $nextFormat) = $part.read($currentFormat); $tail"
+        val fieldName = field.name.decodedName.toString
+        val line = (tail: c.Tree) => q"val ($value, $nextFormat) = $part.read(path :+ FieldPathSegment($fieldName), $currentFormat); $tail"
         line -> q"$value"
       }.unzip
       val lastBytes = TermName(s"format${parts.size}")
@@ -63,12 +94,12 @@ object format {
       mkblock(c)(lines :+ lastLine)
     }
     val append = {
-      val fields = tpe.decls.collectFirst { case primary: MethodSymbol if primary.isPrimaryConstructor => primary }.get.paramLists.head
       val lines = parts.zip(fields).zipWithIndex.map { case ((part, field), i) =>
         val currentFormat = TermName(s"format$i")
         val nextFormat = TermName(s"format${i + 1}")
-        val name = TermName(field.fullName.split('.').last)
-        (tail: c.Tree) => q"val $nextFormat = $part.append(a.$name, $currentFormat); $tail"
+        val accessor = TermName(field.fullName.split('.').last)
+        val fieldName = field.name.decodedName.toString
+        (tail: c.Tree) => q"val $nextFormat = $part.append(path :+ FieldPathSegment($fieldName), a.$accessor, $currentFormat); $tail"
       }
       val lastBytes = TermName(s"format${parts.size}")
       val lastLine = (tail: c.Tree) => q"$lastBytes"
@@ -77,8 +108,8 @@ object format {
     c.Expr[AF[A, B]] {
       q"""
       new cross.format.AbstractFormat[$tpe, $fmt] {
-        override def read(format0: $fmt): ($tpe, $fmt) = { $read }
-        override def append(a: $tpe, format0: $fmt): $fmt = { $append }
+        override def read(path: Path, format0: $fmt): ($tpe, $fmt) = { $read }
+        override def append(path: Path, a: $tpe, format0: $fmt): $fmt = { $append }
         override def isDefinedFor(a: Any): Boolean = a match {
           case m: $tpe => true
           case other => false

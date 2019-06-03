@@ -18,53 +18,53 @@ object binary {
 
   /** Reads and writes strings */
   implicit val stringFormat: BF[String] = new BinaryFormat[String] {
-    override def read(bytes: ByteList): (String, ByteList) = bytes.readString
+    override def read(path: Path, bytes: ByteList): (String, ByteList) = bytes.readString
 
-    override def append(a: String, bytes: ByteList): ByteList = bytes + a
+    override def append(path: Path, a: String, bytes: ByteList): ByteList = bytes + a
   }
 
   /** Reads and writes ints */
   implicit val intFormat: BF[Int] = new BinaryFormat[Int] {
-    override def read(bytes: ByteList): (Int, ByteList) = bytes.readInt
+    override def read(path: Path, bytes: ByteList): (Int, ByteList) = bytes.readInt
 
-    override def append(a: Int, bytes: ByteList): ByteList = bytes + a
+    override def append(path: Path, a: Int, bytes: ByteList): ByteList = bytes + a
   }
 
   /** Reads and writes booleans */
   implicit val booleanFormat: BF[Boolean] = new BinaryFormat[Boolean] {
-    override def read(bytes: ByteList): (Boolean, ByteList) = bytes.readBoolean
+    override def read(path: Path, bytes: ByteList): (Boolean, ByteList) = bytes.readBoolean
 
-    override def append(a: Boolean, bytes: ByteList): ByteList = bytes + a
+    override def append(path: Path, a: Boolean, bytes: ByteList): ByteList = bytes + a
   }
 
   /** Reads and writes doubles */
   implicit val doubleFormat: BF[Double] = new BinaryFormat[Double] {
-    override def read(bytes: ByteList): (Double, ByteList) = bytes.readDouble
+    override def read(path: Path, bytes: ByteList): (Double, ByteList) = bytes.readDouble
 
-    override def append(a: Double, bytes: ByteList): ByteList = bytes + a
+    override def append(path: Path, a: Double, bytes: ByteList): ByteList = bytes + a
   }
 
   /** Reads and writes longs */
   implicit val longFormat: BF[Long] = new BinaryFormat[Long] {
-    override def read(bytes: ByteList): (Long, ByteList) = bytes.readLong
+    override def read(path: Path, bytes: ByteList): (Long, ByteList) = bytes.readLong
 
-    override def append(a: Long, bytes: ByteList): ByteList = bytes + a
+    override def append(path: Path, a: Long, bytes: ByteList): ByteList = bytes + a
   }
 
   /** Reads and writes lists of A */
   implicit def listFormat[A: BF]: BF[List[A]] = new BinaryFormat[List[A]] {
-    override def read(bytes: ByteList): (List[A], ByteList) = {
+    override def read(path: Path, bytes: ByteList): (List[A], ByteList) = {
       val (length, tail) = bytes.readInt
       (0 until length).foldLeft[(List[A], ByteList)](Nil, tail) { case ((list, currentTail), index) =>
-        val (a, nextTail) = currentTail.toScala[A]
+        val (a, nextTail) = currentTail.toScala[A](path :+ ArrayPathSegment(index))
         (list :+ a, nextTail)
       }
     }
 
-    override def append(a: List[A], bytes: ByteList): ByteList = {
+    override def append(path: Path, a: List[A], bytes: ByteList): ByteList = {
       val next = bytes + a.size
-      a.foldLeft(next) { case (current, element) =>
-        current + element.format
+      a.zipWithIndex.foldLeft(next) { case (current, (element, index)) =>
+        current + element.format(path :+ ArrayPathSegment(index))
       }
     }
   }
@@ -165,7 +165,7 @@ object binary {
     }
 
     /** Converts the value to scala format */
-    def toScala[A: BF](implicit format: BF[A]): (A, ByteList) = format.read(this)
+    def toScala[A: BF](path: Path = Nil)(implicit format: BF[A]): (A, ByteList) = format.read(path, this)
   }
 
   object ByteList {
@@ -182,7 +182,7 @@ object binary {
     def write(value: A): ByteList = {
       indexed.find { case (format, index) => format.isDefinedFor(value) } match {
         case Some((format, index)) =>
-          format.asInstanceOf[BF[A]].append(value, ByteList.empty + index)
+          format.asInstanceOf[BF[A]].append(Nil, value, ByteList.empty + index)
         case None =>
           throw new IllegalArgumentException(s"no format is defined for value: $value")
       }
@@ -193,7 +193,7 @@ object binary {
       val (id, tail) = buffer.readInt
       formats.lift(id) match {
         case Some(format) =>
-          format.read(tail).asInstanceOf[A]
+          format.read(Nil, tail).asInstanceOf[A]
         case None =>
           throw new IllegalArgumentException(s"no format found to read message with id: $id")
       }

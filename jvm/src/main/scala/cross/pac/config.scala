@@ -1,23 +1,24 @@
 package cross.pac
 
 import cross.config._
-import cross.subconfig.defaults._
-import cross.subconfig.formats._
+import cross.format._
 
 /** Contains configs for Poku Art Challenge project */
 object config {
 
   case class PacConfig(discordToken: String,
+                       discordServer: String,
                        discordChannel: String)
 
   val DefaultPacConfig = PacConfig(
     discordToken = "changeme",
+    discordServer = "changeme",
     discordChannel = "changeme"
   )
 
   implicit val reader: ConfigReader = JvmReader
-  implicit val pacConfigFormat: CF[PacConfig] = configFormat2(PacConfig)
+  implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
-  val Config: PacConfig = null // configureNamespace("pac", Some(DefaultPacConfig))
+  val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
 
 }

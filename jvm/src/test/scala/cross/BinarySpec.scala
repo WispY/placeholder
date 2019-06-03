@@ -18,8 +18,8 @@ class BinarySpec extends Spec {
 
     def check[A](a: A)(implicit format: BF[A]): Unit = {
       ByteList.empty
-        .chain { bytes => format.append(a, bytes) }
-        .chain { bytes => format.read(bytes) shouldBe(a, ByteList.empty) }
+        .chain { bytes => format.append(Nil, a, bytes) }
+        .chain { bytes => format.read(Nil, bytes) shouldBe(a, ByteList.empty) }
     }
 
     "format person" in {
@@ -30,15 +30,15 @@ class BinarySpec extends Spec {
       val personA = Person("John", 42)
       val personB = Person("Amelie", 24)
       ByteList.empty
-        .chain { bytes => personFormat.append(personA, bytes) }
-        .chain { bytes => personFormat.append(personB, bytes) }
+        .chain { bytes => personFormat.append(Nil, personA, bytes) }
+        .chain { bytes => personFormat.append(Nil, personB, bytes) }
         .chain { bytes =>
-          val (person, next) = personFormat.read(bytes)
+          val (person, next) = personFormat.read(Nil, bytes)
           person shouldBe personA
           next
         }
         .chain { bytes =>
-          val (person, next) = personFormat.read(bytes)
+          val (person, next) = personFormat.read(Nil, bytes)
           person shouldBe personB
           next shouldBe ByteList.empty
         }

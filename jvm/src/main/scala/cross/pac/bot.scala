@@ -37,21 +37,27 @@ object bot {
     /** Waits till discord client is ready */
     def awaitReady(client: JDA): Receive = {
       case event: ReadyEvent =>
-        log.info(s"discord bot is ready [$event]")
-        client
-          .getTextChannels
-          .asScala
-          .find(channel => channel.getName == config.discordChannel) match {
-          case Some(channel) =>
-            log.info(s"found channel [${config.discordChannel}]")
-            context.become(awaitMessages(channel))
+        log.info(s"discord bot is ready [$event] with servers [${client.getGuilds.asScala.map(g => g.getName).toList}]")
+        client.getGuildsByName(config.discordServer, true).asScala.headOption match {
+          case Some(server) =>
+            log.info(s"found server [${config.discordServer}]")
+            server
+              .getTextChannels.asScala
+              .find(channel => channel.getName == config.discordChannel) match {
+              case Some(channel) =>
+                log.info(s"found channel [${config.discordChannel}]")
+                context.become(awaitMessages(channel))
+              case None =>
+                log.warning(s"failed to find channel [${config.discordChannel}]")
+                context.become(ignoreMessages())
+            }
           case None =>
-            log.warning(s"failed to find channel [${config.discordChannel}]")
+            log.warning(s"failed to find server [${config.discordServer}]")
             context.become(ignoreMessages())
         }
 
       case message =>
-        log.info("received message when not ready, rescheduling...")
+        log.info(s"received message when not ready [$message], rescheduling...")
         context.system.scheduler.scheduleOnce(1.second, self, message)
     }
 
