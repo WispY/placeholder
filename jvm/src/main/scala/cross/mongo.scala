@@ -2,6 +2,7 @@ package cross
 
 import cross.format._
 import org.mongodb.scala.bson._
+
 import scala.collection.JavaConverters._
 
 object mongo {
@@ -50,6 +51,15 @@ object mongo {
     string => new BsonString(string)
   )
 
+  /** Reads and writes booleans */
+  implicit val booleanFormat: MF[Boolean] = bsonValueFormat.map(
+    {
+      case boolean: BsonBoolean => boolean.getValue
+      case other => throw new IllegalArgumentException(s"wrong boolean type: $other")
+    },
+    ooolean => new BsonBoolean(ooolean)
+  )
+
   /** Reads and writes ints */
   implicit val intFormat: MF[Int] = bsonValueFormat.map(
     {
@@ -57,6 +67,15 @@ object mongo {
       case other => throw new IllegalArgumentException(s"wrong int type: $other")
     },
     int => new BsonInt32(int)
+  )
+
+  /** Reads and writes longs */
+  implicit val longFormat: MF[Long] = bsonValueFormat.map(
+    {
+      case long: BsonInt64 => long.getValue
+      case other => throw new IllegalArgumentException(s"wrong long type: $other")
+    },
+    long => new BsonInt64(long)
   )
 
   /** Reads lists of A */

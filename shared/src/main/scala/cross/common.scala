@@ -2,6 +2,7 @@ package cross
 
 import java.util.UUID
 
+import scala.annotation.tailrec
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
@@ -283,6 +284,13 @@ object common {
 
     /** Appends the next future without data dependency */
     def >>[B](other: Future[B])(implicit ec: ExecutionContext): Future[Unit] = future.flatMap(any => other).clear
+  }
+
+  implicit class AnyListOps[A](val list: List[A]) extends AnyVal {
+    /** Creates a processing chain from the list */
+    def chainProcessing[B](last: Any, constructor: (A, Any) => B): Any = {
+      list.foldRight(last) { case (element, next) => constructor.apply(element, next) }
+    }
   }
 
   /** Integer 2D vector */

@@ -93,10 +93,10 @@ object bot {
 
     /** Waits for new reports */
     def awaitCommands(channel: TextChannel, channelHistory: MessageHistory): Receive = {
-      case ReadAdminMessages(sinceOpt) =>
+      case ReadMessages(sinceOpt) =>
         val since = sinceOpt.getOrElse(-1L)
-        val list = history.filter(message => message.getCreationTime.toInstant.toEpochMilli >= since && config.bot.admins.contains(message.getAuthor.getId))
-        sender ! AdminMessages(list)
+        val list = history.filter(message => message.getCreationTime.toInstant.toEpochMilli >= since)
+        sender ! MessagesResponse(list)
 
       case e: MessageReceivedEvent =>
         sender ! LoadRecentHistory
@@ -137,16 +137,16 @@ object bot {
   /** Appends messages to channel history */
   case class AppendMessages(messages: List[Message])
 
-  /** Requests to read all admin messages starting from given timestamp
+  /** Requests to read all messages starting from given timestamp
     *
     * @param since Some(timestamp) to start reading from, None if whole channel should be scanned
     */
-  case class ReadAdminMessages(since: Option[Long])
+  case class ReadMessages(since: Option[Long])
 
-  /** Contains admin messages read from some timestamp
+  /** Contains messages read from some timestamp
     *
     * @param messages a list of messages from admin users
     */
-  case class AdminMessages(messages: List[Message])
+  case class MessagesResponse(messages: List[Message])
 
 }
