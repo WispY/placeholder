@@ -153,4 +153,24 @@ object mongo {
       }
   }
 
+  /** Converts operations into mongo document */
+  implicit val mongoOperationType: OperationType[Document] = { operations =>
+    val bson = new BsonDocument()
+    operations.foreach {
+      case BinaryOperation(path, Operations.Equals, value) =>
+        writePrimitive(path, bson, value)
+      case BinaryOperation(path, Operations.GreaterThan, value) =>
+        writePrimitive(path :+ FieldPathSegment("$gt"), bson, value)
+    }
+    Document(bson)
+  }
+
+  /** Writes the scala primitive at given path */
+  private def writePrimitive(path: Path, bson: BsonValue, value: Any): Unit = value match {
+    case v: String =>
+      stringFormat.append(path, v, bson)
+    case v: Int =>
+      intFormat.append(path, v, bson)
+  }
+
 }

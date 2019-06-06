@@ -30,8 +30,8 @@ val formats = (0 to count).map { size =>
 val macroFormats = (0 to count).map { size =>
   val list = (0 until size).map(i => s"p${i + 1}")
   val params = if (list.isEmpty) "" else s"(${list.map(t => s"$t: c.Tree").mkString(",")})"
-  val args = (list :+ "Nil").mkString(" :: ")
-  s"  def macroFormat$size[A: c.WeakTypeTag,B: c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)$params: c.Expr[AF[A,B]] = formatX(c)(constructor,$args)"
+  val args = (list :+ "Nil").mkString("::")
+  s"  def macroFormat$size[A:c.WeakTypeTag,B:c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)$params: c.Expr[AF[A,B]] = formatX(c)(constructor,$args)"
 }
 val output = inputBefore ++ formats ++ macroFormats ++ inputAfter
 

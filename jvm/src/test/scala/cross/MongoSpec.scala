@@ -6,13 +6,17 @@ import com.github.simplyscala.{MongoEmbedDatabase, MongodProps}
 import com.typesafe.scalalogging.LazyLogging
 import cross.format._
 import cross.mongo._
+import org.mongodb.scala.bson.Document
 import org.mongodb.scala.{MongoClient, Observable, SingleObservable}
 
 class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
+  private val recompile = 2
   private var process: MongodProps = _
   private var client: MongoClient = _
 
   case class Person(name: String, age: Int)
+
+  val QPerson: Person = null
 
   "mongo" can {
     "write and read person" in {
@@ -37,6 +41,30 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
         personOpt = None
       ))
     }
+
+    "search for person by equals" in {
+      implicit val personFormat: MF[Person] = format2(Person)
+
+      search(
+        data = Person("John", 43) :: Person("Jeremy", 34) :: Nil,
+        query = $(Person)(_.name $eq "John")
+      ) shouldBe (Person("John", 43) :: Nil)
+
+      search(
+        data = Person("John", 43) :: Person("Mary", 43) :: Person("Jeremy", 34) :: Nil,
+        query = $(Person)(_.age $eq 42),
+        sort = $(Person)(_.name $asc, _.age $asc)
+      ) shouldBe (Person("John", 43) :: Person("Mary", 43) :: Nil)
+    }
+  }
+
+  def search[A <: AnyRef](data: List[A], query: Document, sort: Document = Document())(implicit format: MF[A]): List[A] = {
+    val collectionName = UUID.randomUUID().toString
+    val db = client.getDatabase("test")
+    db.createCollection(collectionName).await
+    val collection = db.getCollection(collectionName)
+    collection.insertMany(data.map(a => a.asBson)).await
+    collection.find(query).sort(sort).await.map(a => a.asScala[A])
   }
 
   def check[A <: AnyRef](a: A)(implicit format: MF[A]): Unit = {
