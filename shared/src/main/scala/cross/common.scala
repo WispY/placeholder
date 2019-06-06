@@ -1,8 +1,8 @@
 package cross
 
+import java.time.OffsetDateTime
 import java.util.UUID
 
-import scala.annotation.tailrec
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
@@ -401,6 +401,23 @@ object common {
   implicit class VecDoubleTupleOps(val tuple: (Vec2d, Vec2d)) extends AnyVal {
     /** Returns a vec between two components according to progress */
     def %%(progress: Double): Vec2d = tuple._1 + (tuple._2 - tuple._1) * progress
+  }
+
+  implicit class OffsetDateTimeOps(val odt: OffsetDateTime) extends AnyVal {
+    /** Converts date time to epoch */
+    def epoch: Long = odt.toInstant.toEpochMilli
+
+    /** Compares to given timestamp */
+    def >(timestamp: Long): Boolean = odt.epoch > timestamp
+
+    /** Compares to given timestamp */
+    def <(timestamp: Long): Boolean = odt.epoch < timestamp
+
+    /** Compares to given timestamp */
+    def >=(timestamp: Long): Boolean = odt.epoch >= timestamp
+
+    /** Compares to given timestamp */
+    def <=(timestamp: Long): Boolean = odt.epoch <= timestamp
   }
 
 }

@@ -1,9 +1,10 @@
 package cross.pac
 
-import akka.actor.{Actor, ActorLogging}
+import akka.actor.{Actor, ActorLogging, ActorRef}
+import cross.common._
 import cross.pac.config.PacConfig
 import net.dv8tion.jda.core.entities.{Message, MessageHistory, TextChannel}
-import net.dv8tion.jda.core.events.message.{MessageReceivedEvent, MessageUpdateEvent}
+import net.dv8tion.jda.core.events.message.{MessageDeleteEvent, MessageReceivedEvent, MessageUpdateEvent}
 import net.dv8tion.jda.core.events.{Event, ReadyEvent}
 import net.dv8tion.jda.core.hooks.EventListener
 import net.dv8tion.jda.core.{JDA, JDABuilder}
@@ -18,7 +19,7 @@ object bot {
   class ArtChallengeBot(config: PacConfig) extends Actor with ActorLogging {
     private implicit val ec: ExecutionContext = context.dispatcher
     private var clientOpt: Option[JDA] = None
-    private var history: List[Message] = Nil
+    private var listeners: List[ActorRef] = Nil
 
     override def preStart(): Unit = {
       log.info("starting...")
@@ -34,7 +35,6 @@ object bot {
       clientOpt = Some(client)
       log.info("awaiting client readiness")
       context.become(awaitReady(client))
-      context.system.scheduler.schedule(config.bot.historyRefreshDelay, config.bot.historyRefreshDelay, self, LoadRecentHistory)
     }
 
     override def postStop(): Unit = {
@@ -55,8 +55,7 @@ object bot {
               .find(channel => channel.getName == config.bot.channel) match {
               case Some(channel) =>
                 log.info(s"found channel [${config.bot.channel}]")
-                context.become(readFullHistory(channel, channel.getHistory))
-                self ! LoadFullHistory
+                context.become(awaitCommands(channel))
               case None =>
                 log.warning(s"failed to find channel [${config.bot.channel}]")
                 context.become(ignoreMessages())
@@ -71,49 +70,52 @@ object bot {
         context.system.scheduler.scheduleOnce(1.second, self, message)(ec, sender)
     }
 
-    /** Waits until the full channel history is loaded */
-    def readFullHistory(channel: TextChannel, channelHistory: MessageHistory): Receive = {
-      case LoadFullHistory =>
-        log.info(s"retrieving 100 past messages, current size [${history.size}]")
-        channelHistory.retrievePast(100).queue { messages => self ! PrependMessages(messages.asScala.toList) }
+    /** Waits for new requests */
+    def awaitCommands(channel: TextChannel): Receive = {
+      case event: MessageReceivedEvent =>
+        listeners.foreach(listener => listener ! MessagePosted(event.getMessage))
 
-      case PrependMessages(messages) =>
-        if (messages.isEmpty) {
-          log.info(s"history was fully retrieved with size [${history.size}]")
-          context.become(awaitCommands(channel, channelHistory))
-        } else {
-          history = messages.reverse ++ history
-          self ! LoadFullHistory
+      case event: MessageUpdateEvent =>
+        listeners.foreach(listener => listener ! MessageEdited(event.getMessage))
+
+      case event: MessageDeleteEvent =>
+        listeners.foreach(listener => listener ! MessageDeleted(event.getMessageId))
+
+      case request: UpdateHistory =>
+        val history = channel.getHistory
+        val listener = sender
+        listeners = listeners :+ listener
+        history.retrievePast(100).queue { messages =>
+          log.info(s"retrieved initial [${messages.size()}] messages for history update")
+          self ! UpdateHistoryChain(listener, messages.asScala.toList, history, request)
         }
 
-      case message =>
-        log.info(s"received message when not loaded [$message], rescheduling...")
-        context.system.scheduler.scheduleOnce(1.second, self, message)(ec, sender)
-    }
-
-    /** Waits for new reports */
-    def awaitCommands(channel: TextChannel, channelHistory: MessageHistory): Receive = {
-      case ReadMessages(sinceOpt) =>
-        val since = sinceOpt.getOrElse(-1L)
-        val list = history.filter(message => message.getCreationTime.toInstant.toEpochMilli >= since)
-        sender ! MessagesResponse(list)
-
-      case e: MessageReceivedEvent =>
-        sender ! LoadRecentHistory
-
-      case e: MessageUpdateEvent =>
-        sender ! LoadRecentHistory
-
-      case LoadRecentHistory =>
-        log.info(s"loading recent history, current size [${history.size}]")
-        channelHistory.retrieveFuture(100).queue { messages => self ! AppendMessages(messages.asScala.toList) }
-
-      case AppendMessages(messages) =>
-        history = history ++ messages.reverse
-        if (messages.isEmpty) {
-          log.info(s"done loading recent history, current size [${history.size}]")
+      case UpdateHistoryChain(listener, chunk, history, request) =>
+        if (chunk.nonEmpty) {
+          chunk.foreach {
+            case irrelevant if irrelevant.getCreationTime < request.since.getOrElse(-1) =>
+              log.info(s"found message in history outside of requested time [${irrelevant.getId}]")
+            case upToDate if request.expected.get(upToDate.getId).contains(Option(upToDate.getEditedTime).getOrElse(upToDate.getCreationTime).epoch) =>
+              log.info(s"found up to date message in history [${upToDate.getId}]")
+            case outdated if request.expected.contains(outdated.getId) =>
+              log.info(s"found outdated message in history [${outdated.getId}]")
+              listener ! MessageEdited(outdated)
+            case unknown =>
+              log.info(s"found new message in history [${unknown.getId}]")
+              listener ! MessagePosted(unknown)
+          }
+          val diff = request.expected.filterNot { case (id, timestamp) => chunk.exists(message => message.getId == id) }
+          if (chunk.last.getCreationTime < request.since.getOrElse(-1)) {
+            log.info("reached end of requested history")
+            diff.keys.foreach(id => listener ! MessageDeleted(id))
+          } else {
+            history.retrievePast(100).queue { messages =>
+              log.info(s"retrieved next [${messages.size()}] messages for history update")
+              self ! UpdateHistoryChain(listener, messages.asScala.toList, history, request.copy(expected = diff))
+            }
+          }
         } else {
-          self ! LoadRecentHistory
+          log.info("reached end of history")
         }
 
       case _ => // ignore
@@ -125,28 +127,23 @@ object bot {
     }
   }
 
-  /** Requests to load full channel history */
-  object LoadFullHistory
-
-  /** Requests to add recent messages to history */
-  object LoadRecentHistory
-
-  /** Prepends messages to channel history */
-  case class PrependMessages(messages: List[Message])
-
-  /** Appends messages to channel history */
-  case class AppendMessages(messages: List[Message])
-
-  /** Requests to read all messages starting from given timestamp
+  /** Updates the message history from given time comparing it to given values
     *
-    * @param since Some(timestamp) to start reading from, None if whole channel should be scanned
+    * @param since    Some(timestamp) from which history should be read, None for full history
+    * @param expected message id to last update timestamp that are stored in the system
     */
-  case class ReadMessages(since: Option[Long])
+  case class UpdateHistory(since: Option[Long], expected: Map[String, Long])
 
-  /** Contains messages read from some timestamp
-    *
-    * @param messages a list of messages from admin users
-    */
-  case class MessagesResponse(messages: List[Message])
+  /** Chains the history update calls */
+  private case class UpdateHistoryChain(listener: ActorRef, chunk: List[Message], history: MessageHistory, request: UpdateHistory)
+
+  /** Indicates that new message was posted */
+  case class MessagePosted(message: Message)
+
+  /** Indicates that existing message was edited in the channel */
+  case class MessageEdited(message: Message)
+
+  /** Indicates that message was removed from the channel */
+  case class MessageDeleted(id: String)
 
 }

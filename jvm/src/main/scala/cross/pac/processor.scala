@@ -1,15 +1,13 @@
 package cross.pac
 
+import java.lang.System.currentTimeMillis
 import java.util.UUID
 import java.util.concurrent.Executors
 
 import akka.actor.{Actor, ActorLogging, ActorRef}
-import akka.pattern.ask
-import akka.util.Timeout
 import cross.format._
 import cross.mongo._
-import cross.common._
-import cross.pac.bot.{MessagesResponse, ReadMessages}
+import cross.pac.bot._
 import cross.pac.config.PacConfig
 import net.dv8tion.jda.core.entities.Message
 import org.mongodb.scala.{Document, MongoClient, MongoCollection, Observable}
@@ -17,15 +15,15 @@ import org.mongodb.scala.{Document, MongoClient, MongoCollection, Observable}
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.{Failure, Success}
 import scala.util.control.NonFatal
+import scala.util.{Failure, Success}
 
 object processor {
 
   /** Processes the art challenge messages */
   class ArtChallengeProcessor(bot: ActorRef, config: PacConfig) extends Actor with ActorLogging {
-    private val dbPool = Executors.newFixedThreadPool(1)
-    private val dbExecutor = ExecutionContext.fromExecutor(dbPool)
+    implicit val ec: ExecutionContext = context.dispatcher
+
     private val imagePool = Executors.newFixedThreadPool(config.processor.imagePool)
     private val imageExecutor = ExecutionContext.fromExecutor(imagePool)
 
@@ -37,6 +35,7 @@ object processor {
     private val challengesFur = collection("pac.challenges")
 
     override def preStart(): Unit = {
+      context.become(awaitCommands())
       self ! Startup
     }
 
@@ -44,10 +43,17 @@ object processor {
       imagePool.shutdown()
     }
 
-    override def receive: Receive = {
+    override def receive: Receive = Actor.emptyBehavior
+
+    /** Reschedules commands for the later processing */
+    def rescheduleCommands(): Receive = {
+      case Continue => context.become(awaitCommands())
+      case command => context.system.scheduler.scheduleOnce(1.second, self, command)(ec, sender)
+    }
+
+    /** Processes commands one by one */
+    def awaitCommands(): Receive = lock {
       case Startup =>
-        implicit val ec: ExecutionContext = dbExecutor
-        implicit val to: Timeout = Timeout.durationToTimeout(1.day)
         for {
           _ <- Future.successful()
           _ = log.info("starting up processor")
@@ -67,49 +73,76 @@ object processor {
           _ <- challenges.createIndex(Document("start" -> 1)).toFuture()
           _ <- challenges.createIndex(Document("end" -> 1)).toFuture()
 
-          _ = log.info("updating messages since last two art challenges")
-          challengesTail <- challenges.find(Document()).sort(Document("start" -> -1)).limit(2).asScalaList[ArtChallenge]
-          _ = log.info(s"latest art challenges: $challengesTail")
-          updateTime = challengesTail.lastOption.map(c => c.start)
-          _ = log.info(s"reading messages starting from [$updateTime]")
-          messagesToUpdateResponse <- (bot ? ReadMessages(updateTime)).mapTo[MessagesResponse]
-          _ = log.info(s"checking [${messagesToUpdateResponse.messages.size}] messages for updates")
-          _ = self ! messagesToUpdateResponse.messages.chainProcessing(DoneUpdatingMessages, UpdateMessage.apply)
+          _ = log.info("checking if any messages are stored in db")
+          count <- messages.countDocuments().toFuture()
+          updateTimeOpt = if (count == 0L) None else Some(currentTimeMillis - config.processor.startupRefreshPeriod.toMillis)
+          _ = log.info(s"reading messages state starting from [$updateTimeOpt]")
+          history <- updateTimeOpt
+            .map(updateTime => messages.find(Document("createTimestamp" -> Document("$gt" -> updateTime))))
+            .getOrElse(messages.find())
+            .asScalaList[SubmissionMessage]
+          timestamps = history.map(message => message.id -> message.updateTimestamp).toMap
+          _ = log.info(s"updating messages starting from [$updateTimeOpt]")
+          _ = bot ! UpdateHistory(updateTimeOpt, timestamps)
         } yield ()
 
-      case UpdateMessage(message, next) =>
-        implicit val ec: ExecutionContext = dbExecutor
-        (for {
+      case MessagePosted(message) =>
+        for {
+          messages <- messagesFut
+          converted = SubmissionMessages.fromDiscord(message).assignIds
+          _ = log.info(s"inserting new message [$converted]")
+          _ <- messages.insertOne(converted.asBson).toFuture
+          _ = log.info(s"message inserted [${message.getId}]")
+        } yield ()
+
+      case MessageEdited(message) =>
+        for {
           messages <- messagesFut
           _ = log.info(s"updating message [${message.getId}]")
           storedMessage <- messages.find(Document("id" -> message.getId)).limit(1).asScalaOption[SubmissionMessage]
           fresh = SubmissionMessages.fromDiscord(message)
           _ <- storedMessage match {
             case None =>
-              log.info(s"inserting new message [$fresh]")
-              messages.insertOne(fresh.assignIds.asBson).toFuture
+              log.warning(s"missing message that was edited [$fresh], rescheduling as new message")
+              self ! MessagePosted(message)
+              Future.successful()
             case Some(old) if old.updateTimestamp == fresh.updateTimestamp =>
               log.info(s"message was not edited since last write [$old]")
               Future.successful()
             case Some(old) =>
-              log.info(s"replacing outdated message with fresh one [$fresh]")
-              messages.replaceOne(Document("id" -> message.getId), old.update(fresh).asBson).toFuture
+              val updated = old.update(fresh)
+              log.info(s"replacing outdated message with fresh one [$updated]")
+              messages.replaceOne(Document("id" -> updated.id), updated.asBson).toFuture
           }
-        } yield ()).onComplete {
-          case Success(s) =>
-            log.info(s"message successfully updated [${message.getId}]")
-            self ! next
-          case Failure(NonFatal(up)) =>
-            log.error(up, s"failed to update message [${message.getId}]: $message")
-        }
+          _ = log.info(s"message updated [${message.getId}]")
+        } yield ()
 
-      case DoneUpdatingMessages =>
-        log.info("done updating messages")
+      case MessageDeleted(id) =>
+        for {
+          messages <- messagesFut
+          _ = log.info(s"deleting message [$id]")
+          _ <- messages.deleteOne(Document("id" -> id)).toFuture
+          _ = log.info(s"message deleted [$id]")
+        } yield ()
+    }
+
+    /** Locks the processing until underlying future is complete */
+    private def lock(partial: PartialFunction[Any, Future[Any]]): Receive = {
+      case command if partial.isDefinedAt(command) =>
+        context.become(rescheduleCommands())
+        partial.apply(command).onComplete {
+          case Success(a) =>
+            self ! Continue
+          case Failure(NonFatal(up)) =>
+            log.error(up, s"failed to process command [$command], continuing to next one")
+            self ! Continue
+        }
+      case undefined =>
+        log.warning(s"unknown command [$undefined], it will be skipped")
     }
 
     /** Ensures that collection exists in db */
     private def collection(name: String): Future[MongoCollection[Document]] = {
-      implicit val ec: ExecutionContext = dbExecutor
       for {
         names <- db.listCollectionNames().toFuture
         _ <- if (names.contains(name)) {
@@ -125,11 +158,8 @@ object processor {
   /** Starts the pac processing */
   object Startup
 
-  /** Requests to update the given discord message in db */
-  case class UpdateMessage(message: Message, next: Any)
-
-  /** Indicates that all messages were updated */
-  object DoneUpdatingMessages
+  /** Continues processing commands */
+  object Continue
 
   /** Requests to create the submission image thumbnail */
   case class CreateThumbnail(submission: Submission)
@@ -144,12 +174,13 @@ object processor {
   /** Describes the user message as part of the submission
     *
     * @param id              the discord message id
+    * @param author          the message author
     * @param createTimestamp the timestamp when message was first posted
     * @param updateTimestamp the timestamp when message was last updated
     * @param text            the cleaned up message text
     * @param images          all images attached or listed within the submission message
     */
-  case class SubmissionMessage(id: String, createTimestamp: Long, updateTimestamp: Long, text: String, images: List[SubmissionImage]) {
+  case class SubmissionMessage(id: String, author: User, createTimestamp: Long, updateTimestamp: Long, text: String, images: List[SubmissionImage]) {
     /** Assigns random uuids to message images */
     def assignIds: SubmissionMessage = copy(images = images.map(i => i.randomizeId))
 
@@ -182,6 +213,7 @@ object processor {
       val updateTimestamp = Option(message.getEditedTime).map(t => t.toInstant.toEpochMilli).getOrElse(createTimestamp)
       SubmissionMessage(
         id = message.getId,
+        author = User(message.getAuthor.getId, message.getAuthor.getName),
         createTimestamp = createTimestamp,
         updateTimestamp = updateTimestamp,
         text = text,
@@ -216,8 +248,9 @@ object processor {
   /** Describes the art challenge period */
   case class ArtChallenge(title: String, start: Long, end: Option[Long])
 
+  implicit val userFormat: MF[User] = format2(User)
   implicit val submissionImageFormat: MF[SubmissionImage] = format4(SubmissionImage)
-  implicit val submissionMessageFormat: MF[SubmissionMessage] = format5(SubmissionMessage)
+  implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)
   implicit val artChallengeFormat: MF[ArtChallenge] = format3(ArtChallenge)
 
   implicit class ObservableOps(val obs: Observable[Document]) extends AnyVal {

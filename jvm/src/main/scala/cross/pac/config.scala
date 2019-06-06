@@ -31,13 +31,15 @@ object config {
 
   /** Configures processor
     *
-    * @param mongo     the uri to connect to mongo db
-    * @param database  the name of the mongo database
-    * @param imagePool number of thread in pool that will process images
+    * @param mongo                the uri to connect to mongo db
+    * @param database             the name of the mongo database
+    * @param imagePool            number of thread in pool that will process images
+    * @param startupRefreshPeriod the history duration to update when appplication starts up
     */
   case class PacProcessorConfig(mongo: String,
                                 database: String,
-                                imagePool: Int)
+                                imagePool: Int,
+                                startupRefreshPeriod: FiniteDuration)
 
   val DefaultPacConfig = PacConfig(
     bot = PacBotConfig(
@@ -50,13 +52,14 @@ object config {
     processor = PacProcessorConfig(
       mongo = "mongodb://localhost:27017/",
       database = "pac",
-      imagePool = 2
+      imagePool = 2,
+      startupRefreshPeriod = 14.days
     )
   )
 
   implicit val reader: ConfigReader = JvmReader
   implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
-  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format3(PacProcessorConfig)
+  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format2(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
