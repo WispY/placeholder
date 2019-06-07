@@ -1,9 +1,12 @@
 package cross
 
+import cross.common._
 import cross.format._
 import org.mongodb.scala.bson._
+import org.mongodb.scala.{Document, MongoCollection, MongoDatabase}
 
 import scala.collection.JavaConverters._
+import scala.concurrent.{ExecutionContext, Future}
 
 object mongo {
 
@@ -157,10 +160,20 @@ object mongo {
   implicit val mongoOperationType: OperationType[Document] = { operations =>
     val bson = new BsonDocument()
     operations.foreach {
-      case BinaryOperation(path, Operations.Equals, value) =>
-        writePrimitive(path, bson, value)
-      case BinaryOperation(path, Operations.GreaterThan, value) =>
-        writePrimitive(path :+ FieldPathSegment("$gt"), bson, value)
+      case BinaryOperation(path, Operations.EqualTo, value) =>
+        writePrimitive(mergePath(path), bson, value)
+      case BinaryOperation(path, operation, value) =>
+        val operator = operation match {
+          case Operations.GreaterThan => "$gt"
+          case Operations.GreaterThanOrEqualTo => "$gte"
+          case Operations.LessThan => "$lt"
+          case Operations.LessThanOrEqualTo => "$lte"
+        }
+        writePrimitive(mergePath(path) :+ FieldPathSegment(operator), bson, value)
+      case UnaryOperation(path, Operations.SortAsc) =>
+        writePrimitive(mergePath(path), bson, 1)
+      case UnaryOperation(path, Operations.SortDesc) =>
+        writePrimitive(mergePath(path), bson, -1)
     }
     Document(bson)
   }
@@ -171,6 +184,91 @@ object mongo {
       stringFormat.append(path, v, bson)
     case v: Int =>
       intFormat.append(path, v, bson)
+    case v: Long =>
+      longFormat.append(path, v, bson)
+    case v: Boolean =>
+      booleanFormat.append(path, v, bson)
+  }
+
+  /** Merges path list into one field */
+  private def mergePath(path: Path): Path = {
+    val string = path
+      .flatMap {
+        case FieldPathSegment(field) => Some(field)
+        case ArrayPathSegment(-1) => None
+        case ArrayPathSegment(index) => Some(index.toString)
+      }
+      .mkString(".")
+    FieldPathSegment(string) :: Nil
+  }
+
+  implicit class MongoDatabaseOps(val db: MongoDatabase) extends AnyVal {
+    /** Ensures that collection with given name exists and wraps it into typed collection */
+    def ensureCollection[A <: AnyRef](tpe: CaseClassType[A], name: String)(implicit format: MF[A], ec: ExecutionContext): TypedMongoCollection[A] = {
+      val collection = for {
+        names <- db.listCollectionNames().toFuture
+        _ <- if (names.contains(name)) {
+          Future.successful()
+        } else {
+          db.createCollection(name).toFuture
+        }
+      } yield db.getCollection[Document](name)
+      new TypedMongoCollection[A](collection, tpe)
+    }
+  }
+
+  /** Types the collection using formatter */
+  class TypedMongoCollection[A <: AnyRef](delegate: Future[MongoCollection[Document]], cct: CaseClassType[A])(implicit format: MF[A], ec: ExecutionContext) {
+    type CCT = CaseClassType[A]
+    private val empty: CCT => Document = cct => Document()
+
+    /** Ensures that given indices exist */
+    def ensureIndices(code: CCT => List[Document]): Future[Unit] = for {
+      collection <- delegate
+      indices = code.apply(cct)
+      futures = indices.map(index => collection.createIndex(index).toFuture)
+      _ <- Future.sequence(futures)
+    } yield ()
+
+    /** Counts document in collection that match given query */
+    def countDocuments(query: CCT => Document = empty): Future[Long] = for {
+      collection <- delegate
+      count <- collection.countDocuments(query.apply(cct)).toFuture
+    } yield count
+
+    /** Finds documents that match given query */
+    def find(query: CCT => Document = empty, limit: Int = -1): Future[List[A]] = for {
+      collection <- delegate
+      documents <- collection
+        .find(query.apply(cct))
+        .chainIf(limit >= 0)(s => s.limit(limit))
+        .toFuture
+      entities = documents.map(d => d.asScala[A]).toList
+    } yield entities
+
+    /** Finds single document that match given query */
+    def findOne(query: CCT => Document = empty): Future[Option[A]] = for {
+      documents <- find(query, limit = 1)
+    } yield documents.headOption
+
+    /** Inserts given entity into the collection */
+    def insertOne(entity: A): Future[Unit] = for {
+      collection <- delegate
+      _ <- collection.insertOne(entity.asBson).toFuture
+    } yield ()
+
+    /** Replaces single document with given body */
+    def replaceOne(query: CCT => Document, replacement: A): Future[Unit] = for {
+      collection <- delegate
+      _ <- collection.replaceOne(query.apply(cct), replacement.asBson).toFuture
+    } yield ()
+
+    /** Deletes single document from the collection */
+    def deleteOne(query: CCT => Document = empty): Future[Unit] = for {
+      collection <- delegate
+      _ <- collection.deleteOne(query.apply(cct)).toFuture
+    } yield ()
+
   }
 
 }

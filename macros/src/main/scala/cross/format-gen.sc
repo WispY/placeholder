@@ -33,7 +33,17 @@ val macroFormats = (0 to count).map { size =>
   val args = (list :+ "Nil").mkString("::")
   s"  def macroFormat$size[A:c.WeakTypeTag,B:c.WeakTypeTag](c: blackbox.Context)(constructor: c.Tree)$params: c.Expr[AF[A,B]] = formatX(c)(constructor,$args)"
 }
-val output = inputBefore ++ formats ++ macroFormats ++ inputAfter
+val operationFormats = (0 to count).map { size =>
+  val list = (0 until size).map(i => "Nothing")
+  val args = list.mkString(",")
+  s"  def $$[A, B](constructor: ($args) => B)(operations: (B => Operation)*)(implicit converter: OperationType[A]): A = macro convertOperations[A]"
+}
+val typedOperationFormat = (0 to count).map { size =>
+  val list = (0 until size).map(i => "Nothing")
+  val args = list.mkString(",")
+  s"  def $$$$[A](constructor: ($args) => A): CaseClassType[A] = new CaseClassType[A] {}"
+}
+val output = inputBefore ++ formats ++ macroFormats ++ operationFormats ++ typedOperationFormat ++ inputAfter
 
 output.foreach(println)
 

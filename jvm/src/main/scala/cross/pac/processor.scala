@@ -5,12 +5,13 @@ import java.util.UUID
 import java.util.concurrent.Executors
 
 import akka.actor.{Actor, ActorLogging, ActorRef}
+import cross.common._
 import cross.format._
 import cross.mongo._
 import cross.pac.bot._
 import cross.pac.config.PacConfig
 import net.dv8tion.jda.core.entities.Message
-import org.mongodb.scala.{Document, MongoClient, MongoCollection, Observable}
+import org.mongodb.scala.{Document, MongoClient, Observable}
 
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
@@ -30,9 +31,9 @@ object processor {
     private val client = MongoClient(config.processor.mongo)
     private val db = client.getDatabase(config.processor.database)
 
-    private val submissionsFut = collection("pac.submissions")
-    private val messagesFut = collection("pac.messages")
-    private val challengesFur = collection("pac.challenges")
+    private val submissions = db.ensureCollection($$(Submission), "pac.submissions")
+    private val messages = db.ensureCollection($$(SubmissionMessage), "pac.messages")
+    private val challenges = db.ensureCollection($$(ArtChallenge), "pac.challenges")
 
     override def preStart(): Unit = {
       context.become(awaitCommands())
@@ -55,32 +56,32 @@ object processor {
     def awaitCommands(): Receive = lock {
       case Startup =>
         for {
-          _ <- Future.successful()
+          _ <- UnitFuture
           _ = log.info("starting up processor")
 
           _ = log.info("ensuring indices")
-          submissions <- submissionsFut
-          _ <- submissions.createIndex(Document("author.id" -> 1)).toFuture
-          _ <- submissions.createIndex(Document("author.name" -> 1)).toFuture
-          _ <- submissions.createIndex(Document("messages" -> 1)).toFuture
-          _ <- submissions.createIndex(Document("timestamp" -> 1)).toFuture
-
-          messages <- messagesFut
-          _ <- messages.createIndex(Document("id" -> 1, "updateTimestamp" -> 1)).toFuture
-          _ <- messages.createIndex(Document("images.id" -> 1)).toFuture
-
-          challenges <- challengesFur
-          _ <- challenges.createIndex(Document("start" -> 1)).toFuture()
-          _ <- challenges.createIndex(Document("end" -> 1)).toFuture()
+          _ <- submissions.ensureIndices($ => List(
+            $(_.author.id $asc),
+            $(_.author.name $asc),
+            $(_.messages $asc),
+            $(_.timestamp $asc),
+          ))
+          _ <- messages.ensureIndices($ => List(
+            $(_.id $asc, _.updateTimestamp $asc),
+            $(_.images.anyElement.id $asc)
+          ))
+          _ <- challenges.ensureIndices($ => List(
+            $(_.start $asc),
+            $(_.end $asc)
+          ))
 
           _ = log.info("checking if any messages are stored in db")
-          count <- messages.countDocuments().toFuture()
+          count <- messages.countDocuments()
           updateTimeOpt = if (count == 0L) None else Some(currentTimeMillis - config.processor.startupRefreshPeriod.toMillis)
           _ = log.info(s"reading messages state starting from [$updateTimeOpt]")
           history <- updateTimeOpt
-            .map(updateTime => messages.find(Document("createTimestamp" -> Document("$gt" -> updateTime))))
+            .map(updateTime => messages.find($ => $(_.createTimestamp $gt updateTime)))
             .getOrElse(messages.find())
-            .asScalaList[SubmissionMessage]
           timestamps = history.map(message => message.id -> message.updateTimestamp).toMap
           _ = log.info(s"updating messages starting from [$updateTimeOpt]")
           _ = bot ! UpdateHistory(updateTimeOpt, timestamps)
@@ -88,40 +89,40 @@ object processor {
 
       case MessagePosted(message) =>
         for {
-          messages <- messagesFut
+          _ <- UnitFuture
           converted = SubmissionMessages.fromDiscord(message).assignIds
           _ = log.info(s"inserting new message [$converted]")
-          _ <- messages.insertOne(converted.asBson).toFuture
+          _ <- messages.insertOne(converted)
           _ = log.info(s"message inserted [${message.getId}]")
         } yield ()
 
       case MessageEdited(message) =>
         for {
-          messages <- messagesFut
+          _ <- UnitFuture
           _ = log.info(s"updating message [${message.getId}]")
-          storedMessage <- messages.find(Document("id" -> message.getId)).limit(1).asScalaOption[SubmissionMessage]
+          storedMessage <- messages.findOne($ => $(_.id $eq message.getId))
           fresh = SubmissionMessages.fromDiscord(message)
           _ <- storedMessage match {
             case None =>
               log.warning(s"missing message that was edited [$fresh], rescheduling as new message")
               self ! MessagePosted(message)
-              Future.successful()
+              UnitFuture
             case Some(old) if old.updateTimestamp == fresh.updateTimestamp =>
               log.info(s"message was not edited since last write [$old]")
-              Future.successful()
+              UnitFuture
             case Some(old) =>
               val updated = old.update(fresh)
               log.info(s"replacing outdated message with fresh one [$updated]")
-              messages.replaceOne(Document("id" -> updated.id), updated.asBson).toFuture
+              messages.replaceOne($ => $(_.id $eq updated.id), updated)
           }
           _ = log.info(s"message updated [${message.getId}]")
         } yield ()
 
       case MessageDeleted(id) =>
         for {
-          messages <- messagesFut
+          _ <- UnitFuture
           _ = log.info(s"deleting message [$id]")
-          _ <- messages.deleteOne(Document("id" -> id)).toFuture
+          _ <- messages.deleteOne($ => $(_.id $eq id))
           _ = log.info(s"message deleted [$id]")
         } yield ()
     }
@@ -140,26 +141,13 @@ object processor {
       case undefined =>
         log.warning(s"unknown command [$undefined], it will be skipped")
     }
-
-    /** Ensures that collection exists in db */
-    private def collection(name: String): Future[MongoCollection[Document]] = {
-      for {
-        names <- db.listCollectionNames().toFuture
-        _ <- if (names.contains(name)) {
-          Future.successful()
-        } else {
-          db.createCollection(name).toFuture
-        }
-        ref = db.getCollection[Document](name)
-      } yield ref
-    }
   }
 
   /** Starts the pac processing */
-  object Startup
+  private object Startup
 
   /** Continues processing commands */
-  object Continue
+  private object Continue
 
   /** Requests to create the submission image thumbnail */
   case class CreateThumbnail(submission: Submission)
@@ -249,6 +237,7 @@ object processor {
   case class ArtChallenge(title: String, start: Long, end: Option[Long])
 
   implicit val userFormat: MF[User] = format2(User)
+  implicit val submissionFormat: MF[Submission] = format3(Submission)
   implicit val submissionImageFormat: MF[SubmissionImage] = format4(SubmissionImage)
   implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)
   implicit val artChallengeFormat: MF[ArtChallenge] = format3(ArtChallenge)

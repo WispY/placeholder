@@ -9,12 +9,18 @@ import scala.util.Random
 
 object common {
 
+  /** Returns the empty future to start for comprehensions */
+  val UnitFuture: Future[Unit] = Future.successful()
+
   /** Returns random uuid */
   def uuid: String = UUID.randomUUID().toString
 
   implicit class AnyOps[A](val a: A) extends AnyVal {
     /** Chains the execution to the given code block */
     def chain[B](code: A => B): B = code.apply(a)
+
+    /** Chains the execution if condition is true */
+    def chainIf(condition: Boolean)(code: A => A): A = if (condition) code.apply(a) else a
 
     /** Executes the given code and returns the initial unmodified value */
     def validate(code: A => Unit): A = {

@@ -16,12 +16,10 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
 
   case class Person(name: String, age: Int)
 
-  val QPerson: Person = null
-
   "mongo" can {
     "write and read person" in {
       implicit val personFormat: MF[Person] = format2(Person)
-      check(Person("John", 43))
+      check(Person("John", 42))
     }
 
     "write and read lists and options" in {
@@ -30,7 +28,7 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
       implicit val collectionsFormat: MF[Collections] = format4(Collections)
       check(Collections(
         strings = "foo" :: "bar" :: "baz" :: Nil,
-        people = Person("John", 43) :: Person("Jeremy", 34) :: Nil,
+        people = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
         intOpt = Some(42),
         personOpt = Some(Person("Mary", 75))
       ))
@@ -44,17 +42,84 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
 
     "search for person by equals" in {
       implicit val personFormat: MF[Person] = format2(Person)
-
       search(
-        data = Person("John", 43) :: Person("Jeremy", 34) :: Nil,
+        data = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
         query = $(Person)(_.name $eq "John")
-      ) shouldBe (Person("John", 43) :: Nil)
+      ) shouldBe (Person("John", 42) :: Nil)
 
       search(
-        data = Person("John", 43) :: Person("Mary", 43) :: Person("Jeremy", 34) :: Nil,
+        data = Person("John", 42) :: Person("Mary", 42) :: Person("Jeremy", 34) :: Nil,
         query = $(Person)(_.age $eq 42),
         sort = $(Person)(_.name $asc, _.age $asc)
-      ) shouldBe (Person("John", 43) :: Person("Mary", 43) :: Nil)
+      ) shouldBe (Person("John", 42) :: Person("Mary", 42) :: Nil)
+    }
+
+    "search for person by greater and less than" in {
+      implicit val personFormat: MF[Person] = format2(Person)
+      val john42 = Person("John", 42)
+      val jeremy34 = Person("Jeremy", 34)
+      val data = john42 :: jeremy34 :: Nil
+
+      search(
+        data = data,
+        query = $(Person)(_.age $gt 42)
+      ) shouldBe Nil
+
+      search(
+        data = data,
+        query = $(Person)(_.age $gt 34)
+      ) shouldBe (john42 :: Nil)
+
+      search(
+        data = data,
+        query = $(Person)(_.age $gt 10),
+        sort = $(Person)(_.age $asc)
+      ) shouldBe (jeremy34 :: john42 :: Nil)
+
+      search(
+        data = data,
+        query = $(Person)(_.age $lt 34)
+      ) shouldBe Nil
+
+      search(
+        data = data,
+        query = $(Person)(_.age $lt 42)
+      ) shouldBe (jeremy34 :: Nil)
+
+      search(
+        data = data,
+        query = $(Person)(_.age $lt 50),
+        sort = $(Person)(_.age $desc)
+      ) shouldBe (john42 :: jeremy34 :: Nil)
+    }
+
+    "search person holder by embedded field" in {
+      case class PersonHolder(person: Person)
+      implicit val personFormat: MF[Person] = format2(Person)
+      implicit val personHolderFormat: MF[PersonHolder] = format1(PersonHolder)
+      search(
+        data = PersonHolder(Person("John", 42)) :: PersonHolder(Person("Jeremy", 42)) :: Nil,
+        query = $(PersonHolder)(_.person.name $eq "John")
+      ) shouldBe (PersonHolder(Person("John", 42)) :: Nil)
+    }
+
+    "search using typed case class" in {
+      implicit val personFormat: MF[Person] = format2(Person)
+      val typed = $$(Person)
+      search(
+        data = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
+        query = typed(_.name $eq "John")
+      ) shouldBe (Person("John", 42) :: Nil)
+    }
+
+    "search for list elements" in {
+      case class PeopleHolder(people: List[Person])
+      implicit val personFormat: MF[Person] = format2(Person)
+      implicit val peopleHolderFormat: MF[PeopleHolder] = format1(PeopleHolder)
+      search(
+        data = PeopleHolder(Person("John", 42) :: Person("Jeremy", 42) :: Nil) :: PeopleHolder(Person("Mary", 42) :: Person("Jeremy", 42) :: Nil) :: Nil,
+        query = $(PeopleHolder)(_.people.anyElement.name $eq "John")
+      ) shouldBe (PeopleHolder(Person("John", 42) :: Person("Jeremy", 42) :: Nil) :: Nil)
     }
   }
 
