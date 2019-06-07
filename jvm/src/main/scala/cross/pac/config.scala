@@ -1,5 +1,6 @@
 package cross.pac
 
+import cross.common._
 import cross.config._
 import cross.format._
 
@@ -13,7 +14,7 @@ object config {
     * @param bot       the configuration for pac discord bot
     * @param processor the configuration for pac processor
     */
-  case class PacConfig(bot: PacBotConfig, processor: PacProcessorConfig)
+  case class PacConfig(bot: PacBotConfig, processor: PacProcessorConfig, thumbnailer: PacThumbnailerConfig)
 
   /** Configures discord bot
     *
@@ -33,13 +34,21 @@ object config {
     *
     * @param mongo                the uri to connect to mongo db
     * @param database             the name of the mongo database
-    * @param imagePool            number of thread in pool that will process images
     * @param startupRefreshPeriod the history duration to update when appplication starts up
     */
   case class PacProcessorConfig(mongo: String,
                                 database: String,
-                                imagePool: Int,
                                 startupRefreshPeriod: FiniteDuration)
+
+  /** Configures image processor
+    *
+    * @param imgurClient   the client id of the imgur application
+    * @param imagePool     number of thread in pool that will process images
+    * @param thumbnailSize the maximum size of the thumbnail
+    */
+  case class PacThumbnailerConfig(imgurClient: String,
+                                  imagePool: Int,
+                                  thumbnailSize: Vec2i)
 
   val DefaultPacConfig = PacConfig(
     bot = PacBotConfig(
@@ -52,15 +61,21 @@ object config {
     processor = PacProcessorConfig(
       mongo = "mongodb://localhost:27017/",
       database = "pac",
-      imagePool = 2,
       startupRefreshPeriod = 14.days
+    ),
+    thumbnailer = PacThumbnailerConfig(
+      imgurClient = "changeme",
+      imagePool = 2,
+      thumbnailSize = 400 xy 1000
     )
   )
 
   implicit val reader: ConfigReader = JvmReader
+  implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
   implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
-  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
-  implicit val pacConfigFormat: CF[PacConfig] = format2(PacConfig)
+  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format3(PacProcessorConfig)
+  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format3(PacThumbnailerConfig)
+  implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
 

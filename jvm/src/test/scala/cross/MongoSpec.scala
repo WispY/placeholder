@@ -16,19 +16,23 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
 
   case class Person(name: String, age: Int)
 
+  implicit val personFormat: MF[Person] = format2(Person)
+  val john42 = Person("John", 42)
+  val jeremy34 = Person("Jeremy", 34)
+  val mary42 = Person("Mary", 42)
+  val data: List[Person] = john42 :: jeremy34 :: Nil
+
   "mongo" can {
     "write and read person" in {
-      implicit val personFormat: MF[Person] = format2(Person)
-      check(Person("John", 42))
+      check(john42)
     }
 
     "write and read lists and options" in {
       case class Collections(strings: List[String], people: List[Person], intOpt: Option[Int], personOpt: Option[Person])
-      implicit val personFormat: MF[Person] = format2(Person)
       implicit val collectionsFormat: MF[Collections] = format4(Collections)
       check(Collections(
         strings = "foo" :: "bar" :: "baz" :: Nil,
-        people = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
+        people = data,
         intOpt = Some(42),
         personOpt = Some(Person("Mary", 75))
       ))
@@ -41,25 +45,24 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
     }
 
     "search for person by equals" in {
-      implicit val personFormat: MF[Person] = format2(Person)
       search(
-        data = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
+        data = data,
         query = $(Person)(_.name $eq "John")
-      ) shouldBe (Person("John", 42) :: Nil)
+      ) shouldBe (john42 :: Nil)
 
       search(
-        data = Person("John", 42) :: Person("Mary", 42) :: Person("Jeremy", 34) :: Nil,
+        data = john42 :: mary42 :: jeremy34 :: Nil,
         query = $(Person)(_.age $eq 42),
         sort = $(Person)(_.name $asc, _.age $asc)
-      ) shouldBe (Person("John", 42) :: Person("Mary", 42) :: Nil)
+      ) shouldBe (john42 :: mary42 :: Nil)
+
+      search(
+        data = data,
+        query = $(Person)(_.name $neq "John")
+      ) shouldBe (jeremy34 :: Nil)
     }
 
-    "search for person by greater and less than" in {
-      implicit val personFormat: MF[Person] = format2(Person)
-      val john42 = Person("John", 42)
-      val jeremy34 = Person("Jeremy", 34)
-      val data = john42 :: jeremy34 :: Nil
-
+    "search for person by various filters" in {
       search(
         data = data,
         query = $(Person)(_.age $gt 42)
@@ -90,36 +93,45 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
         data = data,
         query = $(Person)(_.age $lt 50),
         sort = $(Person)(_.age $desc)
-      ) shouldBe (john42 :: jeremy34 :: Nil)
+      ) shouldBe data
+
+      search(
+        data = data,
+        query = $(Person)(_.age $in List(10, 34)),
+        sort = $(Person)(_.age $desc)
+      ) shouldBe (jeremy34 :: Nil)
+
+      search(
+        data = data,
+        query = $(Person)(_.age $in List(42, 34)),
+        sort = $(Person)(_.age $desc)
+      ) shouldBe data
     }
 
     "search person holder by embedded field" in {
       case class PersonHolder(person: Person)
-      implicit val personFormat: MF[Person] = format2(Person)
       implicit val personHolderFormat: MF[PersonHolder] = format1(PersonHolder)
       search(
-        data = PersonHolder(Person("John", 42)) :: PersonHolder(Person("Jeremy", 42)) :: Nil,
+        data = PersonHolder(john42) :: Nil,
         query = $(PersonHolder)(_.person.name $eq "John")
-      ) shouldBe (PersonHolder(Person("John", 42)) :: Nil)
+      ) shouldBe (PersonHolder(john42) :: Nil)
     }
 
     "search using typed case class" in {
-      implicit val personFormat: MF[Person] = format2(Person)
       val typed = $$(Person)
       search(
-        data = Person("John", 42) :: Person("Jeremy", 34) :: Nil,
+        data = data,
         query = typed(_.name $eq "John")
-      ) shouldBe (Person("John", 42) :: Nil)
+      ) shouldBe (john42 :: Nil)
     }
 
     "search for list elements" in {
       case class PeopleHolder(people: List[Person])
-      implicit val personFormat: MF[Person] = format2(Person)
       implicit val peopleHolderFormat: MF[PeopleHolder] = format1(PeopleHolder)
       search(
-        data = PeopleHolder(Person("John", 42) :: Person("Jeremy", 42) :: Nil) :: PeopleHolder(Person("Mary", 42) :: Person("Jeremy", 42) :: Nil) :: Nil,
+        data = PeopleHolder(john42 :: jeremy34 :: Nil) :: PeopleHolder(mary42 :: jeremy34 :: Nil) :: Nil,
         query = $(PeopleHolder)(_.people.anyElement.name $eq "John")
-      ) shouldBe (PeopleHolder(Person("John", 42) :: Person("Jeremy", 42) :: Nil) :: Nil)
+      ) shouldBe (PeopleHolder(john42 :: jeremy34 :: Nil) :: Nil)
     }
   }
 

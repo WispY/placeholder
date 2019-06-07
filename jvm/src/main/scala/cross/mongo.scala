@@ -164,10 +164,12 @@ object mongo {
         writePrimitive(mergePath(path), bson, value)
       case BinaryOperation(path, operation, value) =>
         val operator = operation match {
+          case Operations.NotEqualTo => "$ne"
           case Operations.GreaterThan => "$gt"
           case Operations.GreaterThanOrEqualTo => "$gte"
           case Operations.LessThan => "$lt"
           case Operations.LessThanOrEqualTo => "$lte"
+          case Operations.In => "$in"
         }
         writePrimitive(mergePath(path) :+ FieldPathSegment(operator), bson, value)
       case UnaryOperation(path, Operations.SortAsc) =>
@@ -188,6 +190,8 @@ object mongo {
       longFormat.append(path, v, bson)
     case v: Boolean =>
       booleanFormat.append(path, v, bson)
+    case vs: List[_] =>
+      vs.zipWithIndex.foreach { case (v, index) => writePrimitive(path :+ ArrayPathSegment(index), bson, v) }
   }
 
   /** Merges path list into one field */
@@ -237,18 +241,20 @@ object mongo {
     } yield count
 
     /** Finds documents that match given query */
-    def find(query: CCT => Document = empty, limit: Int = -1): Future[List[A]] = for {
+    def find(query: CCT => Document = empty, sort: CCT => Document = empty, limit: Int = -1): Future[List[A]] = for {
       collection <- delegate
+      sortDocument = sort.apply(cct)
       documents <- collection
         .find(query.apply(cct))
         .chainIf(limit >= 0)(s => s.limit(limit))
+        .chainIf(sortDocument.nonEmpty)(s => s.sort(sortDocument))
         .toFuture
       entities = documents.map(d => d.asScala[A]).toList
     } yield entities
 
     /** Finds single document that match given query */
-    def findOne(query: CCT => Document = empty): Future[Option[A]] = for {
-      documents <- find(query, limit = 1)
+    def findOne(query: CCT => Document = empty, sort: CCT => Document = empty): Future[Option[A]] = for {
+      documents <- find(query, sort = sort, limit = 1)
     } yield documents.headOption
 
     /** Inserts given entity into the collection */
@@ -261,6 +267,12 @@ object mongo {
     def replaceOne(query: CCT => Document, replacement: A): Future[Unit] = for {
       collection <- delegate
       _ <- collection.replaceOne(query.apply(cct), replacement.asBson).toFuture
+    } yield ()
+
+    /** Deletes multiple documents from the collection */
+    def deleteMany(query: CCT => Document = empty): Future[Unit] = for {
+      collection <- delegate
+      _ <- collection.deleteMany(query.apply(cct)).toFuture
     } yield ()
 
     /** Deletes single document from the collection */

@@ -3,7 +3,7 @@ import java.nio.file.Files
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import java.time.{ZoneId, ZonedDateTime}
 
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
 import scala.sys.process._
 import scala.util.Try
@@ -44,11 +44,18 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.5.22",
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22",
+    libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8",
+    // spray
+    libraryDependencies += "io.spray" %% "spray-json" % "1.3.5",
     // discord client
     libraryDependencies += "net.dv8tion" % "JDA" % "3.8.3_463",
     // mongo
     libraryDependencies += "org.mongodb.scala" %% "mongo-scala-driver" % "2.6.0",
     libraryDependencies += "com.github.simplyscala" %% "scalatest-embedmongo" % "0.2.4" % Test,
+    // text processing
+    libraryDependencies += "com.vdurmont" % "emoji-java" % "4.0.0",
+    // image processing
+    libraryDependencies += "net.coobird" % "thumbnailator" % "0.4.8",
     // akka
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.22" % Test,

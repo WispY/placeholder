@@ -1799,39 +1799,237 @@ $h_Lcross_asset_tree$.prototype = $c_Lcross_asset_tree$.prototype;
 $c_Lcross_asset_tree$.prototype.init___ = (function() {
   $n_Lcross_asset_tree$ = this;
   $m_sci_List$();
-  var jsx$431 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/0L+0-1.png"), 0, 0, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(15, 29), new $c_Lcross_common$Vec2i().init___I__I(10, 2), $m_sci_Nil$());
-  var jsx$430 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/0R+0-1.png"), 0, 0, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(21, 2), $m_sci_Nil$());
-  var jsx$429 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/0S+0-1.png"), 0, 0, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(16, 2), $m_sci_Nil$());
-  var jsx$428 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1L+0-1.png"), 1, 0, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(14, 29), new $c_Lcross_common$Vec2i().init___I__I(10, 2), $m_sci_Nil$());
-  var jsx$427 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1L+1-1.png"), 1, 1, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(13, 28), new $c_Lcross_common$Vec2i().init___I__I(21, 2), $m_sci_Nil$());
-  var jsx$426 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1L-1-1.png"), 1, (-1), $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(21, 27), new $c_Lcross_common$Vec2i().init___I__I(5, 4), $m_sci_Nil$());
-  var jsx$425 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1R+0-1.png"), 1, 0, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(17, 29), new $c_Lcross_common$Vec2i().init___I__I(21, 2), $m_sci_Nil$());
-  var jsx$424 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1R+1-1.png"), 1, 1, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(11, 27), new $c_Lcross_common$Vec2i().init___I__I(26, 4), $m_sci_Nil$());
-  var jsx$423 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1R-1-1.png"), 1, (-1), $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(18, 28), new $c_Lcross_common$Vec2i().init___I__I(10, 2), $m_sci_Nil$());
-  var jsx$422 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1S+0-1.png"), 1, 0, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(16, 2), $m_sci_Nil$());
-  var jsx$421 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1S+1-1.png"), 1, 1, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(9, 28), new $c_Lcross_common$Vec2i().init___I__I(21, 3), $m_sci_Nil$());
-  var jsx$420 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/1S-1-1.png"), 1, (-1), $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(22, 28), new $c_Lcross_common$Vec2i().init___I__I(10, 3), $m_sci_Nil$());
-  var jsx$419 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2L+0-1.png"), 2, 0, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(9, 2), $m_sci_Nil$());
-  var jsx$418 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2L+1-1.png"), 2, 1, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(12, 29), new $c_Lcross_common$Vec2i().init___I__I(19, 2), $m_sci_Nil$());
-  var jsx$417 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2L+2-1.png"), 2, 2, $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(9, 28), new $c_Lcross_common$Vec2i().init___I__I(24, 4), $m_sci_Nil$());
-  var jsx$416 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2L-1-1.png"), 2, (-1), $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(22, 28), new $c_Lcross_common$Vec2i().init___I__I(6, 7), $m_sci_Nil$());
-  var jsx$415 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2L-2-1.png"), 2, (-2), $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(27, 23), new $c_Lcross_common$Vec2i().init___I__I(4, 9), $m_sci_Nil$());
-  var jsx$414 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2R+0-1.png"), 2, 0, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(15, 29), new $c_Lcross_common$Vec2i().init___I__I(21, 2), $m_sci_Nil$());
-  var jsx$413 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2R+1-1.png"), 2, 1, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(8, 28), new $c_Lcross_common$Vec2i().init___I__I(25, 7), $m_sci_Nil$());
-  var jsx$412 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2R+2-1.png"), 2, 2, $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(4, 23), new $c_Lcross_common$Vec2i().init___I__I(27, 9), $m_sci_Nil$());
-  var jsx$411 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2R-1-1.png"), 2, (-1), $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(19, 29), new $c_Lcross_common$Vec2i().init___I__I(12, 2), $m_sci_Nil$());
-  var jsx$410 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2R-2-1.png"), 2, (-2), $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2, new $c_Lcross_common$Vec2i().init___I__I(22, 28), new $c_Lcross_common$Vec2i().init___I__I(7, 4), $m_sci_Nil$());
-  var jsx$409 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2S+0-1.png"), 2, 0, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(17, 2), $m_sci_Nil$());
-  var jsx$408 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2S+1-1.png"), 2, 1, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(9, 27), new $c_Lcross_common$Vec2i().init___I__I(21, 4), $m_sci_Nil$());
-  var jsx$407 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2S+2-1.png"), 2, 2, $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(6, 24), new $c_Lcross_common$Vec2i().init___I__I(24, 6), $m_sci_Nil$());
-  var jsx$406 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2S-1-1.png"), 2, (-1), $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(22, 27), new $c_Lcross_common$Vec2i().init___I__I(10, 4), $m_sci_Nil$());
-  var jsx$405 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(new $c_Lcross_mvc$Asset().init___T("/image/2S-2-1.png"), 2, (-2), $m_Lcross_mvc$TreeVariations$().Straight$2, new $c_Lcross_common$Vec2i().init___I__I(25, 24), new $c_Lcross_common$Vec2i().init___I__I(6, 6), $m_sci_Nil$());
-  var jsx$404 = new $c_Lcross_mvc$Asset().init___T("/image/3L+0-1.png");
-  var jsx$403 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$402 = new $c_Lcross_common$Vec2i().init___I__I(17, 29);
-  var jsx$401 = new $c_Lcross_common$Vec2i().init___I__I(13, 2);
+  var jsx$701 = new $c_Lcross_mvc$Asset().init___T("/image/0L+0-1.png");
+  var jsx$700 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this = 15;
+  var jsx$699 = new $c_Lcross_common$Vec2i().init___I__I($$this, 29);
+  $m_Lcross_common$();
+  var $$this$1 = 10;
+  var jsx$698 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$701, 0, 0, jsx$700, jsx$699, new $c_Lcross_common$Vec2i().init___I__I($$this$1, 2), $m_sci_Nil$());
+  var jsx$697 = new $c_Lcross_mvc$Asset().init___T("/image/0R+0-1.png");
+  var jsx$696 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$2 = 16;
+  var jsx$695 = new $c_Lcross_common$Vec2i().init___I__I($$this$2, 29);
+  $m_Lcross_common$();
+  var $$this$3 = 21;
+  var jsx$694 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$697, 0, 0, jsx$696, jsx$695, new $c_Lcross_common$Vec2i().init___I__I($$this$3, 2), $m_sci_Nil$());
+  var jsx$693 = new $c_Lcross_mvc$Asset().init___T("/image/0S+0-1.png");
+  var jsx$692 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$4 = 16;
+  var jsx$691 = new $c_Lcross_common$Vec2i().init___I__I($$this$4, 29);
+  $m_Lcross_common$();
+  var $$this$5 = 16;
+  var jsx$690 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$693, 0, 0, jsx$692, jsx$691, new $c_Lcross_common$Vec2i().init___I__I($$this$5, 2), $m_sci_Nil$());
+  var jsx$689 = new $c_Lcross_mvc$Asset().init___T("/image/1L+0-1.png");
+  var jsx$688 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$6 = 14;
+  var jsx$687 = new $c_Lcross_common$Vec2i().init___I__I($$this$6, 29);
+  $m_Lcross_common$();
+  var $$this$7 = 10;
+  var jsx$686 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$689, 1, 0, jsx$688, jsx$687, new $c_Lcross_common$Vec2i().init___I__I($$this$7, 2), $m_sci_Nil$());
+  var jsx$685 = new $c_Lcross_mvc$Asset().init___T("/image/1L+1-1.png");
+  var jsx$684 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$8 = 13;
+  var jsx$683 = new $c_Lcross_common$Vec2i().init___I__I($$this$8, 28);
+  $m_Lcross_common$();
+  var $$this$9 = 21;
+  var jsx$682 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$685, 1, 1, jsx$684, jsx$683, new $c_Lcross_common$Vec2i().init___I__I($$this$9, 2), $m_sci_Nil$());
+  var jsx$681 = new $c_Lcross_mvc$Asset().init___T("/image/1L-1-1.png");
+  var jsx$680 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$10 = 21;
+  var jsx$679 = new $c_Lcross_common$Vec2i().init___I__I($$this$10, 27);
+  $m_Lcross_common$();
+  var $$this$11 = 5;
+  var jsx$678 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$681, 1, (-1), jsx$680, jsx$679, new $c_Lcross_common$Vec2i().init___I__I($$this$11, 4), $m_sci_Nil$());
+  var jsx$677 = new $c_Lcross_mvc$Asset().init___T("/image/1R+0-1.png");
+  var jsx$676 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$12 = 17;
+  var jsx$675 = new $c_Lcross_common$Vec2i().init___I__I($$this$12, 29);
+  $m_Lcross_common$();
+  var $$this$13 = 21;
+  var jsx$674 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$677, 1, 0, jsx$676, jsx$675, new $c_Lcross_common$Vec2i().init___I__I($$this$13, 2), $m_sci_Nil$());
+  var jsx$673 = new $c_Lcross_mvc$Asset().init___T("/image/1R+1-1.png");
+  var jsx$672 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$14 = 11;
+  var jsx$671 = new $c_Lcross_common$Vec2i().init___I__I($$this$14, 27);
+  $m_Lcross_common$();
+  var $$this$15 = 26;
+  var jsx$670 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$673, 1, 1, jsx$672, jsx$671, new $c_Lcross_common$Vec2i().init___I__I($$this$15, 4), $m_sci_Nil$());
+  var jsx$669 = new $c_Lcross_mvc$Asset().init___T("/image/1R-1-1.png");
+  var jsx$668 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$16 = 18;
+  var jsx$667 = new $c_Lcross_common$Vec2i().init___I__I($$this$16, 28);
+  $m_Lcross_common$();
+  var $$this$17 = 10;
+  var jsx$666 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$669, 1, (-1), jsx$668, jsx$667, new $c_Lcross_common$Vec2i().init___I__I($$this$17, 2), $m_sci_Nil$());
+  var jsx$665 = new $c_Lcross_mvc$Asset().init___T("/image/1S+0-1.png");
+  var jsx$664 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$18 = 16;
+  var jsx$663 = new $c_Lcross_common$Vec2i().init___I__I($$this$18, 29);
+  $m_Lcross_common$();
+  var $$this$19 = 16;
+  var jsx$662 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$665, 1, 0, jsx$664, jsx$663, new $c_Lcross_common$Vec2i().init___I__I($$this$19, 2), $m_sci_Nil$());
+  var jsx$661 = new $c_Lcross_mvc$Asset().init___T("/image/1S+1-1.png");
+  var jsx$660 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$20 = 9;
+  var jsx$659 = new $c_Lcross_common$Vec2i().init___I__I($$this$20, 28);
+  $m_Lcross_common$();
+  var $$this$21 = 21;
+  var jsx$658 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$661, 1, 1, jsx$660, jsx$659, new $c_Lcross_common$Vec2i().init___I__I($$this$21, 3), $m_sci_Nil$());
+  var jsx$657 = new $c_Lcross_mvc$Asset().init___T("/image/1S-1-1.png");
+  var jsx$656 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$22 = 22;
+  var jsx$655 = new $c_Lcross_common$Vec2i().init___I__I($$this$22, 28);
+  $m_Lcross_common$();
+  var $$this$23 = 10;
+  var jsx$654 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$657, 1, (-1), jsx$656, jsx$655, new $c_Lcross_common$Vec2i().init___I__I($$this$23, 3), $m_sci_Nil$());
+  var jsx$653 = new $c_Lcross_mvc$Asset().init___T("/image/2L+0-1.png");
+  var jsx$652 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$24 = 16;
+  var jsx$651 = new $c_Lcross_common$Vec2i().init___I__I($$this$24, 29);
+  $m_Lcross_common$();
+  var $$this$25 = 9;
+  var jsx$650 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$653, 2, 0, jsx$652, jsx$651, new $c_Lcross_common$Vec2i().init___I__I($$this$25, 2), $m_sci_Nil$());
+  var jsx$649 = new $c_Lcross_mvc$Asset().init___T("/image/2L+1-1.png");
+  var jsx$648 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$26 = 12;
+  var jsx$647 = new $c_Lcross_common$Vec2i().init___I__I($$this$26, 29);
+  $m_Lcross_common$();
+  var $$this$27 = 19;
+  var jsx$646 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$649, 2, 1, jsx$648, jsx$647, new $c_Lcross_common$Vec2i().init___I__I($$this$27, 2), $m_sci_Nil$());
+  var jsx$645 = new $c_Lcross_mvc$Asset().init___T("/image/2L+2-1.png");
+  var jsx$644 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$28 = 9;
+  var jsx$643 = new $c_Lcross_common$Vec2i().init___I__I($$this$28, 28);
+  $m_Lcross_common$();
+  var $$this$29 = 24;
+  var jsx$642 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$645, 2, 2, jsx$644, jsx$643, new $c_Lcross_common$Vec2i().init___I__I($$this$29, 4), $m_sci_Nil$());
+  var jsx$641 = new $c_Lcross_mvc$Asset().init___T("/image/2L-1-1.png");
+  var jsx$640 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$30 = 22;
+  var jsx$639 = new $c_Lcross_common$Vec2i().init___I__I($$this$30, 28);
+  $m_Lcross_common$();
+  var $$this$31 = 6;
+  var jsx$638 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$641, 2, (-1), jsx$640, jsx$639, new $c_Lcross_common$Vec2i().init___I__I($$this$31, 7), $m_sci_Nil$());
+  var jsx$637 = new $c_Lcross_mvc$Asset().init___T("/image/2L-2-1.png");
+  var jsx$636 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$32 = 27;
+  var jsx$635 = new $c_Lcross_common$Vec2i().init___I__I($$this$32, 23);
+  $m_Lcross_common$();
+  var $$this$33 = 4;
+  var jsx$634 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$637, 2, (-2), jsx$636, jsx$635, new $c_Lcross_common$Vec2i().init___I__I($$this$33, 9), $m_sci_Nil$());
+  var jsx$633 = new $c_Lcross_mvc$Asset().init___T("/image/2R+0-1.png");
+  var jsx$632 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$34 = 15;
+  var jsx$631 = new $c_Lcross_common$Vec2i().init___I__I($$this$34, 29);
+  $m_Lcross_common$();
+  var $$this$35 = 21;
+  var jsx$630 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$633, 2, 0, jsx$632, jsx$631, new $c_Lcross_common$Vec2i().init___I__I($$this$35, 2), $m_sci_Nil$());
+  var jsx$629 = new $c_Lcross_mvc$Asset().init___T("/image/2R+1-1.png");
+  var jsx$628 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$36 = 8;
+  var jsx$627 = new $c_Lcross_common$Vec2i().init___I__I($$this$36, 28);
+  $m_Lcross_common$();
+  var $$this$37 = 25;
+  var jsx$626 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$629, 2, 1, jsx$628, jsx$627, new $c_Lcross_common$Vec2i().init___I__I($$this$37, 7), $m_sci_Nil$());
+  var jsx$625 = new $c_Lcross_mvc$Asset().init___T("/image/2R+2-1.png");
+  var jsx$624 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$38 = 4;
+  var jsx$623 = new $c_Lcross_common$Vec2i().init___I__I($$this$38, 23);
+  $m_Lcross_common$();
+  var $$this$39 = 27;
+  var jsx$622 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$625, 2, 2, jsx$624, jsx$623, new $c_Lcross_common$Vec2i().init___I__I($$this$39, 9), $m_sci_Nil$());
+  var jsx$621 = new $c_Lcross_mvc$Asset().init___T("/image/2R-1-1.png");
+  var jsx$620 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$40 = 19;
+  var jsx$619 = new $c_Lcross_common$Vec2i().init___I__I($$this$40, 29);
+  $m_Lcross_common$();
+  var $$this$41 = 12;
+  var jsx$618 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$621, 2, (-1), jsx$620, jsx$619, new $c_Lcross_common$Vec2i().init___I__I($$this$41, 2), $m_sci_Nil$());
+  var jsx$617 = new $c_Lcross_mvc$Asset().init___T("/image/2R-2-1.png");
+  var jsx$616 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$42 = 22;
+  var jsx$615 = new $c_Lcross_common$Vec2i().init___I__I($$this$42, 28);
+  $m_Lcross_common$();
+  var $$this$43 = 7;
+  var jsx$614 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$617, 2, (-2), jsx$616, jsx$615, new $c_Lcross_common$Vec2i().init___I__I($$this$43, 4), $m_sci_Nil$());
+  var jsx$613 = new $c_Lcross_mvc$Asset().init___T("/image/2S+0-1.png");
+  var jsx$612 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$44 = 16;
+  var jsx$611 = new $c_Lcross_common$Vec2i().init___I__I($$this$44, 29);
+  $m_Lcross_common$();
+  var $$this$45 = 17;
+  var jsx$610 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$613, 2, 0, jsx$612, jsx$611, new $c_Lcross_common$Vec2i().init___I__I($$this$45, 2), $m_sci_Nil$());
+  var jsx$609 = new $c_Lcross_mvc$Asset().init___T("/image/2S+1-1.png");
+  var jsx$608 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$46 = 9;
+  var jsx$607 = new $c_Lcross_common$Vec2i().init___I__I($$this$46, 27);
+  $m_Lcross_common$();
+  var $$this$47 = 21;
+  var jsx$606 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$609, 2, 1, jsx$608, jsx$607, new $c_Lcross_common$Vec2i().init___I__I($$this$47, 4), $m_sci_Nil$());
+  var jsx$605 = new $c_Lcross_mvc$Asset().init___T("/image/2S+2-1.png");
+  var jsx$604 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$48 = 6;
+  var jsx$603 = new $c_Lcross_common$Vec2i().init___I__I($$this$48, 24);
+  $m_Lcross_common$();
+  var $$this$49 = 24;
+  var jsx$602 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$605, 2, 2, jsx$604, jsx$603, new $c_Lcross_common$Vec2i().init___I__I($$this$49, 6), $m_sci_Nil$());
+  var jsx$601 = new $c_Lcross_mvc$Asset().init___T("/image/2S-1-1.png");
+  var jsx$600 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$50 = 22;
+  var jsx$599 = new $c_Lcross_common$Vec2i().init___I__I($$this$50, 27);
+  $m_Lcross_common$();
+  var $$this$51 = 10;
+  var jsx$598 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$601, 2, (-1), jsx$600, jsx$599, new $c_Lcross_common$Vec2i().init___I__I($$this$51, 4), $m_sci_Nil$());
+  var jsx$597 = new $c_Lcross_mvc$Asset().init___T("/image/2S-2-1.png");
+  var jsx$596 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$52 = 25;
+  var jsx$595 = new $c_Lcross_common$Vec2i().init___I__I($$this$52, 24);
+  $m_Lcross_common$();
+  var $$this$53 = 6;
+  var jsx$594 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$597, 2, (-2), jsx$596, jsx$595, new $c_Lcross_common$Vec2i().init___I__I($$this$53, 6), $m_sci_Nil$());
+  var jsx$593 = new $c_Lcross_mvc$Asset().init___T("/image/3L+0-1.png");
+  var jsx$592 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$54 = 17;
+  var jsx$591 = new $c_Lcross_common$Vec2i().init___I__I($$this$54, 29);
+  $m_Lcross_common$();
+  var $$this$55 = 13;
+  var jsx$590 = new $c_Lcross_common$Vec2i().init___I__I($$this$55, 2);
   $m_sci_List$();
-  var array = [new $c_Lcross_common$Vec2i().init___I__I(11, 4), new $c_Lcross_common$Vec2i().init___I__I(13, 16)];
+  $m_Lcross_common$();
+  var $$this$56 = 11;
+  var jsx$589 = new $c_Lcross_common$Vec2i().init___I__I($$this$56, 4);
+  $m_Lcross_common$();
+  var $$this$57 = 13;
+  var array = [jsx$589, new $c_Lcross_common$Vec2i().init___I__I($$this$57, 16)];
   var i = (((-1) + $uI(array.length)) | 0);
   var result = $m_sci_Nil$();
   while ((i >= 0)) {
@@ -1841,13 +2039,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result = new $c_sci_$colon$colon().init___O__sci_List(x, this$120);
     i = (((-1) + i) | 0)
   };
-  var jsx$400 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$404, 3, 0, jsx$403, jsx$402, jsx$401, result);
-  var jsx$399 = new $c_Lcross_mvc$Asset().init___T("/image/3L+1-1.png");
-  var jsx$398 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$397 = new $c_Lcross_common$Vec2i().init___I__I(12, 29);
-  var jsx$396 = new $c_Lcross_common$Vec2i().init___I__I(19, 3);
+  var jsx$588 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$593, 3, 0, jsx$592, jsx$591, jsx$590, result);
+  var jsx$587 = new $c_Lcross_mvc$Asset().init___T("/image/3L+1-1.png");
+  var jsx$586 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$58 = 12;
+  var jsx$585 = new $c_Lcross_common$Vec2i().init___I__I($$this$58, 29);
+  $m_Lcross_common$();
+  var $$this$59 = 19;
+  var jsx$584 = new $c_Lcross_common$Vec2i().init___I__I($$this$59, 3);
   $m_sci_List$();
-  var array$1 = [new $c_Lcross_common$Vec2i().init___I__I(10, 20), new $c_Lcross_common$Vec2i().init___I__I(14, 12), new $c_Lcross_common$Vec2i().init___I__I(19, 7)];
+  $m_Lcross_common$();
+  var $$this$60 = 10;
+  var jsx$583 = new $c_Lcross_common$Vec2i().init___I__I($$this$60, 20);
+  $m_Lcross_common$();
+  var $$this$61 = 14;
+  var jsx$582 = new $c_Lcross_common$Vec2i().init___I__I($$this$61, 12);
+  $m_Lcross_common$();
+  var $$this$62 = 19;
+  var array$1 = [jsx$583, jsx$582, new $c_Lcross_common$Vec2i().init___I__I($$this$62, 7)];
   var i$1 = (((-1) + $uI(array$1.length)) | 0);
   var result$1 = $m_sci_Nil$();
   while ((i$1 >= 0)) {
@@ -1857,13 +2067,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$1, this$134);
     i$1 = (((-1) + i$1) | 0)
   };
-  var jsx$395 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$399, 3, 1, jsx$398, jsx$397, jsx$396, result$1);
-  var jsx$394 = new $c_Lcross_mvc$Asset().init___T("/image/3L+2-1.png");
-  var jsx$393 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$392 = new $c_Lcross_common$Vec2i().init___I__I(8, 25);
-  var jsx$391 = new $c_Lcross_common$Vec2i().init___I__I(23, 4);
+  var jsx$581 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$587, 3, 1, jsx$586, jsx$585, jsx$584, result$1);
+  var jsx$580 = new $c_Lcross_mvc$Asset().init___T("/image/3L+2-1.png");
+  var jsx$579 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$63 = 8;
+  var jsx$578 = new $c_Lcross_common$Vec2i().init___I__I($$this$63, 25);
+  $m_Lcross_common$();
+  var $$this$64 = 23;
+  var jsx$577 = new $c_Lcross_common$Vec2i().init___I__I($$this$64, 4);
   $m_sci_List$();
-  var array$2 = [new $c_Lcross_common$Vec2i().init___I__I(9, 16), new $c_Lcross_common$Vec2i().init___I__I(17, 13), new $c_Lcross_common$Vec2i().init___I__I(21, 6)];
+  $m_Lcross_common$();
+  var $$this$65 = 9;
+  var jsx$576 = new $c_Lcross_common$Vec2i().init___I__I($$this$65, 16);
+  $m_Lcross_common$();
+  var $$this$66 = 17;
+  var jsx$575 = new $c_Lcross_common$Vec2i().init___I__I($$this$66, 13);
+  $m_Lcross_common$();
+  var $$this$67 = 21;
+  var array$2 = [jsx$576, jsx$575, new $c_Lcross_common$Vec2i().init___I__I($$this$67, 6)];
   var i$2 = (((-1) + $uI(array$2.length)) | 0);
   var result$2 = $m_sci_Nil$();
   while ((i$2 >= 0)) {
@@ -1873,13 +2095,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$2 = new $c_sci_$colon$colon().init___O__sci_List(x$2, this$148);
     i$2 = (((-1) + i$2) | 0)
   };
-  var jsx$390 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$394, 3, 2, jsx$393, jsx$392, jsx$391, result$2);
-  var jsx$389 = new $c_Lcross_mvc$Asset().init___T("/image/3L+3-1.png");
-  var jsx$388 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$387 = new $c_Lcross_common$Vec2i().init___I__I(5, 23);
-  var jsx$386 = new $c_Lcross_common$Vec2i().init___I__I(27, 7);
+  var jsx$574 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$580, 3, 2, jsx$579, jsx$578, jsx$577, result$2);
+  var jsx$573 = new $c_Lcross_mvc$Asset().init___T("/image/3L+3-1.png");
+  var jsx$572 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$68 = 5;
+  var jsx$571 = new $c_Lcross_common$Vec2i().init___I__I($$this$68, 23);
+  $m_Lcross_common$();
+  var $$this$69 = 27;
+  var jsx$570 = new $c_Lcross_common$Vec2i().init___I__I($$this$69, 7);
   $m_sci_List$();
-  var array$3 = [new $c_Lcross_common$Vec2i().init___I__I(14, 16), new $c_Lcross_common$Vec2i().init___I__I(21, 8)];
+  $m_Lcross_common$();
+  var $$this$70 = 14;
+  var jsx$569 = new $c_Lcross_common$Vec2i().init___I__I($$this$70, 16);
+  $m_Lcross_common$();
+  var $$this$71 = 21;
+  var array$3 = [jsx$569, new $c_Lcross_common$Vec2i().init___I__I($$this$71, 8)];
   var i$3 = (((-1) + $uI(array$3.length)) | 0);
   var result$3 = $m_sci_Nil$();
   while ((i$3 >= 0)) {
@@ -1889,13 +2120,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$3 = new $c_sci_$colon$colon().init___O__sci_List(x$3, this$160);
     i$3 = (((-1) + i$3) | 0)
   };
-  var jsx$385 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$389, 3, 3, jsx$388, jsx$387, jsx$386, result$3);
-  var jsx$384 = new $c_Lcross_mvc$Asset().init___T("/image/3L-1-1.png");
-  var jsx$383 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$382 = new $c_Lcross_common$Vec2i().init___I__I(23, 26);
-  var jsx$381 = new $c_Lcross_common$Vec2i().init___I__I(8, 4);
+  var jsx$568 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$573, 3, 3, jsx$572, jsx$571, jsx$570, result$3);
+  var jsx$567 = new $c_Lcross_mvc$Asset().init___T("/image/3L-1-1.png");
+  var jsx$566 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$72 = 23;
+  var jsx$565 = new $c_Lcross_common$Vec2i().init___I__I($$this$72, 26);
+  $m_Lcross_common$();
+  var $$this$73 = 8;
+  var jsx$564 = new $c_Lcross_common$Vec2i().init___I__I($$this$73, 4);
   $m_sci_List$();
-  var array$4 = [new $c_Lcross_common$Vec2i().init___I__I(11, 8), new $c_Lcross_common$Vec2i().init___I__I(14, 19)];
+  $m_Lcross_common$();
+  var $$this$74 = 11;
+  var jsx$563 = new $c_Lcross_common$Vec2i().init___I__I($$this$74, 8);
+  $m_Lcross_common$();
+  var $$this$75 = 14;
+  var array$4 = [jsx$563, new $c_Lcross_common$Vec2i().init___I__I($$this$75, 19)];
   var i$4 = (((-1) + $uI(array$4.length)) | 0);
   var result$4 = $m_sci_Nil$();
   while ((i$4 >= 0)) {
@@ -1905,13 +2145,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$4 = new $c_sci_$colon$colon().init___O__sci_List(x$4, this$172);
     i$4 = (((-1) + i$4) | 0)
   };
-  var jsx$380 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$384, 3, (-1), jsx$383, jsx$382, jsx$381, result$4);
-  var jsx$379 = new $c_Lcross_mvc$Asset().init___T("/image/3L-2-1.png");
-  var jsx$378 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$377 = new $c_Lcross_common$Vec2i().init___I__I(25, 23);
-  var jsx$376 = new $c_Lcross_common$Vec2i().init___I__I(4, 8);
+  var jsx$562 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$567, 3, (-1), jsx$566, jsx$565, jsx$564, result$4);
+  var jsx$561 = new $c_Lcross_mvc$Asset().init___T("/image/3L-2-1.png");
+  var jsx$560 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$76 = 25;
+  var jsx$559 = new $c_Lcross_common$Vec2i().init___I__I($$this$76, 23);
+  $m_Lcross_common$();
+  var $$this$77 = 4;
+  var jsx$558 = new $c_Lcross_common$Vec2i().init___I__I($$this$77, 8);
   $m_sci_List$();
-  var array$5 = [new $c_Lcross_common$Vec2i().init___I__I(6, 11), new $c_Lcross_common$Vec2i().init___I__I(17, 16)];
+  $m_Lcross_common$();
+  var $$this$78 = 6;
+  var jsx$557 = new $c_Lcross_common$Vec2i().init___I__I($$this$78, 11);
+  $m_Lcross_common$();
+  var $$this$79 = 17;
+  var array$5 = [jsx$557, new $c_Lcross_common$Vec2i().init___I__I($$this$79, 16)];
   var i$5 = (((-1) + $uI(array$5.length)) | 0);
   var result$5 = $m_sci_Nil$();
   while ((i$5 >= 0)) {
@@ -1921,13 +2170,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$5 = new $c_sci_$colon$colon().init___O__sci_List(x$5, this$184);
     i$5 = (((-1) + i$5) | 0)
   };
-  var jsx$375 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$379, 3, (-2), jsx$378, jsx$377, jsx$376, result$5);
-  var jsx$374 = new $c_Lcross_mvc$Asset().init___T("/image/3L-3-1.png");
-  var jsx$373 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$372 = new $c_Lcross_common$Vec2i().init___I__I(29, 19);
-  var jsx$371 = new $c_Lcross_common$Vec2i().init___I__I(3, 12);
+  var jsx$556 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$561, 3, (-2), jsx$560, jsx$559, jsx$558, result$5);
+  var jsx$555 = new $c_Lcross_mvc$Asset().init___T("/image/3L-3-1.png");
+  var jsx$554 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$80 = 29;
+  var jsx$553 = new $c_Lcross_common$Vec2i().init___I__I($$this$80, 19);
+  $m_Lcross_common$();
+  var $$this$81 = 3;
+  var jsx$552 = new $c_Lcross_common$Vec2i().init___I__I($$this$81, 12);
   $m_sci_List$();
-  var array$6 = [new $c_Lcross_common$Vec2i().init___I__I(8, 12), new $c_Lcross_common$Vec2i().init___I__I(15, 20)];
+  $m_Lcross_common$();
+  var $$this$82 = 8;
+  var jsx$551 = new $c_Lcross_common$Vec2i().init___I__I($$this$82, 12);
+  $m_Lcross_common$();
+  var $$this$83 = 15;
+  var array$6 = [jsx$551, new $c_Lcross_common$Vec2i().init___I__I($$this$83, 20)];
   var i$6 = (((-1) + $uI(array$6.length)) | 0);
   var result$6 = $m_sci_Nil$();
   while ((i$6 >= 0)) {
@@ -1937,13 +2195,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$6 = new $c_sci_$colon$colon().init___O__sci_List(x$6, this$196);
     i$6 = (((-1) + i$6) | 0)
   };
-  var jsx$370 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$374, 3, (-3), jsx$373, jsx$372, jsx$371, result$6);
-  var jsx$369 = new $c_Lcross_mvc$Asset().init___T("/image/3R+0-1.png");
-  var jsx$368 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$367 = new $c_Lcross_common$Vec2i().init___I__I(14, 29);
-  var jsx$366 = new $c_Lcross_common$Vec2i().init___I__I(18, 2);
+  var jsx$550 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$555, 3, (-3), jsx$554, jsx$553, jsx$552, result$6);
+  var jsx$549 = new $c_Lcross_mvc$Asset().init___T("/image/3R+0-1.png");
+  var jsx$548 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$84 = 14;
+  var jsx$547 = new $c_Lcross_common$Vec2i().init___I__I($$this$84, 29);
+  $m_Lcross_common$();
+  var $$this$85 = 18;
+  var jsx$546 = new $c_Lcross_common$Vec2i().init___I__I($$this$85, 2);
   $m_sci_List$();
-  var array$7 = [new $c_Lcross_common$Vec2i().init___I__I(16, 16), new $c_Lcross_common$Vec2i().init___I__I(19, 3)];
+  $m_Lcross_common$();
+  var $$this$86 = 16;
+  var jsx$545 = new $c_Lcross_common$Vec2i().init___I__I($$this$86, 16);
+  $m_Lcross_common$();
+  var $$this$87 = 19;
+  var array$7 = [jsx$545, new $c_Lcross_common$Vec2i().init___I__I($$this$87, 3)];
   var i$7 = (((-1) + $uI(array$7.length)) | 0);
   var result$7 = $m_sci_Nil$();
   while ((i$7 >= 0)) {
@@ -1953,13 +2220,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$7 = new $c_sci_$colon$colon().init___O__sci_List(x$7, this$208);
     i$7 = (((-1) + i$7) | 0)
   };
-  var jsx$365 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$369, 3, 0, jsx$368, jsx$367, jsx$366, result$7);
-  var jsx$364 = new $c_Lcross_mvc$Asset().init___T("/image/3R+1-1.png");
-  var jsx$363 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$362 = new $c_Lcross_common$Vec2i().init___I__I(8, 26);
-  var jsx$361 = new $c_Lcross_common$Vec2i().init___I__I(24, 4);
+  var jsx$544 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$549, 3, 0, jsx$548, jsx$547, jsx$546, result$7);
+  var jsx$543 = new $c_Lcross_mvc$Asset().init___T("/image/3R+1-1.png");
+  var jsx$542 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$88 = 8;
+  var jsx$541 = new $c_Lcross_common$Vec2i().init___I__I($$this$88, 26);
+  $m_Lcross_common$();
+  var $$this$89 = 24;
+  var jsx$540 = new $c_Lcross_common$Vec2i().init___I__I($$this$89, 4);
   $m_sci_List$();
-  var array$8 = [new $c_Lcross_common$Vec2i().init___I__I(21, 13), new $c_Lcross_common$Vec2i().init___I__I(22, 5)];
+  $m_Lcross_common$();
+  var $$this$90 = 21;
+  var jsx$539 = new $c_Lcross_common$Vec2i().init___I__I($$this$90, 13);
+  $m_Lcross_common$();
+  var $$this$91 = 22;
+  var array$8 = [jsx$539, new $c_Lcross_common$Vec2i().init___I__I($$this$91, 5)];
   var i$8 = (((-1) + $uI(array$8.length)) | 0);
   var result$8 = $m_sci_Nil$();
   while ((i$8 >= 0)) {
@@ -1969,13 +2245,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$8 = new $c_sci_$colon$colon().init___O__sci_List(x$8, this$220);
     i$8 = (((-1) + i$8) | 0)
   };
-  var jsx$360 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$364, 3, 1, jsx$363, jsx$362, jsx$361, result$8);
-  var jsx$359 = new $c_Lcross_mvc$Asset().init___T("/image/3R+2-1.png");
-  var jsx$358 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$357 = new $c_Lcross_common$Vec2i().init___I__I(6, 23);
-  var jsx$356 = new $c_Lcross_common$Vec2i().init___I__I(27, 8);
+  var jsx$538 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$543, 3, 1, jsx$542, jsx$541, jsx$540, result$8);
+  var jsx$537 = new $c_Lcross_mvc$Asset().init___T("/image/3R+2-1.png");
+  var jsx$536 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$92 = 6;
+  var jsx$535 = new $c_Lcross_common$Vec2i().init___I__I($$this$92, 23);
+  $m_Lcross_common$();
+  var $$this$93 = 27;
+  var jsx$534 = new $c_Lcross_common$Vec2i().init___I__I($$this$93, 8);
   $m_sci_List$();
-  var array$9 = [new $c_Lcross_common$Vec2i().init___I__I(18, 18), new $c_Lcross_common$Vec2i().init___I__I(26, 11)];
+  $m_Lcross_common$();
+  var $$this$94 = 18;
+  var jsx$533 = new $c_Lcross_common$Vec2i().init___I__I($$this$94, 18);
+  $m_Lcross_common$();
+  var $$this$95 = 26;
+  var array$9 = [jsx$533, new $c_Lcross_common$Vec2i().init___I__I($$this$95, 11)];
   var i$9 = (((-1) + $uI(array$9.length)) | 0);
   var result$9 = $m_sci_Nil$();
   while ((i$9 >= 0)) {
@@ -1985,13 +2270,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$9 = new $c_sci_$colon$colon().init___O__sci_List(x$9, this$232);
     i$9 = (((-1) + i$9) | 0)
   };
-  var jsx$355 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$359, 3, 2, jsx$358, jsx$357, jsx$356, result$9);
-  var jsx$354 = new $c_Lcross_mvc$Asset().init___T("/image/3R+3-1.png");
-  var jsx$353 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$352 = new $c_Lcross_common$Vec2i().init___I__I(2, 19);
-  var jsx$351 = new $c_Lcross_common$Vec2i().init___I__I(28, 12);
+  var jsx$532 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$537, 3, 2, jsx$536, jsx$535, jsx$534, result$9);
+  var jsx$531 = new $c_Lcross_mvc$Asset().init___T("/image/3R+3-1.png");
+  var jsx$530 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$96 = 2;
+  var jsx$529 = new $c_Lcross_common$Vec2i().init___I__I($$this$96, 19);
+  $m_Lcross_common$();
+  var $$this$97 = 28;
+  var jsx$528 = new $c_Lcross_common$Vec2i().init___I__I($$this$97, 12);
   $m_sci_List$();
-  var array$10 = [new $c_Lcross_common$Vec2i().init___I__I(17, 19), new $c_Lcross_common$Vec2i().init___I__I(23, 13)];
+  $m_Lcross_common$();
+  var $$this$98 = 17;
+  var jsx$527 = new $c_Lcross_common$Vec2i().init___I__I($$this$98, 19);
+  $m_Lcross_common$();
+  var $$this$99 = 23;
+  var array$10 = [jsx$527, new $c_Lcross_common$Vec2i().init___I__I($$this$99, 13)];
   var i$10 = (((-1) + $uI(array$10.length)) | 0);
   var result$10 = $m_sci_Nil$();
   while ((i$10 >= 0)) {
@@ -2001,13 +2295,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$10 = new $c_sci_$colon$colon().init___O__sci_List(x$10, this$244);
     i$10 = (((-1) + i$10) | 0)
   };
-  var jsx$350 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$354, 3, 3, jsx$353, jsx$352, jsx$351, result$10);
-  var jsx$349 = new $c_Lcross_mvc$Asset().init___T("/image/3R-1-1.png");
-  var jsx$348 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$347 = new $c_Lcross_common$Vec2i().init___I__I(19, 29);
-  var jsx$346 = new $c_Lcross_common$Vec2i().init___I__I(12, 3);
+  var jsx$526 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$531, 3, 3, jsx$530, jsx$529, jsx$528, result$10);
+  var jsx$525 = new $c_Lcross_mvc$Asset().init___T("/image/3R-1-1.png");
+  var jsx$524 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$100 = 19;
+  var jsx$523 = new $c_Lcross_common$Vec2i().init___I__I($$this$100, 29);
+  $m_Lcross_common$();
+  var $$this$101 = 12;
+  var jsx$522 = new $c_Lcross_common$Vec2i().init___I__I($$this$101, 3);
   $m_sci_List$();
-  var array$11 = [new $c_Lcross_common$Vec2i().init___I__I(14, 9), new $c_Lcross_common$Vec2i().init___I__I(15, 4), new $c_Lcross_common$Vec2i().init___I__I(18, 15)];
+  $m_Lcross_common$();
+  var $$this$102 = 14;
+  var jsx$521 = new $c_Lcross_common$Vec2i().init___I__I($$this$102, 9);
+  $m_Lcross_common$();
+  var $$this$103 = 15;
+  var jsx$520 = new $c_Lcross_common$Vec2i().init___I__I($$this$103, 4);
+  $m_Lcross_common$();
+  var $$this$104 = 18;
+  var array$11 = [jsx$521, jsx$520, new $c_Lcross_common$Vec2i().init___I__I($$this$104, 15)];
   var i$11 = (((-1) + $uI(array$11.length)) | 0);
   var result$11 = $m_sci_Nil$();
   while ((i$11 >= 0)) {
@@ -2017,13 +2323,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$11 = new $c_sci_$colon$colon().init___O__sci_List(x$11, this$258);
     i$11 = (((-1) + i$11) | 0)
   };
-  var jsx$345 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$349, 3, (-1), jsx$348, jsx$347, jsx$346, result$11);
-  var jsx$344 = new $c_Lcross_mvc$Asset().init___T("/image/3R-2-1.png");
-  var jsx$343 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$342 = new $c_Lcross_common$Vec2i().init___I__I(23, 25);
-  var jsx$341 = new $c_Lcross_common$Vec2i().init___I__I(8, 4);
+  var jsx$519 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$525, 3, (-1), jsx$524, jsx$523, jsx$522, result$11);
+  var jsx$518 = new $c_Lcross_mvc$Asset().init___T("/image/3R-2-1.png");
+  var jsx$517 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$105 = 23;
+  var jsx$516 = new $c_Lcross_common$Vec2i().init___I__I($$this$105, 25);
+  $m_Lcross_common$();
+  var $$this$106 = 8;
+  var jsx$515 = new $c_Lcross_common$Vec2i().init___I__I($$this$106, 4);
   $m_sci_List$();
-  var array$12 = [new $c_Lcross_common$Vec2i().init___I__I(9, 4), new $c_Lcross_common$Vec2i().init___I__I(15, 12), new $c_Lcross_common$Vec2i().init___I__I(20, 14)];
+  $m_Lcross_common$();
+  var $$this$107 = 9;
+  var jsx$514 = new $c_Lcross_common$Vec2i().init___I__I($$this$107, 4);
+  $m_Lcross_common$();
+  var $$this$108 = 15;
+  var jsx$513 = new $c_Lcross_common$Vec2i().init___I__I($$this$108, 12);
+  $m_Lcross_common$();
+  var $$this$109 = 20;
+  var array$12 = [jsx$514, jsx$513, new $c_Lcross_common$Vec2i().init___I__I($$this$109, 14)];
   var i$12 = (((-1) + $uI(array$12.length)) | 0);
   var result$12 = $m_sci_Nil$();
   while ((i$12 >= 0)) {
@@ -2033,13 +2351,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$12 = new $c_sci_$colon$colon().init___O__sci_List(x$12, this$272);
     i$12 = (((-1) + i$12) | 0)
   };
-  var jsx$340 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$344, 3, (-2), jsx$343, jsx$342, jsx$341, result$12);
-  var jsx$339 = new $c_Lcross_mvc$Asset().init___T("/image/3R-3-1.png");
-  var jsx$338 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$337 = new $c_Lcross_common$Vec2i().init___I__I(26, 23);
-  var jsx$336 = new $c_Lcross_common$Vec2i().init___I__I(4, 7);
+  var jsx$512 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$518, 3, (-2), jsx$517, jsx$516, jsx$515, result$12);
+  var jsx$511 = new $c_Lcross_mvc$Asset().init___T("/image/3R-3-1.png");
+  var jsx$510 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$110 = 26;
+  var jsx$509 = new $c_Lcross_common$Vec2i().init___I__I($$this$110, 23);
+  $m_Lcross_common$();
+  var $$this$111 = 4;
+  var jsx$508 = new $c_Lcross_common$Vec2i().init___I__I($$this$111, 7);
   $m_sci_List$();
-  var array$13 = [new $c_Lcross_common$Vec2i().init___I__I(5, 9), new $c_Lcross_common$Vec2i().init___I__I(13, 9), new $c_Lcross_common$Vec2i().init___I__I(19, 17)];
+  $m_Lcross_common$();
+  var $$this$112 = 5;
+  var jsx$507 = new $c_Lcross_common$Vec2i().init___I__I($$this$112, 9);
+  $m_Lcross_common$();
+  var $$this$113 = 13;
+  var jsx$506 = new $c_Lcross_common$Vec2i().init___I__I($$this$113, 9);
+  $m_Lcross_common$();
+  var $$this$114 = 19;
+  var array$13 = [jsx$507, jsx$506, new $c_Lcross_common$Vec2i().init___I__I($$this$114, 17)];
   var i$13 = (((-1) + $uI(array$13.length)) | 0);
   var result$13 = $m_sci_Nil$();
   while ((i$13 >= 0)) {
@@ -2049,13 +2379,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$13 = new $c_sci_$colon$colon().init___O__sci_List(x$13, this$286);
     i$13 = (((-1) + i$13) | 0)
   };
-  var jsx$335 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$339, 3, (-3), jsx$338, jsx$337, jsx$336, result$13);
-  var jsx$334 = new $c_Lcross_mvc$Asset().init___T("/image/3S+0-1.png");
-  var jsx$333 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$332 = new $c_Lcross_common$Vec2i().init___I__I(16, 29);
-  var jsx$331 = new $c_Lcross_common$Vec2i().init___I__I(16, 2);
+  var jsx$505 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$511, 3, (-3), jsx$510, jsx$509, jsx$508, result$13);
+  var jsx$504 = new $c_Lcross_mvc$Asset().init___T("/image/3S+0-1.png");
+  var jsx$503 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$115 = 16;
+  var jsx$502 = new $c_Lcross_common$Vec2i().init___I__I($$this$115, 29);
+  $m_Lcross_common$();
+  var $$this$116 = 16;
+  var jsx$501 = new $c_Lcross_common$Vec2i().init___I__I($$this$116, 2);
   $m_sci_List$();
-  var array$14 = [new $c_Lcross_common$Vec2i().init___I__I(14, 14), new $c_Lcross_common$Vec2i().init___I__I(17, 6)];
+  $m_Lcross_common$();
+  var $$this$117 = 14;
+  var jsx$500 = new $c_Lcross_common$Vec2i().init___I__I($$this$117, 14);
+  $m_Lcross_common$();
+  var $$this$118 = 17;
+  var array$14 = [jsx$500, new $c_Lcross_common$Vec2i().init___I__I($$this$118, 6)];
   var i$14 = (((-1) + $uI(array$14.length)) | 0);
   var result$14 = $m_sci_Nil$();
   while ((i$14 >= 0)) {
@@ -2065,13 +2404,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$14 = new $c_sci_$colon$colon().init___O__sci_List(x$14, this$298);
     i$14 = (((-1) + i$14) | 0)
   };
-  var jsx$330 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$334, 3, 0, jsx$333, jsx$332, jsx$331, result$14);
-  var jsx$329 = new $c_Lcross_mvc$Asset().init___T("/image/3S+1-1.png");
-  var jsx$328 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$327 = new $c_Lcross_common$Vec2i().init___I__I(9, 28);
-  var jsx$326 = new $c_Lcross_common$Vec2i().init___I__I(20, 4);
+  var jsx$499 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$504, 3, 0, jsx$503, jsx$502, jsx$501, result$14);
+  var jsx$498 = new $c_Lcross_mvc$Asset().init___T("/image/3S+1-1.png");
+  var jsx$497 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$119 = 9;
+  var jsx$496 = new $c_Lcross_common$Vec2i().init___I__I($$this$119, 28);
+  $m_Lcross_common$();
+  var $$this$120 = 20;
+  var jsx$495 = new $c_Lcross_common$Vec2i().init___I__I($$this$120, 4);
   $m_sci_List$();
-  var array$15 = [new $c_Lcross_common$Vec2i().init___I__I(17, 16), new $c_Lcross_common$Vec2i().init___I__I(19, 6)];
+  $m_Lcross_common$();
+  var $$this$121 = 17;
+  var jsx$494 = new $c_Lcross_common$Vec2i().init___I__I($$this$121, 16);
+  $m_Lcross_common$();
+  var $$this$122 = 19;
+  var array$15 = [jsx$494, new $c_Lcross_common$Vec2i().init___I__I($$this$122, 6)];
   var i$15 = (((-1) + $uI(array$15.length)) | 0);
   var result$15 = $m_sci_Nil$();
   while ((i$15 >= 0)) {
@@ -2081,13 +2429,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$15 = new $c_sci_$colon$colon().init___O__sci_List(x$15, this$310);
     i$15 = (((-1) + i$15) | 0)
   };
-  var jsx$325 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$329, 3, 1, jsx$328, jsx$327, jsx$326, result$15);
-  var jsx$324 = new $c_Lcross_mvc$Asset().init___T("/image/3S+2-1.png");
-  var jsx$323 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$322 = new $c_Lcross_common$Vec2i().init___I__I(7, 25);
-  var jsx$321 = new $c_Lcross_common$Vec2i().init___I__I(26, 6);
+  var jsx$493 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$498, 3, 1, jsx$497, jsx$496, jsx$495, result$15);
+  var jsx$492 = new $c_Lcross_mvc$Asset().init___T("/image/3S+2-1.png");
+  var jsx$491 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$123 = 7;
+  var jsx$490 = new $c_Lcross_common$Vec2i().init___I__I($$this$123, 25);
+  $m_Lcross_common$();
+  var $$this$124 = 26;
+  var jsx$489 = new $c_Lcross_common$Vec2i().init___I__I($$this$124, 6);
   $m_sci_List$();
-  var array$16 = [new $c_Lcross_common$Vec2i().init___I__I(17, 18), new $c_Lcross_common$Vec2i().init___I__I(20, 9), new $c_Lcross_common$Vec2i().init___I__I(25, 7)];
+  $m_Lcross_common$();
+  var $$this$125 = 17;
+  var jsx$488 = new $c_Lcross_common$Vec2i().init___I__I($$this$125, 18);
+  $m_Lcross_common$();
+  var $$this$126 = 20;
+  var jsx$487 = new $c_Lcross_common$Vec2i().init___I__I($$this$126, 9);
+  $m_Lcross_common$();
+  var $$this$127 = 25;
+  var array$16 = [jsx$488, jsx$487, new $c_Lcross_common$Vec2i().init___I__I($$this$127, 7)];
   var i$16 = (((-1) + $uI(array$16.length)) | 0);
   var result$16 = $m_sci_Nil$();
   while ((i$16 >= 0)) {
@@ -2097,13 +2457,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$16 = new $c_sci_$colon$colon().init___O__sci_List(x$16, this$324);
     i$16 = (((-1) + i$16) | 0)
   };
-  var jsx$320 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$324, 3, 2, jsx$323, jsx$322, jsx$321, result$16);
-  var jsx$319 = new $c_Lcross_mvc$Asset().init___T("/image/3S+3-1.png");
-  var jsx$318 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$317 = new $c_Lcross_common$Vec2i().init___I__I(3, 22);
-  var jsx$316 = new $c_Lcross_common$Vec2i().init___I__I(27, 11);
+  var jsx$486 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$492, 3, 2, jsx$491, jsx$490, jsx$489, result$16);
+  var jsx$485 = new $c_Lcross_mvc$Asset().init___T("/image/3S+3-1.png");
+  var jsx$484 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$128 = 3;
+  var jsx$483 = new $c_Lcross_common$Vec2i().init___I__I($$this$128, 22);
+  $m_Lcross_common$();
+  var $$this$129 = 27;
+  var jsx$482 = new $c_Lcross_common$Vec2i().init___I__I($$this$129, 11);
   $m_sci_List$();
-  var array$17 = [new $c_Lcross_common$Vec2i().init___I__I(16, 18), new $c_Lcross_common$Vec2i().init___I__I(22, 10)];
+  $m_Lcross_common$();
+  var $$this$130 = 16;
+  var jsx$481 = new $c_Lcross_common$Vec2i().init___I__I($$this$130, 18);
+  $m_Lcross_common$();
+  var $$this$131 = 22;
+  var array$17 = [jsx$481, new $c_Lcross_common$Vec2i().init___I__I($$this$131, 10)];
   var i$17 = (((-1) + $uI(array$17.length)) | 0);
   var result$17 = $m_sci_Nil$();
   while ((i$17 >= 0)) {
@@ -2113,13 +2482,22 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$17 = new $c_sci_$colon$colon().init___O__sci_List(x$17, this$336);
     i$17 = (((-1) + i$17) | 0)
   };
-  var jsx$315 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$319, 3, 3, jsx$318, jsx$317, jsx$316, result$17);
-  var jsx$314 = new $c_Lcross_mvc$Asset().init___T("/image/3S-1-1.png");
-  var jsx$313 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$312 = new $c_Lcross_common$Vec2i().init___I__I(22, 28);
-  var jsx$311 = new $c_Lcross_common$Vec2i().init___I__I(11, 4);
+  var jsx$480 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$485, 3, 3, jsx$484, jsx$483, jsx$482, result$17);
+  var jsx$479 = new $c_Lcross_mvc$Asset().init___T("/image/3S-1-1.png");
+  var jsx$478 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$132 = 22;
+  var jsx$477 = new $c_Lcross_common$Vec2i().init___I__I($$this$132, 28);
+  $m_Lcross_common$();
+  var $$this$133 = 11;
+  var jsx$476 = new $c_Lcross_common$Vec2i().init___I__I($$this$133, 4);
   $m_sci_List$();
-  var array$18 = [new $c_Lcross_common$Vec2i().init___I__I(12, 6), new $c_Lcross_common$Vec2i().init___I__I(14, 15)];
+  $m_Lcross_common$();
+  var $$this$134 = 12;
+  var jsx$475 = new $c_Lcross_common$Vec2i().init___I__I($$this$134, 6);
+  $m_Lcross_common$();
+  var $$this$135 = 14;
+  var array$18 = [jsx$475, new $c_Lcross_common$Vec2i().init___I__I($$this$135, 15)];
   var i$18 = (((-1) + $uI(array$18.length)) | 0);
   var result$18 = $m_sci_Nil$();
   while ((i$18 >= 0)) {
@@ -2129,13 +2507,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$18 = new $c_sci_$colon$colon().init___O__sci_List(x$18, this$348);
     i$18 = (((-1) + i$18) | 0)
   };
-  var jsx$310 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$314, 3, (-1), jsx$313, jsx$312, jsx$311, result$18);
-  var jsx$309 = new $c_Lcross_mvc$Asset().init___T("/image/3S-2-1.png");
-  var jsx$308 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$307 = new $c_Lcross_common$Vec2i().init___I__I(24, 25);
-  var jsx$306 = new $c_Lcross_common$Vec2i().init___I__I(5, 6);
+  var jsx$474 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$479, 3, (-1), jsx$478, jsx$477, jsx$476, result$18);
+  var jsx$473 = new $c_Lcross_mvc$Asset().init___T("/image/3S-2-1.png");
+  var jsx$472 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$136 = 24;
+  var jsx$471 = new $c_Lcross_common$Vec2i().init___I__I($$this$136, 25);
+  $m_Lcross_common$();
+  var $$this$137 = 5;
+  var jsx$470 = new $c_Lcross_common$Vec2i().init___I__I($$this$137, 6);
   $m_sci_List$();
-  var array$19 = [new $c_Lcross_common$Vec2i().init___I__I(7, 8), new $c_Lcross_common$Vec2i().init___I__I(13, 12), new $c_Lcross_common$Vec2i().init___I__I(16, 19)];
+  $m_Lcross_common$();
+  var $$this$138 = 7;
+  var jsx$469 = new $c_Lcross_common$Vec2i().init___I__I($$this$138, 8);
+  $m_Lcross_common$();
+  var $$this$139 = 13;
+  var jsx$468 = new $c_Lcross_common$Vec2i().init___I__I($$this$139, 12);
+  $m_Lcross_common$();
+  var $$this$140 = 16;
+  var array$19 = [jsx$469, jsx$468, new $c_Lcross_common$Vec2i().init___I__I($$this$140, 19)];
   var i$19 = (((-1) + $uI(array$19.length)) | 0);
   var result$19 = $m_sci_Nil$();
   while ((i$19 >= 0)) {
@@ -2145,13 +2535,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$19 = new $c_sci_$colon$colon().init___O__sci_List(x$19, this$362);
     i$19 = (((-1) + i$19) | 0)
   };
-  var jsx$305 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$309, 3, (-2), jsx$308, jsx$307, jsx$306, result$19);
-  var jsx$304 = new $c_Lcross_mvc$Asset().init___T("/image/3S-3-1.png");
-  var jsx$303 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$302 = new $c_Lcross_common$Vec2i().init___I__I(28, 22);
-  var jsx$301 = new $c_Lcross_common$Vec2i().init___I__I(4, 11);
+  var jsx$467 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$473, 3, (-2), jsx$472, jsx$471, jsx$470, result$19);
+  var jsx$466 = new $c_Lcross_mvc$Asset().init___T("/image/3S-3-1.png");
+  var jsx$465 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$141 = 28;
+  var jsx$464 = new $c_Lcross_common$Vec2i().init___I__I($$this$141, 22);
+  $m_Lcross_common$();
+  var $$this$142 = 4;
+  var jsx$463 = new $c_Lcross_common$Vec2i().init___I__I($$this$142, 11);
   $m_sci_List$();
-  var array$20 = [new $c_Lcross_common$Vec2i().init___I__I(5, 13), new $c_Lcross_common$Vec2i().init___I__I(11, 13), new $c_Lcross_common$Vec2i().init___I__I(16, 18)];
+  $m_Lcross_common$();
+  var $$this$143 = 5;
+  var jsx$462 = new $c_Lcross_common$Vec2i().init___I__I($$this$143, 13);
+  $m_Lcross_common$();
+  var $$this$144 = 11;
+  var jsx$461 = new $c_Lcross_common$Vec2i().init___I__I($$this$144, 13);
+  $m_Lcross_common$();
+  var $$this$145 = 16;
+  var array$20 = [jsx$462, jsx$461, new $c_Lcross_common$Vec2i().init___I__I($$this$145, 18)];
   var i$20 = (((-1) + $uI(array$20.length)) | 0);
   var result$20 = $m_sci_Nil$();
   while ((i$20 >= 0)) {
@@ -2161,13 +2563,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$20 = new $c_sci_$colon$colon().init___O__sci_List(x$20, this$376);
     i$20 = (((-1) + i$20) | 0)
   };
-  var jsx$300 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$304, 3, (-3), jsx$303, jsx$302, jsx$301, result$20);
-  var jsx$299 = new $c_Lcross_mvc$Asset().init___T("/image/4L+0-1.png");
-  var jsx$298 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$297 = new $c_Lcross_common$Vec2i().init___I__I(16, 29);
-  var jsx$296 = new $c_Lcross_common$Vec2i().init___I__I(10, 2);
+  var jsx$460 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$466, 3, (-3), jsx$465, jsx$464, jsx$463, result$20);
+  var jsx$459 = new $c_Lcross_mvc$Asset().init___T("/image/4L+0-1.png");
+  var jsx$458 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$146 = 16;
+  var jsx$457 = new $c_Lcross_common$Vec2i().init___I__I($$this$146, 29);
+  $m_Lcross_common$();
+  var $$this$147 = 10;
+  var jsx$456 = new $c_Lcross_common$Vec2i().init___I__I($$this$147, 2);
   $m_sci_List$();
-  var array$21 = [new $c_Lcross_common$Vec2i().init___I__I(11, 4), new $c_Lcross_common$Vec2i().init___I__I(11, 17), new $c_Lcross_common$Vec2i().init___I__I(15, 26)];
+  $m_Lcross_common$();
+  var $$this$148 = 11;
+  var jsx$455 = new $c_Lcross_common$Vec2i().init___I__I($$this$148, 4);
+  $m_Lcross_common$();
+  var $$this$149 = 11;
+  var jsx$454 = new $c_Lcross_common$Vec2i().init___I__I($$this$149, 17);
+  $m_Lcross_common$();
+  var $$this$150 = 15;
+  var array$21 = [jsx$455, jsx$454, new $c_Lcross_common$Vec2i().init___I__I($$this$150, 26)];
   var i$21 = (((-1) + $uI(array$21.length)) | 0);
   var result$21 = $m_sci_Nil$();
   while ((i$21 >= 0)) {
@@ -2177,13 +2591,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$21 = new $c_sci_$colon$colon().init___O__sci_List(x$21, this$390);
     i$21 = (((-1) + i$21) | 0)
   };
-  var jsx$295 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$299, 4, 0, jsx$298, jsx$297, jsx$296, result$21);
-  var jsx$294 = new $c_Lcross_mvc$Asset().init___T("/image/4L+1-1.png");
-  var jsx$293 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$292 = new $c_Lcross_common$Vec2i().init___I__I(11, 28);
-  var jsx$291 = new $c_Lcross_common$Vec2i().init___I__I(16, 2);
+  var jsx$453 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$459, 4, 0, jsx$458, jsx$457, jsx$456, result$21);
+  var jsx$452 = new $c_Lcross_mvc$Asset().init___T("/image/4L+1-1.png");
+  var jsx$451 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$151 = 11;
+  var jsx$450 = new $c_Lcross_common$Vec2i().init___I__I($$this$151, 28);
+  $m_Lcross_common$();
+  var $$this$152 = 16;
+  var jsx$449 = new $c_Lcross_common$Vec2i().init___I__I($$this$152, 2);
   $m_sci_List$();
-  var array$22 = [new $c_Lcross_common$Vec2i().init___I__I(10, 26), new $c_Lcross_common$Vec2i().init___I__I(12, 15), new $c_Lcross_common$Vec2i().init___I__I(14, 5)];
+  $m_Lcross_common$();
+  var $$this$153 = 10;
+  var jsx$448 = new $c_Lcross_common$Vec2i().init___I__I($$this$153, 26);
+  $m_Lcross_common$();
+  var $$this$154 = 12;
+  var jsx$447 = new $c_Lcross_common$Vec2i().init___I__I($$this$154, 15);
+  $m_Lcross_common$();
+  var $$this$155 = 14;
+  var array$22 = [jsx$448, jsx$447, new $c_Lcross_common$Vec2i().init___I__I($$this$155, 5)];
   var i$22 = (((-1) + $uI(array$22.length)) | 0);
   var result$22 = $m_sci_Nil$();
   while ((i$22 >= 0)) {
@@ -2193,13 +2619,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$22 = new $c_sci_$colon$colon().init___O__sci_List(x$22, this$404);
     i$22 = (((-1) + i$22) | 0)
   };
-  var jsx$290 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$294, 4, 1, jsx$293, jsx$292, jsx$291, result$22);
-  var jsx$289 = new $c_Lcross_mvc$Asset().init___T("/image/4L+2-1.png");
-  var jsx$288 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$287 = new $c_Lcross_common$Vec2i().init___I__I(7, 25);
-  var jsx$286 = new $c_Lcross_common$Vec2i().init___I__I(21, 3);
+  var jsx$446 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$452, 4, 1, jsx$451, jsx$450, jsx$449, result$22);
+  var jsx$445 = new $c_Lcross_mvc$Asset().init___T("/image/4L+2-1.png");
+  var jsx$444 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$156 = 7;
+  var jsx$443 = new $c_Lcross_common$Vec2i().init___I__I($$this$156, 25);
+  $m_Lcross_common$();
+  var $$this$157 = 21;
+  var jsx$442 = new $c_Lcross_common$Vec2i().init___I__I($$this$157, 3);
   $m_sci_List$();
-  var array$23 = [new $c_Lcross_common$Vec2i().init___I__I(8, 22), new $c_Lcross_common$Vec2i().init___I__I(12, 11), new $c_Lcross_common$Vec2i().init___I__I(19, 5)];
+  $m_Lcross_common$();
+  var $$this$158 = 8;
+  var jsx$441 = new $c_Lcross_common$Vec2i().init___I__I($$this$158, 22);
+  $m_Lcross_common$();
+  var $$this$159 = 12;
+  var jsx$440 = new $c_Lcross_common$Vec2i().init___I__I($$this$159, 11);
+  $m_Lcross_common$();
+  var $$this$160 = 19;
+  var array$23 = [jsx$441, jsx$440, new $c_Lcross_common$Vec2i().init___I__I($$this$160, 5)];
   var i$23 = (((-1) + $uI(array$23.length)) | 0);
   var result$23 = $m_sci_Nil$();
   while ((i$23 >= 0)) {
@@ -2209,13 +2647,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$23 = new $c_sci_$colon$colon().init___O__sci_List(x$23, this$418);
     i$23 = (((-1) + i$23) | 0)
   };
-  var jsx$285 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$289, 4, 2, jsx$288, jsx$287, jsx$286, result$23);
-  var jsx$284 = new $c_Lcross_mvc$Asset().init___T("/image/4L+3-1.png");
-  var jsx$283 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$282 = new $c_Lcross_common$Vec2i().init___I__I(5, 21);
-  var jsx$281 = new $c_Lcross_common$Vec2i().init___I__I(25, 5);
+  var jsx$439 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$445, 4, 2, jsx$444, jsx$443, jsx$442, result$23);
+  var jsx$438 = new $c_Lcross_mvc$Asset().init___T("/image/4L+3-1.png");
+  var jsx$437 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$161 = 5;
+  var jsx$436 = new $c_Lcross_common$Vec2i().init___I__I($$this$161, 21);
+  $m_Lcross_common$();
+  var $$this$162 = 25;
+  var jsx$435 = new $c_Lcross_common$Vec2i().init___I__I($$this$162, 5);
   $m_sci_List$();
-  var array$24 = [new $c_Lcross_common$Vec2i().init___I__I(8, 19), new $c_Lcross_common$Vec2i().init___I__I(14, 10), new $c_Lcross_common$Vec2i().init___I__I(24, 7)];
+  $m_Lcross_common$();
+  var $$this$163 = 8;
+  var jsx$434 = new $c_Lcross_common$Vec2i().init___I__I($$this$163, 19);
+  $m_Lcross_common$();
+  var $$this$164 = 14;
+  var jsx$433 = new $c_Lcross_common$Vec2i().init___I__I($$this$164, 10);
+  $m_Lcross_common$();
+  var $$this$165 = 24;
+  var array$24 = [jsx$434, jsx$433, new $c_Lcross_common$Vec2i().init___I__I($$this$165, 7)];
   var i$24 = (((-1) + $uI(array$24.length)) | 0);
   var result$24 = $m_sci_Nil$();
   while ((i$24 >= 0)) {
@@ -2225,13 +2675,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$24 = new $c_sci_$colon$colon().init___O__sci_List(x$24, this$432);
     i$24 = (((-1) + i$24) | 0)
   };
-  var jsx$280 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$284, 4, 3, jsx$283, jsx$282, jsx$281, result$24);
-  var jsx$279 = new $c_Lcross_mvc$Asset().init___T("/image/4L+4-1.png");
-  var jsx$278 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$277 = new $c_Lcross_common$Vec2i().init___I__I(2, 16);
-  var jsx$276 = new $c_Lcross_common$Vec2i().init___I__I(29, 10);
+  var jsx$432 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$438, 4, 3, jsx$437, jsx$436, jsx$435, result$24);
+  var jsx$431 = new $c_Lcross_mvc$Asset().init___T("/image/4L+4-1.png");
+  var jsx$430 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$166 = 2;
+  var jsx$429 = new $c_Lcross_common$Vec2i().init___I__I($$this$166, 16);
+  $m_Lcross_common$();
+  var $$this$167 = 29;
+  var jsx$428 = new $c_Lcross_common$Vec2i().init___I__I($$this$167, 10);
   $m_sci_List$();
-  var array$25 = [new $c_Lcross_common$Vec2i().init___I__I(7, 14), new $c_Lcross_common$Vec2i().init___I__I(16, 11), new $c_Lcross_common$Vec2i().init___I__I(26, 11)];
+  $m_Lcross_common$();
+  var $$this$168 = 7;
+  var jsx$427 = new $c_Lcross_common$Vec2i().init___I__I($$this$168, 14);
+  $m_Lcross_common$();
+  var $$this$169 = 16;
+  var jsx$426 = new $c_Lcross_common$Vec2i().init___I__I($$this$169, 11);
+  $m_Lcross_common$();
+  var $$this$170 = 26;
+  var array$25 = [jsx$427, jsx$426, new $c_Lcross_common$Vec2i().init___I__I($$this$170, 11)];
   var i$25 = (((-1) + $uI(array$25.length)) | 0);
   var result$25 = $m_sci_Nil$();
   while ((i$25 >= 0)) {
@@ -2241,13 +2703,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$25 = new $c_sci_$colon$colon().init___O__sci_List(x$25, this$446);
     i$25 = (((-1) + i$25) | 0)
   };
-  var jsx$275 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$279, 4, 4, jsx$278, jsx$277, jsx$276, result$25);
-  var jsx$274 = new $c_Lcross_mvc$Asset().init___T("/image/4L-1-1.png");
-  var jsx$273 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$272 = new $c_Lcross_common$Vec2i().init___I__I(21, 27);
-  var jsx$271 = new $c_Lcross_common$Vec2i().init___I__I(5, 6);
+  var jsx$425 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$431, 4, 4, jsx$430, jsx$429, jsx$428, result$25);
+  var jsx$424 = new $c_Lcross_mvc$Asset().init___T("/image/4L-1-1.png");
+  var jsx$423 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$171 = 21;
+  var jsx$422 = new $c_Lcross_common$Vec2i().init___I__I($$this$171, 27);
+  $m_Lcross_common$();
+  var $$this$172 = 5;
+  var jsx$421 = new $c_Lcross_common$Vec2i().init___I__I($$this$172, 6);
   $m_sci_List$();
-  var array$26 = [new $c_Lcross_common$Vec2i().init___I__I(8, 10), new $c_Lcross_common$Vec2i().init___I__I(14, 17), new $c_Lcross_common$Vec2i().init___I__I(19, 25)];
+  $m_Lcross_common$();
+  var $$this$173 = 8;
+  var jsx$420 = new $c_Lcross_common$Vec2i().init___I__I($$this$173, 10);
+  $m_Lcross_common$();
+  var $$this$174 = 14;
+  var jsx$419 = new $c_Lcross_common$Vec2i().init___I__I($$this$174, 17);
+  $m_Lcross_common$();
+  var $$this$175 = 19;
+  var array$26 = [jsx$420, jsx$419, new $c_Lcross_common$Vec2i().init___I__I($$this$175, 25)];
   var i$26 = (((-1) + $uI(array$26.length)) | 0);
   var result$26 = $m_sci_Nil$();
   while ((i$26 >= 0)) {
@@ -2257,13 +2731,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$26 = new $c_sci_$colon$colon().init___O__sci_List(x$26, this$460);
     i$26 = (((-1) + i$26) | 0)
   };
-  var jsx$270 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$274, 4, (-1), jsx$273, jsx$272, jsx$271, result$26);
-  var jsx$269 = new $c_Lcross_mvc$Asset().init___T("/image/4L-2-1.png");
-  var jsx$268 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$267 = new $c_Lcross_common$Vec2i().init___I__I(25, 25);
-  var jsx$266 = new $c_Lcross_common$Vec2i().init___I__I(3, 10);
+  var jsx$418 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$424, 4, (-1), jsx$423, jsx$422, jsx$421, result$26);
+  var jsx$417 = new $c_Lcross_mvc$Asset().init___T("/image/4L-2-1.png");
+  var jsx$416 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$176 = 25;
+  var jsx$415 = new $c_Lcross_common$Vec2i().init___I__I($$this$176, 25);
+  $m_Lcross_common$();
+  var $$this$177 = 3;
+  var jsx$414 = new $c_Lcross_common$Vec2i().init___I__I($$this$177, 10);
   $m_sci_List$();
-  var array$27 = [new $c_Lcross_common$Vec2i().init___I__I(4, 13), new $c_Lcross_common$Vec2i().init___I__I(11, 16), new $c_Lcross_common$Vec2i().init___I__I(19, 24)];
+  $m_Lcross_common$();
+  var $$this$178 = 4;
+  var jsx$413 = new $c_Lcross_common$Vec2i().init___I__I($$this$178, 13);
+  $m_Lcross_common$();
+  var $$this$179 = 11;
+  var jsx$412 = new $c_Lcross_common$Vec2i().init___I__I($$this$179, 16);
+  $m_Lcross_common$();
+  var $$this$180 = 19;
+  var array$27 = [jsx$413, jsx$412, new $c_Lcross_common$Vec2i().init___I__I($$this$180, 24)];
   var i$27 = (((-1) + $uI(array$27.length)) | 0);
   var result$27 = $m_sci_Nil$();
   while ((i$27 >= 0)) {
@@ -2273,13 +2759,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$27 = new $c_sci_$colon$colon().init___O__sci_List(x$27, this$474);
     i$27 = (((-1) + i$27) | 0)
   };
-  var jsx$265 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$269, 4, (-2), jsx$268, jsx$267, jsx$266, result$27);
-  var jsx$264 = new $c_Lcross_mvc$Asset().init___T("/image/4L-3-1.png");
-  var jsx$263 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$262 = new $c_Lcross_common$Vec2i().init___I__I(28, 21);
-  var jsx$261 = new $c_Lcross_common$Vec2i().init___I__I(2, 15);
+  var jsx$411 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$417, 4, (-2), jsx$416, jsx$415, jsx$414, result$27);
+  var jsx$410 = new $c_Lcross_mvc$Asset().init___T("/image/4L-3-1.png");
+  var jsx$409 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$181 = 28;
+  var jsx$408 = new $c_Lcross_common$Vec2i().init___I__I($$this$181, 21);
+  $m_Lcross_common$();
+  var $$this$182 = 2;
+  var jsx$407 = new $c_Lcross_common$Vec2i().init___I__I($$this$182, 15);
   $m_sci_List$();
-  var array$28 = [new $c_Lcross_common$Vec2i().init___I__I(5, 16), new $c_Lcross_common$Vec2i().init___I__I(14, 20), new $c_Lcross_common$Vec2i().init___I__I(24, 23)];
+  $m_Lcross_common$();
+  var $$this$183 = 5;
+  var jsx$406 = new $c_Lcross_common$Vec2i().init___I__I($$this$183, 16);
+  $m_Lcross_common$();
+  var $$this$184 = 14;
+  var jsx$405 = new $c_Lcross_common$Vec2i().init___I__I($$this$184, 20);
+  $m_Lcross_common$();
+  var $$this$185 = 24;
+  var array$28 = [jsx$406, jsx$405, new $c_Lcross_common$Vec2i().init___I__I($$this$185, 23)];
   var i$28 = (((-1) + $uI(array$28.length)) | 0);
   var result$28 = $m_sci_Nil$();
   while ((i$28 >= 0)) {
@@ -2289,13 +2787,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$28 = new $c_sci_$colon$colon().init___O__sci_List(x$28, this$488);
     i$28 = (((-1) + i$28) | 0)
   };
-  var jsx$260 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$264, 4, (-3), jsx$263, jsx$262, jsx$261, result$28);
-  var jsx$259 = new $c_Lcross_mvc$Asset().init___T("/image/4L-4-1.png");
-  var jsx$258 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$257 = new $c_Lcross_common$Vec2i().init___I__I(29, 15);
-  var jsx$256 = new $c_Lcross_common$Vec2i().init___I__I(2, 21);
+  var jsx$404 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$410, 4, (-3), jsx$409, jsx$408, jsx$407, result$28);
+  var jsx$403 = new $c_Lcross_mvc$Asset().init___T("/image/4L-4-1.png");
+  var jsx$402 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$186 = 29;
+  var jsx$401 = new $c_Lcross_common$Vec2i().init___I__I($$this$186, 15);
+  $m_Lcross_common$();
+  var $$this$187 = 2;
+  var jsx$400 = new $c_Lcross_common$Vec2i().init___I__I($$this$187, 21);
   $m_sci_List$();
-  var array$29 = [new $c_Lcross_common$Vec2i().init___I__I(5, 20), new $c_Lcross_common$Vec2i().init___I__I(15, 21), new $c_Lcross_common$Vec2i().init___I__I(25, 16)];
+  $m_Lcross_common$();
+  var $$this$188 = 5;
+  var jsx$399 = new $c_Lcross_common$Vec2i().init___I__I($$this$188, 20);
+  $m_Lcross_common$();
+  var $$this$189 = 15;
+  var jsx$398 = new $c_Lcross_common$Vec2i().init___I__I($$this$189, 21);
+  $m_Lcross_common$();
+  var $$this$190 = 25;
+  var array$29 = [jsx$399, jsx$398, new $c_Lcross_common$Vec2i().init___I__I($$this$190, 16)];
   var i$29 = (((-1) + $uI(array$29.length)) | 0);
   var result$29 = $m_sci_Nil$();
   while ((i$29 >= 0)) {
@@ -2305,13 +2815,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$29 = new $c_sci_$colon$colon().init___O__sci_List(x$29, this$502);
     i$29 = (((-1) + i$29) | 0)
   };
-  var jsx$255 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$259, 4, (-4), jsx$258, jsx$257, jsx$256, result$29);
-  var jsx$254 = new $c_Lcross_mvc$Asset().init___T("/image/4R+0-1.png");
-  var jsx$253 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$252 = new $c_Lcross_common$Vec2i().init___I__I(15, 29);
-  var jsx$251 = new $c_Lcross_common$Vec2i().init___I__I(21, 2);
+  var jsx$397 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$403, 4, (-4), jsx$402, jsx$401, jsx$400, result$29);
+  var jsx$396 = new $c_Lcross_mvc$Asset().init___T("/image/4R+0-1.png");
+  var jsx$395 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$191 = 15;
+  var jsx$394 = new $c_Lcross_common$Vec2i().init___I__I($$this$191, 29);
+  $m_Lcross_common$();
+  var $$this$192 = 21;
+  var jsx$393 = new $c_Lcross_common$Vec2i().init___I__I($$this$192, 2);
   $m_sci_List$();
-  var array$30 = [new $c_Lcross_common$Vec2i().init___I__I(18, 28), new $c_Lcross_common$Vec2i().init___I__I(19, 19), new $c_Lcross_common$Vec2i().init___I__I(22, 5)];
+  $m_Lcross_common$();
+  var $$this$193 = 18;
+  var jsx$392 = new $c_Lcross_common$Vec2i().init___I__I($$this$193, 28);
+  $m_Lcross_common$();
+  var $$this$194 = 19;
+  var jsx$391 = new $c_Lcross_common$Vec2i().init___I__I($$this$194, 19);
+  $m_Lcross_common$();
+  var $$this$195 = 22;
+  var array$30 = [jsx$392, jsx$391, new $c_Lcross_common$Vec2i().init___I__I($$this$195, 5)];
   var i$30 = (((-1) + $uI(array$30.length)) | 0);
   var result$30 = $m_sci_Nil$();
   while ((i$30 >= 0)) {
@@ -2321,13 +2843,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$30 = new $c_sci_$colon$colon().init___O__sci_List(x$30, this$516);
     i$30 = (((-1) + i$30) | 0)
   };
-  var jsx$250 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$254, 4, 0, jsx$253, jsx$252, jsx$251, result$30);
-  var jsx$249 = new $c_Lcross_mvc$Asset().init___T("/image/4R+1-1.png");
-  var jsx$248 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$247 = new $c_Lcross_common$Vec2i().init___I__I(10, 27);
-  var jsx$246 = new $c_Lcross_common$Vec2i().init___I__I(26, 6);
+  var jsx$390 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$396, 4, 0, jsx$395, jsx$394, jsx$393, result$30);
+  var jsx$389 = new $c_Lcross_mvc$Asset().init___T("/image/4R+1-1.png");
+  var jsx$388 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$196 = 10;
+  var jsx$387 = new $c_Lcross_common$Vec2i().init___I__I($$this$196, 27);
+  $m_Lcross_common$();
+  var $$this$197 = 26;
+  var jsx$386 = new $c_Lcross_common$Vec2i().init___I__I($$this$197, 6);
   $m_sci_List$();
-  var array$31 = [new $c_Lcross_common$Vec2i().init___I__I(15, 25), new $c_Lcross_common$Vec2i().init___I__I(18, 17), new $c_Lcross_common$Vec2i().init___I__I(24, 10), new $c_Lcross_common$Vec2i().init___I__I(25, 5)];
+  $m_Lcross_common$();
+  var $$this$198 = 15;
+  var jsx$385 = new $c_Lcross_common$Vec2i().init___I__I($$this$198, 25);
+  $m_Lcross_common$();
+  var $$this$199 = 18;
+  var jsx$384 = new $c_Lcross_common$Vec2i().init___I__I($$this$199, 17);
+  $m_Lcross_common$();
+  var $$this$200 = 24;
+  var jsx$383 = new $c_Lcross_common$Vec2i().init___I__I($$this$200, 10);
+  $m_Lcross_common$();
+  var $$this$201 = 25;
+  var array$31 = [jsx$385, jsx$384, jsx$383, new $c_Lcross_common$Vec2i().init___I__I($$this$201, 5)];
   var i$31 = (((-1) + $uI(array$31.length)) | 0);
   var result$31 = $m_sci_Nil$();
   while ((i$31 >= 0)) {
@@ -2337,13 +2874,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$31 = new $c_sci_$colon$colon().init___O__sci_List(x$31, this$532);
     i$31 = (((-1) + i$31) | 0)
   };
-  var jsx$245 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$249, 4, 1, jsx$248, jsx$247, jsx$246, result$31);
-  var jsx$244 = new $c_Lcross_mvc$Asset().init___T("/image/4R+2-1.png");
-  var jsx$243 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$242 = new $c_Lcross_common$Vec2i().init___I__I(6, 25);
-  var jsx$241 = new $c_Lcross_common$Vec2i().init___I__I(28, 10);
+  var jsx$382 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$389, 4, 1, jsx$388, jsx$387, jsx$386, result$31);
+  var jsx$381 = new $c_Lcross_mvc$Asset().init___T("/image/4R+2-1.png");
+  var jsx$380 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$202 = 6;
+  var jsx$379 = new $c_Lcross_common$Vec2i().init___I__I($$this$202, 25);
+  $m_Lcross_common$();
+  var $$this$203 = 28;
+  var jsx$378 = new $c_Lcross_common$Vec2i().init___I__I($$this$203, 10);
   $m_sci_List$();
-  var array$32 = [new $c_Lcross_common$Vec2i().init___I__I(10, 25), new $c_Lcross_common$Vec2i().init___I__I(18, 19), new $c_Lcross_common$Vec2i().init___I__I(28, 12)];
+  $m_Lcross_common$();
+  var $$this$204 = 10;
+  var jsx$377 = new $c_Lcross_common$Vec2i().init___I__I($$this$204, 25);
+  $m_Lcross_common$();
+  var $$this$205 = 18;
+  var jsx$376 = new $c_Lcross_common$Vec2i().init___I__I($$this$205, 19);
+  $m_Lcross_common$();
+  var $$this$206 = 28;
+  var array$32 = [jsx$377, jsx$376, new $c_Lcross_common$Vec2i().init___I__I($$this$206, 12)];
   var i$32 = (((-1) + $uI(array$32.length)) | 0);
   var result$32 = $m_sci_Nil$();
   while ((i$32 >= 0)) {
@@ -2353,13 +2902,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$32 = new $c_sci_$colon$colon().init___O__sci_List(x$32, this$546);
     i$32 = (((-1) + i$32) | 0)
   };
-  var jsx$240 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$244, 4, 2, jsx$243, jsx$242, jsx$241, result$32);
-  var jsx$239 = new $c_Lcross_mvc$Asset().init___T("/image/4R+3-1.png");
-  var jsx$238 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$237 = new $c_Lcross_common$Vec2i().init___I__I(3, 20);
-  var jsx$236 = new $c_Lcross_common$Vec2i().init___I__I(29, 15);
+  var jsx$375 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$381, 4, 2, jsx$380, jsx$379, jsx$378, result$32);
+  var jsx$374 = new $c_Lcross_mvc$Asset().init___T("/image/4R+3-1.png");
+  var jsx$373 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$207 = 3;
+  var jsx$372 = new $c_Lcross_common$Vec2i().init___I__I($$this$207, 20);
+  $m_Lcross_common$();
+  var $$this$208 = 29;
+  var jsx$371 = new $c_Lcross_common$Vec2i().init___I__I($$this$208, 15);
   $m_sci_List$();
-  var array$33 = [new $c_Lcross_common$Vec2i().init___I__I(7, 22), new $c_Lcross_common$Vec2i().init___I__I(17, 18), new $c_Lcross_common$Vec2i().init___I__I(27, 16)];
+  $m_Lcross_common$();
+  var $$this$209 = 7;
+  var jsx$370 = new $c_Lcross_common$Vec2i().init___I__I($$this$209, 22);
+  $m_Lcross_common$();
+  var $$this$210 = 17;
+  var jsx$369 = new $c_Lcross_common$Vec2i().init___I__I($$this$210, 18);
+  $m_Lcross_common$();
+  var $$this$211 = 27;
+  var array$33 = [jsx$370, jsx$369, new $c_Lcross_common$Vec2i().init___I__I($$this$211, 16)];
   var i$33 = (((-1) + $uI(array$33.length)) | 0);
   var result$33 = $m_sci_Nil$();
   while ((i$33 >= 0)) {
@@ -2369,13 +2930,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$33 = new $c_sci_$colon$colon().init___O__sci_List(x$33, this$560);
     i$33 = (((-1) + i$33) | 0)
   };
-  var jsx$235 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$239, 4, 3, jsx$238, jsx$237, jsx$236, result$33);
-  var jsx$234 = new $c_Lcross_mvc$Asset().init___T("/image/4R+4-1.png");
-  var jsx$233 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$232 = new $c_Lcross_common$Vec2i().init___I__I(2, 15);
-  var jsx$231 = new $c_Lcross_common$Vec2i().init___I__I(29, 21);
+  var jsx$368 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$374, 4, 3, jsx$373, jsx$372, jsx$371, result$33);
+  var jsx$367 = new $c_Lcross_mvc$Asset().init___T("/image/4R+4-1.png");
+  var jsx$366 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$212 = 2;
+  var jsx$365 = new $c_Lcross_common$Vec2i().init___I__I($$this$212, 15);
+  $m_Lcross_common$();
+  var $$this$213 = 29;
+  var jsx$364 = new $c_Lcross_common$Vec2i().init___I__I($$this$213, 21);
   $m_sci_List$();
-  var array$34 = [new $c_Lcross_common$Vec2i().init___I__I(5, 16), new $c_Lcross_common$Vec2i().init___I__I(14, 20), new $c_Lcross_common$Vec2i().init___I__I(28, 20)];
+  $m_Lcross_common$();
+  var $$this$214 = 5;
+  var jsx$363 = new $c_Lcross_common$Vec2i().init___I__I($$this$214, 16);
+  $m_Lcross_common$();
+  var $$this$215 = 14;
+  var jsx$362 = new $c_Lcross_common$Vec2i().init___I__I($$this$215, 20);
+  $m_Lcross_common$();
+  var $$this$216 = 28;
+  var array$34 = [jsx$363, jsx$362, new $c_Lcross_common$Vec2i().init___I__I($$this$216, 20)];
   var i$34 = (((-1) + $uI(array$34.length)) | 0);
   var result$34 = $m_sci_Nil$();
   while ((i$34 >= 0)) {
@@ -2385,13 +2958,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$34 = new $c_sci_$colon$colon().init___O__sci_List(x$34, this$574);
     i$34 = (((-1) + i$34) | 0)
   };
-  var jsx$230 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$234, 4, 4, jsx$233, jsx$232, jsx$231, result$34);
-  var jsx$229 = new $c_Lcross_mvc$Asset().init___T("/image/4R-1-1.png");
-  var jsx$228 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$227 = new $c_Lcross_common$Vec2i().init___I__I(20, 28);
-  var jsx$226 = new $c_Lcross_common$Vec2i().init___I__I(15, 2);
+  var jsx$361 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$367, 4, 4, jsx$366, jsx$365, jsx$364, result$34);
+  var jsx$360 = new $c_Lcross_mvc$Asset().init___T("/image/4R-1-1.png");
+  var jsx$359 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$217 = 20;
+  var jsx$358 = new $c_Lcross_common$Vec2i().init___I__I($$this$217, 28);
+  $m_Lcross_common$();
+  var $$this$218 = 15;
+  var jsx$357 = new $c_Lcross_common$Vec2i().init___I__I($$this$218, 2);
   $m_sci_List$();
-  var array$35 = [new $c_Lcross_common$Vec2i().init___I__I(16, 4), new $c_Lcross_common$Vec2i().init___I__I(19, 12), new $c_Lcross_common$Vec2i().init___I__I(22, 25)];
+  $m_Lcross_common$();
+  var $$this$219 = 16;
+  var jsx$356 = new $c_Lcross_common$Vec2i().init___I__I($$this$219, 4);
+  $m_Lcross_common$();
+  var $$this$220 = 19;
+  var jsx$355 = new $c_Lcross_common$Vec2i().init___I__I($$this$220, 12);
+  $m_Lcross_common$();
+  var $$this$221 = 22;
+  var array$35 = [jsx$356, jsx$355, new $c_Lcross_common$Vec2i().init___I__I($$this$221, 25)];
   var i$35 = (((-1) + $uI(array$35.length)) | 0);
   var result$35 = $m_sci_Nil$();
   while ((i$35 >= 0)) {
@@ -2401,13 +2986,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$35 = new $c_sci_$colon$colon().init___O__sci_List(x$35, this$588);
     i$35 = (((-1) + i$35) | 0)
   };
-  var jsx$225 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$229, 4, (-1), jsx$228, jsx$227, jsx$226, result$35);
-  var jsx$224 = new $c_Lcross_mvc$Asset().init___T("/image/4R-2-1.png");
-  var jsx$223 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$222 = new $c_Lcross_common$Vec2i().init___I__I(25, 25);
-  var jsx$221 = new $c_Lcross_common$Vec2i().init___I__I(10, 3);
+  var jsx$354 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$360, 4, (-1), jsx$359, jsx$358, jsx$357, result$35);
+  var jsx$353 = new $c_Lcross_mvc$Asset().init___T("/image/4R-2-1.png");
+  var jsx$352 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$222 = 25;
+  var jsx$351 = new $c_Lcross_common$Vec2i().init___I__I($$this$222, 25);
+  $m_Lcross_common$();
+  var $$this$223 = 10;
+  var jsx$350 = new $c_Lcross_common$Vec2i().init___I__I($$this$223, 3);
   $m_sci_List$();
-  var array$36 = [new $c_Lcross_common$Vec2i().init___I__I(12, 4), new $c_Lcross_common$Vec2i().init___I__I(19, 11), new $c_Lcross_common$Vec2i().init___I__I(23, 22)];
+  $m_Lcross_common$();
+  var $$this$224 = 12;
+  var jsx$349 = new $c_Lcross_common$Vec2i().init___I__I($$this$224, 4);
+  $m_Lcross_common$();
+  var $$this$225 = 19;
+  var jsx$348 = new $c_Lcross_common$Vec2i().init___I__I($$this$225, 11);
+  $m_Lcross_common$();
+  var $$this$226 = 23;
+  var array$36 = [jsx$349, jsx$348, new $c_Lcross_common$Vec2i().init___I__I($$this$226, 22)];
   var i$36 = (((-1) + $uI(array$36.length)) | 0);
   var result$36 = $m_sci_Nil$();
   while ((i$36 >= 0)) {
@@ -2417,13 +3014,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$36 = new $c_sci_$colon$colon().init___O__sci_List(x$36, this$602);
     i$36 = (((-1) + i$36) | 0)
   };
-  var jsx$220 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$224, 4, (-2), jsx$223, jsx$222, jsx$221, result$36);
-  var jsx$219 = new $c_Lcross_mvc$Asset().init___T("/image/4R-3-1.png");
-  var jsx$218 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$217 = new $c_Lcross_common$Vec2i().init___I__I(27, 21);
-  var jsx$216 = new $c_Lcross_common$Vec2i().init___I__I(6, 5);
+  var jsx$347 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$353, 4, (-2), jsx$352, jsx$351, jsx$350, result$36);
+  var jsx$346 = new $c_Lcross_mvc$Asset().init___T("/image/4R-3-1.png");
+  var jsx$345 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$227 = 27;
+  var jsx$344 = new $c_Lcross_common$Vec2i().init___I__I($$this$227, 21);
+  $m_Lcross_common$();
+  var $$this$228 = 6;
+  var jsx$343 = new $c_Lcross_common$Vec2i().init___I__I($$this$228, 5);
   $m_sci_List$();
-  var array$37 = [new $c_Lcross_common$Vec2i().init___I__I(8, 6), new $c_Lcross_common$Vec2i().init___I__I(15, 10), new $c_Lcross_common$Vec2i().init___I__I(19, 14), new $c_Lcross_common$Vec2i().init___I__I(26, 19)];
+  $m_Lcross_common$();
+  var $$this$229 = 8;
+  var jsx$342 = new $c_Lcross_common$Vec2i().init___I__I($$this$229, 6);
+  $m_Lcross_common$();
+  var $$this$230 = 15;
+  var jsx$341 = new $c_Lcross_common$Vec2i().init___I__I($$this$230, 10);
+  $m_Lcross_common$();
+  var $$this$231 = 19;
+  var jsx$340 = new $c_Lcross_common$Vec2i().init___I__I($$this$231, 14);
+  $m_Lcross_common$();
+  var $$this$232 = 26;
+  var array$37 = [jsx$342, jsx$341, jsx$340, new $c_Lcross_common$Vec2i().init___I__I($$this$232, 19)];
   var i$37 = (((-1) + $uI(array$37.length)) | 0);
   var result$37 = $m_sci_Nil$();
   while ((i$37 >= 0)) {
@@ -2433,13 +3045,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$37 = new $c_sci_$colon$colon().init___O__sci_List(x$37, this$618);
     i$37 = (((-1) + i$37) | 0)
   };
-  var jsx$215 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$219, 4, (-3), jsx$218, jsx$217, jsx$216, result$37);
-  var jsx$214 = new $c_Lcross_mvc$Asset().init___T("/image/4R-4-1.png");
-  var jsx$213 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$212 = new $c_Lcross_common$Vec2i().init___I__I(29, 16);
-  var jsx$211 = new $c_Lcross_common$Vec2i().init___I__I(2, 10);
+  var jsx$339 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$346, 4, (-3), jsx$345, jsx$344, jsx$343, result$37);
+  var jsx$338 = new $c_Lcross_mvc$Asset().init___T("/image/4R-4-1.png");
+  var jsx$337 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$233 = 29;
+  var jsx$336 = new $c_Lcross_common$Vec2i().init___I__I($$this$233, 16);
+  $m_Lcross_common$();
+  var $$this$234 = 2;
+  var jsx$335 = new $c_Lcross_common$Vec2i().init___I__I($$this$234, 10);
   $m_sci_List$();
-  var array$38 = [new $c_Lcross_common$Vec2i().init___I__I(6, 11), new $c_Lcross_common$Vec2i().init___I__I(15, 10), new $c_Lcross_common$Vec2i().init___I__I(23, 11), new $c_Lcross_common$Vec2i().init___I__I(27, 16)];
+  $m_Lcross_common$();
+  var $$this$235 = 6;
+  var jsx$334 = new $c_Lcross_common$Vec2i().init___I__I($$this$235, 11);
+  $m_Lcross_common$();
+  var $$this$236 = 15;
+  var jsx$333 = new $c_Lcross_common$Vec2i().init___I__I($$this$236, 10);
+  $m_Lcross_common$();
+  var $$this$237 = 23;
+  var jsx$332 = new $c_Lcross_common$Vec2i().init___I__I($$this$237, 11);
+  $m_Lcross_common$();
+  var $$this$238 = 27;
+  var array$38 = [jsx$334, jsx$333, jsx$332, new $c_Lcross_common$Vec2i().init___I__I($$this$238, 16)];
   var i$38 = (((-1) + $uI(array$38.length)) | 0);
   var result$38 = $m_sci_Nil$();
   while ((i$38 >= 0)) {
@@ -2449,13 +3076,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$38 = new $c_sci_$colon$colon().init___O__sci_List(x$38, this$634);
     i$38 = (((-1) + i$38) | 0)
   };
-  var jsx$210 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$214, 4, (-4), jsx$213, jsx$212, jsx$211, result$38);
-  var jsx$209 = new $c_Lcross_mvc$Asset().init___T("/image/4S+0-1.png");
-  var jsx$208 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$207 = new $c_Lcross_common$Vec2i().init___I__I(15, 29);
-  var jsx$206 = new $c_Lcross_common$Vec2i().init___I__I(16, 2);
+  var jsx$331 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$338, 4, (-4), jsx$337, jsx$336, jsx$335, result$38);
+  var jsx$330 = new $c_Lcross_mvc$Asset().init___T("/image/4S+0-1.png");
+  var jsx$329 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$239 = 15;
+  var jsx$328 = new $c_Lcross_common$Vec2i().init___I__I($$this$239, 29);
+  $m_Lcross_common$();
+  var $$this$240 = 16;
+  var jsx$327 = new $c_Lcross_common$Vec2i().init___I__I($$this$240, 2);
   $m_sci_List$();
-  var array$39 = [new $c_Lcross_common$Vec2i().init___I__I(15, 2), new $c_Lcross_common$Vec2i().init___I__I(15, 17), new $c_Lcross_common$Vec2i().init___I__I(17, 8), new $c_Lcross_common$Vec2i().init___I__I(17, 25)];
+  $m_Lcross_common$();
+  var $$this$241 = 15;
+  var jsx$326 = new $c_Lcross_common$Vec2i().init___I__I($$this$241, 2);
+  $m_Lcross_common$();
+  var $$this$242 = 15;
+  var jsx$325 = new $c_Lcross_common$Vec2i().init___I__I($$this$242, 17);
+  $m_Lcross_common$();
+  var $$this$243 = 17;
+  var jsx$324 = new $c_Lcross_common$Vec2i().init___I__I($$this$243, 8);
+  $m_Lcross_common$();
+  var $$this$244 = 17;
+  var array$39 = [jsx$326, jsx$325, jsx$324, new $c_Lcross_common$Vec2i().init___I__I($$this$244, 25)];
   var i$39 = (((-1) + $uI(array$39.length)) | 0);
   var result$39 = $m_sci_Nil$();
   while ((i$39 >= 0)) {
@@ -2465,13 +3107,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$39 = new $c_sci_$colon$colon().init___O__sci_List(x$39, this$650);
     i$39 = (((-1) + i$39) | 0)
   };
-  var jsx$205 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$209, 4, 0, jsx$208, jsx$207, jsx$206, result$39);
-  var jsx$204 = new $c_Lcross_mvc$Asset().init___T("/image/4S+1-1.png");
-  var jsx$203 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$202 = new $c_Lcross_common$Vec2i().init___I__I(10, 27);
-  var jsx$201 = new $c_Lcross_common$Vec2i().init___I__I(21, 4);
+  var jsx$323 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$330, 4, 0, jsx$329, jsx$328, jsx$327, result$39);
+  var jsx$322 = new $c_Lcross_mvc$Asset().init___T("/image/4S+1-1.png");
+  var jsx$321 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$245 = 10;
+  var jsx$320 = new $c_Lcross_common$Vec2i().init___I__I($$this$245, 27);
+  $m_Lcross_common$();
+  var $$this$246 = 21;
+  var jsx$319 = new $c_Lcross_common$Vec2i().init___I__I($$this$246, 4);
   $m_sci_List$();
-  var array$40 = [new $c_Lcross_common$Vec2i().init___I__I(13, 24), new $c_Lcross_common$Vec2i().init___I__I(15, 14), new $c_Lcross_common$Vec2i().init___I__I(21, 8)];
+  $m_Lcross_common$();
+  var $$this$247 = 13;
+  var jsx$318 = new $c_Lcross_common$Vec2i().init___I__I($$this$247, 24);
+  $m_Lcross_common$();
+  var $$this$248 = 15;
+  var jsx$317 = new $c_Lcross_common$Vec2i().init___I__I($$this$248, 14);
+  $m_Lcross_common$();
+  var $$this$249 = 21;
+  var array$40 = [jsx$318, jsx$317, new $c_Lcross_common$Vec2i().init___I__I($$this$249, 8)];
   var i$40 = (((-1) + $uI(array$40.length)) | 0);
   var result$40 = $m_sci_Nil$();
   while ((i$40 >= 0)) {
@@ -2481,13 +3135,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$40 = new $c_sci_$colon$colon().init___O__sci_List(x$40, this$664);
     i$40 = (((-1) + i$40) | 0)
   };
-  var jsx$200 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$204, 4, 1, jsx$203, jsx$202, jsx$201, result$40);
-  var jsx$199 = new $c_Lcross_mvc$Asset().init___T("/image/4S+2-1.png");
-  var jsx$198 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$197 = new $c_Lcross_common$Vec2i().init___I__I(6, 25);
-  var jsx$196 = new $c_Lcross_common$Vec2i().init___I__I(25, 7);
+  var jsx$316 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$322, 4, 1, jsx$321, jsx$320, jsx$319, result$40);
+  var jsx$315 = new $c_Lcross_mvc$Asset().init___T("/image/4S+2-1.png");
+  var jsx$314 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$250 = 6;
+  var jsx$313 = new $c_Lcross_common$Vec2i().init___I__I($$this$250, 25);
+  $m_Lcross_common$();
+  var $$this$251 = 25;
+  var jsx$312 = new $c_Lcross_common$Vec2i().init___I__I($$this$251, 7);
   $m_sci_List$();
-  var array$41 = [new $c_Lcross_common$Vec2i().init___I__I(8, 23), new $c_Lcross_common$Vec2i().init___I__I(16, 14), new $c_Lcross_common$Vec2i().init___I__I(23, 10)];
+  $m_Lcross_common$();
+  var $$this$252 = 8;
+  var jsx$311 = new $c_Lcross_common$Vec2i().init___I__I($$this$252, 23);
+  $m_Lcross_common$();
+  var $$this$253 = 16;
+  var jsx$310 = new $c_Lcross_common$Vec2i().init___I__I($$this$253, 14);
+  $m_Lcross_common$();
+  var $$this$254 = 23;
+  var array$41 = [jsx$311, jsx$310, new $c_Lcross_common$Vec2i().init___I__I($$this$254, 10)];
   var i$41 = (((-1) + $uI(array$41.length)) | 0);
   var result$41 = $m_sci_Nil$();
   while ((i$41 >= 0)) {
@@ -2497,13 +3163,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$41 = new $c_sci_$colon$colon().init___O__sci_List(x$41, this$678);
     i$41 = (((-1) + i$41) | 0)
   };
-  var jsx$195 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$199, 4, 2, jsx$198, jsx$197, jsx$196, result$41);
-  var jsx$194 = new $c_Lcross_mvc$Asset().init___T("/image/4S+3-1.png");
-  var jsx$193 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$192 = new $c_Lcross_common$Vec2i().init___I__I(4, 21);
-  var jsx$191 = new $c_Lcross_common$Vec2i().init___I__I(27, 10);
+  var jsx$309 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$315, 4, 2, jsx$314, jsx$313, jsx$312, result$41);
+  var jsx$308 = new $c_Lcross_mvc$Asset().init___T("/image/4S+3-1.png");
+  var jsx$307 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$255 = 4;
+  var jsx$306 = new $c_Lcross_common$Vec2i().init___I__I($$this$255, 21);
+  $m_Lcross_common$();
+  var $$this$256 = 27;
+  var jsx$305 = new $c_Lcross_common$Vec2i().init___I__I($$this$256, 10);
   $m_sci_List$();
-  var array$42 = [new $c_Lcross_common$Vec2i().init___I__I(7, 21), new $c_Lcross_common$Vec2i().init___I__I(17, 16), new $c_Lcross_common$Vec2i().init___I__I(23, 10)];
+  $m_Lcross_common$();
+  var $$this$257 = 7;
+  var jsx$304 = new $c_Lcross_common$Vec2i().init___I__I($$this$257, 21);
+  $m_Lcross_common$();
+  var $$this$258 = 17;
+  var jsx$303 = new $c_Lcross_common$Vec2i().init___I__I($$this$258, 16);
+  $m_Lcross_common$();
+  var $$this$259 = 23;
+  var array$42 = [jsx$304, jsx$303, new $c_Lcross_common$Vec2i().init___I__I($$this$259, 10)];
   var i$42 = (((-1) + $uI(array$42.length)) | 0);
   var result$42 = $m_sci_Nil$();
   while ((i$42 >= 0)) {
@@ -2513,13 +3191,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$42 = new $c_sci_$colon$colon().init___O__sci_List(x$42, this$692);
     i$42 = (((-1) + i$42) | 0)
   };
-  var jsx$190 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$194, 4, 3, jsx$193, jsx$192, jsx$191, result$42);
-  var jsx$189 = new $c_Lcross_mvc$Asset().init___T("/image/4S+4-1.png");
-  var jsx$188 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$187 = new $c_Lcross_common$Vec2i().init___I__I(2, 15);
-  var jsx$186 = new $c_Lcross_common$Vec2i().init___I__I(29, 16);
+  var jsx$302 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$308, 4, 3, jsx$307, jsx$306, jsx$305, result$42);
+  var jsx$301 = new $c_Lcross_mvc$Asset().init___T("/image/4S+4-1.png");
+  var jsx$300 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$260 = 2;
+  var jsx$299 = new $c_Lcross_common$Vec2i().init___I__I($$this$260, 15);
+  $m_Lcross_common$();
+  var $$this$261 = 29;
+  var jsx$298 = new $c_Lcross_common$Vec2i().init___I__I($$this$261, 16);
   $m_sci_List$();
-  var array$43 = [new $c_Lcross_common$Vec2i().init___I__I(4, 14), new $c_Lcross_common$Vec2i().init___I__I(10, 17), new $c_Lcross_common$Vec2i().init___I__I(20, 15), new $c_Lcross_common$Vec2i().init___I__I(27, 16)];
+  $m_Lcross_common$();
+  var $$this$262 = 4;
+  var jsx$297 = new $c_Lcross_common$Vec2i().init___I__I($$this$262, 14);
+  $m_Lcross_common$();
+  var $$this$263 = 10;
+  var jsx$296 = new $c_Lcross_common$Vec2i().init___I__I($$this$263, 17);
+  $m_Lcross_common$();
+  var $$this$264 = 20;
+  var jsx$295 = new $c_Lcross_common$Vec2i().init___I__I($$this$264, 15);
+  $m_Lcross_common$();
+  var $$this$265 = 27;
+  var array$43 = [jsx$297, jsx$296, jsx$295, new $c_Lcross_common$Vec2i().init___I__I($$this$265, 16)];
   var i$43 = (((-1) + $uI(array$43.length)) | 0);
   var result$43 = $m_sci_Nil$();
   while ((i$43 >= 0)) {
@@ -2529,13 +3222,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$43 = new $c_sci_$colon$colon().init___O__sci_List(x$43, this$708);
     i$43 = (((-1) + i$43) | 0)
   };
-  var jsx$185 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$189, 4, 4, jsx$188, jsx$187, jsx$186, result$43);
-  var jsx$184 = new $c_Lcross_mvc$Asset().init___T("/image/4S-1-1.png");
-  var jsx$183 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$182 = new $c_Lcross_common$Vec2i().init___I__I(21, 27);
-  var jsx$181 = new $c_Lcross_common$Vec2i().init___I__I(10, 4);
+  var jsx$294 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$301, 4, 4, jsx$300, jsx$299, jsx$298, result$43);
+  var jsx$293 = new $c_Lcross_mvc$Asset().init___T("/image/4S-1-1.png");
+  var jsx$292 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$266 = 21;
+  var jsx$291 = new $c_Lcross_common$Vec2i().init___I__I($$this$266, 27);
+  $m_Lcross_common$();
+  var $$this$267 = 10;
+  var jsx$290 = new $c_Lcross_common$Vec2i().init___I__I($$this$267, 4);
   $m_sci_List$();
-  var array$44 = [new $c_Lcross_common$Vec2i().init___I__I(11, 7), new $c_Lcross_common$Vec2i().init___I__I(15, 17), new $c_Lcross_common$Vec2i().init___I__I(20, 22)];
+  $m_Lcross_common$();
+  var $$this$268 = 11;
+  var jsx$289 = new $c_Lcross_common$Vec2i().init___I__I($$this$268, 7);
+  $m_Lcross_common$();
+  var $$this$269 = 15;
+  var jsx$288 = new $c_Lcross_common$Vec2i().init___I__I($$this$269, 17);
+  $m_Lcross_common$();
+  var $$this$270 = 20;
+  var array$44 = [jsx$289, jsx$288, new $c_Lcross_common$Vec2i().init___I__I($$this$270, 22)];
   var i$44 = (((-1) + $uI(array$44.length)) | 0);
   var result$44 = $m_sci_Nil$();
   while ((i$44 >= 0)) {
@@ -2545,13 +3250,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$44 = new $c_sci_$colon$colon().init___O__sci_List(x$44, this$722);
     i$44 = (((-1) + i$44) | 0)
   };
-  var jsx$180 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$184, 4, (-1), jsx$183, jsx$182, jsx$181, result$44);
-  var jsx$179 = new $c_Lcross_mvc$Asset().init___T("/image/4S-2-1.png");
-  var jsx$178 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$177 = new $c_Lcross_common$Vec2i().init___I__I(25, 25);
-  var jsx$176 = new $c_Lcross_common$Vec2i().init___I__I(6, 7);
+  var jsx$287 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$293, 4, (-1), jsx$292, jsx$291, jsx$290, result$44);
+  var jsx$286 = new $c_Lcross_mvc$Asset().init___T("/image/4S-2-1.png");
+  var jsx$285 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$271 = 25;
+  var jsx$284 = new $c_Lcross_common$Vec2i().init___I__I($$this$271, 25);
+  $m_Lcross_common$();
+  var $$this$272 = 6;
+  var jsx$283 = new $c_Lcross_common$Vec2i().init___I__I($$this$272, 7);
   $m_sci_List$();
-  var array$45 = [new $c_Lcross_common$Vec2i().init___I__I(7, 8), new $c_Lcross_common$Vec2i().init___I__I(13, 15), new $c_Lcross_common$Vec2i().init___I__I(18, 16), new $c_Lcross_common$Vec2i().init___I__I(22, 24)];
+  $m_Lcross_common$();
+  var $$this$273 = 7;
+  var jsx$282 = new $c_Lcross_common$Vec2i().init___I__I($$this$273, 8);
+  $m_Lcross_common$();
+  var $$this$274 = 13;
+  var jsx$281 = new $c_Lcross_common$Vec2i().init___I__I($$this$274, 15);
+  $m_Lcross_common$();
+  var $$this$275 = 18;
+  var jsx$280 = new $c_Lcross_common$Vec2i().init___I__I($$this$275, 16);
+  $m_Lcross_common$();
+  var $$this$276 = 22;
+  var array$45 = [jsx$282, jsx$281, jsx$280, new $c_Lcross_common$Vec2i().init___I__I($$this$276, 24)];
   var i$45 = (((-1) + $uI(array$45.length)) | 0);
   var result$45 = $m_sci_Nil$();
   while ((i$45 >= 0)) {
@@ -2561,13 +3281,25 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$45 = new $c_sci_$colon$colon().init___O__sci_List(x$45, this$738);
     i$45 = (((-1) + i$45) | 0)
   };
-  var jsx$175 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$179, 4, (-2), jsx$178, jsx$177, jsx$176, result$45);
-  var jsx$174 = new $c_Lcross_mvc$Asset().init___T("/image/4S-3-1.png");
-  var jsx$173 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$172 = new $c_Lcross_common$Vec2i().init___I__I(27, 21);
-  var jsx$171 = new $c_Lcross_common$Vec2i().init___I__I(4, 10);
+  var jsx$279 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$286, 4, (-2), jsx$285, jsx$284, jsx$283, result$45);
+  var jsx$278 = new $c_Lcross_mvc$Asset().init___T("/image/4S-3-1.png");
+  var jsx$277 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$277 = 27;
+  var jsx$276 = new $c_Lcross_common$Vec2i().init___I__I($$this$277, 21);
+  $m_Lcross_common$();
+  var $$this$278 = 4;
+  var jsx$275 = new $c_Lcross_common$Vec2i().init___I__I($$this$278, 10);
   $m_sci_List$();
-  var array$46 = [new $c_Lcross_common$Vec2i().init___I__I(8, 13), new $c_Lcross_common$Vec2i().init___I__I(16, 14), new $c_Lcross_common$Vec2i().init___I__I(25, 20)];
+  $m_Lcross_common$();
+  var $$this$279 = 8;
+  var jsx$274 = new $c_Lcross_common$Vec2i().init___I__I($$this$279, 13);
+  $m_Lcross_common$();
+  var $$this$280 = 16;
+  var jsx$273 = new $c_Lcross_common$Vec2i().init___I__I($$this$280, 14);
+  $m_Lcross_common$();
+  var $$this$281 = 25;
+  var array$46 = [jsx$274, jsx$273, new $c_Lcross_common$Vec2i().init___I__I($$this$281, 20)];
   var i$46 = (((-1) + $uI(array$46.length)) | 0);
   var result$46 = $m_sci_Nil$();
   while ((i$46 >= 0)) {
@@ -2577,13 +3309,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$46 = new $c_sci_$colon$colon().init___O__sci_List(x$46, this$752);
     i$46 = (((-1) + i$46) | 0)
   };
-  var jsx$170 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$174, 4, (-3), jsx$173, jsx$172, jsx$171, result$46);
-  var jsx$169 = new $c_Lcross_mvc$Asset().init___T("/image/4S-4-1.png");
-  var jsx$168 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$167 = new $c_Lcross_common$Vec2i().init___I__I(29, 15);
-  var jsx$166 = new $c_Lcross_common$Vec2i().init___I__I(2, 16);
+  var jsx$272 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$278, 4, (-3), jsx$277, jsx$276, jsx$275, result$46);
+  var jsx$271 = new $c_Lcross_mvc$Asset().init___T("/image/4S-4-1.png");
+  var jsx$270 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$282 = 29;
+  var jsx$269 = new $c_Lcross_common$Vec2i().init___I__I($$this$282, 15);
+  $m_Lcross_common$();
+  var $$this$283 = 2;
+  var jsx$268 = new $c_Lcross_common$Vec2i().init___I__I($$this$283, 16);
   $m_sci_List$();
-  var array$47 = [new $c_Lcross_common$Vec2i().init___I__I(4, 17), new $c_Lcross_common$Vec2i().init___I__I(13, 17), new $c_Lcross_common$Vec2i().init___I__I(19, 14), new $c_Lcross_common$Vec2i().init___I__I(26, 16)];
+  $m_Lcross_common$();
+  var $$this$284 = 4;
+  var jsx$267 = new $c_Lcross_common$Vec2i().init___I__I($$this$284, 17);
+  $m_Lcross_common$();
+  var $$this$285 = 13;
+  var jsx$266 = new $c_Lcross_common$Vec2i().init___I__I($$this$285, 17);
+  $m_Lcross_common$();
+  var $$this$286 = 19;
+  var jsx$265 = new $c_Lcross_common$Vec2i().init___I__I($$this$286, 14);
+  $m_Lcross_common$();
+  var $$this$287 = 26;
+  var array$47 = [jsx$267, jsx$266, jsx$265, new $c_Lcross_common$Vec2i().init___I__I($$this$287, 16)];
   var i$47 = (((-1) + $uI(array$47.length)) | 0);
   var result$47 = $m_sci_Nil$();
   while ((i$47 >= 0)) {
@@ -2593,13 +3340,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$47 = new $c_sci_$colon$colon().init___O__sci_List(x$47, this$768);
     i$47 = (((-1) + i$47) | 0)
   };
-  var jsx$165 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$169, 4, (-4), jsx$168, jsx$167, jsx$166, result$47);
-  var jsx$164 = new $c_Lcross_mvc$Asset().init___T("/image/5L+0-1.png");
-  var jsx$163 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$162 = new $c_Lcross_common$Vec2i().init___I__I(16, 30);
-  var jsx$161 = new $c_Lcross_common$Vec2i().init___I__I(10, 1);
+  var jsx$264 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$271, 4, (-4), jsx$270, jsx$269, jsx$268, result$47);
+  var jsx$263 = new $c_Lcross_mvc$Asset().init___T("/image/5L+0-1.png");
+  var jsx$262 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$288 = 16;
+  var jsx$261 = new $c_Lcross_common$Vec2i().init___I__I($$this$288, 30);
+  $m_Lcross_common$();
+  var $$this$289 = 10;
+  var jsx$260 = new $c_Lcross_common$Vec2i().init___I__I($$this$289, 1);
   $m_sci_List$();
-  var array$48 = [new $c_Lcross_common$Vec2i().init___I__I(10, 3), new $c_Lcross_common$Vec2i().init___I__I(11, 10), new $c_Lcross_common$Vec2i().init___I__I(12, 15), new $c_Lcross_common$Vec2i().init___I__I(13, 24)];
+  $m_Lcross_common$();
+  var $$this$290 = 10;
+  var jsx$259 = new $c_Lcross_common$Vec2i().init___I__I($$this$290, 3);
+  $m_Lcross_common$();
+  var $$this$291 = 11;
+  var jsx$258 = new $c_Lcross_common$Vec2i().init___I__I($$this$291, 10);
+  $m_Lcross_common$();
+  var $$this$292 = 12;
+  var jsx$257 = new $c_Lcross_common$Vec2i().init___I__I($$this$292, 15);
+  $m_Lcross_common$();
+  var $$this$293 = 13;
+  var array$48 = [jsx$259, jsx$258, jsx$257, new $c_Lcross_common$Vec2i().init___I__I($$this$293, 24)];
   var i$48 = (((-1) + $uI(array$48.length)) | 0);
   var result$48 = $m_sci_Nil$();
   while ((i$48 >= 0)) {
@@ -2609,13 +3371,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$48 = new $c_sci_$colon$colon().init___O__sci_List(x$48, this$784);
     i$48 = (((-1) + i$48) | 0)
   };
-  var jsx$160 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$164, 5, 0, jsx$163, jsx$162, jsx$161, result$48);
-  var jsx$159 = new $c_Lcross_mvc$Asset().init___T("/image/5L+1-1.png");
-  var jsx$158 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$157 = new $c_Lcross_common$Vec2i().init___I__I(10, 29);
-  var jsx$156 = new $c_Lcross_common$Vec2i().init___I__I(17, 1);
+  var jsx$256 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$263, 5, 0, jsx$262, jsx$261, jsx$260, result$48);
+  var jsx$255 = new $c_Lcross_mvc$Asset().init___T("/image/5L+1-1.png");
+  var jsx$254 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$294 = 10;
+  var jsx$253 = new $c_Lcross_common$Vec2i().init___I__I($$this$294, 29);
+  $m_Lcross_common$();
+  var $$this$295 = 17;
+  var jsx$252 = new $c_Lcross_common$Vec2i().init___I__I($$this$295, 1);
   $m_sci_List$();
-  var array$49 = [new $c_Lcross_common$Vec2i().init___I__I(10, 24), new $c_Lcross_common$Vec2i().init___I__I(11, 16), new $c_Lcross_common$Vec2i().init___I__I(14, 10), new $c_Lcross_common$Vec2i().init___I__I(16, 2)];
+  $m_Lcross_common$();
+  var $$this$296 = 10;
+  var jsx$251 = new $c_Lcross_common$Vec2i().init___I__I($$this$296, 24);
+  $m_Lcross_common$();
+  var $$this$297 = 11;
+  var jsx$250 = new $c_Lcross_common$Vec2i().init___I__I($$this$297, 16);
+  $m_Lcross_common$();
+  var $$this$298 = 14;
+  var jsx$249 = new $c_Lcross_common$Vec2i().init___I__I($$this$298, 10);
+  $m_Lcross_common$();
+  var $$this$299 = 16;
+  var array$49 = [jsx$251, jsx$250, jsx$249, new $c_Lcross_common$Vec2i().init___I__I($$this$299, 2)];
   var i$49 = (((-1) + $uI(array$49.length)) | 0);
   var result$49 = $m_sci_Nil$();
   while ((i$49 >= 0)) {
@@ -2625,13 +3402,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$49 = new $c_sci_$colon$colon().init___O__sci_List(x$49, this$800);
     i$49 = (((-1) + i$49) | 0)
   };
-  var jsx$155 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$159, 5, 1, jsx$158, jsx$157, jsx$156, result$49);
-  var jsx$154 = new $c_Lcross_mvc$Asset().init___T("/image/5L+2-1.png");
-  var jsx$153 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$152 = new $c_Lcross_common$Vec2i().init___I__I(6, 25);
-  var jsx$151 = new $c_Lcross_common$Vec2i().init___I__I(22, 2);
+  var jsx$248 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$255, 5, 1, jsx$254, jsx$253, jsx$252, result$49);
+  var jsx$247 = new $c_Lcross_mvc$Asset().init___T("/image/5L+2-1.png");
+  var jsx$246 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$300 = 6;
+  var jsx$245 = new $c_Lcross_common$Vec2i().init___I__I($$this$300, 25);
+  $m_Lcross_common$();
+  var $$this$301 = 22;
+  var jsx$244 = new $c_Lcross_common$Vec2i().init___I__I($$this$301, 2);
   $m_sci_List$();
-  var array$50 = [new $c_Lcross_common$Vec2i().init___I__I(7, 22), new $c_Lcross_common$Vec2i().init___I__I(11, 15), new $c_Lcross_common$Vec2i().init___I__I(15, 11), new $c_Lcross_common$Vec2i().init___I__I(19, 5)];
+  $m_Lcross_common$();
+  var $$this$302 = 7;
+  var jsx$243 = new $c_Lcross_common$Vec2i().init___I__I($$this$302, 22);
+  $m_Lcross_common$();
+  var $$this$303 = 11;
+  var jsx$242 = new $c_Lcross_common$Vec2i().init___I__I($$this$303, 15);
+  $m_Lcross_common$();
+  var $$this$304 = 15;
+  var jsx$241 = new $c_Lcross_common$Vec2i().init___I__I($$this$304, 11);
+  $m_Lcross_common$();
+  var $$this$305 = 19;
+  var array$50 = [jsx$243, jsx$242, jsx$241, new $c_Lcross_common$Vec2i().init___I__I($$this$305, 5)];
   var i$50 = (((-1) + $uI(array$50.length)) | 0);
   var result$50 = $m_sci_Nil$();
   while ((i$50 >= 0)) {
@@ -2641,13 +3433,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$50 = new $c_sci_$colon$colon().init___O__sci_List(x$50, this$816);
     i$50 = (((-1) + i$50) | 0)
   };
-  var jsx$150 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$154, 5, 2, jsx$153, jsx$152, jsx$151, result$50);
-  var jsx$149 = new $c_Lcross_mvc$Asset().init___T("/image/5L+3-1.png");
-  var jsx$148 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$147 = new $c_Lcross_common$Vec2i().init___I__I(4, 21);
-  var jsx$146 = new $c_Lcross_common$Vec2i().init___I__I(26, 5);
+  var jsx$240 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$247, 5, 2, jsx$246, jsx$245, jsx$244, result$50);
+  var jsx$239 = new $c_Lcross_mvc$Asset().init___T("/image/5L+3-1.png");
+  var jsx$238 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$306 = 4;
+  var jsx$237 = new $c_Lcross_common$Vec2i().init___I__I($$this$306, 21);
+  $m_Lcross_common$();
+  var $$this$307 = 26;
+  var jsx$236 = new $c_Lcross_common$Vec2i().init___I__I($$this$307, 5);
   $m_sci_List$();
-  var array$51 = [new $c_Lcross_common$Vec2i().init___I__I(6, 19), new $c_Lcross_common$Vec2i().init___I__I(13, 13), new $c_Lcross_common$Vec2i().init___I__I(18, 10), new $c_Lcross_common$Vec2i().init___I__I(24, 6)];
+  $m_Lcross_common$();
+  var $$this$308 = 6;
+  var jsx$235 = new $c_Lcross_common$Vec2i().init___I__I($$this$308, 19);
+  $m_Lcross_common$();
+  var $$this$309 = 13;
+  var jsx$234 = new $c_Lcross_common$Vec2i().init___I__I($$this$309, 13);
+  $m_Lcross_common$();
+  var $$this$310 = 18;
+  var jsx$233 = new $c_Lcross_common$Vec2i().init___I__I($$this$310, 10);
+  $m_Lcross_common$();
+  var $$this$311 = 24;
+  var array$51 = [jsx$235, jsx$234, jsx$233, new $c_Lcross_common$Vec2i().init___I__I($$this$311, 6)];
   var i$51 = (((-1) + $uI(array$51.length)) | 0);
   var result$51 = $m_sci_Nil$();
   while ((i$51 >= 0)) {
@@ -2657,13 +3464,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$51 = new $c_sci_$colon$colon().init___O__sci_List(x$51, this$832);
     i$51 = (((-1) + i$51) | 0)
   };
-  var jsx$145 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$149, 5, 3, jsx$148, jsx$147, jsx$146, result$51);
-  var jsx$144 = new $c_Lcross_mvc$Asset().init___T("/image/5L+4-1.png");
-  var jsx$143 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$142 = new $c_Lcross_common$Vec2i().init___I__I(2, 15);
-  var jsx$141 = new $c_Lcross_common$Vec2i().init___I__I(30, 10);
+  var jsx$232 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$239, 5, 3, jsx$238, jsx$237, jsx$236, result$51);
+  var jsx$231 = new $c_Lcross_mvc$Asset().init___T("/image/5L+4-1.png");
+  var jsx$230 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$312 = 2;
+  var jsx$229 = new $c_Lcross_common$Vec2i().init___I__I($$this$312, 15);
+  $m_Lcross_common$();
+  var $$this$313 = 30;
+  var jsx$228 = new $c_Lcross_common$Vec2i().init___I__I($$this$313, 10);
   $m_sci_List$();
-  var array$52 = [new $c_Lcross_common$Vec2i().init___I__I(5, 13), new $c_Lcross_common$Vec2i().init___I__I(14, 11), new $c_Lcross_common$Vec2i().init___I__I(20, 11), new $c_Lcross_common$Vec2i().init___I__I(29, 10)];
+  $m_Lcross_common$();
+  var $$this$314 = 5;
+  var jsx$227 = new $c_Lcross_common$Vec2i().init___I__I($$this$314, 13);
+  $m_Lcross_common$();
+  var $$this$315 = 14;
+  var jsx$226 = new $c_Lcross_common$Vec2i().init___I__I($$this$315, 11);
+  $m_Lcross_common$();
+  var $$this$316 = 20;
+  var jsx$225 = new $c_Lcross_common$Vec2i().init___I__I($$this$316, 11);
+  $m_Lcross_common$();
+  var $$this$317 = 29;
+  var array$52 = [jsx$227, jsx$226, jsx$225, new $c_Lcross_common$Vec2i().init___I__I($$this$317, 10)];
   var i$52 = (((-1) + $uI(array$52.length)) | 0);
   var result$52 = $m_sci_Nil$();
   while ((i$52 >= 0)) {
@@ -2673,13 +3495,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$52 = new $c_sci_$colon$colon().init___O__sci_List(x$52, this$848);
     i$52 = (((-1) + i$52) | 0)
   };
-  var jsx$140 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$144, 5, 4, jsx$143, jsx$142, jsx$141, result$52);
-  var jsx$139 = new $c_Lcross_mvc$Asset().init___T("/image/5L+5-1.png");
-  var jsx$138 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$137 = new $c_Lcross_common$Vec2i().init___I__I(3, 10);
-  var jsx$136 = new $c_Lcross_common$Vec2i().init___I__I(30, 17);
+  var jsx$224 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$231, 5, 4, jsx$230, jsx$229, jsx$228, result$52);
+  var jsx$223 = new $c_Lcross_mvc$Asset().init___T("/image/5L+5-1.png");
+  var jsx$222 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$318 = 3;
+  var jsx$221 = new $c_Lcross_common$Vec2i().init___I__I($$this$318, 10);
+  $m_Lcross_common$();
+  var $$this$319 = 30;
+  var jsx$220 = new $c_Lcross_common$Vec2i().init___I__I($$this$319, 17);
   $m_sci_List$();
-  var array$53 = [new $c_Lcross_common$Vec2i().init___I__I(4, 10), new $c_Lcross_common$Vec2i().init___I__I(13, 10), new $c_Lcross_common$Vec2i().init___I__I(19, 13), new $c_Lcross_common$Vec2i().init___I__I(28, 16)];
+  $m_Lcross_common$();
+  var $$this$320 = 4;
+  var jsx$219 = new $c_Lcross_common$Vec2i().init___I__I($$this$320, 10);
+  $m_Lcross_common$();
+  var $$this$321 = 13;
+  var jsx$218 = new $c_Lcross_common$Vec2i().init___I__I($$this$321, 10);
+  $m_Lcross_common$();
+  var $$this$322 = 19;
+  var jsx$217 = new $c_Lcross_common$Vec2i().init___I__I($$this$322, 13);
+  $m_Lcross_common$();
+  var $$this$323 = 28;
+  var array$53 = [jsx$219, jsx$218, jsx$217, new $c_Lcross_common$Vec2i().init___I__I($$this$323, 16)];
   var i$53 = (((-1) + $uI(array$53.length)) | 0);
   var result$53 = $m_sci_Nil$();
   while ((i$53 >= 0)) {
@@ -2689,13 +3526,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$53 = new $c_sci_$colon$colon().init___O__sci_List(x$53, this$864);
     i$53 = (((-1) + i$53) | 0)
   };
-  var jsx$135 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$139, 5, 5, jsx$138, jsx$137, jsx$136, result$53);
-  var jsx$134 = new $c_Lcross_mvc$Asset().init___T("/image/5L-1-1.png");
-  var jsx$133 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$132 = new $c_Lcross_common$Vec2i().init___I__I(21, 28);
-  var jsx$131 = new $c_Lcross_common$Vec2i().init___I__I(5, 5);
+  var jsx$216 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$223, 5, 5, jsx$222, jsx$221, jsx$220, result$53);
+  var jsx$215 = new $c_Lcross_mvc$Asset().init___T("/image/5L-1-1.png");
+  var jsx$214 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$324 = 21;
+  var jsx$213 = new $c_Lcross_common$Vec2i().init___I__I($$this$324, 28);
+  $m_Lcross_common$();
+  var $$this$325 = 5;
+  var jsx$212 = new $c_Lcross_common$Vec2i().init___I__I($$this$325, 5);
   $m_sci_List$();
-  var array$54 = [new $c_Lcross_common$Vec2i().init___I__I(6, 6), new $c_Lcross_common$Vec2i().init___I__I(11, 15), new $c_Lcross_common$Vec2i().init___I__I(15, 22), new $c_Lcross_common$Vec2i().init___I__I(19, 25)];
+  $m_Lcross_common$();
+  var $$this$326 = 6;
+  var jsx$211 = new $c_Lcross_common$Vec2i().init___I__I($$this$326, 6);
+  $m_Lcross_common$();
+  var $$this$327 = 11;
+  var jsx$210 = new $c_Lcross_common$Vec2i().init___I__I($$this$327, 15);
+  $m_Lcross_common$();
+  var $$this$328 = 15;
+  var jsx$209 = new $c_Lcross_common$Vec2i().init___I__I($$this$328, 22);
+  $m_Lcross_common$();
+  var $$this$329 = 19;
+  var array$54 = [jsx$211, jsx$210, jsx$209, new $c_Lcross_common$Vec2i().init___I__I($$this$329, 25)];
   var i$54 = (((-1) + $uI(array$54.length)) | 0);
   var result$54 = $m_sci_Nil$();
   while ((i$54 >= 0)) {
@@ -2705,13 +3557,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$54 = new $c_sci_$colon$colon().init___O__sci_List(x$54, this$880);
     i$54 = (((-1) + i$54) | 0)
   };
-  var jsx$130 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$134, 5, (-1), jsx$133, jsx$132, jsx$131, result$54);
-  var jsx$129 = new $c_Lcross_mvc$Asset().init___T("/image/5L-2-1.png");
-  var jsx$128 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$127 = new $c_Lcross_common$Vec2i().init___I__I(25, 25);
-  var jsx$126 = new $c_Lcross_common$Vec2i().init___I__I(2, 9);
+  var jsx$208 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$215, 5, (-1), jsx$214, jsx$213, jsx$212, result$54);
+  var jsx$207 = new $c_Lcross_mvc$Asset().init___T("/image/5L-2-1.png");
+  var jsx$206 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$330 = 25;
+  var jsx$205 = new $c_Lcross_common$Vec2i().init___I__I($$this$330, 25);
+  $m_Lcross_common$();
+  var $$this$331 = 2;
+  var jsx$204 = new $c_Lcross_common$Vec2i().init___I__I($$this$331, 9);
   $m_sci_List$();
-  var array$55 = [new $c_Lcross_common$Vec2i().init___I__I(3, 10), new $c_Lcross_common$Vec2i().init___I__I(8, 15), new $c_Lcross_common$Vec2i().init___I__I(15, 20), new $c_Lcross_common$Vec2i().init___I__I(22, 24)];
+  $m_Lcross_common$();
+  var $$this$332 = 3;
+  var jsx$203 = new $c_Lcross_common$Vec2i().init___I__I($$this$332, 10);
+  $m_Lcross_common$();
+  var $$this$333 = 8;
+  var jsx$202 = new $c_Lcross_common$Vec2i().init___I__I($$this$333, 15);
+  $m_Lcross_common$();
+  var $$this$334 = 15;
+  var jsx$201 = new $c_Lcross_common$Vec2i().init___I__I($$this$334, 20);
+  $m_Lcross_common$();
+  var $$this$335 = 22;
+  var array$55 = [jsx$203, jsx$202, jsx$201, new $c_Lcross_common$Vec2i().init___I__I($$this$335, 24)];
   var i$55 = (((-1) + $uI(array$55.length)) | 0);
   var result$55 = $m_sci_Nil$();
   while ((i$55 >= 0)) {
@@ -2721,13 +3588,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$55 = new $c_sci_$colon$colon().init___O__sci_List(x$55, this$896);
     i$55 = (((-1) + i$55) | 0)
   };
-  var jsx$125 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$129, 5, (-2), jsx$128, jsx$127, jsx$126, result$55);
-  var jsx$124 = new $c_Lcross_mvc$Asset().init___T("/image/5L-3-1.png");
-  var jsx$123 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$122 = new $c_Lcross_common$Vec2i().init___I__I(28, 21);
-  var jsx$121 = new $c_Lcross_common$Vec2i().init___I__I(1, 14);
+  var jsx$200 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$207, 5, (-2), jsx$206, jsx$205, jsx$204, result$55);
+  var jsx$199 = new $c_Lcross_mvc$Asset().init___T("/image/5L-3-1.png");
+  var jsx$198 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$336 = 28;
+  var jsx$197 = new $c_Lcross_common$Vec2i().init___I__I($$this$336, 21);
+  $m_Lcross_common$();
+  var $$this$337 = 1;
+  var jsx$196 = new $c_Lcross_common$Vec2i().init___I__I($$this$337, 14);
   $m_sci_List$();
-  var array$56 = [new $c_Lcross_common$Vec2i().init___I__I(2, 14), new $c_Lcross_common$Vec2i().init___I__I(7, 17), new $c_Lcross_common$Vec2i().init___I__I(16, 19), new $c_Lcross_common$Vec2i().init___I__I(24, 21)];
+  $m_Lcross_common$();
+  var $$this$338 = 2;
+  var jsx$195 = new $c_Lcross_common$Vec2i().init___I__I($$this$338, 14);
+  $m_Lcross_common$();
+  var $$this$339 = 7;
+  var jsx$194 = new $c_Lcross_common$Vec2i().init___I__I($$this$339, 17);
+  $m_Lcross_common$();
+  var $$this$340 = 16;
+  var jsx$193 = new $c_Lcross_common$Vec2i().init___I__I($$this$340, 19);
+  $m_Lcross_common$();
+  var $$this$341 = 24;
+  var array$56 = [jsx$195, jsx$194, jsx$193, new $c_Lcross_common$Vec2i().init___I__I($$this$341, 21)];
   var i$56 = (((-1) + $uI(array$56.length)) | 0);
   var result$56 = $m_sci_Nil$();
   while ((i$56 >= 0)) {
@@ -2737,13 +3619,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$56 = new $c_sci_$colon$colon().init___O__sci_List(x$56, this$912);
     i$56 = (((-1) + i$56) | 0)
   };
-  var jsx$120 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$124, 5, (-3), jsx$123, jsx$122, jsx$121, result$56);
-  var jsx$119 = new $c_Lcross_mvc$Asset().init___T("/image/5L-4-1.png");
-  var jsx$118 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$117 = new $c_Lcross_common$Vec2i().init___I__I(29, 15);
-  var jsx$116 = new $c_Lcross_common$Vec2i().init___I__I(1, 21);
+  var jsx$192 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$199, 5, (-3), jsx$198, jsx$197, jsx$196, result$56);
+  var jsx$191 = new $c_Lcross_mvc$Asset().init___T("/image/5L-4-1.png");
+  var jsx$190 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$342 = 29;
+  var jsx$189 = new $c_Lcross_common$Vec2i().init___I__I($$this$342, 15);
+  $m_Lcross_common$();
+  var $$this$343 = 1;
+  var jsx$188 = new $c_Lcross_common$Vec2i().init___I__I($$this$343, 21);
   $m_sci_List$();
-  var array$57 = [new $c_Lcross_common$Vec2i().init___I__I(3, 21), new $c_Lcross_common$Vec2i().init___I__I(10, 20), new $c_Lcross_common$Vec2i().init___I__I(18, 19), new $c_Lcross_common$Vec2i().init___I__I(27, 17)];
+  $m_Lcross_common$();
+  var $$this$344 = 3;
+  var jsx$187 = new $c_Lcross_common$Vec2i().init___I__I($$this$344, 21);
+  $m_Lcross_common$();
+  var $$this$345 = 10;
+  var jsx$186 = new $c_Lcross_common$Vec2i().init___I__I($$this$345, 20);
+  $m_Lcross_common$();
+  var $$this$346 = 18;
+  var jsx$185 = new $c_Lcross_common$Vec2i().init___I__I($$this$346, 19);
+  $m_Lcross_common$();
+  var $$this$347 = 27;
+  var array$57 = [jsx$187, jsx$186, jsx$185, new $c_Lcross_common$Vec2i().init___I__I($$this$347, 17)];
   var i$57 = (((-1) + $uI(array$57.length)) | 0);
   var result$57 = $m_sci_Nil$();
   while ((i$57 >= 0)) {
@@ -2753,13 +3650,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$57 = new $c_sci_$colon$colon().init___O__sci_List(x$57, this$928);
     i$57 = (((-1) + i$57) | 0)
   };
-  var jsx$115 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$119, 5, (-4), jsx$118, jsx$117, jsx$116, result$57);
-  var jsx$114 = new $c_Lcross_mvc$Asset().init___T("/image/5L-5-1.png");
-  var jsx$113 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
-  var jsx$112 = new $c_Lcross_common$Vec2i().init___I__I(27, 9);
-  var jsx$111 = new $c_Lcross_common$Vec2i().init___I__I(5, 26);
+  var jsx$184 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$191, 5, (-4), jsx$190, jsx$189, jsx$188, result$57);
+  var jsx$183 = new $c_Lcross_mvc$Asset().init___T("/image/5L-5-1.png");
+  var jsx$182 = $m_Lcross_mvc$TreeVariations$().Left$und$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$348 = 27;
+  var jsx$181 = new $c_Lcross_common$Vec2i().init___I__I($$this$348, 9);
+  $m_Lcross_common$();
+  var $$this$349 = 5;
+  var jsx$180 = new $c_Lcross_common$Vec2i().init___I__I($$this$349, 26);
   $m_sci_List$();
-  var array$58 = [new $c_Lcross_common$Vec2i().init___I__I(6, 25), new $c_Lcross_common$Vec2i().init___I__I(12, 22), new $c_Lcross_common$Vec2i().init___I__I(19, 18), new $c_Lcross_common$Vec2i().init___I__I(25, 12)];
+  $m_Lcross_common$();
+  var $$this$350 = 6;
+  var jsx$179 = new $c_Lcross_common$Vec2i().init___I__I($$this$350, 25);
+  $m_Lcross_common$();
+  var $$this$351 = 12;
+  var jsx$178 = new $c_Lcross_common$Vec2i().init___I__I($$this$351, 22);
+  $m_Lcross_common$();
+  var $$this$352 = 19;
+  var jsx$177 = new $c_Lcross_common$Vec2i().init___I__I($$this$352, 18);
+  $m_Lcross_common$();
+  var $$this$353 = 25;
+  var array$58 = [jsx$179, jsx$178, jsx$177, new $c_Lcross_common$Vec2i().init___I__I($$this$353, 12)];
   var i$58 = (((-1) + $uI(array$58.length)) | 0);
   var result$58 = $m_sci_Nil$();
   while ((i$58 >= 0)) {
@@ -2769,13 +3681,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$58 = new $c_sci_$colon$colon().init___O__sci_List(x$58, this$944);
     i$58 = (((-1) + i$58) | 0)
   };
-  var jsx$110 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$114, 5, (-5), jsx$113, jsx$112, jsx$111, result$58);
-  var jsx$109 = new $c_Lcross_mvc$Asset().init___T("/image/5R+0-1.png");
-  var jsx$108 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$107 = new $c_Lcross_common$Vec2i().init___I__I(15, 30);
-  var jsx$106 = new $c_Lcross_common$Vec2i().init___I__I(21, 1);
+  var jsx$176 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$183, 5, (-5), jsx$182, jsx$181, jsx$180, result$58);
+  var jsx$175 = new $c_Lcross_mvc$Asset().init___T("/image/5R+0-1.png");
+  var jsx$174 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$354 = 15;
+  var jsx$173 = new $c_Lcross_common$Vec2i().init___I__I($$this$354, 30);
+  $m_Lcross_common$();
+  var $$this$355 = 21;
+  var jsx$172 = new $c_Lcross_common$Vec2i().init___I__I($$this$355, 1);
   $m_sci_List$();
-  var array$59 = [new $c_Lcross_common$Vec2i().init___I__I(16, 29), new $c_Lcross_common$Vec2i().init___I__I(19, 22), new $c_Lcross_common$Vec2i().init___I__I(20, 13), new $c_Lcross_common$Vec2i().init___I__I(21, 2)];
+  $m_Lcross_common$();
+  var $$this$356 = 16;
+  var jsx$171 = new $c_Lcross_common$Vec2i().init___I__I($$this$356, 29);
+  $m_Lcross_common$();
+  var $$this$357 = 19;
+  var jsx$170 = new $c_Lcross_common$Vec2i().init___I__I($$this$357, 22);
+  $m_Lcross_common$();
+  var $$this$358 = 20;
+  var jsx$169 = new $c_Lcross_common$Vec2i().init___I__I($$this$358, 13);
+  $m_Lcross_common$();
+  var $$this$359 = 21;
+  var array$59 = [jsx$171, jsx$170, jsx$169, new $c_Lcross_common$Vec2i().init___I__I($$this$359, 2)];
   var i$59 = (((-1) + $uI(array$59.length)) | 0);
   var result$59 = $m_sci_Nil$();
   while ((i$59 >= 0)) {
@@ -2785,13 +3712,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$59 = new $c_sci_$colon$colon().init___O__sci_List(x$59, this$960);
     i$59 = (((-1) + i$59) | 0)
   };
-  var jsx$105 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$109, 5, 0, jsx$108, jsx$107, jsx$106, result$59);
-  var jsx$104 = new $c_Lcross_mvc$Asset().init___T("/image/5R+1-1.png");
-  var jsx$103 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$102 = new $c_Lcross_common$Vec2i().init___I__I(9, 28);
-  var jsx$101 = new $c_Lcross_common$Vec2i().init___I__I(26, 5);
+  var jsx$168 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$175, 5, 0, jsx$174, jsx$173, jsx$172, result$59);
+  var jsx$167 = new $c_Lcross_mvc$Asset().init___T("/image/5R+1-1.png");
+  var jsx$166 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$360 = 9;
+  var jsx$165 = new $c_Lcross_common$Vec2i().init___I__I($$this$360, 28);
+  $m_Lcross_common$();
+  var $$this$361 = 26;
+  var jsx$164 = new $c_Lcross_common$Vec2i().init___I__I($$this$361, 5);
   $m_sci_List$();
-  var array$60 = [new $c_Lcross_common$Vec2i().init___I__I(11, 28), new $c_Lcross_common$Vec2i().init___I__I(18, 20), new $c_Lcross_common$Vec2i().init___I__I(23, 12), new $c_Lcross_common$Vec2i().init___I__I(25, 6)];
+  $m_Lcross_common$();
+  var $$this$362 = 11;
+  var jsx$163 = new $c_Lcross_common$Vec2i().init___I__I($$this$362, 28);
+  $m_Lcross_common$();
+  var $$this$363 = 18;
+  var jsx$162 = new $c_Lcross_common$Vec2i().init___I__I($$this$363, 20);
+  $m_Lcross_common$();
+  var $$this$364 = 23;
+  var jsx$161 = new $c_Lcross_common$Vec2i().init___I__I($$this$364, 12);
+  $m_Lcross_common$();
+  var $$this$365 = 25;
+  var array$60 = [jsx$163, jsx$162, jsx$161, new $c_Lcross_common$Vec2i().init___I__I($$this$365, 6)];
   var i$60 = (((-1) + $uI(array$60.length)) | 0);
   var result$60 = $m_sci_Nil$();
   while ((i$60 >= 0)) {
@@ -2801,13 +3743,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$60 = new $c_sci_$colon$colon().init___O__sci_List(x$60, this$976);
     i$60 = (((-1) + i$60) | 0)
   };
-  var jsx$100 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$104, 5, 1, jsx$103, jsx$102, jsx$101, result$60);
-  var jsx$99 = new $c_Lcross_mvc$Asset().init___T("/image/5R+2-1.png");
-  var jsx$98 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$97 = new $c_Lcross_common$Vec2i().init___I__I(6, 25);
-  var jsx$96 = new $c_Lcross_common$Vec2i().init___I__I(29, 9);
+  var jsx$160 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$167, 5, 1, jsx$166, jsx$165, jsx$164, result$60);
+  var jsx$159 = new $c_Lcross_mvc$Asset().init___T("/image/5R+2-1.png");
+  var jsx$158 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$366 = 6;
+  var jsx$157 = new $c_Lcross_common$Vec2i().init___I__I($$this$366, 25);
+  $m_Lcross_common$();
+  var $$this$367 = 29;
+  var jsx$156 = new $c_Lcross_common$Vec2i().init___I__I($$this$367, 9);
   $m_sci_List$();
-  var array$61 = [new $c_Lcross_common$Vec2i().init___I__I(8, 25), new $c_Lcross_common$Vec2i().init___I__I(17, 20), new $c_Lcross_common$Vec2i().init___I__I(22, 16), new $c_Lcross_common$Vec2i().init___I__I(27, 11)];
+  $m_Lcross_common$();
+  var $$this$368 = 8;
+  var jsx$155 = new $c_Lcross_common$Vec2i().init___I__I($$this$368, 25);
+  $m_Lcross_common$();
+  var $$this$369 = 17;
+  var jsx$154 = new $c_Lcross_common$Vec2i().init___I__I($$this$369, 20);
+  $m_Lcross_common$();
+  var $$this$370 = 22;
+  var jsx$153 = new $c_Lcross_common$Vec2i().init___I__I($$this$370, 16);
+  $m_Lcross_common$();
+  var $$this$371 = 27;
+  var array$61 = [jsx$155, jsx$154, jsx$153, new $c_Lcross_common$Vec2i().init___I__I($$this$371, 11)];
   var i$61 = (((-1) + $uI(array$61.length)) | 0);
   var result$61 = $m_sci_Nil$();
   while ((i$61 >= 0)) {
@@ -2817,13 +3774,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$61 = new $c_sci_$colon$colon().init___O__sci_List(x$61, this$992);
     i$61 = (((-1) + i$61) | 0)
   };
-  var jsx$95 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$99, 5, 2, jsx$98, jsx$97, jsx$96, result$61);
-  var jsx$94 = new $c_Lcross_mvc$Asset().init___T("/image/5R+3-1.png");
-  var jsx$93 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$92 = new $c_Lcross_common$Vec2i().init___I__I(3, 21);
-  var jsx$91 = new $c_Lcross_common$Vec2i().init___I__I(30, 14);
+  var jsx$152 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$159, 5, 2, jsx$158, jsx$157, jsx$156, result$61);
+  var jsx$151 = new $c_Lcross_mvc$Asset().init___T("/image/5R+3-1.png");
+  var jsx$150 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$372 = 3;
+  var jsx$149 = new $c_Lcross_common$Vec2i().init___I__I($$this$372, 21);
+  $m_Lcross_common$();
+  var $$this$373 = 30;
+  var jsx$148 = new $c_Lcross_common$Vec2i().init___I__I($$this$373, 14);
   $m_sci_List$();
-  var array$62 = [new $c_Lcross_common$Vec2i().init___I__I(5, 21), new $c_Lcross_common$Vec2i().init___I__I(14, 20), new $c_Lcross_common$Vec2i().init___I__I(22, 18), new $c_Lcross_common$Vec2i().init___I__I(29, 15)];
+  $m_Lcross_common$();
+  var $$this$374 = 5;
+  var jsx$147 = new $c_Lcross_common$Vec2i().init___I__I($$this$374, 21);
+  $m_Lcross_common$();
+  var $$this$375 = 14;
+  var jsx$146 = new $c_Lcross_common$Vec2i().init___I__I($$this$375, 20);
+  $m_Lcross_common$();
+  var $$this$376 = 22;
+  var jsx$145 = new $c_Lcross_common$Vec2i().init___I__I($$this$376, 18);
+  $m_Lcross_common$();
+  var $$this$377 = 29;
+  var array$62 = [jsx$147, jsx$146, jsx$145, new $c_Lcross_common$Vec2i().init___I__I($$this$377, 15)];
   var i$62 = (((-1) + $uI(array$62.length)) | 0);
   var result$62 = $m_sci_Nil$();
   while ((i$62 >= 0)) {
@@ -2833,13 +3805,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$62 = new $c_sci_$colon$colon().init___O__sci_List(x$62, this$1008);
     i$62 = (((-1) + i$62) | 0)
   };
-  var jsx$90 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$94, 5, 3, jsx$93, jsx$92, jsx$91, result$62);
-  var jsx$89 = new $c_Lcross_mvc$Asset().init___T("/image/5R+4-1.png");
-  var jsx$88 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$87 = new $c_Lcross_common$Vec2i().init___I__I(1, 15);
-  var jsx$86 = new $c_Lcross_common$Vec2i().init___I__I(30, 21);
+  var jsx$144 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$151, 5, 3, jsx$150, jsx$149, jsx$148, result$62);
+  var jsx$143 = new $c_Lcross_mvc$Asset().init___T("/image/5R+4-1.png");
+  var jsx$142 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$378 = 1;
+  var jsx$141 = new $c_Lcross_common$Vec2i().init___I__I($$this$378, 15);
+  $m_Lcross_common$();
+  var $$this$379 = 30;
+  var jsx$140 = new $c_Lcross_common$Vec2i().init___I__I($$this$379, 21);
   $m_sci_List$();
-  var array$63 = [new $c_Lcross_common$Vec2i().init___I__I(3, 16), new $c_Lcross_common$Vec2i().init___I__I(11, 19), new $c_Lcross_common$Vec2i().init___I__I(19, 20), new $c_Lcross_common$Vec2i().init___I__I(28, 21)];
+  $m_Lcross_common$();
+  var $$this$380 = 3;
+  var jsx$139 = new $c_Lcross_common$Vec2i().init___I__I($$this$380, 16);
+  $m_Lcross_common$();
+  var $$this$381 = 11;
+  var jsx$138 = new $c_Lcross_common$Vec2i().init___I__I($$this$381, 19);
+  $m_Lcross_common$();
+  var $$this$382 = 19;
+  var jsx$137 = new $c_Lcross_common$Vec2i().init___I__I($$this$382, 20);
+  $m_Lcross_common$();
+  var $$this$383 = 28;
+  var array$63 = [jsx$139, jsx$138, jsx$137, new $c_Lcross_common$Vec2i().init___I__I($$this$383, 21)];
   var i$63 = (((-1) + $uI(array$63.length)) | 0);
   var result$63 = $m_sci_Nil$();
   while ((i$63 >= 0)) {
@@ -2849,13 +3836,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$63 = new $c_sci_$colon$colon().init___O__sci_List(x$63, this$1024);
     i$63 = (((-1) + i$63) | 0)
   };
-  var jsx$85 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$89, 5, 4, jsx$88, jsx$87, jsx$86, result$63);
-  var jsx$84 = new $c_Lcross_mvc$Asset().init___T("/image/5R+5-1.png");
-  var jsx$83 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$82 = new $c_Lcross_common$Vec2i().init___I__I(4, 9);
-  var jsx$81 = new $c_Lcross_common$Vec2i().init___I__I(26, 26);
+  var jsx$136 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$143, 5, 4, jsx$142, jsx$141, jsx$140, result$63);
+  var jsx$135 = new $c_Lcross_mvc$Asset().init___T("/image/5R+5-1.png");
+  var jsx$134 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$384 = 4;
+  var jsx$133 = new $c_Lcross_common$Vec2i().init___I__I($$this$384, 9);
+  $m_Lcross_common$();
+  var $$this$385 = 26;
+  var jsx$132 = new $c_Lcross_common$Vec2i().init___I__I($$this$385, 26);
   $m_sci_List$();
-  var array$64 = [new $c_Lcross_common$Vec2i().init___I__I(4, 10), new $c_Lcross_common$Vec2i().init___I__I(8, 16), new $c_Lcross_common$Vec2i().init___I__I(19, 22), new $c_Lcross_common$Vec2i().init___I__I(25, 26)];
+  $m_Lcross_common$();
+  var $$this$386 = 4;
+  var jsx$131 = new $c_Lcross_common$Vec2i().init___I__I($$this$386, 10);
+  $m_Lcross_common$();
+  var $$this$387 = 8;
+  var jsx$130 = new $c_Lcross_common$Vec2i().init___I__I($$this$387, 16);
+  $m_Lcross_common$();
+  var $$this$388 = 19;
+  var jsx$129 = new $c_Lcross_common$Vec2i().init___I__I($$this$388, 22);
+  $m_Lcross_common$();
+  var $$this$389 = 25;
+  var array$64 = [jsx$131, jsx$130, jsx$129, new $c_Lcross_common$Vec2i().init___I__I($$this$389, 26)];
   var i$64 = (((-1) + $uI(array$64.length)) | 0);
   var result$64 = $m_sci_Nil$();
   while ((i$64 >= 0)) {
@@ -2865,13 +3867,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$64 = new $c_sci_$colon$colon().init___O__sci_List(x$64, this$1040);
     i$64 = (((-1) + i$64) | 0)
   };
-  var jsx$80 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$84, 5, 5, jsx$83, jsx$82, jsx$81, result$64);
-  var jsx$79 = new $c_Lcross_mvc$Asset().init___T("/image/5R-1-1.png");
-  var jsx$78 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$77 = new $c_Lcross_common$Vec2i().init___I__I(21, 29);
-  var jsx$76 = new $c_Lcross_common$Vec2i().init___I__I(14, 1);
+  var jsx$128 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$135, 5, 5, jsx$134, jsx$133, jsx$132, result$64);
+  var jsx$127 = new $c_Lcross_mvc$Asset().init___T("/image/5R-1-1.png");
+  var jsx$126 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$390 = 21;
+  var jsx$125 = new $c_Lcross_common$Vec2i().init___I__I($$this$390, 29);
+  $m_Lcross_common$();
+  var $$this$391 = 14;
+  var jsx$124 = new $c_Lcross_common$Vec2i().init___I__I($$this$391, 1);
   $m_sci_List$();
-  var array$65 = [new $c_Lcross_common$Vec2i().init___I__I(15, 2), new $c_Lcross_common$Vec2i().init___I__I(18, 9), new $c_Lcross_common$Vec2i().init___I__I(20, 17), new $c_Lcross_common$Vec2i().init___I__I(22, 26)];
+  $m_Lcross_common$();
+  var $$this$392 = 15;
+  var jsx$123 = new $c_Lcross_common$Vec2i().init___I__I($$this$392, 2);
+  $m_Lcross_common$();
+  var $$this$393 = 18;
+  var jsx$122 = new $c_Lcross_common$Vec2i().init___I__I($$this$393, 9);
+  $m_Lcross_common$();
+  var $$this$394 = 20;
+  var jsx$121 = new $c_Lcross_common$Vec2i().init___I__I($$this$394, 17);
+  $m_Lcross_common$();
+  var $$this$395 = 22;
+  var array$65 = [jsx$123, jsx$122, jsx$121, new $c_Lcross_common$Vec2i().init___I__I($$this$395, 26)];
   var i$65 = (((-1) + $uI(array$65.length)) | 0);
   var result$65 = $m_sci_Nil$();
   while ((i$65 >= 0)) {
@@ -2881,13 +3898,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$65 = new $c_sci_$colon$colon().init___O__sci_List(x$65, this$1056);
     i$65 = (((-1) + i$65) | 0)
   };
-  var jsx$75 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$79, 5, (-1), jsx$78, jsx$77, jsx$76, result$65);
-  var jsx$74 = new $c_Lcross_mvc$Asset().init___T("/image/5R-2-1.png");
-  var jsx$73 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$72 = new $c_Lcross_common$Vec2i().init___I__I(25, 25);
-  var jsx$71 = new $c_Lcross_common$Vec2i().init___I__I(9, 2);
+  var jsx$120 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$127, 5, (-1), jsx$126, jsx$125, jsx$124, result$65);
+  var jsx$119 = new $c_Lcross_mvc$Asset().init___T("/image/5R-2-1.png");
+  var jsx$118 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$396 = 25;
+  var jsx$117 = new $c_Lcross_common$Vec2i().init___I__I($$this$396, 25);
+  $m_Lcross_common$();
+  var $$this$397 = 9;
+  var jsx$116 = new $c_Lcross_common$Vec2i().init___I__I($$this$397, 2);
   $m_sci_List$();
-  var array$66 = [new $c_Lcross_common$Vec2i().init___I__I(11, 3), new $c_Lcross_common$Vec2i().init___I__I(17, 11), new $c_Lcross_common$Vec2i().init___I__I(20, 15), new $c_Lcross_common$Vec2i().init___I__I(24, 22)];
+  $m_Lcross_common$();
+  var $$this$398 = 11;
+  var jsx$115 = new $c_Lcross_common$Vec2i().init___I__I($$this$398, 3);
+  $m_Lcross_common$();
+  var $$this$399 = 17;
+  var jsx$114 = new $c_Lcross_common$Vec2i().init___I__I($$this$399, 11);
+  $m_Lcross_common$();
+  var $$this$400 = 20;
+  var jsx$113 = new $c_Lcross_common$Vec2i().init___I__I($$this$400, 15);
+  $m_Lcross_common$();
+  var $$this$401 = 24;
+  var array$66 = [jsx$115, jsx$114, jsx$113, new $c_Lcross_common$Vec2i().init___I__I($$this$401, 22)];
   var i$66 = (((-1) + $uI(array$66.length)) | 0);
   var result$66 = $m_sci_Nil$();
   while ((i$66 >= 0)) {
@@ -2897,13 +3929,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$66 = new $c_sci_$colon$colon().init___O__sci_List(x$66, this$1072);
     i$66 = (((-1) + i$66) | 0)
   };
-  var jsx$70 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$74, 5, (-2), jsx$73, jsx$72, jsx$71, result$66);
-  var jsx$69 = new $c_Lcross_mvc$Asset().init___T("/image/5R-3-1.png");
-  var jsx$68 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$67 = new $c_Lcross_common$Vec2i().init___I__I(27, 22);
-  var jsx$66 = new $c_Lcross_common$Vec2i().init___I__I(5, 5);
+  var jsx$112 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$119, 5, (-2), jsx$118, jsx$117, jsx$116, result$66);
+  var jsx$111 = new $c_Lcross_mvc$Asset().init___T("/image/5R-3-1.png");
+  var jsx$110 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$402 = 27;
+  var jsx$109 = new $c_Lcross_common$Vec2i().init___I__I($$this$402, 22);
+  $m_Lcross_common$();
+  var $$this$403 = 5;
+  var jsx$108 = new $c_Lcross_common$Vec2i().init___I__I($$this$403, 5);
   $m_sci_List$();
-  var array$67 = [new $c_Lcross_common$Vec2i().init___I__I(8, 6), new $c_Lcross_common$Vec2i().init___I__I(16, 11), new $c_Lcross_common$Vec2i().init___I__I(21, 15), new $c_Lcross_common$Vec2i().init___I__I(27, 20)];
+  $m_Lcross_common$();
+  var $$this$404 = 8;
+  var jsx$107 = new $c_Lcross_common$Vec2i().init___I__I($$this$404, 6);
+  $m_Lcross_common$();
+  var $$this$405 = 16;
+  var jsx$106 = new $c_Lcross_common$Vec2i().init___I__I($$this$405, 11);
+  $m_Lcross_common$();
+  var $$this$406 = 21;
+  var jsx$105 = new $c_Lcross_common$Vec2i().init___I__I($$this$406, 15);
+  $m_Lcross_common$();
+  var $$this$407 = 27;
+  var array$67 = [jsx$107, jsx$106, jsx$105, new $c_Lcross_common$Vec2i().init___I__I($$this$407, 20)];
   var i$67 = (((-1) + $uI(array$67.length)) | 0);
   var result$67 = $m_sci_Nil$();
   while ((i$67 >= 0)) {
@@ -2913,13 +3960,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$67 = new $c_sci_$colon$colon().init___O__sci_List(x$67, this$1088);
     i$67 = (((-1) + i$67) | 0)
   };
-  var jsx$65 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$69, 5, (-3), jsx$68, jsx$67, jsx$66, result$67);
-  var jsx$64 = new $c_Lcross_mvc$Asset().init___T("/image/5R-4-1.png");
-  var jsx$63 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$62 = new $c_Lcross_common$Vec2i().init___I__I(30, 16);
-  var jsx$61 = new $c_Lcross_common$Vec2i().init___I__I(1, 10);
+  var jsx$104 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$111, 5, (-3), jsx$110, jsx$109, jsx$108, result$67);
+  var jsx$103 = new $c_Lcross_mvc$Asset().init___T("/image/5R-4-1.png");
+  var jsx$102 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$408 = 30;
+  var jsx$101 = new $c_Lcross_common$Vec2i().init___I__I($$this$408, 16);
+  $m_Lcross_common$();
+  var $$this$409 = 1;
+  var jsx$100 = new $c_Lcross_common$Vec2i().init___I__I($$this$409, 10);
   $m_sci_List$();
-  var array$68 = [new $c_Lcross_common$Vec2i().init___I__I(3, 10), new $c_Lcross_common$Vec2i().init___I__I(11, 11), new $c_Lcross_common$Vec2i().init___I__I(17, 11), new $c_Lcross_common$Vec2i().init___I__I(24, 13)];
+  $m_Lcross_common$();
+  var $$this$410 = 3;
+  var jsx$99 = new $c_Lcross_common$Vec2i().init___I__I($$this$410, 10);
+  $m_Lcross_common$();
+  var $$this$411 = 11;
+  var jsx$98 = new $c_Lcross_common$Vec2i().init___I__I($$this$411, 11);
+  $m_Lcross_common$();
+  var $$this$412 = 17;
+  var jsx$97 = new $c_Lcross_common$Vec2i().init___I__I($$this$412, 11);
+  $m_Lcross_common$();
+  var $$this$413 = 24;
+  var array$68 = [jsx$99, jsx$98, jsx$97, new $c_Lcross_common$Vec2i().init___I__I($$this$413, 13)];
   var i$68 = (((-1) + $uI(array$68.length)) | 0);
   var result$68 = $m_sci_Nil$();
   while ((i$68 >= 0)) {
@@ -2929,13 +3991,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$68 = new $c_sci_$colon$colon().init___O__sci_List(x$68, this$1104);
     i$68 = (((-1) + i$68) | 0)
   };
-  var jsx$60 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$64, 5, (-4), jsx$63, jsx$62, jsx$61, result$68);
-  var jsx$59 = new $c_Lcross_mvc$Asset().init___T("/image/5R-5-1.png");
-  var jsx$58 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
-  var jsx$57 = new $c_Lcross_common$Vec2i().init___I__I(29, 10);
-  var jsx$56 = new $c_Lcross_common$Vec2i().init___I__I(1, 17);
+  var jsx$96 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$103, 5, (-4), jsx$102, jsx$101, jsx$100, result$68);
+  var jsx$95 = new $c_Lcross_mvc$Asset().init___T("/image/5R-5-1.png");
+  var jsx$94 = $m_Lcross_mvc$TreeVariations$().Right$und$und$und$2;
+  $m_Lcross_common$();
+  var $$this$414 = 29;
+  var jsx$93 = new $c_Lcross_common$Vec2i().init___I__I($$this$414, 10);
+  $m_Lcross_common$();
+  var $$this$415 = 1;
+  var jsx$92 = new $c_Lcross_common$Vec2i().init___I__I($$this$415, 17);
   $m_sci_List$();
-  var array$69 = [new $c_Lcross_common$Vec2i().init___I__I(4, 15), new $c_Lcross_common$Vec2i().init___I__I(13, 13), new $c_Lcross_common$Vec2i().init___I__I(21, 10), new $c_Lcross_common$Vec2i().init___I__I(27, 9)];
+  $m_Lcross_common$();
+  var $$this$416 = 4;
+  var jsx$91 = new $c_Lcross_common$Vec2i().init___I__I($$this$416, 15);
+  $m_Lcross_common$();
+  var $$this$417 = 13;
+  var jsx$90 = new $c_Lcross_common$Vec2i().init___I__I($$this$417, 13);
+  $m_Lcross_common$();
+  var $$this$418 = 21;
+  var jsx$89 = new $c_Lcross_common$Vec2i().init___I__I($$this$418, 10);
+  $m_Lcross_common$();
+  var $$this$419 = 27;
+  var array$69 = [jsx$91, jsx$90, jsx$89, new $c_Lcross_common$Vec2i().init___I__I($$this$419, 9)];
   var i$69 = (((-1) + $uI(array$69.length)) | 0);
   var result$69 = $m_sci_Nil$();
   while ((i$69 >= 0)) {
@@ -2945,13 +4022,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$69 = new $c_sci_$colon$colon().init___O__sci_List(x$69, this$1120);
     i$69 = (((-1) + i$69) | 0)
   };
-  var jsx$55 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$59, 5, (-5), jsx$58, jsx$57, jsx$56, result$69);
-  var jsx$54 = new $c_Lcross_mvc$Asset().init___T("/image/5S+0-1.png");
-  var jsx$53 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$52 = new $c_Lcross_common$Vec2i().init___I__I(15, 30);
-  var jsx$51 = new $c_Lcross_common$Vec2i().init___I__I(16, 1);
+  var jsx$88 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$95, 5, (-5), jsx$94, jsx$93, jsx$92, result$69);
+  var jsx$87 = new $c_Lcross_mvc$Asset().init___T("/image/5S+0-1.png");
+  var jsx$86 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$420 = 15;
+  var jsx$85 = new $c_Lcross_common$Vec2i().init___I__I($$this$420, 30);
+  $m_Lcross_common$();
+  var $$this$421 = 16;
+  var jsx$84 = new $c_Lcross_common$Vec2i().init___I__I($$this$421, 1);
   $m_sci_List$();
-  var array$70 = [new $c_Lcross_common$Vec2i().init___I__I(15, 13), new $c_Lcross_common$Vec2i().init___I__I(15, 20), new $c_Lcross_common$Vec2i().init___I__I(16, 5), new $c_Lcross_common$Vec2i().init___I__I(16, 29)];
+  $m_Lcross_common$();
+  var $$this$422 = 15;
+  var jsx$83 = new $c_Lcross_common$Vec2i().init___I__I($$this$422, 13);
+  $m_Lcross_common$();
+  var $$this$423 = 15;
+  var jsx$82 = new $c_Lcross_common$Vec2i().init___I__I($$this$423, 20);
+  $m_Lcross_common$();
+  var $$this$424 = 16;
+  var jsx$81 = new $c_Lcross_common$Vec2i().init___I__I($$this$424, 5);
+  $m_Lcross_common$();
+  var $$this$425 = 16;
+  var array$70 = [jsx$83, jsx$82, jsx$81, new $c_Lcross_common$Vec2i().init___I__I($$this$425, 29)];
   var i$70 = (((-1) + $uI(array$70.length)) | 0);
   var result$70 = $m_sci_Nil$();
   while ((i$70 >= 0)) {
@@ -2961,13 +4053,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$70 = new $c_sci_$colon$colon().init___O__sci_List(x$70, this$1136);
     i$70 = (((-1) + i$70) | 0)
   };
-  var jsx$50 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$54, 5, 0, jsx$53, jsx$52, jsx$51, result$70);
-  var jsx$49 = new $c_Lcross_mvc$Asset().init___T("/image/5S+1-1.png");
-  var jsx$48 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$47 = new $c_Lcross_common$Vec2i().init___I__I(9, 28);
-  var jsx$46 = new $c_Lcross_common$Vec2i().init___I__I(21, 3);
+  var jsx$80 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$87, 5, 0, jsx$86, jsx$85, jsx$84, result$70);
+  var jsx$79 = new $c_Lcross_mvc$Asset().init___T("/image/5S+1-1.png");
+  var jsx$78 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$426 = 9;
+  var jsx$77 = new $c_Lcross_common$Vec2i().init___I__I($$this$426, 28);
+  $m_Lcross_common$();
+  var $$this$427 = 21;
+  var jsx$76 = new $c_Lcross_common$Vec2i().init___I__I($$this$427, 3);
   $m_sci_List$();
-  var array$71 = [new $c_Lcross_common$Vec2i().init___I__I(11, 26), new $c_Lcross_common$Vec2i().init___I__I(14, 19), new $c_Lcross_common$Vec2i().init___I__I(17, 12), new $c_Lcross_common$Vec2i().init___I__I(20, 5)];
+  $m_Lcross_common$();
+  var $$this$428 = 11;
+  var jsx$75 = new $c_Lcross_common$Vec2i().init___I__I($$this$428, 26);
+  $m_Lcross_common$();
+  var $$this$429 = 14;
+  var jsx$74 = new $c_Lcross_common$Vec2i().init___I__I($$this$429, 19);
+  $m_Lcross_common$();
+  var $$this$430 = 17;
+  var jsx$73 = new $c_Lcross_common$Vec2i().init___I__I($$this$430, 12);
+  $m_Lcross_common$();
+  var $$this$431 = 20;
+  var array$71 = [jsx$75, jsx$74, jsx$73, new $c_Lcross_common$Vec2i().init___I__I($$this$431, 5)];
   var i$71 = (((-1) + $uI(array$71.length)) | 0);
   var result$71 = $m_sci_Nil$();
   while ((i$71 >= 0)) {
@@ -2977,13 +4084,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$71 = new $c_sci_$colon$colon().init___O__sci_List(x$71, this$1152);
     i$71 = (((-1) + i$71) | 0)
   };
-  var jsx$45 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$49, 5, 1, jsx$48, jsx$47, jsx$46, result$71);
-  var jsx$44 = new $c_Lcross_mvc$Asset().init___T("/image/5S+2-1.png");
-  var jsx$43 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$42 = new $c_Lcross_common$Vec2i().init___I__I(5, 26);
-  var jsx$41 = new $c_Lcross_common$Vec2i().init___I__I(26, 6);
+  var jsx$72 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$79, 5, 1, jsx$78, jsx$77, jsx$76, result$71);
+  var jsx$71 = new $c_Lcross_mvc$Asset().init___T("/image/5S+2-1.png");
+  var jsx$70 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$432 = 5;
+  var jsx$69 = new $c_Lcross_common$Vec2i().init___I__I($$this$432, 26);
+  $m_Lcross_common$();
+  var $$this$433 = 26;
+  var jsx$68 = new $c_Lcross_common$Vec2i().init___I__I($$this$433, 6);
   $m_sci_List$();
-  var array$72 = [new $c_Lcross_common$Vec2i().init___I__I(7, 25), new $c_Lcross_common$Vec2i().init___I__I(13, 18), new $c_Lcross_common$Vec2i().init___I__I(19, 13), new $c_Lcross_common$Vec2i().init___I__I(25, 7)];
+  $m_Lcross_common$();
+  var $$this$434 = 7;
+  var jsx$67 = new $c_Lcross_common$Vec2i().init___I__I($$this$434, 25);
+  $m_Lcross_common$();
+  var $$this$435 = 13;
+  var jsx$66 = new $c_Lcross_common$Vec2i().init___I__I($$this$435, 18);
+  $m_Lcross_common$();
+  var $$this$436 = 19;
+  var jsx$65 = new $c_Lcross_common$Vec2i().init___I__I($$this$436, 13);
+  $m_Lcross_common$();
+  var $$this$437 = 25;
+  var array$72 = [jsx$67, jsx$66, jsx$65, new $c_Lcross_common$Vec2i().init___I__I($$this$437, 7)];
   var i$72 = (((-1) + $uI(array$72.length)) | 0);
   var result$72 = $m_sci_Nil$();
   while ((i$72 >= 0)) {
@@ -2993,13 +4115,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$72 = new $c_sci_$colon$colon().init___O__sci_List(x$72, this$1168);
     i$72 = (((-1) + i$72) | 0)
   };
-  var jsx$40 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$44, 5, 2, jsx$43, jsx$42, jsx$41, result$72);
-  var jsx$39 = new $c_Lcross_mvc$Asset().init___T("/image/5S+3-1.png");
-  var jsx$38 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$37 = new $c_Lcross_common$Vec2i().init___I__I(2, 20);
-  var jsx$36 = new $c_Lcross_common$Vec2i().init___I__I(29, 11);
+  var jsx$64 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$71, 5, 2, jsx$70, jsx$69, jsx$68, result$72);
+  var jsx$63 = new $c_Lcross_mvc$Asset().init___T("/image/5S+3-1.png");
+  var jsx$62 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$438 = 2;
+  var jsx$61 = new $c_Lcross_common$Vec2i().init___I__I($$this$438, 20);
+  $m_Lcross_common$();
+  var $$this$439 = 29;
+  var jsx$60 = new $c_Lcross_common$Vec2i().init___I__I($$this$439, 11);
   $m_sci_List$();
-  var array$73 = [new $c_Lcross_common$Vec2i().init___I__I(5, 19), new $c_Lcross_common$Vec2i().init___I__I(13, 16), new $c_Lcross_common$Vec2i().init___I__I(21, 14), new $c_Lcross_common$Vec2i().init___I__I(27, 11)];
+  $m_Lcross_common$();
+  var $$this$440 = 5;
+  var jsx$59 = new $c_Lcross_common$Vec2i().init___I__I($$this$440, 19);
+  $m_Lcross_common$();
+  var $$this$441 = 13;
+  var jsx$58 = new $c_Lcross_common$Vec2i().init___I__I($$this$441, 16);
+  $m_Lcross_common$();
+  var $$this$442 = 21;
+  var jsx$57 = new $c_Lcross_common$Vec2i().init___I__I($$this$442, 14);
+  $m_Lcross_common$();
+  var $$this$443 = 27;
+  var array$73 = [jsx$59, jsx$58, jsx$57, new $c_Lcross_common$Vec2i().init___I__I($$this$443, 11)];
   var i$73 = (((-1) + $uI(array$73.length)) | 0);
   var result$73 = $m_sci_Nil$();
   while ((i$73 >= 0)) {
@@ -3009,13 +4146,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$73 = new $c_sci_$colon$colon().init___O__sci_List(x$73, this$1184);
     i$73 = (((-1) + i$73) | 0)
   };
-  var jsx$35 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$39, 5, 3, jsx$38, jsx$37, jsx$36, result$73);
-  var jsx$34 = new $c_Lcross_mvc$Asset().init___T("/image/5S+4-1.png");
-  var jsx$33 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$32 = new $c_Lcross_common$Vec2i().init___I__I(1, 16);
-  var jsx$31 = new $c_Lcross_common$Vec2i().init___I__I(30, 16);
+  var jsx$56 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$63, 5, 3, jsx$62, jsx$61, jsx$60, result$73);
+  var jsx$55 = new $c_Lcross_mvc$Asset().init___T("/image/5S+4-1.png");
+  var jsx$54 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$444 = 1;
+  var jsx$53 = new $c_Lcross_common$Vec2i().init___I__I($$this$444, 16);
+  $m_Lcross_common$();
+  var $$this$445 = 30;
+  var jsx$52 = new $c_Lcross_common$Vec2i().init___I__I($$this$445, 16);
   $m_sci_List$();
-  var array$74 = [new $c_Lcross_common$Vec2i().init___I__I(3, 15), new $c_Lcross_common$Vec2i().init___I__I(13, 16), new $c_Lcross_common$Vec2i().init___I__I(21, 15), new $c_Lcross_common$Vec2i().init___I__I(29, 16)];
+  $m_Lcross_common$();
+  var $$this$446 = 3;
+  var jsx$51 = new $c_Lcross_common$Vec2i().init___I__I($$this$446, 15);
+  $m_Lcross_common$();
+  var $$this$447 = 13;
+  var jsx$50 = new $c_Lcross_common$Vec2i().init___I__I($$this$447, 16);
+  $m_Lcross_common$();
+  var $$this$448 = 21;
+  var jsx$49 = new $c_Lcross_common$Vec2i().init___I__I($$this$448, 15);
+  $m_Lcross_common$();
+  var $$this$449 = 29;
+  var array$74 = [jsx$51, jsx$50, jsx$49, new $c_Lcross_common$Vec2i().init___I__I($$this$449, 16)];
   var i$74 = (((-1) + $uI(array$74.length)) | 0);
   var result$74 = $m_sci_Nil$();
   while ((i$74 >= 0)) {
@@ -3025,13 +4177,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$74 = new $c_sci_$colon$colon().init___O__sci_List(x$74, this$1200);
     i$74 = (((-1) + i$74) | 0)
   };
-  var jsx$30 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$34, 5, 4, jsx$33, jsx$32, jsx$31, result$74);
-  var jsx$29 = new $c_Lcross_mvc$Asset().init___T("/image/5S+5-1.png");
-  var jsx$28 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$27 = new $c_Lcross_common$Vec2i().init___I__I(3, 9);
-  var jsx$26 = new $c_Lcross_common$Vec2i().init___I__I(28, 21);
+  var jsx$48 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$55, 5, 4, jsx$54, jsx$53, jsx$52, result$74);
+  var jsx$47 = new $c_Lcross_mvc$Asset().init___T("/image/5S+5-1.png");
+  var jsx$46 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$450 = 3;
+  var jsx$45 = new $c_Lcross_common$Vec2i().init___I__I($$this$450, 9);
+  $m_Lcross_common$();
+  var $$this$451 = 28;
+  var jsx$44 = new $c_Lcross_common$Vec2i().init___I__I($$this$451, 21);
   $m_sci_List$();
-  var array$75 = [new $c_Lcross_common$Vec2i().init___I__I(4, 10), new $c_Lcross_common$Vec2i().init___I__I(12, 14), new $c_Lcross_common$Vec2i().init___I__I(19, 17), new $c_Lcross_common$Vec2i().init___I__I(27, 21)];
+  $m_Lcross_common$();
+  var $$this$452 = 4;
+  var jsx$43 = new $c_Lcross_common$Vec2i().init___I__I($$this$452, 10);
+  $m_Lcross_common$();
+  var $$this$453 = 12;
+  var jsx$42 = new $c_Lcross_common$Vec2i().init___I__I($$this$453, 14);
+  $m_Lcross_common$();
+  var $$this$454 = 19;
+  var jsx$41 = new $c_Lcross_common$Vec2i().init___I__I($$this$454, 17);
+  $m_Lcross_common$();
+  var $$this$455 = 27;
+  var array$75 = [jsx$43, jsx$42, jsx$41, new $c_Lcross_common$Vec2i().init___I__I($$this$455, 21)];
   var i$75 = (((-1) + $uI(array$75.length)) | 0);
   var result$75 = $m_sci_Nil$();
   while ((i$75 >= 0)) {
@@ -3041,13 +4208,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$75 = new $c_sci_$colon$colon().init___O__sci_List(x$75, this$1216);
     i$75 = (((-1) + i$75) | 0)
   };
-  var jsx$25 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$29, 5, 5, jsx$28, jsx$27, jsx$26, result$75);
-  var jsx$24 = new $c_Lcross_mvc$Asset().init___T("/image/5S-1-1.png");
-  var jsx$23 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$22 = new $c_Lcross_common$Vec2i().init___I__I(20, 29);
-  var jsx$21 = new $c_Lcross_common$Vec2i().init___I__I(11, 2);
+  var jsx$40 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$47, 5, 5, jsx$46, jsx$45, jsx$44, result$75);
+  var jsx$39 = new $c_Lcross_mvc$Asset().init___T("/image/5S-1-1.png");
+  var jsx$38 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$456 = 20;
+  var jsx$37 = new $c_Lcross_common$Vec2i().init___I__I($$this$456, 29);
+  $m_Lcross_common$();
+  var $$this$457 = 11;
+  var jsx$36 = new $c_Lcross_common$Vec2i().init___I__I($$this$457, 2);
   $m_sci_List$();
-  var array$76 = [new $c_Lcross_common$Vec2i().init___I__I(12, 4), new $c_Lcross_common$Vec2i().init___I__I(15, 13), new $c_Lcross_common$Vec2i().init___I__I(16, 19), new $c_Lcross_common$Vec2i().init___I__I(20, 27)];
+  $m_Lcross_common$();
+  var $$this$458 = 12;
+  var jsx$35 = new $c_Lcross_common$Vec2i().init___I__I($$this$458, 4);
+  $m_Lcross_common$();
+  var $$this$459 = 15;
+  var jsx$34 = new $c_Lcross_common$Vec2i().init___I__I($$this$459, 13);
+  $m_Lcross_common$();
+  var $$this$460 = 16;
+  var jsx$33 = new $c_Lcross_common$Vec2i().init___I__I($$this$460, 19);
+  $m_Lcross_common$();
+  var $$this$461 = 20;
+  var array$76 = [jsx$35, jsx$34, jsx$33, new $c_Lcross_common$Vec2i().init___I__I($$this$461, 27)];
   var i$76 = (((-1) + $uI(array$76.length)) | 0);
   var result$76 = $m_sci_Nil$();
   while ((i$76 >= 0)) {
@@ -3057,13 +4239,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$76 = new $c_sci_$colon$colon().init___O__sci_List(x$76, this$1232);
     i$76 = (((-1) + i$76) | 0)
   };
-  var jsx$20 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$24, 5, (-1), jsx$23, jsx$22, jsx$21, result$76);
-  var jsx$19 = new $c_Lcross_mvc$Asset().init___T("/image/5S-2-1.png");
-  var jsx$18 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$17 = new $c_Lcross_common$Vec2i().init___I__I(26, 26);
-  var jsx$16 = new $c_Lcross_common$Vec2i().init___I__I(6, 5);
+  var jsx$32 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$39, 5, (-1), jsx$38, jsx$37, jsx$36, result$76);
+  var jsx$31 = new $c_Lcross_mvc$Asset().init___T("/image/5S-2-1.png");
+  var jsx$30 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$462 = 26;
+  var jsx$29 = new $c_Lcross_common$Vec2i().init___I__I($$this$462, 26);
+  $m_Lcross_common$();
+  var $$this$463 = 6;
+  var jsx$28 = new $c_Lcross_common$Vec2i().init___I__I($$this$463, 5);
   $m_sci_List$();
-  var array$77 = [new $c_Lcross_common$Vec2i().init___I__I(7, 6), new $c_Lcross_common$Vec2i().init___I__I(12, 12), new $c_Lcross_common$Vec2i().init___I__I(18, 17), new $c_Lcross_common$Vec2i().init___I__I(24, 25)];
+  $m_Lcross_common$();
+  var $$this$464 = 7;
+  var jsx$27 = new $c_Lcross_common$Vec2i().init___I__I($$this$464, 6);
+  $m_Lcross_common$();
+  var $$this$465 = 12;
+  var jsx$26 = new $c_Lcross_common$Vec2i().init___I__I($$this$465, 12);
+  $m_Lcross_common$();
+  var $$this$466 = 18;
+  var jsx$25 = new $c_Lcross_common$Vec2i().init___I__I($$this$466, 17);
+  $m_Lcross_common$();
+  var $$this$467 = 24;
+  var array$77 = [jsx$27, jsx$26, jsx$25, new $c_Lcross_common$Vec2i().init___I__I($$this$467, 25)];
   var i$77 = (((-1) + $uI(array$77.length)) | 0);
   var result$77 = $m_sci_Nil$();
   while ((i$77 >= 0)) {
@@ -3073,13 +4270,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$77 = new $c_sci_$colon$colon().init___O__sci_List(x$77, this$1248);
     i$77 = (((-1) + i$77) | 0)
   };
-  var jsx$15 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$19, 5, (-2), jsx$18, jsx$17, jsx$16, result$77);
-  var jsx$14 = new $c_Lcross_mvc$Asset().init___T("/image/5S-3-1.png");
-  var jsx$13 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$12 = new $c_Lcross_common$Vec2i().init___I__I(28, 22);
-  var jsx$11 = new $c_Lcross_common$Vec2i().init___I__I(3, 10);
+  var jsx$24 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$31, 5, (-2), jsx$30, jsx$29, jsx$28, result$77);
+  var jsx$23 = new $c_Lcross_mvc$Asset().init___T("/image/5S-3-1.png");
+  var jsx$22 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$468 = 28;
+  var jsx$21 = new $c_Lcross_common$Vec2i().init___I__I($$this$468, 22);
+  $m_Lcross_common$();
+  var $$this$469 = 3;
+  var jsx$20 = new $c_Lcross_common$Vec2i().init___I__I($$this$469, 10);
   $m_sci_List$();
-  var array$78 = [new $c_Lcross_common$Vec2i().init___I__I(4, 10), new $c_Lcross_common$Vec2i().init___I__I(10, 13), new $c_Lcross_common$Vec2i().init___I__I(18, 17), new $c_Lcross_common$Vec2i().init___I__I(25, 20)];
+  $m_Lcross_common$();
+  var $$this$470 = 4;
+  var jsx$19 = new $c_Lcross_common$Vec2i().init___I__I($$this$470, 10);
+  $m_Lcross_common$();
+  var $$this$471 = 10;
+  var jsx$18 = new $c_Lcross_common$Vec2i().init___I__I($$this$471, 13);
+  $m_Lcross_common$();
+  var $$this$472 = 18;
+  var jsx$17 = new $c_Lcross_common$Vec2i().init___I__I($$this$472, 17);
+  $m_Lcross_common$();
+  var $$this$473 = 25;
+  var array$78 = [jsx$19, jsx$18, jsx$17, new $c_Lcross_common$Vec2i().init___I__I($$this$473, 20)];
   var i$78 = (((-1) + $uI(array$78.length)) | 0);
   var result$78 = $m_sci_Nil$();
   while ((i$78 >= 0)) {
@@ -3089,13 +4301,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$78 = new $c_sci_$colon$colon().init___O__sci_List(x$78, this$1264);
     i$78 = (((-1) + i$78) | 0)
   };
-  var jsx$10 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$14, 5, (-3), jsx$13, jsx$12, jsx$11, result$78);
-  var jsx$9 = new $c_Lcross_mvc$Asset().init___T("/image/5S-4-1.png");
-  var jsx$8 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$7 = new $c_Lcross_common$Vec2i().init___I__I(30, 15);
-  var jsx$6 = new $c_Lcross_common$Vec2i().init___I__I(1, 15);
+  var jsx$16 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$23, 5, (-3), jsx$22, jsx$21, jsx$20, result$78);
+  var jsx$15 = new $c_Lcross_mvc$Asset().init___T("/image/5S-4-1.png");
+  var jsx$14 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$474 = 30;
+  var jsx$13 = new $c_Lcross_common$Vec2i().init___I__I($$this$474, 15);
+  $m_Lcross_common$();
+  var $$this$475 = 1;
+  var jsx$12 = new $c_Lcross_common$Vec2i().init___I__I($$this$475, 15);
   $m_sci_List$();
-  var array$79 = [new $c_Lcross_common$Vec2i().init___I__I(2, 15), new $c_Lcross_common$Vec2i().init___I__I(9, 15), new $c_Lcross_common$Vec2i().init___I__I(18, 16), new $c_Lcross_common$Vec2i().init___I__I(27, 15)];
+  $m_Lcross_common$();
+  var $$this$476 = 2;
+  var jsx$11 = new $c_Lcross_common$Vec2i().init___I__I($$this$476, 15);
+  $m_Lcross_common$();
+  var $$this$477 = 9;
+  var jsx$10 = new $c_Lcross_common$Vec2i().init___I__I($$this$477, 15);
+  $m_Lcross_common$();
+  var $$this$478 = 18;
+  var jsx$9 = new $c_Lcross_common$Vec2i().init___I__I($$this$478, 16);
+  $m_Lcross_common$();
+  var $$this$479 = 27;
+  var array$79 = [jsx$11, jsx$10, jsx$9, new $c_Lcross_common$Vec2i().init___I__I($$this$479, 15)];
   var i$79 = (((-1) + $uI(array$79.length)) | 0);
   var result$79 = $m_sci_Nil$();
   while ((i$79 >= 0)) {
@@ -3105,13 +4332,28 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$79 = new $c_sci_$colon$colon().init___O__sci_List(x$79, this$1280);
     i$79 = (((-1) + i$79) | 0)
   };
-  var jsx$5 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$9, 5, (-4), jsx$8, jsx$7, jsx$6, result$79);
-  var jsx$4 = new $c_Lcross_mvc$Asset().init___T("/image/5S-5-1.png");
-  var jsx$3 = $m_Lcross_mvc$TreeVariations$().Straight$2;
-  var jsx$2 = new $c_Lcross_common$Vec2i().init___I__I(29, 11);
-  var jsx$1 = new $c_Lcross_common$Vec2i().init___I__I(2, 20);
+  var jsx$8 = new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$15, 5, (-4), jsx$14, jsx$13, jsx$12, result$79);
+  var jsx$7 = new $c_Lcross_mvc$Asset().init___T("/image/5S-5-1.png");
+  var jsx$6 = $m_Lcross_mvc$TreeVariations$().Straight$2;
+  $m_Lcross_common$();
+  var $$this$480 = 29;
+  var jsx$5 = new $c_Lcross_common$Vec2i().init___I__I($$this$480, 11);
+  $m_Lcross_common$();
+  var $$this$481 = 2;
+  var jsx$4 = new $c_Lcross_common$Vec2i().init___I__I($$this$481, 20);
   $m_sci_List$();
-  var array$80 = [new $c_Lcross_common$Vec2i().init___I__I(4, 20), new $c_Lcross_common$Vec2i().init___I__I(12, 17), new $c_Lcross_common$Vec2i().init___I__I(19, 15), new $c_Lcross_common$Vec2i().init___I__I(28, 12)];
+  $m_Lcross_common$();
+  var $$this$482 = 4;
+  var jsx$3 = new $c_Lcross_common$Vec2i().init___I__I($$this$482, 20);
+  $m_Lcross_common$();
+  var $$this$483 = 12;
+  var jsx$2 = new $c_Lcross_common$Vec2i().init___I__I($$this$483, 17);
+  $m_Lcross_common$();
+  var $$this$484 = 19;
+  var jsx$1 = new $c_Lcross_common$Vec2i().init___I__I($$this$484, 15);
+  $m_Lcross_common$();
+  var $$this$485 = 28;
+  var array$80 = [jsx$3, jsx$2, jsx$1, new $c_Lcross_common$Vec2i().init___I__I($$this$485, 12)];
   var i$80 = (((-1) + $uI(array$80.length)) | 0);
   var result$80 = $m_sci_Nil$();
   while ((i$80 >= 0)) {
@@ -3121,7 +4363,7 @@ $c_Lcross_asset_tree$.prototype.init___ = (function() {
     result$80 = new $c_sci_$colon$colon().init___O__sci_List(x$80, this$1296);
     i$80 = (((-1) + i$80) | 0)
   };
-  var array$81 = [jsx$431, jsx$430, jsx$429, jsx$428, jsx$427, jsx$426, jsx$425, jsx$424, jsx$423, jsx$422, jsx$421, jsx$420, jsx$419, jsx$418, jsx$417, jsx$416, jsx$415, jsx$414, jsx$413, jsx$412, jsx$411, jsx$410, jsx$409, jsx$408, jsx$407, jsx$406, jsx$405, jsx$400, jsx$395, jsx$390, jsx$385, jsx$380, jsx$375, jsx$370, jsx$365, jsx$360, jsx$355, jsx$350, jsx$345, jsx$340, jsx$335, jsx$330, jsx$325, jsx$320, jsx$315, jsx$310, jsx$305, jsx$300, jsx$295, jsx$290, jsx$285, jsx$280, jsx$275, jsx$270, jsx$265, jsx$260, jsx$255, jsx$250, jsx$245, jsx$240, jsx$235, jsx$230, jsx$225, jsx$220, jsx$215, jsx$210, jsx$205, jsx$200, jsx$195, jsx$190, jsx$185, jsx$180, jsx$175, jsx$170, jsx$165, jsx$160, jsx$155, jsx$150, jsx$145, jsx$140, jsx$135, jsx$130, jsx$125, jsx$120, jsx$115, jsx$110, jsx$105, jsx$100, jsx$95, jsx$90, jsx$85, jsx$80, jsx$75, jsx$70, jsx$65, jsx$60, jsx$55, jsx$50, jsx$45, jsx$40, jsx$35, jsx$30, jsx$25, jsx$20, jsx$15, jsx$10, jsx$5, new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$4, 5, (-5), jsx$3, jsx$2, jsx$1, result$80)];
+  var array$81 = [jsx$698, jsx$694, jsx$690, jsx$686, jsx$682, jsx$678, jsx$674, jsx$670, jsx$666, jsx$662, jsx$658, jsx$654, jsx$650, jsx$646, jsx$642, jsx$638, jsx$634, jsx$630, jsx$626, jsx$622, jsx$618, jsx$614, jsx$610, jsx$606, jsx$602, jsx$598, jsx$594, jsx$588, jsx$581, jsx$574, jsx$568, jsx$562, jsx$556, jsx$550, jsx$544, jsx$538, jsx$532, jsx$526, jsx$519, jsx$512, jsx$505, jsx$499, jsx$493, jsx$486, jsx$480, jsx$474, jsx$467, jsx$460, jsx$453, jsx$446, jsx$439, jsx$432, jsx$425, jsx$418, jsx$411, jsx$404, jsx$397, jsx$390, jsx$382, jsx$375, jsx$368, jsx$361, jsx$354, jsx$347, jsx$339, jsx$331, jsx$323, jsx$316, jsx$309, jsx$302, jsx$294, jsx$287, jsx$279, jsx$272, jsx$264, jsx$256, jsx$248, jsx$240, jsx$232, jsx$224, jsx$216, jsx$208, jsx$200, jsx$192, jsx$184, jsx$176, jsx$168, jsx$160, jsx$152, jsx$144, jsx$136, jsx$128, jsx$120, jsx$112, jsx$104, jsx$96, jsx$88, jsx$80, jsx$72, jsx$64, jsx$56, jsx$48, jsx$40, jsx$32, jsx$24, jsx$16, jsx$8, new $c_Lcross_mvc$TreeAsset().init___Lcross_mvc$Asset__I__I__s_Enumeration$Value__Lcross_common$Vec2i__Lcross_common$Vec2i__sci_List(jsx$7, 5, (-5), jsx$6, jsx$5, jsx$4, result$80)];
   var i$81 = (((-1) + $uI(array$81.length)) | 0);
   var result$81 = $m_sci_Nil$();
   while ((i$81 >= 0)) {
@@ -3227,6 +4469,37 @@ function $m_Lcross_asset_ui$() {
   return $n_Lcross_asset_ui$
 }
 /** @constructor */
+function $c_Lcross_common$() {
+  $c_O.call(this);
+  this.UnitFuture$1 = null
+}
+$c_Lcross_common$.prototype = new $h_O();
+$c_Lcross_common$.prototype.constructor = $c_Lcross_common$;
+/** @constructor */
+function $h_Lcross_common$() {
+  /*<skip>*/
+}
+$h_Lcross_common$.prototype = $c_Lcross_common$.prototype;
+$c_Lcross_common$.prototype.init___ = (function() {
+  $n_Lcross_common$ = this;
+  this.UnitFuture$1 = $m_s_concurrent_Future$().successful__O__s_concurrent_Future((void 0));
+  return this
+});
+var $d_Lcross_common$ = new $TypeData().initClass({
+  Lcross_common$: 0
+}, false, "cross.common$", {
+  Lcross_common$: 1,
+  O: 1
+});
+$c_Lcross_common$.prototype.$classData = $d_Lcross_common$;
+var $n_Lcross_common$ = (void 0);
+function $m_Lcross_common$() {
+  if ((!$n_Lcross_common$)) {
+    $n_Lcross_common$ = new $c_Lcross_common$().init___()
+  };
+  return $n_Lcross_common$
+}
+/** @constructor */
 function $c_Lcross_common$RandomOps$() {
   $c_O.call(this)
 }
@@ -3299,7 +4572,9 @@ function $h_Lcross_configjs$() {
 $h_Lcross_configjs$.prototype = $c_Lcross_configjs$.prototype;
 $c_Lcross_configjs$.prototype.init___ = (function() {
   $n_Lcross_configjs$ = this;
-  this.BaseScreenSize$1 = new $c_Lcross_common$Vec2i().init___I__I(256, 256);
+  $m_Lcross_common$();
+  var $$this = 256;
+  this.BaseScreenSize$1 = new $c_Lcross_common$Vec2i().init___I__I($$this, 256);
   this.MinScale$1 = 1;
   this.MaxScale$1 = 5;
   this.TreeTripleBranchChance$1 = 0.3;
@@ -3560,6 +4835,7 @@ $c_Lcross_mvc$Controller.prototype.randomTree__p1__Lcross_mvc$TreeNode = (functi
   };
   var maxLevel = $uI($as_sc_TraversableOnce(jsx$1).max__s_math_Ordering__O($m_s_math_Ordering$Int$()));
   var jsx$2 = $m_Lcross_common$RandomOps$();
+  $m_Lcross_common$();
   var this$6 = $m_Lcross_asset_tree$().branches$1;
   $m_sci_List$();
   var b$3 = new $c_scm_ListBuffer().init___();
@@ -4064,6 +5340,7 @@ $c_Lcross_ops$ContainerOps$.prototype.init___ = (function() {
   return this
 });
 $c_Lcross_ops$ContainerOps$.prototype.removeChildren$extension__Lcross_pixi_Container__Lcross_pixi_Container = (function($$this) {
+  $m_Lcross_common$();
   while (true) {
     var array = $$this.children;
     if (($uI(array.length) !== 0)) {
@@ -4114,15 +5391,18 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.init___ = (function() {
   return this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.scaleYTo$extension__Lcross_pixi_DisplayObject__D__Lcross_pixi_DisplayObject = (function($$this, scale) {
+  $m_Lcross_common$();
   $$this.scale.y = scale;
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.bindScale$extension__Lcross_pixi_DisplayObject__Lcross_common$Data__Lcross_pixi_DisplayObject = (function($$this, data) {
+  $m_Lcross_common$();
   var code = new $c_Lcross_ops$DisplayObjectOps$$anonfun$$nestedInanonfun$bindScale$1$1().init___Lcross_pixi_DisplayObject($$this);
   $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(data, code);
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.springTo$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_mvc$Controller__Lcross_pixi_DisplayObject = (function($$this, target, controller) {
+  $m_Lcross_common$();
   var jsx$1 = $m_Lcross_ops$DisplayObjectOps$();
   $m_Lcross_ops$();
   var this$4 = controller.model$1.screen$1;
@@ -4135,10 +5415,12 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.springTo$extension__Lcross_pixi_Displa
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject = (function($$this, parent) {
+  $m_Lcross_common$();
   parent.addChild($$this);
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.scaleTo$extension0__Lcross_pixi_DisplayObject__D__Lcross_pixi_DisplayObject = (function($$this, scale) {
+  $m_Lcross_common$();
   $$this.scale.set(scale, scale);
   return $$this
 });
@@ -4146,6 +5428,7 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.anchorAtCenter$extension__Lcross_pixi_
   return $m_Lcross_ops$DisplayObjectOps$().anchorAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(($m_Lcross_ops$(), $$this), $m_Lcross_common$Vec2d$().Center$1)
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.pivotAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject = (function($$this, pivot) {
+  $m_Lcross_common$();
   var jsx$1 = $m_Lcross_ops$PointOps$();
   $m_Lcross_ops$();
   var p = $$this.pivot;
@@ -4153,22 +5436,26 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.pivotAt$extension__Lcross_pixi_Display
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.alphaAt$extension__Lcross_pixi_DisplayObject__D__Lcross_pixi_DisplayObject = (function($$this, alpha) {
+  $m_Lcross_common$();
   $$this.alpha = alpha;
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.ensureUuid$extension__Lcross_pixi_DisplayObject__Lcross_pixi_DisplayObject = (function($$this) {
+  $m_Lcross_common$();
   if ((!$uZ($$this.hasOwnProperty("uuid")))) {
     $$this.uuid = $m_ju_UUID$().randomUUID__ju_UUID().toString__T()
   };
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.detach$extension__Lcross_pixi_DisplayObject__Lcross_pixi_DisplayObject = (function($$this) {
+  $m_Lcross_common$();
   if ((!$m_Lcross_ops$DisplayObjectOps$().detached$extension__Lcross_pixi_DisplayObject__Z($$this))) {
     $$this.parent.removeChild($$this)
   };
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject = (function($$this, position) {
+  $m_Lcross_common$();
   var jsx$1 = $m_Lcross_ops$PointOps$();
   $m_Lcross_ops$();
   var p = $$this.position;
@@ -4176,6 +5463,7 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.positionAt$extension__Lcross_pixi_Disp
   return $$this
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.anchorAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject = (function($$this, anchor) {
+  $m_Lcross_common$();
   var jsx$1 = $m_Lcross_ops$PointOps$();
   $m_Lcross_ops$();
   var p = $$this.anchor;
@@ -4186,6 +5474,7 @@ $c_Lcross_ops$DisplayObjectOps$.prototype.springToCenter$extension__Lcross_pixi_
   return $m_Lcross_ops$DisplayObjectOps$().springTo$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_mvc$Controller__Lcross_pixi_DisplayObject(($m_Lcross_ops$(), $$this), $m_Lcross_common$Vec2d$().Center$1, controller)
 });
 $c_Lcross_ops$DisplayObjectOps$.prototype.visibleTo$extension__Lcross_pixi_DisplayObject__Z__Lcross_pixi_DisplayObject = (function($$this, visible) {
+  $m_Lcross_common$();
   $$this.visible = visible;
   return $$this
 });
@@ -8840,6 +10129,7 @@ $c_Lcross_ops$.prototype.centerStage__Lcross_mvc$Controller__Lcross_pixi_Contain
   return jsx$2.springToCenter$extension__Lcross_pixi_DisplayObject__Lcross_mvc$Controller__Lcross_pixi_DisplayObject(a$1, controller)
 });
 $c_Lcross_ops$.prototype.pointToVec__Lcross_pixi_Point__Lcross_common$Vec2d = (function(point) {
+  $m_Lcross_common$();
   var $double = $uD(point.x);
   var y = $uD(point.y);
   return new $c_Lcross_common$Vec2d().init___D__D($double, y)
@@ -8939,7 +10229,9 @@ $c_Lcross_stage_GameStage$Flower.prototype.pixiSprite$lzycompute__p1__Lcross_pix
     var a = $as_Lcross_mvc$Asset(this.cross$stage$GameStage$Flower$$assets$f.head__O());
     var a$1 = jsx$1.sprite$extension__Lcross_mvc$Asset__Lcross_pixi_Application__Lcross_pixi_Sprite(a, this.cross$stage$GameStage$Flower$$app$f);
     var a$2 = jsx$2.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$1, this.pixiContainer__Lcross_pixi_Container());
-    var a$3 = jsx$3.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$2, new $c_Lcross_common$Vec2d().init___D__D((-4), (-4.0)));
+    $m_Lcross_common$();
+    var $$this = (-4);
+    var a$3 = jsx$3.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$2, new $c_Lcross_common$Vec2d().init___D__D($$this, (-4.0)));
     this.pixiSprite$1 = jsx$4.visibleTo$extension__Lcross_pixi_DisplayObject__Z__Lcross_pixi_DisplayObject(a$3, false);
     this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
   };
@@ -8996,6 +10288,7 @@ $c_Lcross_stage_GameStage$FlowerCluster.prototype.open__V = (function() {
       return (function(flower$2) {
         var flower = $as_Lcross_stage_GameStage$Flower(flower$2);
         var jsx$1 = $m_Lcross_common$RandomOps$();
+        $m_Lcross_common$();
         var random = $this.random$1;
         flower.open__I__V(jsx$1.between$extension__s_util_Random__I__I__I(random, 0, $m_Lcross_configjs$().FlowerAnimationDelay$1))
       })
@@ -9022,6 +10315,7 @@ $c_Lcross_stage_GameStage$FlowerCluster.prototype.init___J__Lcross_mvc$Controlle
 $c_Lcross_stage_GameStage$FlowerCluster.prototype.pixiFlowers$lzycompute__p1__sci_IndexedSeq = (function() {
   if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
     var jsx$1 = $m_Lcross_common$RandomOps$();
+    $m_Lcross_common$();
     var random = this.random$1;
     var end = jsx$1.between$extension__s_util_Random__I__I__I(random, $m_Lcross_configjs$().FlowerClusterMinCount$1, $m_Lcross_configjs$().FlowerClusterMaxCount$1);
     var isEmpty$4 = (end <= 0);
@@ -9050,6 +10344,7 @@ $c_Lcross_stage_GameStage$FlowerCluster.prototype.pixiFlowers$lzycompute__p1__sc
       while (true) {
         var arg1 = i;
         var jsx$2 = $m_Lcross_common$RandomOps$();
+        $m_Lcross_common$();
         var random$1 = this.random$1;
         var this$9 = new $c_Lcross_stage_GameStage$Flower().init___sci_List__Lcross_mvc$Controller__Lcross_pixi_Application($as_sci_List(jsx$2.oneOf$extension__s_util_Random__sci_List__O(random$1, $m_Lcross_asset_flower$().flowers$1)), this.controller$1, this.app$1);
         var arg1$1 = this$9.pixiContainer__Lcross_pixi_Container();
@@ -9062,6 +10357,7 @@ $c_Lcross_stage_GameStage$FlowerCluster.prototype.pixiFlowers$lzycompute__p1__sc
         var jsx$3 = $m_Lcross_ops$DisplayObjectOps$();
         $m_Lcross_ops$();
         var a = $m_Lcross_ops$DisplayObjectOps$().addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(($m_Lcross_ops$(), arg1$1), this.pixiContainer__Lcross_pixi_Container());
+        $m_Lcross_common$();
         var $int = $doubleToInt(x);
         var y$1 = $doubleToInt(y);
         jsx$3.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a, new $c_Lcross_common$Vec2d().init___D__D($int, y$1));
@@ -10371,10 +11667,18 @@ function $h_Lcross_common$Vec2d$() {
 $h_Lcross_common$Vec2d$.prototype = $c_Lcross_common$Vec2d$.prototype;
 $c_Lcross_common$Vec2d$.prototype.init___ = (function() {
   $n_Lcross_common$Vec2d$ = this;
-  this.Center$1 = new $c_Lcross_common$Vec2d().init___D__D(0.5, 0.5);
-  this.Top$1 = new $c_Lcross_common$Vec2d().init___D__D(0.5, 0.0);
-  this.Bottom$1 = new $c_Lcross_common$Vec2d().init___D__D(0.5, 1.0);
-  this.Zero$1 = new $c_Lcross_common$Vec2d().init___D__D(0.0, 0.0);
+  $m_Lcross_common$();
+  var $$this = 0.5;
+  this.Center$1 = new $c_Lcross_common$Vec2d().init___D__D($$this, 0.5);
+  $m_Lcross_common$();
+  var $$this$1 = 0.5;
+  this.Top$1 = new $c_Lcross_common$Vec2d().init___D__D($$this$1, 0.0);
+  $m_Lcross_common$();
+  var $$this$2 = 0.5;
+  this.Bottom$1 = new $c_Lcross_common$Vec2d().init___D__D($$this$2, 1.0);
+  $m_Lcross_common$();
+  var $$this$3 = 0.0;
+  this.Zero$1 = new $c_Lcross_common$Vec2d().init___D__D($$this$3, 0.0);
   return this
 });
 var $d_Lcross_common$Vec2d$ = new $TypeData().initClass({
@@ -10754,6 +12058,7 @@ $c_Lcross_ui$.prototype.load__Lcross_mvc$Controller__s_concurrent_Future = (func
       $m_Lcross_ui$().log$1.info__T__V("[ui] initializing...");
       var refreshScreenSize = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, controller$1$1) {
         return (function() {
+          $m_Lcross_common$();
           var $int = $doubleToInt($uD($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().innerWidth));
           var y = $doubleToInt($uD($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().innerHeight));
           controller$1$1.setScreenSize__Lcross_common$Vec2i__V(new $c_Lcross_common$Vec2i().init___I__I($int, y))
@@ -15317,7 +16622,9 @@ $c_Lcross_mvc$Model$.prototype.toString__T = (function() {
   return "Model"
 });
 $c_Lcross_mvc$Model$.prototype.apply$default$2__Lcross_common$Writeable = (function() {
-  var $default = new $c_Lcross_common$Vec2i().init___I__I(0, 0);
+  $m_Lcross_common$();
+  var $$this = 0;
+  var $default = new $c_Lcross_common$Vec2i().init___I__I($$this, 0);
   return new $c_Lcross_common$Implementation().init___O($default)
 });
 var $d_Lcross_mvc$Model$ = new $TypeData().initClass({
@@ -15772,9 +17079,13 @@ $c_Lcross_stage_GameStage.prototype.init___Lcross_mvc$Controller__Lcross_pixi_Ap
   this.cross$stage$GameStage$$app$f = app;
   this.log$1 = $m_Lcross_logging$BrowserLogApi$();
   this.ec$1 = $as_s_concurrent_ExecutionContextExecutor($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-  this.treePosition$1 = new $c_Lcross_common$Vec2i().init___I__I(0, 85);
+  $m_Lcross_common$();
+  var $$this = 0;
+  this.treePosition$1 = new $c_Lcross_common$Vec2i().init___I__I($$this, 85);
+  $m_Lcross_common$();
+  var $$this$1 = (-64);
   var y = (((-13) + this.treePosition$1.y$1) | 0);
-  this.islandPosition$1 = new $c_Lcross_common$Vec2i().init___I__I((-64), y);
+  this.islandPosition$1 = new $c_Lcross_common$Vec2i().init___I__I($$this$1, y);
   this.animating$1 = false;
   this.animationStart$1 = $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong();
   this.treeBuffer$1 = $m_sci_Nil$();
@@ -15876,7 +17187,9 @@ $c_Lcross_stage_GameStage.prototype.create$lzycompute__p1__s_concurrent_Future =
         var jsx$10 = $m_Lcross_ops$DisplayObjectOps$();
         $m_Lcross_ops$();
         var a$9 = $m_Lcross_ops$DisplayObjectOps$().addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(($m_Lcross_ops$(), arg1), $this.pixiCenter__Lcross_pixi_Container());
-        jsx$10.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$9, new $c_Lcross_common$Vec2d().init___D__D(0, 110.0));
+        $m_Lcross_common$();
+        var $$this = 0;
+        jsx$10.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$9, new $c_Lcross_common$Vec2d().init___D__D($$this, 110.0));
         var jsx$12 = $m_Lcross_ops$DisplayObjectOps$();
         $m_Lcross_ops$();
         var jsx$11 = $m_Lcross_ops$AssetOps$();
@@ -15913,7 +17226,9 @@ $c_Lcross_stage_GameStage.prototype.buildTree__Lcross_mvc$TreeNode__Z__T2 = (fun
   var random = new $c_s_util_Random().init___();
   var treeContainer = new $g.PIXI.Container();
   var flowerContainer = new $g.PIXI.Container();
-  this.rec$1__p1__Lcross_pixi_Container__Lcross_mvc$TreeNode__Lcross_common$Vec2i__Z__s_util_Random__Lcross_pixi_Container__V(treeContainer, tree, new $c_Lcross_common$Vec2i().init___I__I(0, 0), spawnFlowers, random, flowerContainer);
+  $m_Lcross_common$();
+  var $$this = 0;
+  this.rec$1__p1__Lcross_pixi_Container__Lcross_mvc$TreeNode__Lcross_common$Vec2i__Z__s_util_Random__Lcross_pixi_Container__V(treeContainer, tree, new $c_Lcross_common$Vec2i().init___I__I($$this, 0), spawnFlowers, random, flowerContainer);
   return new $c_T2().init___O__O(treeContainer, flowerContainer)
 });
 var $d_Lcross_stage_GameStage = new $TypeData().initClass({
@@ -16064,6 +17379,7 @@ $c_Lcross_stage_LoadingStage.prototype.cross$stage$LoadingStage$$$anonfun$create
   var a$4 = jsx$4.sprite$extension__Lcross_mvc$Asset__Lcross_pixi_Application__Lcross_pixi_Sprite(a$3, this.app$1);
   var a$5 = jsx$5.anchorAtCenter$extension__Lcross_pixi_DisplayObject__Lcross_pixi_DisplayObject(a$4);
   var a$6 = jsx$6.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$5, this.pixiBody__Lcross_pixi_Container());
+  $m_Lcross_common$();
   var jsx$10 = $m_Lcross_ops$DisplayObjectOps$();
   $m_Lcross_ops$();
   var jsx$9 = $m_Lcross_ops$DisplayObjectOps$();
@@ -16079,8 +17395,10 @@ $c_Lcross_stage_LoadingStage.prototype.cross$stage$LoadingStage$$$anonfun$create
   var x$1 = new $c_Lcross_common$Vec2d().init___D__D(v.x$1, v.y$1);
   var a$7 = $m_Lcross_ops$GraphicsOps$().fillRect$extension__Lcross_pixi_Graphics__Lcross_common$Vec2d__D__Lcross_pixi_Graphics(graphics, x$1, 0.0);
   var a$8 = jsx$7.pivotAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$7, this.buttonSize$1.$$times__Lcross_common$Vec2d__Lcross_common$Vec2d($m_Lcross_common$Vec2d$().Bottom$1));
+  $m_Lcross_common$();
+  var $$this = 0.0;
   var y = (0.5 * this.buttonSize$1.y$1);
-  var a$9 = jsx$8.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$8, new $c_Lcross_common$Vec2d().init___D__D(0.0, y));
+  var a$9 = jsx$8.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a$8, new $c_Lcross_common$Vec2d().init___D__D($$this, y));
   var a$10 = jsx$9.scaleYTo$extension__Lcross_pixi_DisplayObject__D__Lcross_pixi_DisplayObject(a$9, 0.0);
   a$6.mask = jsx$10.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$10, this.pixiBody__Lcross_pixi_Container());
   var progressSpring = $as_Lcross_spring$DoubleSpring($m_Lcross_spring$().add__Lcross_spring$Updater__Lcross_spring$Updater(new $c_Lcross_spring$DoubleSpring().init___D__D__F1__D(0.0, 0.0, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1, finish, start$1) {
@@ -16206,7 +17524,9 @@ $c_Lcross_stage_LoadingStage.prototype.cross$stage$LoadingStage$$$anonfun$create
           var jsx$1 = $m_Lcross_ops$DisplayObjectOps$();
           $m_Lcross_ops$();
           var a = $m_Lcross_ops$AssetOps$().sprite$extension__Lcross_mvc$Asset__Lcross_pixi_Application__Lcross_pixi_Sprite(($m_Lcross_ops$(), asset), $this$1.app$1);
-          var a$1 = jsx$1.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a, new $c_Lcross_common$Vec2d().init___D__D(1000, 1000.0));
+          $m_Lcross_common$();
+          var $$this = 1000;
+          var a$1 = jsx$1.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a, new $c_Lcross_common$Vec2d().init___D__D($$this, 1000.0));
           return jsx$2.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a$1, $this$1.pixiBody__Lcross_pixi_Container())
         })
       })($this);
@@ -16279,7 +17599,9 @@ $c_Lcross_stage_LoadingStage.prototype.init___Lcross_mvc$Controller__Lcross_pixi
   this.app$1 = app;
   this.log$1 = $m_Lcross_logging$BrowserLogApi$();
   this.ec$1 = $as_s_concurrent_ExecutionContextExecutor($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
-  this.buttonSize$1 = new $c_Lcross_common$Vec2i().init___I__I(48, 16);
+  $m_Lcross_common$();
+  var $$this = 48;
+  this.buttonSize$1 = new $c_Lcross_common$Vec2i().init___I__I($$this, 16);
   this.toPixi$1 = this.pixiStage__Lcross_pixi_Container();
   return this
 });
@@ -19499,6 +20821,7 @@ $c_Lcross_spring$DoubleSpring.prototype.productIterator__sc_Iterator = (function
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
 });
 $c_Lcross_spring$DoubleSpring.prototype.update__V = (function() {
+  $m_Lcross_common$();
   var _1$mcD$sp = this.current$1;
   var _2$mcD$sp = this.target$1;
   var progress = this.speed$1;
@@ -19700,6 +21023,7 @@ $c_Lcross_spring$SpritePositionSpring.prototype.update__V = (function() {
   var jsx$1 = $m_Lcross_ops$DisplayObjectOps$();
   $m_Lcross_ops$();
   var a = this.sprite$1;
+  $m_Lcross_common$();
   var _1 = $m_Lcross_ops$().pointToVec__Lcross_pixi_Point__Lcross_common$Vec2d(this.sprite$1.position);
   var _2 = this.target$1;
   var progress = this.speed$1;

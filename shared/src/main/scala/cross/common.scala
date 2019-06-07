@@ -92,13 +92,13 @@ object common {
   }
 
   implicit class TraversableOps[A](val list: Traversable[A]) extends AnyVal {
-    /** Safely calculates min for non-empty seqs */
+    /** Safely calculates min for non-empty lists */
     def minOpt(implicit ordering: Ordering[A]): Option[A] = list match {
       case empty if empty.isEmpty => None
       case values => Some(values.min)
     }
 
-    /** Safely calculates max for non-empty seqs */
+    /** Safely calculates max for non-empty lists */
     def maxOpt(implicit ordering: Ordering[A]): Option[A] = list match {
       case empty if empty.isEmpty => None
       case values => Some(values.max)
@@ -297,6 +297,9 @@ object common {
     def chainProcessing[B](last: Any, constructor: (A, Any) => B): Any = {
       list.foldRight(last) { case (element, next) => constructor.apply(element, next) }
     }
+
+    /** Removes the value from the list */
+    def without(value: A): List[A] = list.filterNot(a => a == value)
   }
 
   /** Integer 2D vector */
@@ -375,6 +378,9 @@ object common {
       val squared = diff * diff
       squared.x + squared.y < radius * radius
     }
+
+    /** Converts vector to ints */
+    def toInt: Vec2i = Vec2i(x.toInt, y.toInt)
   }
 
   object Vec2d {

@@ -7,6 +7,7 @@ import com.typesafe.scalalogging.LazyLogging
 import cross.config.JvmReader
 import cross.pac.bot.ArtChallengeBot
 import cross.pac.processor.ArtChallengeProcessor
+import cross.pac.thumbnailer.Thumbnailer
 
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration._
@@ -20,8 +21,9 @@ object launcher extends App with LazyLogging {
   implicit val execution: ExecutionContextExecutor = system.dispatcher
   implicit val timeout: Timeout = 10.seconds
 
-  val pacBot = system.actorOf(Props(new ArtChallengeBot(pac.config.Config)))
-  val pacProcessor = system.actorOf(Props(new ArtChallengeProcessor(pacBot, pac.config.Config)))
+  val pacBot = system.actorOf(Props(new ArtChallengeBot(pac.config.Config)), "pac.bot")
+  val pacThumbnailer = system.actorOf(Props(new Thumbnailer(materializer, pac.config.Config)), "pac.thumbnailer")
+  val pacProcessor = system.actorOf(Props(new ArtChallengeProcessor(pacBot, pacThumbnailer, pac.config.Config)), "pac.processor")
 
   sys.addShutdownHook {
     system.terminate()

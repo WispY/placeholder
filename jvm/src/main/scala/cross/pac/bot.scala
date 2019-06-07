@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, ActorRef}
 import cross.common._
 import cross.pac.config.PacConfig
 import net.dv8tion.jda.core.entities.{Message, MessageHistory, TextChannel}
-import net.dv8tion.jda.core.events.message.{MessageDeleteEvent, MessageReceivedEvent, MessageUpdateEvent}
+import net.dv8tion.jda.core.events.message.{GenericMessageEvent, MessageDeleteEvent, MessageReceivedEvent, MessageUpdateEvent}
 import net.dv8tion.jda.core.events.{Event, ReadyEvent}
 import net.dv8tion.jda.core.hooks.EventListener
 import net.dv8tion.jda.core.{JDA, JDABuilder}
@@ -27,14 +27,20 @@ object bot {
       client.addEventListener(new EventListener {
         override def onEvent(event: Event): Unit = event match {
           case e: ReadyEvent => self ! e
-          case e: MessageReceivedEvent if e.getGuild.getName.equalsIgnoreCase(config.bot.server) && e.getChannel.getName == config.bot.channel => self ! e
-          case e: MessageUpdateEvent if e.getGuild.getName.equalsIgnoreCase(config.bot.server) && e.getChannel.getName == config.bot.channel => self ! e
+          case e: MessageReceivedEvent if isRelevant(e) => self ! e
+          case e: MessageUpdateEvent if isRelevant(e) => self ! e
+          case e: MessageDeleteEvent if isRelevant(e) => self ! e
           case _ => // ignore
         }
       })
       clientOpt = Some(client)
       log.info("awaiting client readiness")
       context.become(awaitReady(client))
+    }
+
+    /** Returns true if event happened on configured server and channel */
+    private def isRelevant(event: GenericMessageEvent): Boolean = {
+      event.getGuild.getName.equalsIgnoreCase(config.bot.server) && event.getChannel.getName == config.bot.channel
     }
 
     override def postStop(): Unit = {

@@ -84,6 +84,9 @@ object format {
     /** Checks if values are equal */
     def $eq(value: A): Operation = ??? // replaced with macro
 
+    /** Checks if values are not equal */
+    def $neq(value: A): Operation = ??? // replaces with macro
+
     /** Checks if value is greater than given value */
     def $gt(value: A): Operation = ??? // replaced with macro
 
@@ -101,11 +104,14 @@ object format {
 
     /** Sorts the value in descending order */
     def $desc: Operation = ??? // replaced with macro
+
+    /** Checks if value matches one of the values */
+    def $in(list: List[A]): Operation = ??? // replaced with macro
   }
 
   /** Operations allowed on paths */
   object Operations extends Enumeration {
-    val EqualTo,
+    val EqualTo, NotEqualTo,
     GreaterThan, LessThan, GreaterThanOrEqualTo, LessThanOrEqualTo,
     In,
     IsNull,
@@ -191,6 +197,8 @@ object format {
       .map {
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$eq  $value""") =>
           (path, Some(value), q"""cross.format.Operations.EqualTo""")
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$neq $value""") =>
+          (path, Some(value), q"""cross.format.Operations.NotEqualTo""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gt  $value""") =>
           (path, Some(value), q"""cross.format.Operations.GreaterThan""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gte $value""") =>
@@ -199,6 +207,8 @@ object format {
           (path, Some(value), q"""cross.format.Operations.LessThan""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$lte $value""") =>
           (path, Some(value), q"""cross.format.Operations.LessThanOrEqualTo""")
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$in  $value""") =>
+          (path, Some(value), q"""cross.format.Operations.In""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$asc       """) =>
           (path, None, q"""cross.format.Operations.SortAsc""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$desc      """) =>
