@@ -170,6 +170,7 @@ object mongo {
           case Operations.LessThan => "$lt"
           case Operations.LessThanOrEqualTo => "$lte"
           case Operations.In => "$in"
+          case Operations.Exists => "$exists"
         }
         writePrimitive(mergePath(path) :+ FieldPathSegment(operator), bson, value)
       case UnaryOperation(path, Operations.SortAsc) =>

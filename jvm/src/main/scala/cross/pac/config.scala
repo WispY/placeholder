@@ -42,13 +42,17 @@ object config {
 
   /** Configures image processor
     *
-    * @param imgurClient   the client id of the imgur application
-    * @param imagePool     number of thread in pool that will process images
-    * @param thumbnailSize the maximum size of the thumbnail
+    * @param imgurClient              the client id of the imgur application
+    * @param imagePool                number of thread in pool that will process images
+    * @param thumbnailSize            the maximum size of the thumbnail
+    * @param rateLimitRetryDelay      delay before the next upload is attempted after rate limit is hit
+    * @param rateLimitSilenceDuration time before the first upload is attempted after rate limit is hit
     */
   case class PacThumbnailerConfig(imgurClient: String,
                                   imagePool: Int,
-                                  thumbnailSize: Vec2i)
+                                  thumbnailSize: Vec2i,
+                                  rateLimitRetryDelay: FiniteDuration,
+                                  rateLimitSilenceDuration: FiniteDuration)
 
   val DefaultPacConfig = PacConfig(
     bot = PacBotConfig(
@@ -66,7 +70,9 @@ object config {
     thumbnailer = PacThumbnailerConfig(
       imgurClient = "changeme",
       imagePool = 2,
-      thumbnailSize = 400 xy 1000
+      thumbnailSize = 400 xy 1000,
+      rateLimitRetryDelay = 1.hour,
+      rateLimitSilenceDuration = 1.hour
     )
   )
 
@@ -74,7 +80,7 @@ object config {
   implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
   implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
   implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format3(PacProcessorConfig)
-  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format3(PacThumbnailerConfig)
+  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format5(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))

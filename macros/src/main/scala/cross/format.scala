@@ -99,6 +99,9 @@ object format {
     /** Checks if value is less than or equal to given value */
     def $lte(value: A): Operation = ??? // replaced with macro
 
+    /** Checks if optional value exists or not */
+    def $exists(value: Boolean): Operation = ??? // replace with macro
+
     /** Sorts the value in ascending order */
     def $asc: Operation = ??? // replaced with macro
 
@@ -114,7 +117,7 @@ object format {
     val EqualTo, NotEqualTo,
     GreaterThan, LessThan, GreaterThanOrEqualTo, LessThanOrEqualTo,
     In,
-    IsNull,
+    IsNull, Exists,
     SortAsc, SortDesc = Value
   }
 
@@ -195,20 +198,22 @@ object format {
     import c.universe._
     val elements = operations
       .map {
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$eq  $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$eq     $value""") =>
           (path, Some(value), q"""cross.format.Operations.EqualTo""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$neq $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$neq    $value""") =>
           (path, Some(value), q"""cross.format.Operations.NotEqualTo""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gt  $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gt     $value""") =>
           (path, Some(value), q"""cross.format.Operations.GreaterThan""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gte $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$gte    $value""") =>
           (path, Some(value), q"""cross.format.Operations.GreaterThanOrEqualTo""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$lt  $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$lt     $value""") =>
           (path, Some(value), q"""cross.format.Operations.LessThan""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$lte $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$lte    $value""") =>
           (path, Some(value), q"""cross.format.Operations.LessThanOrEqualTo""")
-        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$in  $value""") =>
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$in     $value""") =>
           (path, Some(value), q"""cross.format.Operations.In""")
+        case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$exists $value""") =>
+          (path, Some(value), q"""cross.format.Operations.Exists""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$asc       """) =>
           (path, None, q"""cross.format.Operations.SortAsc""")
         case Function(_, q"""cross.format.AnyFormatOps[$tpe]($path) $$desc      """) =>

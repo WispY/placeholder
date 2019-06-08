@@ -107,7 +107,6 @@ object bot {
               log.info(s"found outdated message in history [${outdated.getId}]")
               listener ! MessageEdited(outdated)
             case unknown =>
-              log.info(s"found new message in history [${unknown.getId}]")
               listener ! MessagePosted(unknown)
           }
           val diff = request.expected.filterNot { case (id, timestamp) => chunk.exists(message => message.getId == id) }

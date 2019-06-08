@@ -11,6 +11,7 @@ import cross.format._
 import cross.mongo._
 import cross.pac.bot._
 import cross.pac.config.PacConfig
+import cross.pac.thumbnailer.{CreateThumbnail, ThumbnailError, ThumbnailSuccess}
 import net.dv8tion.jda.core.entities.Message
 import org.mongodb.scala.{Document, MongoClient, Observable}
 
@@ -51,6 +52,7 @@ object processor {
           ))
           _ <- messages.ensureIndices($ => List(
             $(_.id $asc, _.updateTimestamp $asc),
+            $(_.createTimestamp $asc),
             $(_.images.anyElement.id $asc)
           ))
           _ <- challenges.ensureIndices($ => List(
@@ -68,6 +70,16 @@ object processor {
           timestamps = history.map(message => message.id -> message.updateTimestamp).toMap
           _ = log.info(s"updating messages starting from [$updateTimeOpt]")
           _ = bot ! UpdateHistory(updateTimeOpt, timestamps)
+
+          _ = log.info("creating missing thumbnails")
+          list <- messages.find(
+            query = $ => $(_.images.anyElement.thumbnail $exists false),
+            sort = $ => $(_.id $asc)
+          )
+          _ = log.info(s"found [${list.size}] messages with missing image thumbnails")
+          _ = list
+            .flatMap(message => message.images.filter(image => !image.thumbnailError && image.thumbnail.isEmpty))
+            .foreach(image => thumbnailer ! CreateThumbnail(image))
         } yield ()
 
       case MessagePosted(message) =>
@@ -78,6 +90,7 @@ object processor {
           _ <- messages.insertOne(converted)
           _ = log.info(s"message inserted [${message.getId}]")
           _ = self ! UpdateSubmissionHavingMessage(converted.id)
+          _ = converted.images.filter(image => image.thumbnail.isEmpty && !image.thumbnailError).foreach(image => thumbnailer ! CreateThumbnail(image))
         } yield ()
 
       case MessageEdited(message) =>
@@ -100,6 +113,7 @@ object processor {
               for {
                 _ <- messages.replaceOne($ => $(_.id $eq updated.id), updated)
                 _ = self ! UpdateSubmissionHavingMessage(fresh.id)
+                _ = updated.images.filter(image => image.thumbnail.isEmpty && !image.thumbnailError).foreach(image => thumbnailer ! CreateThumbnail(image))
               } yield ()
           }
           _ = log.info(s"message updated [${message.getId}]")
@@ -208,6 +222,38 @@ object processor {
             log.info(s"deleting submission without image messages [$submission]")
             submissions.deleteOne($ => $(_.id $eq submission.id))
           }
+        } yield ()
+
+      case ThumbnailSuccess(image, url) =>
+        for {
+          _ <- UnitFuture
+          _ = log.info(s"updating thumbnail of [$image] to [$url]")
+          list <- messages.find($ => $(_.images.anyElement.id $eq image.id))
+          _ = log.info(s"found [${list.size}] messages referring to uploaded thumbnail")
+          futures = list.map { message =>
+            val updated = message.copy(images = message.images.map {
+              case uploaded if uploaded.id == image.id => uploaded.copy(thumbnail = Some(url), thumbnailError = false)
+              case other => other
+            })
+            messages.replaceOne($ => $(_.id $eq message.id), updated)
+          }
+          _ <- Future.sequence(futures)
+        } yield ()
+
+      case ThumbnailError(image) =>
+        for {
+          _ <- UnitFuture
+          _ = log.info(s"failing thumbnail of [$image]")
+          list <- messages.find($ => $(_.images.anyElement.id $eq image.id))
+          _ = log.info(s"found [${list.size}] messages referring to failed thumbnail")
+          futures = list.map { message =>
+            val updated = message.copy(images = message.images.map {
+              case uploaded if uploaded.id == image.id => uploaded.copy(thumbnail = None, thumbnailError = true)
+              case other => other
+            })
+            messages.replaceOne($ => $(_.id $eq message.id), updated)
+          }
+          _ <- Future.sequence(futures)
         } yield ()
     }
   }
