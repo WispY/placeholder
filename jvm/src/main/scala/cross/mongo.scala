@@ -197,14 +197,34 @@ object mongo {
 
   /** Merges path list into one field */
   private def mergePath(path: Path): Path = {
-    val string = path
-      .flatMap {
-        case FieldPathSegment(field) => Some(field)
-        case ArrayPathSegment(-1) => None
-        case ArrayPathSegment(index) => Some(index.toString)
-      }
-      .mkString(".")
-    FieldPathSegment(string) :: Nil
+    val total = path.foldLeft[List[List[PathSegment]]](Nil) {
+      case (head :: tail, s: FieldPathSegment) =>
+        (head :+ s) :: tail
+      case (Nil, s: FieldPathSegment) =>
+        (s :: Nil) :: Nil
+
+      case (parts, ArrayPathSegment(-1)) =>
+        parts
+
+      case (parts, ArrayPathSegment(-2)) =>
+        Nil :: (FieldPathSegment("$elemMatch") :: Nil) :: parts
+
+      case (head :: tail, s: ArrayPathSegment) =>
+        (head :+ s) :: tail
+      case (Nil, s: ArrayPathSegment) =>
+        (s :: Nil) :: Nil
+    }
+    val merged = total.map { subpath =>
+      val string = subpath
+        .flatMap {
+          case FieldPathSegment(field) => Some(field)
+          case ArrayPathSegment(-1) => None
+          case ArrayPathSegment(index) => Some(index.toString)
+        }
+        .mkString(".")
+      FieldPathSegment(string)
+    }
+    merged.reverse
   }
 
   implicit class MongoDatabaseOps(val db: MongoDatabase) extends AnyVal {

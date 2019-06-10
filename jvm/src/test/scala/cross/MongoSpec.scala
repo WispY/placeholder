@@ -132,6 +132,11 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
         data = PeopleHolder(john42 :: jeremy34 :: Nil) :: PeopleHolder(mary42 :: jeremy34 :: Nil) :: Nil,
         query = $(PeopleHolder)(_.people.anyElement.name $eq "John")
       ) shouldBe (PeopleHolder(john42 :: jeremy34 :: Nil) :: Nil)
+
+      search(
+        data = PeopleHolder(john42 :: jeremy34 :: Nil) :: PeopleHolder(mary42 :: jeremy34 :: Nil) :: Nil,
+        query = $(PeopleHolder)(_.people.someElement.name $eq "John")
+      ) shouldBe (PeopleHolder(john42 :: jeremy34 :: Nil) :: Nil)
     }
   }
 

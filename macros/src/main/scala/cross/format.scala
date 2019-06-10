@@ -72,6 +72,9 @@ object format {
   implicit class ListFormatOps[A](val list: List[A]) extends AnyVal {
     /** Refers to any element of the list */
     def anyElement: A = ??? // replaced with macro
+
+    /** Refers to some element of the list */
+    def someElement: A = ??? // replaced with macro
   }
 
   implicit class AnyFormatOps[A](val a: A) extends AnyVal {
@@ -252,6 +255,7 @@ object format {
     import c.universe._
     tree match {
       case q"""cross.format.ListFormatOps[$tpe]($head).anyElement""" => extractPath(c)(head) :+ q"""cross.format.ArrayPathSegment(-1)"""
+      case q"""cross.format.ListFormatOps[$tpe]($head).someElement""" => extractPath(c)(head) :+ q"""cross.format.ArrayPathSegment(-2)"""
       case Select(head: c.Tree, TermName(tail)) => extractPath(c)(head) :+ q"""cross.format.FieldPathSegment($tail)"""
       case _ => Nil
     }

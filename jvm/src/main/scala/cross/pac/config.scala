@@ -35,20 +35,26 @@ object config {
     * @param mongo                the uri to connect to mongo db
     * @param database             the name of the mongo database
     * @param startupRefreshPeriod the history duration to update when appplication starts up
+    * @param retryImages          retries all failed thumbnails on startup
     */
   case class PacProcessorConfig(mongo: String,
                                 database: String,
-                                startupRefreshPeriod: FiniteDuration)
+                                startupRefreshPeriod: FiniteDuration,
+                                retryImages: Boolean)
 
   /** Configures image processor
     *
-    * @param imgurClient              the client id of the imgur application
+    * @param awsAccess                the access key for the aws
+    * @param awsSecret                the secret key for the aws
+    * @param awsBucket                the name of the s3 bucket for images
     * @param imagePool                number of thread in pool that will process images
     * @param thumbnailSize            the maximum size of the thumbnail
     * @param rateLimitRetryDelay      delay before the next upload is attempted after rate limit is hit
     * @param rateLimitSilenceDuration time before the first upload is attempted after rate limit is hit
     */
-  case class PacThumbnailerConfig(imgurClient: String,
+  case class PacThumbnailerConfig(awsAccess: String,
+                                  awsSecret: String,
+                                  awsBucket: String,
                                   imagePool: Int,
                                   thumbnailSize: Vec2i,
                                   rateLimitRetryDelay: FiniteDuration,
@@ -65,10 +71,13 @@ object config {
     processor = PacProcessorConfig(
       mongo = "mongodb://localhost:27017/",
       database = "pac",
-      startupRefreshPeriod = 14.days
+      startupRefreshPeriod = 14.days,
+      retryImages = false,
     ),
     thumbnailer = PacThumbnailerConfig(
-      imgurClient = "changeme",
+      awsAccess = "changeme",
+      awsSecret = "changeme",
+      awsBucket = "art-challenge",
       imagePool = 2,
       thumbnailSize = 400 xy 1000,
       rateLimitRetryDelay = 1.hour,
@@ -79,8 +88,8 @@ object config {
   implicit val reader: ConfigReader = JvmReader
   implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
   implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
-  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format3(PacProcessorConfig)
-  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format5(PacThumbnailerConfig)
+  implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
+  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format7(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))

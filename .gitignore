@@ -6,3 +6,6 @@ out/.*
 out/*.js
 out/timestamp.txt
 *.class
+
+ignore.json
+ignore.txt

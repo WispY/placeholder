@@ -73,12 +73,21 @@ object processor {
 
           _ = log.info("creating missing thumbnails")
           list <- messages.find(
-            query = $ => $(_.images.anyElement.thumbnail $exists false),
+            query = $ => $(
+              _.images.someElement.thumbnail $exists false,
+              _.images.anyElement $exists true
+            ),
             sort = $ => $(_.id $asc)
           )
           _ = log.info(s"found [${list.size}] messages with missing image thumbnails")
           _ = list
-            .flatMap(message => message.images.filter(image => !image.thumbnailError && image.thumbnail.isEmpty))
+            .flatMap { message =>
+              if (config.processor.retryImages) {
+                message.images.filter(image => image.thumbnail.isEmpty && !image.marked)
+              } else {
+                message.images.filter(image => !image.thumbnailError && image.thumbnail.isEmpty && !image.marked)
+              }
+            }
             .foreach(image => thumbnailer ! CreateThumbnail(image))
         } yield ()
 
@@ -224,7 +233,7 @@ object processor {
           }
         } yield ()
 
-      case ThumbnailSuccess(image, url) =>
+      case ThumbnailSuccess(image, url, altUrl) =>
         for {
           _ <- UnitFuture
           _ = log.info(s"updating thumbnail of [$image] to [$url]")
@@ -232,7 +241,7 @@ object processor {
           _ = log.info(s"found [${list.size}] messages referring to uploaded thumbnail")
           futures = list.map { message =>
             val updated = message.copy(images = message.images.map {
-              case uploaded if uploaded.id == image.id => uploaded.copy(thumbnail = Some(url), thumbnailError = false)
+              case uploaded if uploaded.id == image.id => uploaded.copy(thumbnail = Some(url), thumbnailError = false, altUrl = altUrl)
               case other => other
             })
             messages.replaceOne($ => $(_.id $eq message.id), updated)
@@ -306,6 +315,7 @@ object processor {
         SubmissionImage(
           id = "foo",
           url = i,
+          altUrl = None,
           thumbnail = None,
           thumbnailError = false,
           marked = false
@@ -317,6 +327,7 @@ object processor {
           SubmissionImage(
             id = "foo",
             url = a.getUrl,
+            altUrl = None,
             thumbnail = None,
             thumbnailError = false,
             marked = false
@@ -355,11 +366,12 @@ object processor {
     *
     * @param id             the generated image id
     * @param url            the image url from attachment or message
+    * @param altUrl         the alternative url to download actual image
     * @param thumbnail      the url of generated thumbnail for the image
     * @param thumbnailError true, if thumbnail failed to generate
     * @param marked         true, if image is marked as false positive
     */
-  case class SubmissionImage(id: String, url: String, thumbnail: Option[String], thumbnailError: Boolean, marked: Boolean) {
+  case class SubmissionImage(id: String, url: String, altUrl: Option[String], thumbnail: Option[String], thumbnailError: Boolean, marked: Boolean) {
     /** Assigns a new random id to the image */
     def randomizeId: SubmissionImage = copy(id = UUID.randomUUID.toString)
   }
@@ -399,7 +411,7 @@ object processor {
 
   implicit val userFormat: MF[User] = format2(User)
   implicit val submissionDbFormat: MF[SubmissionDb] = format4(SubmissionDb)
-  implicit val submissionImageFormat: MF[SubmissionImage] = format5(SubmissionImage)
+  implicit val submissionImageFormat: MF[SubmissionImage] = format6(SubmissionImage)
   implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)
   implicit val artChallengeFormat: MF[ArtChallenge] = format3(ArtChallenge)
 

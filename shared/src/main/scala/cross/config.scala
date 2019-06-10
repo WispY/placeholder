@@ -64,6 +64,9 @@ object config {
     }
   }
 
+  /** Reads booleans */
+  implicit val booleanFormat: CF[Boolean] = stringFormat.map(v => v.toBoolean, v => v.toString)
+
   /** Reads ints */
   implicit val intFormat: CF[Int] = stringFormat.map(v => v.toInt, v => v.toString)
 

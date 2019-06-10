@@ -56,6 +56,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "com.vdurmont" % "emoji-java" % "4.0.0",
     // image processing
     libraryDependencies += "net.coobird" % "thumbnailator" % "0.4.8",
+    libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.568",
     // akka
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.22" % Test,

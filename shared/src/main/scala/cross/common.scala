@@ -341,10 +341,17 @@ object common {
     def flipY: Vec2i = Vec2i(x, -y)
 
     /** Maps the X */
-    def mapX(code: Int => Int) = Vec2i(code.apply(x), y)
+    def mapX(code: Int => Int): Vec2i = Vec2i(code.apply(x), y)
 
     /** Maps the Y */
-    def mapY(code: Int => Int) = Vec2i(x, code.apply(y))
+    def mapY(code: Int => Int): Vec2i = Vec2i(x, code.apply(y))
+
+    /** Fits the current dimensions into given bound scaling down or up */
+    def fit(bounds: Vec2i): Vec2i = {
+      val scales = bounds / this
+      val scale = if (bounds.x < this.x || bounds.y < this.y) scales.min else scales.max
+      (this * scale).toInt
+    }
   }
 
   object Vec2i {

@@ -11,10 +11,11 @@ class ThumbnailerSpec extends AkkaSpec {
   val actor: ActorRef = system.actorOf(Props(new Thumbnailer(materializer, pac.config.Config)))
 
   "thumbnailer" can {
-    "process image" ignore {
+    "process image" in {
       val image = SubmissionImage(
         id = "foo",
-        url = "http://placekitten.com/1000/600",
+        url = "https://cdn.discordapp.com/attachments/322639465187246080/466915491080830976/mythra.jpg",
+        altUrl = None,
         thumbnail = None,
         thumbnailError = false,
         marked = false
