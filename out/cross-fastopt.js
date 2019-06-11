@@ -1703,6 +1703,115 @@ function $m_Lcross_common$() {
   return $n_Lcross_common$
 }
 /** @constructor */
+function $c_Lcross_common$FutureListOps$() {
+  $c_O.call(this)
+}
+$c_Lcross_common$FutureListOps$.prototype = new $h_O();
+$c_Lcross_common$FutureListOps$.prototype.constructor = $c_Lcross_common$FutureListOps$;
+/** @constructor */
+function $h_Lcross_common$FutureListOps$() {
+  /*<skip>*/
+}
+$h_Lcross_common$FutureListOps$.prototype = $c_Lcross_common$FutureListOps$.prototype;
+$c_Lcross_common$FutureListOps$.prototype.init___ = (function() {
+  return this
+});
+$c_Lcross_common$FutureListOps$.prototype.oneByOne$extension__sci_List__s_concurrent_ExecutionContext__s_concurrent_Future = (function($$this, ec) {
+  var x = $m_sci_Nil$();
+  if (x.equals__O__Z($$this)) {
+    return $m_s_concurrent_Future$().successful__O__s_concurrent_Future($m_sci_Nil$())
+  } else if ($is_sci_$colon$colon($$this)) {
+    var x2 = $as_sci_$colon$colon($$this);
+    var head = $as_s_concurrent_Future(x2.head$5);
+    var tail = x2.tl$5;
+    return head.flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, tail$1, ec$1) {
+      return (function(value$2) {
+        return $m_Lcross_common$FutureListOps$().oneByOne$extension__sci_List__s_concurrent_ExecutionContext__s_concurrent_Future(($m_Lcross_common$(), tail$1), ec$1).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, value) {
+          return (function(others$2) {
+            var others = $as_sci_List(others$2);
+            return new $c_sci_$colon$colon().init___O__sci_List(value, others)
+          })
+        })($this, value$2)), ec$1)
+      })
+    })(this, tail, ec)), ec)
+  } else {
+    throw new $c_s_MatchError().init___O($$this)
+  }
+});
+var $d_Lcross_common$FutureListOps$ = new $TypeData().initClass({
+  Lcross_common$FutureListOps$: 0
+}, false, "cross.common$FutureListOps$", {
+  Lcross_common$FutureListOps$: 1,
+  O: 1
+});
+$c_Lcross_common$FutureListOps$.prototype.$classData = $d_Lcross_common$FutureListOps$;
+var $n_Lcross_common$FutureListOps$ = (void 0);
+function $m_Lcross_common$FutureListOps$() {
+  if ((!$n_Lcross_common$FutureListOps$)) {
+    $n_Lcross_common$FutureListOps$ = new $c_Lcross_common$FutureListOps$().init___()
+  };
+  return $n_Lcross_common$FutureListOps$
+}
+/** @constructor */
+function $c_Lcross_common$FutureOps$() {
+  $c_O.call(this)
+}
+$c_Lcross_common$FutureOps$.prototype = new $h_O();
+$c_Lcross_common$FutureOps$.prototype.constructor = $c_Lcross_common$FutureOps$;
+/** @constructor */
+function $h_Lcross_common$FutureOps$() {
+  /*<skip>*/
+}
+$h_Lcross_common$FutureOps$.prototype = $c_Lcross_common$FutureOps$.prototype;
+$c_Lcross_common$FutureOps$.prototype.init___ = (function() {
+  return this
+});
+$c_Lcross_common$FutureOps$.prototype.clear$extension__s_concurrent_Future__s_concurrent_ExecutionContext__s_concurrent_Future = (function($$this, ec) {
+  return $$this.map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(a$2) {
+      return (void 0)
+    })
+  })(this)), ec)
+});
+$c_Lcross_common$FutureOps$.prototype.whenFailed$extension__s_concurrent_Future__F1__s_concurrent_ExecutionContext__s_concurrent_Future = (function($$this, code, ec) {
+  $$this.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, code$1) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_s_util_Try(x0$1$2);
+      matchEnd8: {
+        if ($is_s_util_Success(x0$1)) {
+          break matchEnd8
+        };
+        if ($is_s_util_Failure(x0$1)) {
+          var x4 = $as_s_util_Failure(x0$1);
+          var p5 = x4.exception$2;
+          var o12 = $m_s_util_control_NonFatal$().unapply__jl_Throwable__s_Option(p5);
+          if ((!o12.isEmpty__Z())) {
+            var error = $as_jl_Throwable(o12.get__O());
+            $asUnit(code$1.apply__O__O(error));
+            break matchEnd8
+          }
+        };
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })(this, code)), ec);
+  return $$this
+});
+var $d_Lcross_common$FutureOps$ = new $TypeData().initClass({
+  Lcross_common$FutureOps$: 0
+}, false, "cross.common$FutureOps$", {
+  Lcross_common$FutureOps$: 1,
+  O: 1
+});
+$c_Lcross_common$FutureOps$.prototype.$classData = $d_Lcross_common$FutureOps$;
+var $n_Lcross_common$FutureOps$ = (void 0);
+function $m_Lcross_common$FutureOps$() {
+  if ((!$n_Lcross_common$FutureOps$)) {
+    $n_Lcross_common$FutureOps$ = new $c_Lcross_common$FutureOps$().init___()
+  };
+  return $n_Lcross_common$FutureOps$
+}
+/** @constructor */
 function $c_Lcross_common$RandomOps$() {
   $c_O.call(this)
 }
@@ -12042,6 +12151,131 @@ var $d_Lcross_sakura_ui$EmptyStage = new $TypeData().initClass({
 });
 $c_Lcross_sakura_ui$EmptyStage.prototype.$classData = $d_Lcross_sakura_ui$EmptyStage;
 /** @constructor */
+function $c_Lcross_util_fonts$() {
+  $c_O.call(this);
+  this.log$1 = null;
+  this.ec$1 = null
+}
+$c_Lcross_util_fonts$.prototype = new $h_O();
+$c_Lcross_util_fonts$.prototype.constructor = $c_Lcross_util_fonts$;
+/** @constructor */
+function $h_Lcross_util_fonts$() {
+  /*<skip>*/
+}
+$h_Lcross_util_fonts$.prototype = $c_Lcross_util_fonts$.prototype;
+$c_Lcross_util_fonts$.prototype.init___ = (function() {
+  $n_Lcross_util_fonts$ = this;
+  this.ec$1 = $as_s_concurrent_ExecutionContextExecutor($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
+  this.log$1 = $m_Lcross_util_logging$BrowserLogApi$();
+  return this
+});
+$c_Lcross_util_fonts$.prototype.load__sci_List__s_concurrent_Future = (function(families) {
+  this.log$1.info__T__V((("[fonts] loading fonts [" + $f_sc_TraversableOnce__mkString__T__T__T__T(families, "", ",", "")) + "]"));
+  var jsx$3 = $m_Lcross_common$FutureOps$();
+  $m_Lcross_common$();
+  var jsx$2 = $m_Lcross_common$FutureListOps$();
+  $m_Lcross_common$();
+  var f = (function($this) {
+    return (function(family$2) {
+      var family = $as_T(family$2);
+      return $m_Lcross_util_fonts$().load__T__s_concurrent_Future(family)
+    })
+  })(this);
+  var this$1 = $m_sci_List$();
+  var bf = this$1.ReusableCBFInstance$2;
+  if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+    if ((families === $m_sci_Nil$())) {
+      var jsx$1 = $m_sci_Nil$()
+    } else {
+      var arg1 = families.head__O();
+      var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
+      var t = h;
+      var rest = families.tail__sci_List();
+      while ((rest !== $m_sci_Nil$())) {
+        var arg1$1 = rest.head__O();
+        var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
+        t.tl$5 = nx;
+        t = nx;
+        var this$2 = rest;
+        rest = this$2.tail__sci_List()
+      };
+      var jsx$1 = h
+    }
+  } else {
+    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(families, bf);
+    var these = families;
+    while ((!these.isEmpty__Z())) {
+      var arg1$2 = these.head__O();
+      b.$$plus$eq__O__scm_Builder(f(arg1$2));
+      var this$3 = these;
+      these = this$3.tail__sci_List()
+    };
+    var jsx$1 = b.result__O()
+  };
+  var futures = $as_sci_List(jsx$1);
+  var future = jsx$2.oneByOne$extension__sci_List__s_concurrent_ExecutionContext__s_concurrent_Future(futures, this.ec$1);
+  return jsx$3.clear$extension__s_concurrent_Future__s_concurrent_ExecutionContext__s_concurrent_Future(future, this.ec$1)
+});
+$c_Lcross_util_fonts$.prototype.load__T__s_concurrent_Future = (function(family) {
+  var jsx$2 = $m_Lcross_common$FutureOps$();
+  $m_Lcross_common$();
+  var future = $m_s_concurrent_Future$().successful__O__s_concurrent_Future((void 0)).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, family$1) {
+    return (function(x$1$2) {
+      var x$1 = $asUnit(x$1$2);
+      $m_Lcross_util_fonts$().log$1.info__T__V((("[fonts] loading font [" + family$1) + "]"));
+      var x$2 = (void 0);
+      return new $c_T2().init___O__O(x$1, x$2)
+    })
+  })(this, family)), this.ec$1).flatMap__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2, family$2) {
+    return (function(x$6$2) {
+      var x$6 = $as_T2(x$6$2);
+      if ((x$6 !== null)) {
+        var jsx$1 = $m_sjs_js_Thenable$ThenableOps$();
+        var p = new $g.FontFaceObserver(family$2).load();
+        return jsx$1.toFuture$extension__sjs_js_Thenable__s_concurrent_Future(p).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1, family$1$1) {
+          return (function(x$3$2) {
+            var x$3 = $asUnit(x$3$2);
+            $m_Lcross_util_fonts$().log$1.info__T__V((("[fonts] font successfully loaded [" + family$1$1) + "]"));
+            var x$4 = (void 0);
+            return new $c_T2().init___O__O(x$3, x$4)
+          })
+        })(this$2, family$2)), $m_Lcross_util_fonts$().ec$1).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+          return (function(x$5$2) {
+            var x$5 = $as_T2(x$5$2);
+            if ((x$5 === null)) {
+              throw new $c_s_MatchError().init___O(x$5)
+            }
+          })
+        })(this$2)), $m_Lcross_util_fonts$().ec$1)
+      } else {
+        throw new $c_s_MatchError().init___O(x$6)
+      }
+    })
+  })(this, family)), this.ec$1);
+  return jsx$2.whenFailed$extension__s_concurrent_Future__F1__s_concurrent_ExecutionContext__s_concurrent_Future(future, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1, family$3) {
+    return (function(up$2) {
+      var up = $as_jl_Throwable(up$2);
+      $m_Lcross_util_fonts$().log$1.error__T__jl_Throwable__V((("[fonts] failed to load [" + family$3) + "]"), up)
+    })
+  })(this, family)), this.ec$1)
+});
+var $d_Lcross_util_fonts$ = new $TypeData().initClass({
+  Lcross_util_fonts$: 0
+}, false, "cross.util.fonts$", {
+  Lcross_util_fonts$: 1,
+  O: 1,
+  Lcross_util_global$GlobalContext: 1,
+  Lcross_util_logging$Logging: 1
+});
+$c_Lcross_util_fonts$.prototype.$classData = $d_Lcross_util_fonts$;
+var $n_Lcross_util_fonts$ = (void 0);
+function $m_Lcross_util_fonts$() {
+  if ((!$n_Lcross_util_fonts$)) {
+    $n_Lcross_util_fonts$ = new $c_Lcross_util_fonts$().init___()
+  };
+  return $n_Lcross_util_fonts$
+}
+/** @constructor */
 function $c_Lcross_util_logging$BrowserLogApi$() {
   $c_O.call(this);
   this.ec$1 = null
@@ -14902,20 +15136,12 @@ $c_Lcross_app$.prototype.startSakura__V = (function() {
 $c_Lcross_app$.prototype.startPac__V = (function() {
   $m_Lcross_sakura_mvc$().log$1.info__T__V("[app] starting pac project");
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().title = "Poku Art Challenge";
-  var jsx$1 = $m_sjs_js_Thenable$ThenableOps$();
-  var p = new $g.FontFaceObserver("Roboto Slab").load();
-  jsx$1.toFuture$extension__sjs_js_Thenable__s_concurrent_Future(p).onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
-    return (function(x0$1$2) {
-      var x0$1 = $as_s_util_Try(x0$1$2);
-      if ($is_s_util_Success(x0$1)) {
-        $m_Lcross_sakura_mvc$().log$1.info__T__V("font loaded")
-      } else if ($is_s_util_Failure(x0$1)) {
-        var x3 = $as_s_util_Failure(x0$1);
-        var error = x3.exception$2;
-        $m_Lcross_sakura_mvc$().log$1.error__T__jl_Throwable__V("font failed", error)
-      } else {
-        throw new $c_s_MatchError().init___O(x0$1)
-      }
+  var jsx$1 = $m_Lcross_util_fonts$();
+  var this$1 = $m_sci_Nil$();
+  var this$2 = new $c_sci_$colon$colon().init___O__sci_List("Random", this$1);
+  jsx$1.load__sci_List__s_concurrent_Future(new $c_sci_$colon$colon().init___O__sci_List("Roboto Slab", this$2)).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(_$2) {
+      $asUnit(_$2)
     })
   })(this)), this.ec$1)
 });

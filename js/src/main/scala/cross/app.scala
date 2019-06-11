@@ -1,14 +1,11 @@
 package cross
 
-import cross.ffo.FontFaceObserver
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.mvc._
 import cross.sakura.ui
 import cross.util.global.GlobalContext
-import cross.util.{animation, global, spring}
+import cross.util.{animation, fonts, global, spring}
 import org.scalajs.dom._
-
-import scala.util.{Failure, Success}
 
 /** Starts the UI application */
 object app extends App with GlobalContext {
@@ -43,12 +40,9 @@ object app extends App with GlobalContext {
   def startPac(): Unit = {
     log.info("[app] starting pac project")
     document.title = "Poku Art Challenge"
-    new FontFaceObserver("Roboto Slab").load().toFuture.onComplete {
-      case Success(observer) =>
-        log.info("font loaded")
-      case Failure(error) =>
-        log.error("font failed", error)
-    }
+    for {
+      _ <- fonts.load("Roboto Slab" :: "Random" :: Nil)
+    } yield ()
   }
 
 }

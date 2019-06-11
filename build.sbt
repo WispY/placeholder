@@ -17,7 +17,8 @@ lazy val macros = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "macros",
     version := "0.1",
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8"
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.8",
+    test in assembly := {}
   )
   .jvmSettings(name := "macros-jvm")
   .jsSettings(name := "macros-js")
@@ -30,10 +31,30 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
   .in(file("."))
   .settings(
     name := "cross",
-    version := "0.1"
+    version := "0.1",
+    test in assembly := {}
   )
   .jvmSettings(
     name := "jvm",
+
+    // assembly
+    test in assembly := {},
+    mainClass in assembly := Some("cross.launcher"),
+    assemblyJarName in assembly := "cross.jar",
+
+    // docker
+    test in docker := {},
+    dockerfile in docker := {
+      val artifact: File = assembly.value
+      val artifactTargetPath = s"/app/${artifact.name}"
+
+      new Dockerfile {
+        from("openjdk:8-jre")
+        add(artifact, artifactTargetPath)
+        entryPoint("java", "-jar", artifactTargetPath)
+      }
+    },
+    imageNames in docker := Seq(ImageName(s"wispy/cross:latest")),
 
     resolvers += Resolver.jcenterRepo,
 
@@ -65,6 +86,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     name := "js",
+    test in assembly := {},
     // calls main method when js file is loaded
     scalaJSUseMainModuleInitializer := true,
     // dom - basic dom operations lib
@@ -72,7 +94,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
   )
   .dependsOn(macros)
 
-lazy val crossJVM = cross.jvm
+lazy val crossJVM = cross.jvm.enablePlugins(DockerPlugin)
 lazy val crossJS = cross.js
 
 lazy val moveJS = taskKey[Unit]("moveJS")
