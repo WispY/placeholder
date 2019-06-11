@@ -2,14 +2,15 @@ package cross
 
 import java.util.UUID
 
-import cross.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
 import cross.common._
 import cross.component.Component
 import cross.configjs._
-import cross.global.GlobalContext
-import cross.mvc._
 import cross.pixi._
-import cross.spring.SpritePositionSpring
+import cross.sakura.mvc._
+import cross.util.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
+import cross.util.global.GlobalContext
+import cross.util.spring
+import cross.util.spring.SpritePositionSpring
 import org.scalajs.dom
 
 import scala.annotation.tailrec

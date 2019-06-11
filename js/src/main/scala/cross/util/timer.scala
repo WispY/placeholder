@@ -1,4 +1,4 @@
-package cross
+package cross.util
 
 import org.scalajs.dom._
 

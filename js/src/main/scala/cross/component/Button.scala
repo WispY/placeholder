@@ -1,8 +1,8 @@
 package cross.component
 
 import cross.ops._
-import cross.mvc.Asset
 import cross.pixi._
+import cross.sakura.mvc.Asset
 
 /** Represents a simple clickable button */
 class Button(assetNormal: Asset,

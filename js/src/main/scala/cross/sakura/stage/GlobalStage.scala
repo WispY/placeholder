@@ -1,12 +1,12 @@
-package cross.stage
+package cross.sakura.stage
 
-import cross.animation.{Animation, EmptyAnimation}
 import cross.component.Stage
-import cross.global.GlobalContext
 import cross.ops._
-import cross.logging.Logging
-import cross.mvc.Controller
 import cross.pixi.{Application, DisplayObject}
+import cross.sakura.mvc.Controller
+import cross.util.animation.{Animation, EmptyAnimation}
+import cross.util.global.GlobalContext
+import cross.util.logging.Logging
 
 import scala.concurrent.Future
 

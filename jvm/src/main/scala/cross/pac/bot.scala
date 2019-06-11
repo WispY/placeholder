@@ -91,7 +91,7 @@ object bot {
         val history = channel.getHistory
         val listener = sender
         listeners = listeners :+ listener
-        history.retrievePast(100).queue { messages =>
+        history.retrievePast(config.bot.historyRetrievalSize).queue { messages =>
           log.info(s"retrieved initial [${messages.size()}] messages for history update")
           self ! UpdateHistoryChain(listener, messages.asScala.toList, history, request)
         }
@@ -114,7 +114,7 @@ object bot {
             log.info("reached end of requested history")
             diff.keys.foreach(id => listener ! MessageDeleted(id))
           } else {
-            history.retrievePast(100).queue { messages =>
+            history.retrievePast(config.bot.historyRetrievalSize).queue { messages =>
               log.info(s"retrieved next [${messages.size()}] messages for history update")
               self ! UpdateHistoryChain(listener, messages.asScala.toList, history, request.copy(expected = diff))
             }

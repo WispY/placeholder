@@ -1,17 +1,17 @@
-package cross.stage
+package cross.sakura.stage
 
-import cross.animation.Animation
-import cross.asset.flower._
-import cross.asset.ui._
 import cross.common._
 import cross.component.{Button, Component, Stage}
 import cross.configjs._
-import cross.global.GlobalContext
-import cross.logging.Logging
-import cross.mvc.{Asset, Controller, TreeNode}
 import cross.ops._
 import cross.pixi._
-import cross.stage.GameStage.FlowerCluster
+import cross.sakura.asset.flower._
+import cross.sakura.asset.ui._
+import cross.sakura.mvc.{Asset, Controller, TreeNode}
+import cross.sakura.stage.GameStage.FlowerCluster
+import cross.util.animation.Animation
+import cross.util.global.GlobalContext
+import cross.util.logging.Logging
 
 import scala.concurrent.Future
 import scala.util.Random

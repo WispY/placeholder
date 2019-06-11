@@ -1,14 +1,16 @@
-package cross
+package cross.sakura
 
-import cross.animation._
 import cross.common._
 import cross.component._
-import cross.global.GlobalContext
 import cross.ops._
-import cross.logging.Logging
-import cross.mvc._
+import cross.palette
 import cross.pixi._
-import cross.stage._
+import cross.sakura.mvc._
+import cross.sakura.stage._
+import cross.util.animation
+import cross.util.animation._
+import cross.util.global.GlobalContext
+import cross.util.logging.Logging
 import org.scalajs.dom._
 
 import scala.concurrent.Future

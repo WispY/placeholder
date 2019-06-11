@@ -1,7 +1,9 @@
  //1
-package cross.asset //2
+package cross.sakura.asset
+
+//2
  //3
-import cross.mvc.Asset //4
+import cross.sakura.mvc.Asset //4
  //5
 object flower { //6
 val flowers = List( //7

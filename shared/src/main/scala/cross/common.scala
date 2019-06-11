@@ -5,7 +5,8 @@ import java.util.UUID
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Random
+import scala.util.control.NonFatal
+import scala.util.{Failure, Random, Success}
 
 object common {
 
@@ -290,6 +291,35 @@ object common {
 
     /** Appends the next future without data dependency */
     def >>[B](other: Future[B])(implicit ec: ExecutionContext): Future[Unit] = future.flatMap(any => other).clear
+
+    /** Executes given code when future is successful */
+    def whenSuccessful(code: A => Unit)(implicit ec: ExecutionContext): Future[A] = {
+      future.onComplete {
+        case Success(value) => code.apply(value)
+        case Failure(NonFatal(_)) => // ignore
+      }
+      future
+    }
+
+    /** Executes given code when future is successful */
+    def whenFailed(code: Throwable => Unit)(implicit ec: ExecutionContext): Future[A] = {
+      future.onComplete {
+        case Success(_) => // ignore
+        case Failure(NonFatal(error)) => code.apply(error)
+      }
+      future
+    }
+  }
+
+  implicit class FutureListOps[A](val futures: List[Future[A]]) extends AnyVal {
+    /** Executes futures one by one */
+    def oneByOne(implicit ec: ExecutionContext): Future[List[A]] = futures match {
+      case Nil => Future.successful(Nil)
+      case head :: tail => for {
+        value <- head
+        others <- tail.oneByOne
+      } yield value :: others
+    }
   }
 
   implicit class AnyListOps[A](val list: List[A]) extends AnyVal {

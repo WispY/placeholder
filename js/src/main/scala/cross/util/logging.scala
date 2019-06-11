@@ -1,6 +1,7 @@
-package cross
+package cross.util
 
-import cross.global.GlobalContext
+import cross.configjs
+import cross.util.global.GlobalContext
 import org.scalajs.dom
 
 import scala.concurrent.Future

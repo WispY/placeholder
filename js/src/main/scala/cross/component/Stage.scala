@@ -1,6 +1,6 @@
 package cross.component
 
-import cross.animation.Animation
+import cross.util.animation.Animation
 
 import scala.concurrent.Future
 

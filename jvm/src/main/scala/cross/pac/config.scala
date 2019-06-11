@@ -23,12 +23,14 @@ object config {
     * @param channel             the name of the discord channel to read
     * @param admins              the list of user ids to treat as admins
     * @param historyRefreshDelay the delay between refreshing message history
+    *                            @param historyRetrievalSize the number of records to retrieve each request
     */
   case class PacBotConfig(token: String,
                           server: String,
                           channel: String,
                           admins: List[String],
-                          historyRefreshDelay: FiniteDuration)
+                          historyRefreshDelay: FiniteDuration,
+                          historyRetrievalSize: Int)
 
   /** Configures processor
     *
@@ -66,7 +68,8 @@ object config {
       server = "kate & leo",
       channel = "bot-tests",
       admins = "337379582770675712" :: "254380888152997889" :: Nil,
-      historyRefreshDelay = 1.minute
+      historyRefreshDelay = 1.minute,
+      historyRetrievalSize = 10
     ),
     processor = PacProcessorConfig(
       mongo = "mongodb://localhost:27017/",
@@ -87,7 +90,7 @@ object config {
 
   implicit val reader: ConfigReader = JvmReader
   implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
-  implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
+  implicit val pacBotConfigFormat: CF[PacBotConfig] = format6(PacBotConfig)
   implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
   implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format7(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
