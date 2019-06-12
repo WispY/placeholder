@@ -3,6 +3,9 @@ package cross.pac
 import cross.common._
 import cross.config._
 import cross.format._
+import cross.util.json._
+import spray.json.DefaultJsonProtocol._
+import spray.json._
 
 import scala.concurrent.duration._
 
@@ -18,12 +21,12 @@ object config {
 
   /** Configures discord bot
     *
-    * @param token               the discord token for auth
-    * @param server              the name of the discord server to read
-    * @param channel             the name of the discord channel to read
-    * @param admins              the list of user ids to treat as admins
-    * @param historyRefreshDelay the delay between refreshing message history
-    *                            @param historyRetrievalSize the number of records to retrieve each request
+    * @param token                the discord token for auth
+    * @param server               the name of the discord server to read
+    * @param channel              the name of the discord channel to read
+    * @param admins               the list of user ids to treat as admins
+    * @param historyRefreshDelay  the delay between refreshing message history
+    * @param historyRetrievalSize the number of records to retrieve each request
     */
   case class PacBotConfig(token: String,
                           server: String,
@@ -94,6 +97,12 @@ object config {
   implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
   implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format7(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
+
+  implicit val vecJsonFormat: RootJsonFormat[Vec2i] = jsonFormat2(Vec2i.apply)
+  implicit val pacBotConfigJsonFormat: RootJsonFormat[PacBotConfig] = jsonFormat6(PacBotConfig)
+  implicit val pacProcessorConfigJsonFormat: RootJsonFormat[PacProcessorConfig] = jsonFormat4(PacProcessorConfig)
+  implicit val pacThumbnailerConfigJsonFormat: RootJsonFormat[PacThumbnailerConfig] = jsonFormat7(PacThumbnailerConfig)
+  implicit val pacConfigJsonFormat: RootJsonFormat[PacConfig] = jsonFormat3(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
 

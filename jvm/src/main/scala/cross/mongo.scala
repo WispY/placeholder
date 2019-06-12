@@ -1,11 +1,14 @@
 package cross
 
+import akka.actor.Scheduler
 import cross.common._
 import cross.format._
+import cross.util.akkautil._
 import org.mongodb.scala.bson._
 import org.mongodb.scala.{Document, MongoCollection, MongoDatabase}
 
 import scala.collection.JavaConverters._
+import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 
 object mongo {
@@ -229,9 +232,9 @@ object mongo {
 
   implicit class MongoDatabaseOps(val db: MongoDatabase) extends AnyVal {
     /** Ensures that collection with given name exists and wraps it into typed collection */
-    def ensureCollection[A <: AnyRef](tpe: CaseClassType[A], name: String)(implicit format: MF[A], ec: ExecutionContext): TypedMongoCollection[A] = {
+    def ensureCollection[A <: AnyRef](tpe: CaseClassType[A], name: String)(implicit format: MF[A], ec: ExecutionContext, s: Scheduler): TypedMongoCollection[A] = {
       val collection = for {
-        names <- db.listCollectionNames().toFuture
+        names <- retryFuture(() => db.listCollectionNames().toFuture, attempts = 5, delay = 5.seconds)
         _ <- if (names.contains(name)) {
           Future.successful()
         } else {

@@ -1,0 +1,1 @@
+web: java $CUSTOM_JAVA -jar -Dpac.port=$PORT -Dgeneral.port=$PORT $CUSTOM_CONFIG heroku/export/disastles-server-acnologia.jar

@@ -51,7 +51,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
       new Dockerfile {
         from("openjdk:8-jre")
         add(artifact, artifactTargetPath)
-        entryPoint("java", "-jar", artifactTargetPath)
+        cmd("java", "-jar", artifactTargetPath)
       }
     },
     imageNames in docker := Seq(ImageName(s"wispy/cross:latest")),
@@ -66,6 +66,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.1.8",
     libraryDependencies += "com.typesafe.akka" %% "akka-stream" % "2.5.22",
     libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.8",
+    libraryDependencies += "ch.megard" %% "akka-http-cors" % "0.4.0",
     // spray
     libraryDependencies += "io.spray" %% "spray-json" % "1.3.5",
     // discord client

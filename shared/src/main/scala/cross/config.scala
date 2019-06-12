@@ -1,5 +1,6 @@
 package cross
 
+import cross.common._
 import cross.format._
 
 import scala.concurrent.duration._
@@ -74,42 +75,10 @@ object config {
   implicit val doubleFormat: CF[Double] = stringFormat.map(v => v.toDouble, v => v.toString)
 
   /** Reads finite durations */
-  implicit val durationFormat: CF[FiniteDuration] = stringFormat.map(
-    { string =>
-      val total = "([0-9]+)(d|h|ms|s|m)".r.findAllMatchIn(string).foldLeft(0L) { case (sum, part) =>
-        val amount = part.group(1).toInt
-        val duration = part.group(2) match {
-          case "d" => amount.days
-          case "h" => amount.hours
-          case "m" => amount.minutes
-          case "s" => amount.seconds
-          case "ms" => amount.millis
-        }
-        sum + duration.toMillis
-      }
-      total.millis
-    },
-    { duration =>
-      val (ignored, stringified) = List(
-        1.day -> "d",
-        1.hour -> "h",
-        1.minute -> "m",
-        1.second -> "s",
-        1.millis -> "ms"
-      ).foldLeft(duration, "") { case ((left, string), (unitDuration, unitName)) =>
-        val amount = left.toMillis / unitDuration.toMillis
-        if (amount > 0) {
-          (left - amount * unitDuration, s"$string$amount$unitName")
-        } else {
-          (left, string)
-        }
-      }
-      stringified
-    }
-  )
+  implicit val durationFormat: CF[FiniteDuration] = stringFormat.map(v => v.duration, v => v.prettyString)
 
   /** Reads lists of A */
-  implicit def listFormat[A: CF]: CF[List[A]] = new ConfigFormat[List[A]] {
+  implicit def implicitListFormat[A: CF]: CF[List[A]] = new ConfigFormat[List[A]] {
     override def read(path: Path, formatted: Config): (List[A], Config) = {
       globalReader.get(path) match {
         case Some("[]") => Nil -> formatted
@@ -135,7 +104,7 @@ object config {
   }
 
   /** Reads optional A */
-  implicit def optionFormat[A: CF]: CF[Option[A]] = listFormat[A].map(list => list.headOption, option => option.toList)
+  implicit def implicitOptionFormat[A: CF]: CF[Option[A]] = implicitListFormat[A].map(list => list.headOption, option => option.toList)
 
   private def error(message: String, path: Path, cause: Option[Throwable] = None): Nothing = {
     throw new IllegalArgumentException(s"$message: ${path.stringify}", cause.orNull)

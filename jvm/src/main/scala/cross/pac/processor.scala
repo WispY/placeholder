@@ -3,7 +3,7 @@ package cross.pac
 import java.lang.System.currentTimeMillis
 import java.util.UUID
 
-import akka.actor.ActorRef
+import akka.actor.{ActorRef, Scheduler}
 import com.vdurmont.emoji.EmojiParser
 import cross.actors.LockActor
 import cross.common._
@@ -23,6 +23,7 @@ object processor {
   /** Processes the art challenge messages */
   class ArtChallengeProcessor(bot: ActorRef, thumbnailer: ActorRef, config: PacConfig) extends LockActor {
     implicit val ec: ExecutionContext = context.dispatcher
+    implicit val s: Scheduler = context.system.scheduler
 
     private val client = MongoClient(config.processor.mongo)
     private val db = client.getDatabase(config.processor.database)

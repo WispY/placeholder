@@ -157,6 +157,25 @@ object common {
   implicit class FiniteDurationOps(val duration: FiniteDuration) extends AnyVal {
     /** Multiplies the duration by given number */
     def **(multiplier: Double): FiniteDuration = (duration.toMillis * multiplier).toLong.millis
+
+    /** Returns formatted duration: "1d2h3m4s5ms" */
+    def prettyString: String = {
+      val (ignored, stringified) = List(
+        1.day -> "d",
+        1.hour -> "h",
+        1.minute -> "m",
+        1.second -> "s",
+        1.millis -> "ms"
+      ).foldLeft(duration, "") { case ((left, string), (unitDuration, unitName)) =>
+        val amount = left.toMillis / unitDuration.toMillis
+        if (amount > 0) {
+          (left - amount * unitDuration, s"$string$amount$unitName")
+        } else {
+          (left, string)
+        }
+      }
+      stringified
+    }
   }
 
   type TransitionListener[A] = PartialFunction[(A, A), Unit]
@@ -467,6 +486,24 @@ object common {
 
     /** Compares to given timestamp */
     def <=(timestamp: Long): Boolean = odt.epoch <= timestamp
+  }
+
+  implicit class StringOps(val string: String) extends AnyVal {
+    /** Parses string as duration: "1d2h3m4s5ms" */
+    def duration: FiniteDuration = {
+      val total = "([0-9]+)(d|h|ms|s|m)".r.findAllMatchIn(string).foldLeft(0L) { case (sum, part) =>
+        val amount = part.group(1).toInt
+        val duration = part.group(2) match {
+          case "d" => amount.days
+          case "h" => amount.hours
+          case "m" => amount.minutes
+          case "s" => amount.seconds
+          case "ms" => amount.millis
+        }
+        sum + duration.toMillis
+      }
+      total.millis
+    }
   }
 
 }
