@@ -35,6 +35,7 @@ class DisplayObject extends js.Object {
 
   var interactive: Boolean = js.native
   var buttonMode: Boolean = js.native
+  var hitArea: Rectangle = js.native
 
   var filters: js.Array[Filter] = js.native
 

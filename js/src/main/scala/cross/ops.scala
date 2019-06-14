@@ -4,11 +4,13 @@ import java.util.UUID
 
 import cross.common._
 import cross.component.Component
-import cross.configjs._
+import cross.component.util.{Color, Colors}
 import cross.pixi._
+import cross.sakura.config._
 import cross.sakura.mvc._
 import cross.util.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
 import cross.util.global.GlobalContext
+import cross.util.mvc.GenericController
 import cross.util.spring
 import cross.util.spring.SpritePositionSpring
 import org.scalajs.dom
@@ -33,6 +35,9 @@ object ops extends GlobalContext {
   /** Converts integer vector in double vector */
   implicit def vec2iToVec2d(v: Vec2i): Vec2d = Vec2d(v.x, v.y)
 
+  /** Converts rect2d into pixi rectangle */
+  implicit def rect2dToRectangle(rect: Rect2d): Rectangle = new Rectangle(rect.position.x, rect.position.y, rect.size.x, rect.size.y)
+
   /** Converts components to display objects */
   implicit def componentToDisplayObject[A <: Component](c: A): DisplayObject = c.toPixi
 
@@ -46,25 +51,25 @@ object ops extends GlobalContext {
   }
 
   /** Builds a container bound to screen center and scale */
-  def centerStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springToCenter
+  def centerStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springToCenter
 
   /** Builds a container bound to screen top left corner and scale */
-  def topLeftStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale)
+  def topLeftStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale)
 
   /** Builds a container bound to screen top and scale */
-  def topStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springTo(0.5 xy 0)
+  def topStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springTo(0.5 xy 0)
 
   /** Builds a container bound to screen top right corner and scale */
-  def topRightStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springTo(1 xy 0)
+  def topRightStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springTo(1 xy 0)
 
   /** Builds a container bound to screen bottom left corner and scale */
-  def bottomLeftStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springTo(0 xy 1)
+  def bottomLeftStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springTo(0 xy 1)
 
   /** Builds a container bound to screen bottom and scale */
-  def bottomStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springTo(0.5 xy 1)
+  def bottomStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springTo(0.5 xy 1)
 
   /** Builds a container bound to screen bottom right corner and scale */
-  def bottomRightStage(implicit controller: Controller): Container = new Container().bindScale(controller.model.scale).springTo(1 xy 1)
+  def bottomRightStage(implicit controller: GenericController[_]): Container = new Container().bindScale(controller.model.scale).springTo(1 xy 1)
 
   /** Builds a delay animation with given amount of time */
   def delay(time: FiniteDuration = AnimationDelay): Animation = Delay(time)
@@ -151,7 +156,7 @@ object ops extends GlobalContext {
     def filterWith(filters: List[Filter]): A = a.mutate { a => a.filters = filters }
 
     /** Binds the location to given place */
-    def springTo(target: Vec2d)(implicit controller: Controller): A = a.mutate { a =>
+    def springTo(target: Vec2d)(implicit controller: GenericController[_]): A = a.mutate { a =>
       a.positionAt(controller.model.screen() * target)
       val s = SpritePositionSpring(a)
       controller.model.screen /> { case size => s.target = size * target }
@@ -159,7 +164,7 @@ object ops extends GlobalContext {
     }
 
     /** Binds the location to screen center */
-    def springToCenter(implicit controller: Controller): A = a.springTo(Vec2d.Center)
+    def springToCenter(implicit controller: GenericController[_]): A = a.springTo(Vec2d.Center)
 
     /** Binds the scale to a given bind */
     def bindScale(data: Data[Double]): A = a.mutate { a => data /> { case scale => a.scaleTo(scale) } }
@@ -240,23 +245,23 @@ object ops extends GlobalContext {
 
   implicit class GraphicsOps(val graphics: Graphics) extends AnyVal {
     /** Draws a rectangle with given size */
-    def fillRect(size: Vec2d, color: Double = 0): Graphics = {
-      val (w, h) = (size.x, size.y)
+    def fillRect(size: Vec2d, position: Vec2d = Vec2d.Zero, color: Color = Colors.PureBlack): Graphics = {
+      val (x, y, w, h) = (position.x, position.y, size.x, size.y)
       graphics
-        .beginFill(color)
-        .moveTo(0, 0)
-        .lineTo(w, 0)
-        .lineTo(w, h)
-        .lineTo(0, h)
-        .lineTo(0, 0)
+        .beginFill(color.toDouble)
+        .moveTo(x, y)
+        .lineTo(x + w, y)
+        .lineTo(x + w, y + h)
+        .lineTo(x, y + h)
+        .lineTo(x, y)
         .endFill()
     }
 
     /** Draws a rectangle with rounded corners */
-    def fillRoundRect(size: Vec2d, radius: Double, color: Double = 0): Graphics = {
+    def fillRoundRect(size: Vec2d, radius: Double, color: Color = Colors.PureBlack): Graphics = {
       val (w, h, r) = (size.x, size.y, radius)
       graphics
-        .beginFill(color)
+        .beginFill(color.toDouble)
         .moveTo(r, 0)
         .lineTo(w - r, 0).quadraticCurveTo(w, 0, w, r)
         .lineTo(w, h - r).quadraticCurveTo(w, h, w - r, h)
@@ -266,10 +271,10 @@ object ops extends GlobalContext {
     }
 
     /** Draws a rectangle with cut corners */
-    def fillCutRect(size: Vec2d, cut: Double, color: Double = 0): Graphics = {
+    def fillCutRect(size: Vec2d, cut: Double, color: Color = Colors.PureBlack): Graphics = {
       val (w, h, c) = (size.x, size.y, cut)
       graphics
-        .beginFill(color)
+        .beginFill(color.toDouble)
         .moveTo(c, 0)
         .lineTo(w - c, 0)
         .lineTo(w, c)
@@ -280,6 +285,14 @@ object ops extends GlobalContext {
         .lineTo(0, c)
         .lineTo(c, 0)
         .endFill()
+    }
+  }
+
+  implicit class ComponentOps[A <: Component](val component: A) extends AnyVal {
+    /** Adds the component to given container */
+    def addTo(container: Container): A = {
+      component.toPixi.addTo(container)
+      component
     }
   }
 

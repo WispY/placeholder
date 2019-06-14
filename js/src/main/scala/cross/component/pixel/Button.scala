@@ -1,5 +1,6 @@
-package cross.component
+package cross.component.pixel
 
+import cross.component.{Component, Interactive}
 import cross.ops._
 import cross.pixi._
 import cross.sakura.mvc.Asset

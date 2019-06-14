@@ -1,7 +1,8 @@
 package cross.sakura.stage
 
 import cross.common._
-import cross.component.{Button, Stage}
+import cross.component.Stage
+import cross.component.pixel.Button
 import cross.ops._
 import cross.pixi._
 import cross.sakura.asset.flower._

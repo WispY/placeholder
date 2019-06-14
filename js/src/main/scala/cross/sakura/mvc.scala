@@ -1,10 +1,11 @@
 package cross.sakura
 
 import cross.common._
-import cross.configjs._
+import config._
 import cross.sakura.asset.tree._
 import cross.util.global.GlobalContext
 import cross.util.logging.Logging
+import cross.util.mvc.{GenericController, GenericModel}
 import cross.util.timer.Timer
 
 import scala.concurrent.Future
@@ -20,7 +21,7 @@ object mvc extends GlobalContext with Logging {
                    mouse: Writeable[Vec2d] = Data(Vec2d.Zero),
 
                    loaded: Writeable[Boolean] = Data(false),
-                   trees: Writeable[List[TreeNode]] = Data(Nil))
+                   trees: Writeable[List[TreeNode]] = Data(Nil)) extends GenericModel[Stages.Value]
 
   object Stages extends Enumeration {
     val Loading, Game = Value
@@ -43,7 +44,7 @@ object mvc extends GlobalContext with Logging {
   case class TreeNode(asset: TreeAsset,
                       branches: List[TreeNode] = Nil)
 
-  class Controller(val model: Model) {
+  class Controller(val model: Model) extends GenericController[Stages.Value] {
     val timer = new Timer()
 
     /** Initializes the controller */

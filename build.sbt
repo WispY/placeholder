@@ -51,7 +51,7 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
       new Dockerfile {
         from("openjdk:8-jre")
         add(artifact, artifactTargetPath)
-        cmd("java", "-jar", artifactTargetPath)
+        entryPoint("java", "-jar", "-Dgeneral.port=$PORT", artifactTargetPath)
       }
     },
     imageNames in docker := Seq(ImageName(s"wispy/cross:latest")),

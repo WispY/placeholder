@@ -9,5 +9,5 @@ import scala.scalajs.js.annotation.JSGlobal
 class FontFaceObserver extends js.Object {
   def this(family: String = js.native) = this()
 
-  def load(): Promise[Unit] = js.native
+  def load(): Promise[js.Object] = js.native
 }

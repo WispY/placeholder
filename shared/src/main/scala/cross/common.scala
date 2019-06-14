@@ -440,8 +440,14 @@ object common {
   }
 
   object Vec2d {
+    /** Left point in 1x1 square */
+    val Left: Vec2d = 0.0 xy 0.5
+
     /** Center point in 1x1 square */
     val Center: Vec2d = 0.5 xy 0.5
+
+    /** Right point in 1x1 square */
+    val Right: Vec2d = 1.0 xy 0.5
 
     /** Top point in 1x1 square */
     val Top: Vec2d = 0.5 xy 0.0
@@ -469,6 +475,14 @@ object common {
   implicit class VecDoubleTupleOps(val tuple: (Vec2d, Vec2d)) extends AnyVal {
     /** Returns a vec between two components according to progress */
     def %%(progress: Double): Vec2d = tuple._1 + (tuple._2 - tuple._1) * progress
+  }
+
+  /** Double 2D rectangle */
+  case class Rect2d(position: Vec2d, size: Vec2d)
+
+  object Rect2d {
+    /** Zero size rectangle */
+    val Zero: Rect2d = Rect2d(Vec2d.Zero, Vec2d.Zero)
   }
 
   implicit class OffsetDateTimeOps(val odt: OffsetDateTime) extends AnyVal {

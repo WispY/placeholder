@@ -1,14 +1,20 @@
 package cross
 
+import cross.component.util._
+import cross.pac.stage.ArtChallengeStage
 import cross.pixi.{ScaleModes, Settings}
-import cross.sakura.mvc._
-import cross.sakura.ui
+import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
-import cross.util.{animation, fonts, global, spring}
+import cross.util.logging.Logging
+import cross.util.mvc.Ui
+import cross.util.{animation, fonts, spring}
 import org.scalajs.dom._
 
+import scala.concurrent.ExecutionContext
+
 /** Starts the UI application */
-object app extends App with GlobalContext {
+//noinspection TypeAnnotation
+object app extends App with GlobalContext with Logging {
   window.location.pathname match {
     case sakura if sakura.startsWith("/sakura") =>
       startSakura()
@@ -20,28 +26,49 @@ object app extends App with GlobalContext {
   }
 
   def startSakura(): Unit = {
+    import cross.sakura.mvc._
+
     log.info("[app] starting sakura project")
     Settings.SCALE_MODE = ScaleModes.NEAREST
     document.title = "Sakura Challenge"
-    val model = Model()
-    val controller = new Controller(model)
+    implicit val model = Model()
+    implicit val controller = new Controller(model)
+    implicit val ec = ExecutionContext.global
 
     for {
-      ui <- ui.load(controller)
-      _ <- spring.load(controller)
-      _ <- animation.load(controller)
+      _ <- new Ui[Stages.Value]({ (stage, application) =>
+        implicit val app = application
+        stage match {
+          case Stages.Loading => new LoadingStage()
+          case Stages.Game => new GameStage()
+        }
+      }).load()
+      _ <- spring.load()
+      _ <- animation.load()
       _ <- controller.start()
-      _ = global.export(
-        "app" -> ui.app
-      )
     } yield ()
   }
 
   def startPac(): Unit = {
+    import cross.pac.mvc._
+
     log.info("[app] starting pac project")
     document.title = "Poku Art Challenge"
+    implicit val model = Model()
+    implicit val controller = new Controller(model)
+    implicit val ec = ExecutionContext.global
+
     for {
-      _ <- fonts.load("Roboto Slab" :: "Random" :: Nil)
+      _ <- fonts.load(Roboto :: RobotoSlab :: Nil)
+      _ <- new Ui[Stages.Value]({ (stage, application) =>
+        implicit val app = application
+        stage match {
+          case Stages.ArtChallenges => new ArtChallengeStage()
+        }
+      }).load()
+      _ <- spring.load()
+      _ <- animation.load()
+      _ <- controller.start()
     } yield ()
   }
 

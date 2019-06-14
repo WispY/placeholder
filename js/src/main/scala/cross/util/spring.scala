@@ -6,9 +6,9 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import cross.common._
 import cross.ops._
 import cross.pixi._
-import cross.sakura.mvc.Controller
 import cross.util.global.GlobalContext
 import cross.util.logging.Logging
+import cross.util.mvc.GenericController
 
 import scala.concurrent.Future
 
@@ -29,7 +29,7 @@ object spring extends GlobalContext with Logging {
   }
 
   /** Loads the update loop */
-  def load(implicit controller: Controller): Future[Unit] = Future {
+  def load()(implicit controller: GenericController[_]): Future[Unit] = Future {
     log.info("[loop] starting...")
     controller.model.tick /> { case tick => update() }
     log.info("[loop] is running")

@@ -3,11 +3,11 @@ package cross.util
 import java.util.UUID
 
 import cross.common._
-import cross.configjs._
 import cross.ops._
 import cross.pixi.DisplayObject
-import cross.sakura.mvc.Controller
+import cross.sakura.config._
 import cross.util.global.GlobalContext
+import cross.util.mvc.GenericController
 
 import scala.concurrent.duration._
 import scala.concurrent.{Future, Promise}
@@ -18,7 +18,7 @@ object animation extends GlobalContext {
   private var time: Long = System.currentTimeMillis()
 
   /** Loads the animation loop */
-  def load(implicit controller: Controller): Future[Unit] = Future {
+  def load()(implicit controller: GenericController[_]): Future[Unit] = Future {
     controller.model.tick /> { case _ => update() }
   }
 

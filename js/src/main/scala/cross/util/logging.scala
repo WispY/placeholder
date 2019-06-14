@@ -1,6 +1,6 @@
 package cross.util
 
-import cross.configjs
+import cross.sakura.config
 import cross.util.global.GlobalContext
 import org.scalajs.dom
 
@@ -10,7 +10,7 @@ object logging {
 
   /** Mix in for logging statements */
   trait Logging {
-    val log: LogApi = BrowserLogApi
+    protected val log: LogApi = BrowserLogApi
   }
 
   trait LogApi {
@@ -35,15 +35,15 @@ object logging {
 
   /** Prints logs to browser console */
   object BrowserLogApi extends LogApi with GlobalContext {
-    override def wire(message: String): Unit = if (configjs.log.Wire) {
+    override def wire(message: String): Unit = if (config.log.Wire) {
       dom.window.console.warn(message)
     }
 
-    override def debug(message: String): Unit = if (configjs.log.Debug) {
+    override def debug(message: String): Unit = if (config.log.Debug) {
       dom.window.console.log(s"${System.currentTimeMillis()} $message")
     }
 
-    override def info(message: String): Unit = if (configjs.log.Info) {
+    override def info(message: String): Unit = if (config.log.Info) {
       dom.window.console.log(message)
     }
 
@@ -51,11 +51,11 @@ object logging {
       this.info(message)
     }
 
-    override def warn(message: String): Unit = if (configjs.log.Warnings) {
+    override def warn(message: String): Unit = if (config.log.Warnings) {
       dom.window.console.warn(message)
     }
 
-    override def error(message: String, error: Throwable): Unit = if (configjs.log.Errors) {
+    override def error(message: String, error: Throwable): Unit = if (config.log.Errors) {
       dom.console.error(message)
       error.printStackTrace()
     }

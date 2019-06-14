@@ -10,4 +10,6 @@ class Rectangle extends js.Object {
 
   var x: Double = js.native
   var y: Double = js.native
+  var width: Double = js.native
+  var height: Double = js.native
 }
