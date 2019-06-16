@@ -1,5 +1,6 @@
 package cross.util
 
+import cross.general
 import cross.sakura.config
 import cross.util.global.GlobalContext
 import org.scalajs.dom

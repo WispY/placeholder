@@ -51,12 +51,19 @@ object binary {
     override def append(path: Path, a: Long, bytes: ByteList): ByteList = bytes + a
   }
 
+  /** Skips writing and reading */
+  implicit val unitFormat: BF[Unit] = new BinaryFormat[Unit] {
+    override def read(path: Path, formatted: ByteList): (Unit, ByteList) = () -> formatted
+
+    override def append(path: Path, a: Unit, formatted: ByteList): ByteList = formatted
+  }
+
   /** Reads and writes lists of A */
   implicit def listFormat[A: BF]: BF[List[A]] = new BinaryFormat[List[A]] {
     override def read(path: Path, bytes: ByteList): (List[A], ByteList) = {
       val (length, tail) = bytes.readInt
       (0 until length).foldLeft[(List[A], ByteList)](Nil, tail) { case ((list, currentTail), index) =>
-        val (a, nextTail) = currentTail.toScala[A](path :+ ArrayPathSegment(index))
+        val (a, nextTail) = currentTail.toScalaTail[A](path :+ ArrayPathSegment(index))
         (list :+ a, nextTail)
       }
     }
@@ -165,13 +172,27 @@ object binary {
     }
 
     /** Converts the value to scala format */
-    def toScala[A: BF](path: Path = Nil)(implicit format: BF[A]): (A, ByteList) = format.read(path, this)
+    def toScalaTail[A: BF](path: Path = Nil)(implicit format: BF[A]): (A, ByteList) = format.read(path, this)
+
+    /** Converts the value to scala format */
+    def toScala[A: BF](path: Path = Nil)(implicit format: BF[A]): A = format.read(path, this)._1
+
+    /** Converts the byte list to compacted byte array */
+    def toByteArray: Array[Byte] = this.compact.array()
   }
 
   object ByteList {
+    /** Creates the byte list from byte array */
+    def apply(bytes: Array[Byte]): ByteList = ByteList(ByteBuffer.wrap(bytes) :: Nil)
+
     val empty: ByteList = ByteList(Nil)
 
     val emptyBuffer: ByteBuffer = ByteBuffer.allocate(0)
+  }
+
+  implicit class BinaryAnyOps[A](val a: A) extends AnyVal {
+    /** Converts scala object into byte list */
+    def toBinary(implicit format: BF[A]): ByteList = format.append(Nil, a, ByteList.empty)
   }
 
   /** Indexes the formats with ids to be able to read any message */

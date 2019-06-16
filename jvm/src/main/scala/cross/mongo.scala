@@ -18,17 +18,17 @@ object mongo {
 
   implicit class DocumentOps(val document: Document) extends AnyVal {
     /** Converts bson document to scala object */
-    def asScala[A: MF](implicit format: MF[A]): A = format.read(Nil, document.toBsonDocument)._1
+    def toScala[A: MF](implicit format: MF[A]): A = format.read(Nil, document.toBsonDocument)._1
   }
 
   implicit class BsonValueOps(val bson: BsonValue) extends AnyVal {
     /** Converts bson value to scala object */
-    def asScala[A: MF](implicit format: MF[A]): A = format.read(Nil, bson)._1
+    def toScala[A: MF](implicit format: MF[A]): A = format.read(Nil, bson)._1
   }
 
   implicit class MongoAnyRefOps[A <: AnyRef](val any: A) extends AnyVal {
     /** Converts scala value to bson document */
-    def asBson(implicit format: MF[A]): Document = Document(any.format().asDocument())
+    def toBson(implicit format: MF[A]): Document = Document(any.format().asDocument())
   }
 
   /** Provides the unit for mongo format */
@@ -91,7 +91,7 @@ object mongo {
         case None =>
           Nil -> formatted
         case Some(array: BsonArray) =>
-          array.getValues.asScala.toList.map(element => element.asScala[A]) -> formatted
+          array.getValues.asScala.toList.map(element => element.toScala[A]) -> formatted
         case Some(other) =>
           throw new IllegalArgumentException(s"wrong list format: $other")
       }
@@ -273,7 +273,7 @@ object mongo {
         .chainIf(limit >= 0)(s => s.limit(limit))
         .chainIf(sortDocument.nonEmpty)(s => s.sort(sortDocument))
         .toFuture
-      entities = documents.map(d => d.asScala[A]).toList
+      entities = documents.map(d => d.toScala[A]).toList
     } yield entities
 
     /** Finds single document that match given query */
@@ -284,13 +284,13 @@ object mongo {
     /** Inserts given entity into the collection */
     def insertOne(entity: A): Future[Unit] = for {
       collection <- delegate
-      _ <- collection.insertOne(entity.asBson).toFuture
+      _ <- collection.insertOne(entity.toBson).toFuture
     } yield ()
 
     /** Replaces single document with given body */
     def replaceOne(query: CCT => Document, replacement: A): Future[Unit] = for {
       collection <- delegate
-      _ <- collection.replaceOne(query.apply(cct), replacement.asBson).toFuture
+      _ <- collection.replaceOne(query.apply(cct), replacement.toBson).toFuture
     } yield ()
 
     /** Deletes multiple documents from the collection */

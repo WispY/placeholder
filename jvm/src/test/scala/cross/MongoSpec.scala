@@ -145,8 +145,8 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
     val db = client.getDatabase("test")
     db.createCollection(collectionName).await
     val collection = db.getCollection(collectionName)
-    collection.insertMany(data.map(a => a.asBson)).await
-    collection.find(query).sort(sort).await.map(a => a.asScala[A])
+    collection.insertMany(data.map(a => a.toBson)).await
+    collection.find(query).sort(sort).await.map(a => a.toScala[A])
   }
 
   def check[A <: AnyRef](a: A)(implicit format: MF[A]): Unit = {
@@ -154,8 +154,8 @@ class MongoSpec extends Spec with MongoEmbedDatabase with LazyLogging {
     val db = client.getDatabase("test")
     db.createCollection(collectionName).await
     val collection = db.getCollection(collectionName)
-    collection.insertOne(a.asBson).await
-    collection.find().await.head.asScala[A] shouldBe a
+    collection.insertOne(a.toBson).await
+    collection.find().await.head.toScala[A] shouldBe a
   }
 
   override protected def beforeAll(): Unit = {

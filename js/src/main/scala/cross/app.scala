@@ -1,10 +1,13 @@
 package cross
 
 import cross.component.util._
+import cross.general.config.GeneralConfig
+import cross.general.protocol._
 import cross.pac.stage.ArtChallengeStage
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
+import cross.util.http._
 import cross.util.logging.Logging
 import cross.util.mvc.Ui
 import cross.util.{animation, fonts, spring}
@@ -15,14 +18,20 @@ import scala.concurrent.ExecutionContext
 /** Starts the UI application */
 //noinspection TypeAnnotation
 object app extends App with GlobalContext with Logging {
+  implicit val generalConfig: GeneralConfig = general.config.Config
+
   window.location.pathname match {
     case sakura if sakura.startsWith("/sakura") =>
       startSakura()
     case pac if pac.startsWith("/pac") =>
       startPac()
+    case discord if discord.startsWith("/discord") && queryParameter("code").isDefined =>
+      loginDiscord()
+    case discord if discord.startsWith("/discord") =>
+
     case _ =>
       log.info("[app] redirecting to [/pac]")
-      window.location.href = "/pac"
+      redirect("/pac")
   }
 
   def startSakura(): Unit = {
@@ -30,7 +39,7 @@ object app extends App with GlobalContext with Logging {
 
     log.info("[app] starting sakura project")
     Settings.SCALE_MODE = ScaleModes.NEAREST
-    document.title = "Sakura Challenge"
+    updateTitle("Sakura Challenge")
     implicit val model = Model()
     implicit val controller = new Controller(model)
     implicit val ec = ExecutionContext.global
@@ -53,7 +62,7 @@ object app extends App with GlobalContext with Logging {
     import cross.pac.mvc._
 
     log.info("[app] starting pac project")
-    document.title = "Poku Art Challenge"
+    updateTitle("Poku Art Challenge")
     implicit val model = Model()
     implicit val controller = new Controller(model)
     implicit val ec = ExecutionContext.global
@@ -70,6 +79,16 @@ object app extends App with GlobalContext with Logging {
       _ <- animation.load()
       _ <- controller.start()
     } yield ()
+  }
+
+  def loginDiscord(): Unit = {
+    val code = queryParameter("code").head
+    for {
+      user <- post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
+      _ = log.info(s"[login] logged in as [$user]")
+      _ = redirectSilent("/pac", preserveQuery = false)
+      _ = startPac()
+    } yield user
   }
 
 }

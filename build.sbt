@@ -91,7 +91,9 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     // calls main method when js file is loaded
     scalaJSUseMainModuleInitializer := true,
     // dom - basic dom operations lib
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2"
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
+    // jquery
+    libraryDependencies += "org.querki" %%% "jquery-facade" % "1.2"
   )
   .dependsOn(macros)
 

@@ -10,6 +10,7 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 import com.typesafe.scalalogging.LazyLogging
 import cross.common._
 import cross.config.JvmReader
+import cross.general.session.{SessionManager, SessionManagerRef}
 import cross.pac.bot.ArtChallengeBot
 import cross.pac.processor.ArtChallengeProcessor
 import cross.pac.thumbnailer.Thumbnailer
@@ -26,11 +27,13 @@ object launcher extends App with LazyLogging {
   implicit val execution: ExecutionContextExecutor = system.dispatcher
   implicit val timeout: Timeout = 10.seconds
 
+  implicit val sessionManager: SessionManagerRef = SessionManagerRef(system.actorOf(Props(new SessionManager()), "general.sessions"))
+
   val pacBot = system.actorOf(Props(new ArtChallengeBot(pac.config.Config)), "pac.bot")
   val pacThumbnailer = system.actorOf(Props(new Thumbnailer(materializer, pac.config.Config)), "pac.thumbnailer")
   val pacProcessor = system.actorOf(Props(new ArtChallengeProcessor(pacBot, pacThumbnailer, pac.config.Config)), "pac.processor")
 
-  val routes = cross.general.routes.get() ++ Nil
+  val routes = cross.general.routes.get(general.config.Config) ++ Nil
   val route: Route = cors()(concat(routes: _*))
 
   val (host, port) = (general.config.Config.host, general.config.Config.port)
@@ -40,7 +43,7 @@ object launcher extends App with LazyLogging {
       logger.error(s"failed to bind the server to [$host:$port]", up)
       stop()
     }
-    .whenSuccessful { b =>
+    .whenSuccessful { bind =>
       logger.info(s"server online at http://$host:$port/")
     }
 

@@ -1,6 +1,21 @@
 package cross.util
 
 import akka.actor.Scheduler
+import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
+import akka.http.scaladsl.marshalling.PredefinedToResponseMarshallers._
+import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
+import akka.http.scaladsl.model.ContentTypes.`application/octet-stream`
+import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.headers.{HttpCookie, HttpCookiePair}
+import akka.http.scaladsl.server.{Directive0, Directive1}
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.unmarshalling.PredefinedFromEntityUnmarshallers._
+import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, FromRequestUnmarshaller}
+import akka.pattern.ask
+import akka.stream.Materializer
+import akka.util.Timeout
+import cross.binary._
+import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -8,6 +23,48 @@ import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
 object akkautil {
+  /** Creates the entity parser from binary format */
+  implicit def binaryFormatToEntityUnmarshaller[A](implicit format: BF[A]): FromEntityUnmarshaller[A] = {
+    byteArrayUnmarshaller.map { bytes =>
+      val a = ByteList(bytes).toScala[A]()
+      a
+    }
+  }
+
+  /** Creates the request parser from binary format */
+  implicit def binaryFormatToRequestUnmarshaller[A](implicit format: BF[A]): FromRequestUnmarshaller[A] = new FromRequestUnmarshaller[A] {
+    override def apply(request: HttpRequest)(implicit ec: ExecutionContext, materializer: Materializer): Future[A] = {
+      binaryFormatToEntityUnmarshaller[A](format).apply(request.entity)
+    }
+  }
+
+  /** Creates the entity marshaller from binary format */
+  implicit def binaryFormatToEntityMarshaller[A](implicit format: BF[A]): ToEntityMarshaller[A] = {
+    byteArrayMarshaller(`application/octet-stream`).compose(value => value.toBinary.toByteArray)
+  }
+
+  /** Creates the response marshaller from binary format */
+  implicit def binaryFormatToResponseMarshaller[A](implicit format: BF[A]): ToResponseMarshaller[A] = {
+    fromToEntityMarshaller()
+  }
+
+  /** Provides the session id for the requesting user */
+  val sessionId: Directive1[Option[SessionId]] = optionalCookie("session").flatMap {
+    case Some(HttpCookiePair(name, value)) =>
+      provide(Some(SessionId(value)))
+    case None =>
+      provide(None)
+  }
+
+  /** Provides the session data for the requesting user */
+  def session()(implicit manager: SessionManagerRef): Directive1[Session] = sessionId.flatMap { id =>
+    implicit val timeout: Timeout = Timeout.durationToTimeout(cross.general.config.Config.timeout)
+    onSuccess((manager.ref ? EnsureSession(id)).mapTo[Session])
+  }
+
+  /** Updates the session cookie */
+  def resetSession(id: SessionId): Directive0 = setCookie(HttpCookie("session", value = id.id, httpOnly = true, secure = false))
+
   /** Attempts to execute future several times with a delay between attempts */
   def retryFuture[A](code: () => Future[A], attempts: Int, delay: FiniteDuration)(implicit ec: ExecutionContext, s: Scheduler): Future[A] = {
     code.apply().recoverWith {

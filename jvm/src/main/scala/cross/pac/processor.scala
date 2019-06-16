@@ -418,13 +418,13 @@ object processor {
 
   implicit class ObservableOps(val obs: Observable[Document]) extends AnyVal {
     /** Converts a list of mongo results into scala */
-    def asScalaList[A](implicit fmt: MF[A], ec: ExecutionContext): Future[List[A]] = {
-      obs.toFuture().map(seq => seq.map(d => d.asScala[A]).toList)
+    def toScalaList[A](implicit fmt: MF[A], ec: ExecutionContext): Future[List[A]] = {
+      obs.toFuture().map(seq => seq.map(d => d.toScala[A]).toList)
     }
 
     /** Converts a list */
-    def asScalaOption[A](implicit fmt: MF[A], ec: ExecutionContext): Future[Option[A]] = {
-      obs.asScalaList[A].map(l => l.headOption)
+    def toScalaOption[A](implicit fmt: MF[A], ec: ExecutionContext): Future[Option[A]] = {
+      obs.toScalaList[A].map(l => l.headOption)
     }
   }
 

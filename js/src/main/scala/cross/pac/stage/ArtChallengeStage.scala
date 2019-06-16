@@ -10,6 +10,7 @@ import cross.pixi._
 import cross.util.animation.Animation
 import cross.util.global.GlobalContext
 import cross.util.logging.Logging
+import org.scalajs.dom.window
 
 import scala.concurrent.Future
 
@@ -21,7 +22,9 @@ class ArtChallengeStage()(implicit controller: Controller, app: Application) ext
 
   override lazy val create: Future[Unit] = Future {
     log.info("[art challenge stage] setting up...")
-    pixiButton.addTo(pixiBody)
+    pixiButton.addTo(pixiBody).onClick { button =>
+      window.location.href = "https://discordapp.com/api/oauth2/authorize?client_id=583316882002673683&redirect_uri=http://127.0.0.1:8080/discord&response_type=code&scope=identify"
+    }
     log.info("[art challenge stage] created")
   }
 
