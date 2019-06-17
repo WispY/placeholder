@@ -28,7 +28,7 @@ import scala.util.{Failure, Success}
 /** Cuts thumbnails for images */
 object thumbnailer {
 
-  class Thumbnailer(materializer: ActorMaterializer, config: PacConfig) extends LockActor {
+  class Thumbnailer(materializer: ActorMaterializer)(implicit config: PacConfig) extends LockActor {
     implicit val as: ActorSystem = context.system
     implicit val m: ActorMaterializer = materializer
 

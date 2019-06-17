@@ -12,6 +12,7 @@ import scala.concurrent.Future
 import scala.util.Random
 
 object mvc extends GlobalContext with Logging {
+  override protected def logKey: String = "sakura/mvc"
 
   /** Contains application internal state */
   case class Model(tick: Writeable[Long] = Data(0),
@@ -49,10 +50,10 @@ object mvc extends GlobalContext with Logging {
 
     /** Initializes the controller */
     def start(): Future[Unit] = Future {
-      log.info("[controller] starting...")
+      log.info("starting...")
       timer.start(60, () => model.tick.write(model.tick() + 1))
       bind()
-      log.info("[controller] started")
+      log.info("started")
     }
 
     /** Binds all internal calculations */

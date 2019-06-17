@@ -3,6 +3,7 @@ import java.nio.file.Files
 import java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME
 import java.time.{ZoneId, ZonedDateTime}
 
+import sbt.Keys.logLevel
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
 import scala.sys.process._
@@ -32,7 +33,8 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
   .settings(
     name := "cross",
     version := "0.1",
-    test in assembly := {}
+    test in assembly := {},
+    logLevel := Level.Error
   )
   .jvmSettings(
     name := "jvm",

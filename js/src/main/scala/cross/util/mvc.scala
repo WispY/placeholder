@@ -1,8 +1,8 @@
 package cross.util
 
 import cross.common.{Vec2i, Writeable, _}
+import cross.component._
 import cross.component.util.Colors
-import cross.component.{GlobalStage, _}
 import cross.ops._
 import cross.pixi._
 import cross.util.animation._
@@ -42,7 +42,9 @@ object mvc {
     def stage: Writeable[A]
   }
 
-  class Ui[A](stages: (A, Application) => Stage)(implicit controller: GenericController[A]) extends Logging with GlobalContext {
+  class Ui[A](stages: (A, Application) => Stage, global: Application => Option[Stage] = _ => None)(implicit controller: GenericController[A]) extends Logging with GlobalContext {
+    override protected def logKey: String = "ui"
+
     /** Loads the application UI */
     def load(): Future[Unit] = Future {
       log.info("[ui] initializing...")
@@ -83,9 +85,10 @@ object mvc {
 
     private def bindStageTransitions()(implicit app: Application): Unit = {
       val stageContainer = app.stage.sub
-      val global = new GlobalStage()
-      global.create
-      global.toPixi.addTo(app.stage)
+      global.apply(app).foreach { stage =>
+        stage.create
+        stage.toPixi.addTo(app.stage)
+      }
       var stage: Future[Stage] = Future.successful(new EmptyStage())
       controller.model.stage /> { case nextType =>
         val next = stages.apply(nextType, app)
@@ -97,13 +100,12 @@ object mvc {
         } yield next
       }
     }
-
   }
 
   /** Represents an application stage without any objects */
   class EmptyStage extends Stage {
     private val container = new Container()
-    override val create: Future[Unit] = Future.successful()
+    override val create: Future[Unit] = UnitFuture
     override val fadeIn: Animation = EmptyAnimation
     override val fadeOut: Animation = EmptyAnimation
     override val toPixi: DisplayObject = container

@@ -16,7 +16,7 @@ import scala.concurrent.duration._
 object bot {
 
   /** Interacts with Discord as art challenge bot */
-  class ArtChallengeBot(config: PacConfig) extends Actor with ActorLogging {
+  class ArtChallengeBot()(implicit config: PacConfig) extends Actor with ActorLogging {
     private implicit val ec: ExecutionContext = context.dispatcher
     private var clientOpt: Option[JDA] = None
     private var listeners: List[ActorRef] = Nil

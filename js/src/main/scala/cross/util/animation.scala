@@ -13,7 +13,7 @@ import scala.concurrent.duration._
 import scala.concurrent.{Future, Promise}
 
 object animation extends GlobalContext {
-  private var queue: Future[Unit] = Future.successful()
+  private var queue: Future[Unit] = UnitFuture
   private var current: Option[Player] = None
   private var time: Long = System.currentTimeMillis()
 

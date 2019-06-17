@@ -24,14 +24,12 @@ object config {
     * @param token                the discord token for auth
     * @param server               the name of the discord server to read
     * @param channel              the name of the discord channel to read
-    * @param admins               the list of user ids to treat as admins
     * @param historyRefreshDelay  the delay between refreshing message history
     * @param historyRetrievalSize the number of records to retrieve each request
     */
   case class PacBotConfig(token: String,
                           server: String,
                           channel: String,
-                          admins: List[String],
                           historyRefreshDelay: FiniteDuration,
                           historyRetrievalSize: Int)
 
@@ -70,7 +68,6 @@ object config {
       token = "changeme",
       server = "kate & leo",
       channel = "bot-tests",
-      admins = "337379582770675712" :: "254380888152997889" :: Nil,
       historyRefreshDelay = 1.minute,
       historyRetrievalSize = 10
     ),
@@ -93,13 +90,13 @@ object config {
 
   implicit val reader: ConfigReader = JvmReader
   implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
-  implicit val pacBotConfigFormat: CF[PacBotConfig] = format6(PacBotConfig)
+  implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
   implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
   implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format7(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
   implicit val vecJsonFormat: RootJsonFormat[Vec2i] = jsonFormat2(Vec2i.apply)
-  implicit val pacBotConfigJsonFormat: RootJsonFormat[PacBotConfig] = jsonFormat6(PacBotConfig)
+  implicit val pacBotConfigJsonFormat: RootJsonFormat[PacBotConfig] = jsonFormat5(PacBotConfig)
   implicit val pacProcessorConfigJsonFormat: RootJsonFormat[PacProcessorConfig] = jsonFormat4(PacProcessorConfig)
   implicit val pacThumbnailerConfigJsonFormat: RootJsonFormat[PacThumbnailerConfig] = jsonFormat7(PacThumbnailerConfig)
   implicit val pacConfigJsonFormat: RootJsonFormat[PacConfig] = jsonFormat3(PacConfig)

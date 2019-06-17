@@ -1,29 +1,25 @@
 package cross.component.flat
 
 import cross.common._
+import cross.component.flat.Button.ButtonStyle
 import cross.component.util._
 import cross.component.{Component, Interactive, RedrawGraphics}
 import cross.ops._
 import cross.pixi.{Container, DisplayObject}
 
 /** Interactive button with graphics background and dynamic label */
-class Button(size: Vec2d = 100 xy 50,
-             depth: Double = 3,
-             colorNormal: Color = Colors.BlueDark,
-             colorHover: Color = Colors.Blue,
-             colorPressed: Color = Colors.BlueDark,
-             colorDisabled: Color = Colors.Gray,
-             fontStyle: FontStyle = DefaultFontStyle,
-             label: String = "") extends Component with Interactive {
+class Button(label: String,
+             style: ButtonStyle,
+             size: Vec2d) extends Component with Interactive {
   private val pixiContainer = new Container()
   private val pixiBackground = RedrawGraphics()
-  private val pixiLabel = new Title()
+  private val pixiLabel = new Title(label, style.font)
   this.init()
 
   /** Updates the button size */
   def setSize(size: Vec2d): Unit = {
     pixiBackground.draw { (graphics, color) =>
-      depth match {
+      style.depth match {
         case 0 =>
           graphics.fillRect(size, color = color)
         case d if enabled && dragging && hovering =>
@@ -48,18 +44,18 @@ class Button(size: Vec2d = 100 xy 50,
   override def updateVisual(): Unit = {
     if (enabled) {
       if (hovering && dragging) {
-        pixiBackground.setColor(colorPressed)
+        pixiBackground.setColor(style.colorPressed)
       } else if (hovering) {
-        pixiBackground.setColor(colorHover)
+        pixiBackground.setColor(style.colorHover)
       } else {
-        pixiBackground.setColor(colorNormal)
+        pixiBackground.setColor(style.colorNormal)
       }
     } else {
-      pixiBackground.setColor(colorDisabled)
+      pixiBackground.setColor(style.colorDisabled)
     }
     if (enabled && hovering && dragging) {
       // pixiLabel.toPixi.positionAt(0 xy depth)
-      pixiLabel.toPixi.positionAt(0 xy (depth * 2))
+      pixiLabel.toPixi.positionAt(0 xy (style.depth * 2))
     } else {
       // pixiLabel.toPixi.positionAt(0 xy (-depth))
       pixiLabel.toPixi.positionAt(0 xy 0)
@@ -69,10 +65,22 @@ class Button(size: Vec2d = 100 xy 50,
   private def init(): Unit = {
     pixiContainer.addChild(pixiBackground.toPixi)
     pixiContainer.addChild(pixiLabel.toPixi)
-    pixiBackground.setColor(colorNormal)
+    pixiBackground.setColor(style.colorNormal)
     setSize(size)
     setLabel(label)
     this.initInteractions()
     this.updateVisual()
   }
+}
+
+object Button {
+
+  /** Describes the looks of a button */
+  case class ButtonStyle(colorNormal: Color,
+                         colorHover: Color,
+                         colorPressed: Color,
+                         colorDisabled: Color,
+                         depth: Double,
+                         font: FontStyle)
+
 }

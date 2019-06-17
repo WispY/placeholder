@@ -21,7 +21,7 @@ import scala.concurrent.{ExecutionContext, Future}
 object processor {
 
   /** Processes the art challenge messages */
-  class ArtChallengeProcessor(bot: ActorRef, thumbnailer: ActorRef, config: PacConfig) extends LockActor {
+  class ArtChallengeProcessor(bot: ActorRef, thumbnailer: ActorRef)(implicit config: PacConfig) extends LockActor {
     implicit val ec: ExecutionContext = context.dispatcher
     implicit val s: Scheduler = context.system.scheduler
 

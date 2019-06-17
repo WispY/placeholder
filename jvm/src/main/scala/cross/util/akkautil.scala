@@ -5,7 +5,7 @@ import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
 import akka.http.scaladsl.marshalling.PredefinedToResponseMarshallers._
 import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
 import akka.http.scaladsl.model.ContentTypes.`application/octet-stream`
-import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.{HttpRequest, IllegalRequestException, StatusCodes}
 import akka.http.scaladsl.model.headers.{HttpCookie, HttpCookiePair}
 import akka.http.scaladsl.server.{Directive0, Directive1}
 import akka.http.scaladsl.server.Directives._
@@ -15,6 +15,7 @@ import akka.pattern.ask
 import akka.stream.Materializer
 import akka.util.Timeout
 import cross.binary._
+import cross.general.config.GeneralConfig
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
 
 import scala.concurrent.duration.FiniteDuration
@@ -60,6 +61,18 @@ object akkautil {
   def session()(implicit manager: SessionManagerRef): Directive1[Session] = sessionId.flatMap { id =>
     implicit val timeout: Timeout = Timeout.durationToTimeout(cross.general.config.Config.timeout)
     onSuccess((manager.ref ? EnsureSession(id)).mapTo[Session])
+  }
+
+  /** Provides the session data for the admin user */
+  def adminSession()(implicit manager: SessionManagerRef, config: GeneralConfig): Directive1[Session] = session().flatMap { session =>
+    session.discordUser match {
+      case Some(user) if user.isAdmin =>
+        provide(session)
+      case Some(_) =>
+        throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")
+      case None =>
+        throw IllegalRequestException(StatusCodes.Forbidden, "User is not logged in")
+    }
   }
 
   /** Updates the session cookie */

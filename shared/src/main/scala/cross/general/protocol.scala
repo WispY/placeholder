@@ -9,9 +9,9 @@ object protocol {
   case class LoginDiscord(code: String)
 
   /** Contains discord user information */
-  case class User(id: String, name: String)
+  case class User(id: String, name: String, admin: Boolean)
 
   implicit val loginDiscordFormat: BF[LoginDiscord] = format1(LoginDiscord)
-  implicit val userFormat: BF[User] = format2(User)
+  implicit val userFormat: BF[User] = format3(User)
 
 }

@@ -428,6 +428,9 @@ object common {
     /** Returns maximum component */
     def max: Double = x max y
 
+    /** Returns the vector with maximum coordinates between the two */
+    def maxVec(v: Vec2d): Vec2d = Vec2d(x max v.x, y max v.y)
+
     /** Returns true if given point is within the radius of the vector */
     def near(other: Vec2d, radius: Double): Boolean = {
       val diff = this - other
@@ -455,6 +458,18 @@ object common {
     /** Bottom point in 1x1 square */
     val Bottom: Vec2d = 0.5 xy 1.0
 
+    /** Top left point in 1x1 square */
+    val TopLeft: Vec2d = 0.0 xy 0.0
+
+    /** Top right point in 1x1 square */
+    val TopRight: Vec2d = 1.0 xy 0.0
+
+    /** Bottom left point in 1x1 square */
+    val BottomLeft: Vec2d = 0.0 xy 1.0
+
+    /** Bottom right point in 1x1 square */
+    val BottomRight: Vec2d = 1.0 xy 1.0
+
     /** Origin point */
     val Zero: Vec2d = 0.0 xy 0.0
   }
@@ -478,7 +493,13 @@ object common {
   }
 
   /** Double 2D rectangle */
-  case class Rect2d(position: Vec2d, size: Vec2d)
+  case class Rect2d(position: Vec2d, size: Vec2d) {
+    /** Resizes the rectangle to given size */
+    def resizeTo(size: Vec2d): Rect2d = copy(size = size)
+
+    /** Translates the position of the rectangle by given offset */
+    def offsetBy(offset: Vec2d): Rect2d = copy(position = position + offset)
+  }
 
   object Rect2d {
     /** Zero size rectangle */

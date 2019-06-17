@@ -13,6 +13,8 @@ import cross.util.mvc.GenericController
 import scala.concurrent.Future
 
 object spring extends GlobalContext with Logging {
+  override protected def logKey: String = "spring"
+
   private val queue: ConcurrentLinkedQueue[Mutator] = new ConcurrentLinkedQueue[Mutator]()
   private var updaters: List[Updater] = Nil
 
@@ -30,9 +32,9 @@ object spring extends GlobalContext with Logging {
 
   /** Loads the update loop */
   def load()(implicit controller: GenericController[_]): Future[Unit] = Future {
-    log.info("[loop] starting...")
+    log.info("starting...")
     controller.model.tick /> { case tick => update() }
-    log.info("[loop] is running")
+    log.info("is running")
   }
 
   /** Fires a tick of the updates  */

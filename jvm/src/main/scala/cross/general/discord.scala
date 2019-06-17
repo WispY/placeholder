@@ -9,7 +9,9 @@ import akka.http.scaladsl.model.headers.{Authorization, OAuth2BearerToken}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.Materializer
 import com.typesafe.scalalogging.LazyLogging
+import cross.common.UnitFuture
 import cross.general.config.GeneralConfig
+import cross.general.protocol.User
 import spray.json.DefaultJsonProtocol._
 import spray.json.RootJsonFormat
 
@@ -25,14 +27,20 @@ object discord extends SprayJsonSupport with LazyLogging {
                                   `scope`: String)
 
   /** Describes the logged in discord user */
-  case class DiscordUser(id: String, username: String)
+  case class DiscordUser(id: String, username: String) {
+    /** Converts the discord user to general user */
+    def asUser(implicit config: GeneralConfig): User = User(id, username, isAdmin)
+
+    /** Returns true if user is one of the admins */
+    def isAdmin(implicit config: GeneralConfig): Boolean = config.discordAdmins.contains(id)
+  }
 
   implicit val discordTokenResponseFormat: RootJsonFormat[DiscordTokenResponse] = jsonFormat5(DiscordTokenResponse)
   implicit val discordUserFormat: RootJsonFormat[DiscordUser] = jsonFormat2(DiscordUser)
 
   /** Authorizes the user from given discord oauth2 code */
   def authorize(code: String, config: GeneralConfig)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[Authorization] = for {
-    _ <- Future.successful()
+    _ <- UnitFuture
     request = FormData(
       "client_id" -> config.discordClient,
       "client_secret" -> config.discordSecret,
@@ -43,16 +51,16 @@ object discord extends SprayJsonSupport with LazyLogging {
     )
     entity <- Marshal(request).to[RequestEntity]
     response <- Http().singleRequest(HttpRequest(method = HttpMethods.POST, uri = "https://discordapp.com/api/v6/oauth2/token", entity = entity))
-    _ <- if (response.status.isSuccess()) Future.successful() else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to authorize via Discord"))
+    _ <- if (response.status.isSuccess()) UnitFuture else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to authorize via Discord"))
     body <- Unmarshal(response).to[DiscordTokenResponse]
     header = Authorization(OAuth2BearerToken(body.`access_token`))
   } yield header
 
   /** Reads the discord user profile of requesting user */
   def selfUser(auth: Authorization)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[DiscordUser] = for {
-    _ <- Future.successful()
+    _ <- UnitFuture
     response <- Http().singleRequest(HttpRequest(method = HttpMethods.GET, uri = "https://discordapp.com/api/v6/users/@me").addHeader(auth))
-    _ <- if (response.status.isSuccess()) Future.successful() else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to read Discord user"))
+    _ <- if (response.status.isSuccess()) UnitFuture else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to read Discord user"))
     body <- Unmarshal(response).to[DiscordUser]
   } yield body
 

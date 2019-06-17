@@ -14,6 +14,10 @@ import scala.scalajs.js.typedarray.{ArrayBuffer, Uint8Array}
 import scala.util.Try
 
 object http extends Logging {
+  override protected def logKey: String = "http"
+
+  log.info("0")
+
   /** Performs the get http request */
   def get[A](path: String, parameters: List[(String, Any)] = Nil)(implicit config: GeneralConfig, aformat: BF[A]): Future[A] = {
     request("GET", path, parameters, None, response = true)(config, unitFormat, aformat)
@@ -108,8 +112,17 @@ object http extends Logging {
   /** URL encodes the given string */
   def encode(value: Any): String = URIUtils.encodeURIComponent(value.toString)
 
+  /** Returns the server url */
+  def hostPortString: String = {
+    val uri = URI.create(window.location.href)
+    uri.getPort match {
+      case -1 => s"${uri.getScheme}://${uri.getHost}"
+      case port => s"${uri.getScheme}://${uri.getHost}:$port"
+    }
+  }
+
   /** Returns the full query string */
-  def queryString: String = URI.create(window.location.href).getQuery
+  def queryString: String = Option(URI.create(window.location.href).getQuery).getOrElse("")
 
   /** Returns the query parameter map from current URL */
   def queryParameters: Map[String, List[String]] = {

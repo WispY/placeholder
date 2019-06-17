@@ -174,6 +174,7 @@ object mongo {
           case Operations.LessThanOrEqualTo => "$lte"
           case Operations.In => "$in"
           case Operations.Exists => "$exists"
+          case other => sys.error(s"unknown operation: $other")
         }
         writePrimitive(mergePath(path) :+ FieldPathSegment(operator), bson, value)
       case UnaryOperation(path, Operations.SortAsc) =>
@@ -236,7 +237,7 @@ object mongo {
       val collection = for {
         names <- retryFuture(() => db.listCollectionNames().toFuture, attempts = 5, delay = 5.seconds)
         _ <- if (names.contains(name)) {
-          Future.successful()
+          UnitFuture
         } else {
           db.createCollection(name).toFuture
         }

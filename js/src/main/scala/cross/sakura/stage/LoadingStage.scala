@@ -19,18 +19,19 @@ import scala.concurrent.{Future, Promise}
 
 //noinspection TypeAnnotation
 class LoadingStage()(implicit controller: Controller, app: Application) extends Stage with Logging with GlobalContext {
+  override protected def logKey: String = "sakura/loading"
   lazy val pixiStage = centerStage
   lazy val pixiBody = pixiStage.sub
   lazy val pixiStart = Button(`asset-start-normal`, `asset-start-hover`, `asset-start-pressed`, `asset-start-normal`)
   val buttonSize = 48 xy 16
 
   override lazy val create: Future[Unit] = {
-    log.info("[loading stage] pre-loading...")
+    log.info("pre-loading...")
     val promise = Promise[Unit]
     (`asset-loading-disabled` :: `asset-loading-normal` :: Nil)
       .resetAndAddToLoader
       .load({ () =>
-        log.info("[loading stage] setting up...")
+        log.info("setting up...")
 
         val start = `asset-loading-disabled`.sprite
           .anchorAtCenter
@@ -68,7 +69,7 @@ class LoadingStage()(implicit controller: Controller, app: Application) extends 
             progressSpring.target = load.progress / 100
           })
           .load({ () =>
-            log.info("[loading stage] assets loaded")
+            log.info("assets loaded")
             nextFrame {
               val buffer = allAssets.map { asset =>
                 asset.sprite.positionAt(1000 xy 1000).addTo(pixiBody)
@@ -81,7 +82,7 @@ class LoadingStage()(implicit controller: Controller, app: Application) extends 
               }
             }
           })
-        log.info("[loading stage] created")
+        log.info("created")
         promise.success()
       })
     promise.future

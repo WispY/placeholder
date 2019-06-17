@@ -3,12 +3,14 @@ package cross
 import akka.actor.{ActorRef, Props}
 import akka.pattern.ask
 import akka.stream.ActorMaterializer
+import cross.pac.config.PacConfig
 import cross.pac.processor.SubmissionImage
 import cross.pac.thumbnailer.{CreateThumbnail, ThumbnailSuccess, Thumbnailer}
 
 class ThumbnailerSpec extends AkkaSpec {
+  implicit val config: PacConfig = pac.config.Config
   val materializer = ActorMaterializer()
-  val actor: ActorRef = system.actorOf(Props(new Thumbnailer(materializer, pac.config.Config)))
+  val actor: ActorRef = system.actorOf(Props(new Thumbnailer(materializer)))
 
   "thumbnailer" can {
     "process image" in {

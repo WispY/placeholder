@@ -1,12 +1,12 @@
 package cross.component.flat
 
 import cross.component.Component
-import cross.component.util.{DefaultFontStyle, FontStyle}
+import cross.component.util.FontStyle
 import cross.ops._
 import cross.pixi.{DisplayObject, Text}
 
 /** Dynamic text */
-class Title(text: String = "", style: FontStyle = DefaultFontStyle) extends Component {
+class Title(text: String, style: FontStyle) extends Component {
   private val pixiText = new Text()
   this.init()
 

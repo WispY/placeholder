@@ -12,11 +12,14 @@ object util {
 
     /** Converts the color to a single RGB double */
     def toDouble: Double = toInt
+
+    /** Converts the color to a single hex string */
+    def toHex: String = f"#$r%02x$g%02x$b%02x$a%02x"
   }
 
   object Colors {
     /** Parses color from hex string */
-    def hex(string: String, dark: Color = null, light: Color = null): Color = {
+    def hex(string: String): Color = {
       val clear = string.replace("#", "")
       clear match {
         case hex if hex.length == 6 =>
@@ -173,6 +176,12 @@ object util {
                        size: Double,
                        align: Vec2d,
                        fill: Color) {
+    /** Aligns the text at the right */
+    def alignRight: FontStyle = copy(align = Vec2d.Right)
+
+    /** Aligns the text at the left */
+    def alignLeft: FontStyle = copy(align = Vec2d.Left)
+
     /** Converts to pixi text style */
     def toTextStyle: TextStyle = new TextStyle().mutate { style =>
       style.fontFamily = font.family
@@ -188,13 +197,5 @@ object util {
 
   /** Safe to use default font */
   val DefaultFont = Font("Arial")
-
-  /** Safe to use default font style */
-  val DefaultFontStyle = FontStyle(
-    font = DefaultFont,
-    size = 20,
-    align = Vec2d.Center,
-    fill = Colors.PureWhite
-  )
 
 }

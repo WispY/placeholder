@@ -1,9 +1,9 @@
 package cross
 
 import cross.component.util._
-import cross.general.config.GeneralConfig
+import cross.general.config.{GeneralConfig, JsReader}
 import cross.general.protocol._
-import cross.pac.stage.ArtChallengeStage
+import cross.pac.stage.{ArtChallengeStage, GlobalStage}
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
@@ -18,6 +18,9 @@ import scala.concurrent.ExecutionContext
 /** Starts the UI application */
 //noinspection TypeAnnotation
 object app extends App with GlobalContext with Logging {
+  override protected def logKey: String = "app"
+
+  config.setGlobalReader(JsReader)
   implicit val generalConfig: GeneralConfig = general.config.Config
 
   window.location.pathname match {
@@ -25,19 +28,22 @@ object app extends App with GlobalContext with Logging {
       startSakura()
     case pac if pac.startsWith("/pac") =>
       startPac()
-    case discord if discord.startsWith("/discord") && queryParameter("code").isDefined =>
-      loginDiscord()
     case discord if discord.startsWith("/discord") =>
-
+      queryParameter("code") match {
+        case Some(code) => loginDiscord(code)
+        case None =>
+          log.warn("login error, redirecting to [/pac]")
+          redirect("/pac")
+      }
     case _ =>
-      log.info("[app] redirecting to [/pac]")
+      log.info("redirecting to [/pac]")
       redirect("/pac")
   }
 
   def startSakura(): Unit = {
     import cross.sakura.mvc._
 
-    log.info("[app] starting sakura project")
+    log.info("starting sakura project")
     Settings.SCALE_MODE = ScaleModes.NEAREST
     updateTitle("Sakura Challenge")
     implicit val model = Model()
@@ -61,8 +67,10 @@ object app extends App with GlobalContext with Logging {
   def startPac(): Unit = {
     import cross.pac.mvc._
 
-    log.info("[app] starting pac project")
+    log.info("starting pac project")
     updateTitle("Poku Art Challenge")
+    implicit val pacConfig = pac.config.Config
+    implicit val pacGlobalStageConfig = pacConfig.globalStage
     implicit val model = Model()
     implicit val controller = new Controller(model)
     implicit val ec = ExecutionContext.global
@@ -74,6 +82,9 @@ object app extends App with GlobalContext with Logging {
         stage match {
           case Stages.ArtChallenges => new ArtChallengeStage()
         }
+      }, { application =>
+        implicit val app = application
+        Some(new GlobalStage())
       }).load()
       _ <- spring.load()
       _ <- animation.load()
@@ -81,14 +92,11 @@ object app extends App with GlobalContext with Logging {
     } yield ()
   }
 
-  def loginDiscord(): Unit = {
-    val code = queryParameter("code").head
-    for {
-      user <- post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
-      _ = log.info(s"[login] logged in as [$user]")
-      _ = redirectSilent("/pac", preserveQuery = false)
-      _ = startPac()
-    } yield user
-  }
+  def loginDiscord(code: String): Unit = for {
+    user <- post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
+    _ = log.info(s"logged in as [$user]")
+    _ = redirectSilent("/pac", preserveQuery = false)
+    _ = startPac()
+  } yield user
 
 }

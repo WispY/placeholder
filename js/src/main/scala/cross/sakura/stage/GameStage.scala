@@ -19,6 +19,7 @@ import scala.util.Random
 
 //noinspection TypeAnnotation
 class GameStage()(implicit controller: Controller, app: Application) extends Stage with Logging with GlobalContext {
+  override protected def logKey: String = "sakura/game"
   lazy val pixiContainer = new Container()
   lazy val pixiCenter = centerStage
   lazy val pixiSky = pixiCenter.sub
@@ -41,7 +42,7 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
   val islandAssets = List(`asset-island-front-1`, `asset-island-front-2`, `asset-island-front-3`, `asset-island-front-4`, `asset-island-front-5`)
 
   override lazy val create: Future[Unit] = Future {
-    log.info("[game stage] setting up...")
+    log.info("setting up...")
     pixiCenter.addTo(pixiContainer)
     pixiSky.positionAt(treePosition)
     `asset-sky`.sprite.anchorAtCenter.addTo(pixiSky)
@@ -112,7 +113,7 @@ class GameStage()(implicit controller: Controller, app: Application) extends Sta
       }
     }
 
-    log.info("[game stage] created")
+    log.info("created")
   }
 
   def buildTree(tree: TreeNode, spawnFlowers: Boolean): (Container, Container) = {
