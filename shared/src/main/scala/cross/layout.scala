@@ -4,130 +4,194 @@ import cross.common._
 
 object layout {
 
+  /** Fills all space between components */
+  def filler: StackBox = new StackBox().fillBoth
+
+  /** Creates a horizontal box */
+  def xbox: XBox = new XBox()
+
+  /** Creates a vertical box */
+  def ybox: YBox = new YBox()
+
+  /** Creates an empty box */
+  def box: StackBox = new StackBox()
+
   /** Represents a 2D object with layout properties */
   trait LayoutBox {
-    private[layout] var fill: Vec2i = Vec2i.Zero
-    private[layout] var children: List[LayoutBox] = Nil
-    private[layout] var parent: Option[LayoutBox] = None
-    private[layout] var ialign: Vec2d = Vec2d.Center
+    private[layout] var layoutEnabled: Boolean = false
+    private[layout] var layoutFill: Vec2i = Vec2i.Zero
+    private[layout] var layoutChildren: List[LayoutBox] = Nil
+    private[layout] var layoutParent: Option[LayoutBox] = None
+    private[layout] var layoutAlign: Vec2d = Vec2d.Center
+    private[layout] var layoutSize: Vec2d = Vec2d.Zero
+    private[layout] var layoutPad: Vec2d = Vec2d.Zero
+    private[layout] var layoutSpace: Vec2d = Vec2d.Zero
+    private[layout] var layoutBounds: Option[Rec2d] = None
+    private[layout] var layoutBoxMapper: Rec2d => Rec2d = { box => box }
 
     /** Adds the child to this box */
     def add(child: LayoutBox): this.type = this.synchronized {
-      children = children :+ child
-      child.parent = Some(this)
+      layoutChildren = layoutChildren :+ child
+      child.layoutParent = Some(this)
+      if (layoutEnabled) child.layout(propagate = false)
       layoutUp()
       this
     }
 
     /** Removes the child from this box */
     def remove(child: LayoutBox): this.type = this.synchronized {
-      children = children.filterNot(c => c eq child)
-      child.parent = None
+      layoutChildren = layoutChildren.filterNot(c => c eq child)
+      child.layoutParent = None
       layoutUp()
       this
     }
 
     /** Removes this box from the parent */
     def detach: this.type = this.synchronized {
-      parent.foreach(p => p.remove(this))
+      layoutParent.foreach(p => p.remove(this))
       layoutUp()
       this
     }
 
     /** Propagates the layout request up the parent chain */
-    def layoutUp(): Unit = parent match {
+    def layoutUp(): Unit = layoutParent match {
+      case any if !layoutEnabled => // ignore
       case Some(p) => p.layoutUp()
-      case None => layoutDown(Rect2d(Vec2d.Zero, minimumSize))
+      case None => layoutDown(Rec2d(Vec2d.Zero, minimumSize))
+    }
+
+    /** Propagates the layout request internally */
+    private[layout] def layoutDownInternal(box: Rec2d): Unit = {
+      layoutBounds = Some(box)
+      layoutDown(layoutBoxMapper.apply(box))
+    }
+
+    /** Re-layouts the component and it's children */
+    def reLayoutDown(): Unit = layoutBounds match {
+      case Some(box) => layoutDownInternal(box)
+      case None => layoutUp()
     }
 
     /** Updates the layout of the box within given bounds */
-    def layoutDown(box: Rect2d): Unit
+    def layoutDown(box: Rec2d): Unit
 
     /** Aligns the box within the given bounds */
-    def alignWithin(box: Rect2d, forcedSize: Option[Vec2d] = None): Rect2d = {
+    def alignWithin(box: Rec2d, forcedSize: Option[Vec2d] = None): Rec2d = {
       val minSize = minimumSize
-      val targetSize = forcedSize.getOrElse((if (fill.x == 1) box.size.x else minSize.x) xy (if (fill.y == 1) box.size.y else minSize.y))
-      val targetOffset = ialign * (box.size - targetSize)
+      val targetSize = forcedSize.getOrElse((if (layoutFill.x == 1) box.size.x else minSize.x) xy (if (layoutFill.y == 1) box.size.y else minSize.y))
+      val targetOffset = layoutAlign * (box.size - targetSize)
       box.offsetBy(targetOffset).resizeTo(targetSize)
     }
 
     /** Returns the minimum dimensions of this box */
     def minimumSize: Vec2d
 
+    /** Merges the fixed size with the given size */
+    private[layout] def mergeSize(other: Vec2d): Vec2d = {
+      val x = if (layoutSize.x > 0) layoutSize.x else other.x
+      val y = if (layoutSize.y > 0) layoutSize.y else other.y
+      x xy y
+    }
+
+    /** Sets the fixed size for the box */
+    def size(size: Vec2d): this.type = {
+      layoutSize = size
+      layoutUp()
+      this
+    }
+
+    /** Changes the width of the box to a fixed value */
+    def width(width: Double): this.type = this.size(width xy layoutSize.y)
+
+    /** Changes the height of the box to a fixed value */
+    def height(height: Double): this.type = this.size(layoutSize.y xy height)
+
     /** Sets the box to take all available space at X coordinate */
     def fillX: this.type = {
-      fill = 1 xy fill.y
+      layoutFill = 1 xy layoutFill.y
       layoutUp()
       this
     }
 
     /** Sets the box to take all available space at Y coordinate */
     def fillY: this.type = {
-      fill = fill.x xy 1
+      layoutFill = layoutFill.x xy 1
       layoutUp()
       this
     }
 
     /** Sets the box to take all available space only at X coordinate */
     def fillOnlyX: this.type = {
-      fill = 1 xy 0
+      layoutFill = 1 xy 0
       layoutUp()
       this
     }
 
     /** Sets the box to take all available space only at Y coordinate */
     def fillOnlyY: this.type = {
-      fill = 0 xy 1
+      layoutFill = 0 xy 1
       layoutUp()
       this
     }
 
     /** Sets the box to not fill any coordinate */
     def fillNone: this.type = {
-      fill = 0 xy 0
+      layoutFill = 0 xy 0
       layoutUp()
       this
     }
 
     /** Sets the box to fill both coordinates */
     def fillBoth: this.type = {
-      fill = 1 xy 1
+      layoutFill = 1 xy 1
       layoutUp()
       this
     }
 
     /** Sets the alignment of this box within parent bounds */
     def align(align: Vec2d): this.type = {
-      ialign = align
+      layoutAlign = align
       layoutUp()
       this
     }
 
+    /** Aligns the box at the top left */
+    def alignTopLeft: this.type = this.align(Vec2d.TopLeft)
+
     /** Aligns the box at the top */
     def alignTop: this.type = this.align(Vec2d.Top)
-  }
 
-  /** Represents box with children */
-  trait ContainerBox extends LayoutBox {
-    private[layout] var ipad: Vec2d = Vec2d.Zero
-    private[layout] var ispace: Vec2d = Vec2d.Zero
+    /** Aligns the box at the top right */
+    def alignTopRight: this.type = this.align(Vec2d.TopRight)
 
-    override def minimumSize: Vec2d = {
-      val spaceSum = ispace * ((children.size - 1) max 0)
-      val childSum = children.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => sum + size }
-      childSum + ipad * 2 + spaceSum
-    }
+    /** Aligns the box at the left */
+    def alignLeft: this.type = this.align(Vec2d.Left)
+
+    /** Aligns the box at the center */
+    def alignCenter: this.type = this.align(Vec2d.Center)
+
+    /** Aligns the box at the right */
+    def alignRight: this.type = this.align(Vec2d.Right)
+
+    /** Aligns the box at the bottom left */
+    def alignBottomLeft: this.type = this.align(Vec2d.BottomLeft)
+
+    /** Aligns the box at the bottom */
+    def alignBottom: this.type = this.align(Vec2d.Bottom)
+
+    /** Aligns the box at the bottom right */
+    def alignBottomRight: this.type = this.align(Vec2d.BottomRight)
 
     /** Changes the spacing between children to given value */
     def space(space: Vec2d): this.type = {
-      this.ispace = space
+      layoutSpace = space
       layoutUp()
       this
     }
 
     /** Changes the padding of the box to given value */
     def pad(pad: Vec2d): this.type = {
-      this.ipad = pad
+      layoutPad = pad
       layoutUp()
       this
     }
@@ -138,64 +202,46 @@ object layout {
     }
 
     /** Adds the children to the box */
-    def withChildren(children: LayoutBox*): this.type = this.synchronized {
-      this.children = children.toList
+    def children(children: LayoutBox*): this.type = this.synchronized {
+      layoutChildren = children.toList
+      if (layoutEnabled) layoutChildren.foreach(c => c.layout(propagate = false))
       layoutUp()
       this
     }
-  }
 
-  /** Represents box with fixed size */
-  case class FixedBox() extends ContainerBox {
-    private var box: Rect2d = Rect2d.Zero
-
-    private def layoutChildren(): Unit = {
-      children.foreach { child =>
-        child.layoutDown(child.alignWithin(
-          box
-            .offsetBy(ipad)
-            .resizeTo(box.size - ipad * 2)
-        ))
-      }
-    }
-
-    override def layoutUp(): Unit = {
-      layoutChildren()
-    }
-
-    override def layoutDown(box: Rect2d): Unit = {
-      this.box = box
-      layoutChildren()
-    }
-
-    /** Changes the size of the fixed box to a given value */
-    def resizeTo(size: Vec2d): this.type = {
-      this.box = box.resizeTo(size)
-      super.layoutUp()
+    /** Sets the bounds mapping function for effects on box applied to the layout */
+    def mapBounds(code: Rec2d => Rec2d): this.type = {
+      layoutBoxMapper = code
+      reLayoutDown()
       this
     }
 
-    override def minimumSize: Vec2d = box.size
+    /** Enables the layout of this box */
+    def layout(propagate: Boolean = true): this.type = {
+      layoutEnabled = true
+      layoutChildren.foreach(c => c.layout(propagate = false))
+      if (propagate) layoutUp()
+      this
+    }
   }
 
 
   /** Layouts children in horizontal line */
-  case class XBox() extends ContainerBox {
-    private var ifixedHeight: Option[Double] = None
+  class XBox() extends LayoutBox {
     this.fillX
 
-    override def layoutDown(box: Rect2d): Unit = {
-      val fillCount = children.count(c => c.fill.x == 1)
+    override def layoutDown(box: Rec2d): Unit = {
+      val fillCount = layoutChildren.count(c => c.layoutFill.x == 1)
       val fillX = if (fillCount > 0) ((box.size.x - minimumSize.x) max 0) / fillCount else 0
-      children.foldLeft(ipad.x) { case (x, child) =>
+      layoutChildren.foldLeft(layoutPad.x) { case (x, child) =>
         val s = child.minimumSize
-        val w = if (child.fill.x == 1) s.x + fillX else s.x
-        child.layoutDown(child.alignWithin(
+        val w = if (child.layoutFill.x == 1) s.x + fillX else s.x
+        child.layoutDownInternal(child.alignWithin(
           box
-            .resizeTo(w xy (box.size.y - ipad.y * 2))
-            .offsetBy(x xy ipad.y)
+            .resizeTo(w xy (box.size.y - layoutPad.y * 2))
+            .offsetBy(x xy layoutPad.y)
         ))
-        x + w + ispace.x
+        x + w + layoutSpace.x
       }
     }
 
@@ -204,35 +250,29 @@ object layout {
       this.space(space xy 0)
     }
 
-    /** Defines the fixed height of the box */
-    def fixedHeight(height: Double): this.type = {
-      ifixedHeight = Some(height)
-      layoutUp()
-      this
-    }
-
     override def minimumSize: Vec2d = {
-      val size = super.minimumSize
-      ifixedHeight.map(h => size.copy(y = h)).getOrElse(size)
+      val spaceSum = layoutSpace * ((layoutChildren.size - 1) max 0)
+      val childSum = layoutChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x + size.x) xy (sum.y max size.y) }
+      mergeSize(childSum + layoutPad * 2 + spaceSum)
     }
   }
 
   /** Layouts children in horizontal line */
-  case class YBox() extends ContainerBox {
+  class YBox() extends LayoutBox {
     this.fillY
 
-    override def layoutDown(box: Rect2d): Unit = {
-      val fillCount = children.count(c => c.fill.y == 1)
+    override def layoutDown(box: Rec2d): Unit = {
+      val fillCount = layoutChildren.count(c => c.layoutFill.y == 1)
       val fillY = if (fillCount > 0) ((box.size.y - minimumSize.y) max 0) / fillCount else 0
-      children.foldLeft(ipad.y) { case (y, child) =>
+      layoutChildren.foldLeft(layoutPad.y) { case (y, child) =>
         val s = child.minimumSize
-        val h = if (child.fill.x == 1) s.y + fillY else s.y
-        child.layoutDown(child.alignWithin(
+        val h = if (child.layoutFill.x == 1) s.y + fillY else s.y
+        child.layoutDownInternal(child.alignWithin(
           box
-            .resizeTo((box.size.x - ipad.x * 2) xy h)
-            .offsetBy(ipad.x xy y)
+            .resizeTo((box.size.x - layoutPad.x * 2) xy h)
+            .offsetBy(layoutPad.x xy y)
         ))
-        y + h + ispace.y
+        y + h + layoutSpace.y
       }
     }
 
@@ -240,29 +280,24 @@ object layout {
     def space(space: Double): this.type = {
       this.space(0 xy space)
     }
-  }
 
-  /** Stacks the children on top of each other */
-  case class StackBox() extends ContainerBox {
-    override def layoutDown(box: Rect2d): Unit = {
-      val targetSize = children.foldLeft(Vec2d.Zero) { case (maxSize, child) => maxSize maxVec child.minimumSize }
-      val targetBox = alignWithin(box, Some(targetSize))
-      children.foreach(child => child.layoutDown(child.alignWithin(targetBox)))
+    override def minimumSize: Vec2d = {
+      val spaceSum = layoutSpace * ((layoutChildren.size - 1) max 0)
+      val childSum = layoutChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x max size.x) xy (sum.y + size.y) }
+      mergeSize(childSum + layoutPad * 2 + spaceSum)
     }
   }
 
-  /** Fills the space between other components */
-  case class EmptyBox() extends LayoutBox {
-    override def layoutDown(box: Rect2d): Unit = children.foreach(c => c.layoutDown(c.alignWithin(box)))
+  /** Stacks the children on top of each other */
+  case class StackBox() extends LayoutBox {
+    override def layoutDown(box: Rec2d): Unit = {
+      layoutChildren.foreach(child => child.layoutDownInternal(child.alignWithin(box)))
+    }
 
-    override def minimumSize: Vec2d = Vec2d.Zero
+    override def minimumSize: Vec2d = {
+      val targetSize = layoutChildren.foldLeft(Vec2d.Zero) { case (maxSize, child) => maxSize maxVec child.minimumSize }
+      mergeSize(targetSize)
+    }
   }
-
-  /** Fills the horizontal space between components */
-  val XFiller: EmptyBox = EmptyBox().fillX
-  /** Fills the vertical space between components */
-  val YFiller: EmptyBox = EmptyBox().fillY
-  /** Fills all space between components */
-  val Filler: EmptyBox = EmptyBox().fillBoth
 
 }

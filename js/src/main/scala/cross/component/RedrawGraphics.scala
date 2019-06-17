@@ -1,6 +1,6 @@
 package cross.component
 
-import cross.common.Rect2d
+import cross.common.Rec2d
 import cross.component.util.{Color, Colors}
 import cross.ops._
 import cross.pixi._
@@ -10,7 +10,7 @@ class RedrawGraphics(color: Color = Colors.PureBlack) extends Component {
   private val pixiContainer = new Container()
   private val pixiGraphics = new Graphics().addTo(pixiContainer)
   private var draw: (Graphics, Color) => Unit = { (g, c) => }
-  private var hitbox: () => Rect2d = { () => Rect2d.Zero }
+  private var hitbox: () => Rec2d = { () => Rec2d.Zero }
   private var fillColor = color
 
   /** Assigns new draw function to the graphics */
@@ -21,7 +21,7 @@ class RedrawGraphics(color: Color = Colors.PureBlack) extends Component {
   }
 
   /** Assigns new hitbox function to the graphics */
-  def hitbox(code: () => Rect2d): RedrawGraphics = {
+  def hitbox(code: () => Rec2d): RedrawGraphics = {
     this.hitbox = code
     redraw()
     this

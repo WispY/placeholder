@@ -493,17 +493,17 @@ object common {
   }
 
   /** Double 2D rectangle */
-  case class Rect2d(position: Vec2d, size: Vec2d) {
+  case class Rec2d(position: Vec2d, size: Vec2d) {
     /** Resizes the rectangle to given size */
-    def resizeTo(size: Vec2d): Rect2d = copy(size = size)
+    def resizeTo(size: Vec2d): Rec2d = copy(size = size)
 
     /** Translates the position of the rectangle by given offset */
-    def offsetBy(offset: Vec2d): Rect2d = copy(position = position + offset)
+    def offsetBy(offset: Vec2d): Rec2d = copy(position = position + offset)
   }
 
-  object Rect2d {
+  object Rec2d {
     /** Zero size rectangle */
-    val Zero: Rect2d = Rect2d(Vec2d.Zero, Vec2d.Zero)
+    val Zero: Rec2d = Rec2d(Vec2d.Zero, Vec2d.Zero)
   }
 
   implicit class OffsetDateTimeOps(val odt: OffsetDateTime) extends AnyVal {

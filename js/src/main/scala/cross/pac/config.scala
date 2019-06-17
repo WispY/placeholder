@@ -15,6 +15,7 @@ object config {
   case class PacGlobalStageConfig(stageHeight: Double,
                                   stagePad: Vec2d,
                                   stageSpace: Vec2d,
+                                  stageColor: Color,
                                   welcomeStyle: FontStyle,
                                   userStyle: FontStyle,
                                   loginStyle: ButtonStyle,
@@ -29,7 +30,7 @@ object config {
   implicit val fontStyleFormat: CF[FontStyle] = format4(FontStyle)
   implicit val buttonStyleFormat: CF[ButtonStyle] = format6(ButtonStyle)
 
-  implicit val pacGlobalStageConfigFormat: CF[PacGlobalStageConfig] = format7(PacGlobalStageConfig)
+  implicit val pacGlobalStageConfigFormat: CF[PacGlobalStageConfig] = format8(PacGlobalStageConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format1(PacConfig)
 
   val DefaultFontStyle = FontStyle(
@@ -51,6 +52,7 @@ object config {
       stageHeight = 60,
       stagePad = 10 xy 10,
       stageSpace = 10 xy 10,
+      stageColor = Colors.PurpleDark,
       welcomeStyle = DefaultFontStyle.alignLeft,
       userStyle = DefaultFontStyle.alignRight,
       loginStyle = DefaultButtonStyle,

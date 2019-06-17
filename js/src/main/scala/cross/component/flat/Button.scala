@@ -30,7 +30,7 @@ class Button(label: String,
           graphics.fillRect(size.x xy d, position = 0 xy (size.y - d), color = color.darker)
       }
     }
-    pixiBackground.hitbox(() => Rect2d(Vec2d.Zero, size))
+    pixiBackground.hitbox(() => Rec2d(Vec2d.Zero, size))
     pixiBackground.toPixi.positionAt(size * (-0.5))
   }
 

@@ -4,6 +4,8 @@ import java.util.UUID
 
 import cross.common._
 import cross.component.Component
+import cross.component.flat.Button.ButtonStyle
+import cross.component.flat.{Button2, Region}
 import cross.component.util.{Color, Colors}
 import cross.pixi._
 import cross.sakura.config._
@@ -36,7 +38,7 @@ object ops extends GlobalContext {
   implicit def vec2iToVec2d(v: Vec2i): Vec2d = Vec2d(v.x, v.y)
 
   /** Converts rect2d into pixi rectangle */
-  implicit def rect2dToRectangle(rect: Rect2d): Rectangle = new Rectangle(rect.position.x, rect.position.y, rect.size.x, rect.size.y)
+  implicit def rect2dToRectangle(rect: Rec2d): Rectangle = new Rectangle(rect.position.x, rect.position.y, rect.size.x, rect.size.y)
 
   /** Converts components to display objects */
   implicit def componentToDisplayObject[A <: Component](c: A): DisplayObject = c.toPixi
@@ -213,6 +215,12 @@ object ops extends GlobalContext {
 
     /** Removes all children from container */
     def removeChildren: Container = a.mutate { a => while (a.children.nonEmpty) a.removeChild(a.children.head) }
+
+    /** Adds a region to the container */
+    def region(color: Color): Region = new Region().withPixi(pixi => a.addChild(pixi)).mutate(r => r.color(Some(color)))
+
+    /** Adds a button to the container */
+    def button(style: ButtonStyle): Button2 = new Button2(style).withPixi(pixi => a.addChild(pixi))
   }
 
   implicit class AssetOps(val a: Asset) extends AnyVal {
