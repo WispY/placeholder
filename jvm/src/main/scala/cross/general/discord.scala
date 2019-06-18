@@ -27,16 +27,19 @@ object discord extends SprayJsonSupport with LazyLogging {
                                   `scope`: String)
 
   /** Describes the logged in discord user */
-  case class DiscordUser(id: String, username: String) {
+  case class DiscordUser(id: String, name: String) {
     /** Converts the discord user to general user */
-    def asUser(implicit config: GeneralConfig): User = User(id, username, isAdmin)
+    def asUser(implicit config: GeneralConfig): User = User(id, name, isAdmin)
 
     /** Returns true if user is one of the admins */
     def isAdmin(implicit config: GeneralConfig): Boolean = config.discordAdmins.contains(id)
   }
 
+  /** User in discord api */
+  case class DiscordApiUser(id: String, username: String)
+
   implicit val discordTokenResponseFormat: RootJsonFormat[DiscordTokenResponse] = jsonFormat5(DiscordTokenResponse)
-  implicit val discordUserFormat: RootJsonFormat[DiscordUser] = jsonFormat2(DiscordUser)
+  implicit val discordUserFormat: RootJsonFormat[DiscordApiUser] = jsonFormat2(DiscordApiUser)
 
   /** Authorizes the user from given discord oauth2 code */
   def authorize(code: String, config: GeneralConfig)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[Authorization] = for {
@@ -61,7 +64,8 @@ object discord extends SprayJsonSupport with LazyLogging {
     _ <- UnitFuture
     response <- Http().singleRequest(HttpRequest(method = HttpMethods.GET, uri = "https://discordapp.com/api/v6/users/@me").addHeader(auth))
     _ <- if (response.status.isSuccess()) UnitFuture else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to read Discord user"))
-    body <- Unmarshal(response).to[DiscordUser]
-  } yield body
+    body <- Unmarshal(response).to[DiscordApiUser]
+    user = DiscordUser(body.id, body.username)
+  } yield user
 
 }

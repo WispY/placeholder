@@ -17,4 +17,8 @@ object routes {
   def `POST /api/discord`(implicit manager: SessionManagerRef) = post & path("api" / "discord") & session() & entity(as[LoginDiscord])
 
   def `GET /api/user`(implicit manager: SessionManagerRef) = get & path("api" / "user") & session()
+
+  def `POST /api/signout`(implicit manager: SessionManagerRef) = post & path("api" / "signout") & session()
+
+  def `GET /api/pac/admin-messages`(implicit manager: SessionManagerRef, config: GeneralConfig) = post & path("api" / "pac" / "admin-messages") & adminSession()
 }

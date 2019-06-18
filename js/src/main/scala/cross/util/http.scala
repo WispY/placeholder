@@ -49,7 +49,7 @@ object http extends Logging {
       val query = queryString
       if (query.isEmpty) path else s"$path?$query"
     } else path
-    window.history.pushState(null, "", fullPath)
+    window.history.pushState(scalajs.js.Object(), "", fullPath)
   }
 
   /** Updates the page title */

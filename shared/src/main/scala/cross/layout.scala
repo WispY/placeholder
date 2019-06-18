@@ -19,6 +19,7 @@ object layout {
   /** Represents a 2D object with layout properties */
   trait LayoutBox {
     private[layout] var layoutEnabled: Boolean = false
+    private[layout] var layoutVisible: Boolean = true
     private[layout] var layoutFill: Vec2i = Vec2i.Zero
     private[layout] var layoutChildren: List[LayoutBox] = Nil
     private[layout] var layoutParent: Option[LayoutBox] = None
@@ -55,7 +56,7 @@ object layout {
 
     /** Propagates the layout request up the parent chain */
     def layoutUp(): Unit = layoutParent match {
-      case any if !layoutEnabled => // ignore
+      case _ if !layoutEnabled => // ignore
       case Some(p) => p.layoutUp()
       case None => layoutDown(Rec2d(Vec2d.Zero, minimumSize))
     }
@@ -104,7 +105,7 @@ object layout {
     def width(width: Double): this.type = this.size(width xy layoutSize.y)
 
     /** Changes the height of the box to a fixed value */
-    def height(height: Double): this.type = this.size(layoutSize.y xy height)
+    def height(height: Double): this.type = this.size(layoutSize.x xy height)
 
     /** Sets the box to take all available space at X coordinate */
     def fillX: this.type = {
@@ -201,13 +202,20 @@ object layout {
       this.pad(pad xy pad)
     }
 
+    /** Returns the current padding of the box */
+    def getPad: Vec2d = layoutPad
+
     /** Adds the children to the box */
     def children(children: LayoutBox*): this.type = this.synchronized {
       layoutChildren = children.toList
+      children.foreach(c => c.layoutParent = Some(this))
       if (layoutEnabled) layoutChildren.foreach(c => c.layout(propagate = false))
       layoutUp()
       this
     }
+
+    /** Returns only visible children */
+    private[layout] def visibleChildren: List[LayoutBox] = layoutChildren.filter(c => c.layoutVisible)
 
     /** Sets the bounds mapping function for effects on box applied to the layout */
     def mapBounds(code: Rec2d => Rec2d): this.type = {
@@ -220,9 +228,32 @@ object layout {
     def layout(propagate: Boolean = true): this.type = {
       layoutEnabled = true
       layoutChildren.foreach(c => c.layout(propagate = false))
-      if (propagate) layoutUp()
+      if (layoutEnabled) layoutUp()
       this
     }
+
+    /** Sets the visibility of the box to a given value */
+    def visible(visible: Boolean): this.type = {
+      layoutVisible = visible
+      propagateVisibility(areParentsVisible)
+      if (layoutEnabled) layoutUp()
+      this
+    }
+
+    /** Returns true when all parents are visible */
+    private[layout] def areParentsVisible: Boolean = layoutParent match {
+      case None => true
+      case Some(parent) => parent.layoutVisible && parent.areParentsVisible
+    }
+
+    /** Propagates the visibility update down the tree */
+    private[layout] def propagateVisibility(parentVisible: Boolean): Unit = {
+      handleVisibility(layoutVisible, parentVisible)
+      layoutChildren.foreach(c => c.propagateVisibility(parentVisible && layoutVisible))
+    }
+
+    /** Allows to customize how visibility is handled */
+    def handleVisibility(selfVisible: Boolean, parentVisible: Boolean): Unit = {}
   }
 
 
@@ -231,9 +262,9 @@ object layout {
     this.fillX
 
     override def layoutDown(box: Rec2d): Unit = {
-      val fillCount = layoutChildren.count(c => c.layoutFill.x == 1)
+      val fillCount = visibleChildren.count(c => c.layoutFill.x == 1)
       val fillX = if (fillCount > 0) ((box.size.x - minimumSize.x) max 0) / fillCount else 0
-      layoutChildren.foldLeft(layoutPad.x) { case (x, child) =>
+      visibleChildren.foldLeft(layoutPad.x) { case (x, child) =>
         val s = child.minimumSize
         val w = if (child.layoutFill.x == 1) s.x + fillX else s.x
         child.layoutDownInternal(child.alignWithin(
@@ -251,8 +282,8 @@ object layout {
     }
 
     override def minimumSize: Vec2d = {
-      val spaceSum = layoutSpace * ((layoutChildren.size - 1) max 0)
-      val childSum = layoutChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x + size.x) xy (sum.y max size.y) }
+      val spaceSum = (layoutSpace.x * ((visibleChildren.size - 1) max 0)) xy 0
+      val childSum = visibleChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x + size.x) xy (sum.y max size.y) }
       mergeSize(childSum + layoutPad * 2 + spaceSum)
     }
   }
@@ -262,11 +293,11 @@ object layout {
     this.fillY
 
     override def layoutDown(box: Rec2d): Unit = {
-      val fillCount = layoutChildren.count(c => c.layoutFill.y == 1)
+      val fillCount = visibleChildren.count(c => c.layoutFill.y == 1)
       val fillY = if (fillCount > 0) ((box.size.y - minimumSize.y) max 0) / fillCount else 0
-      layoutChildren.foldLeft(layoutPad.y) { case (y, child) =>
+      visibleChildren.foldLeft(layoutPad.y) { case (y, child) =>
         val s = child.minimumSize
-        val h = if (child.layoutFill.x == 1) s.y + fillY else s.y
+        val h = if (child.layoutFill.y == 1) s.y + fillY else s.y
         child.layoutDownInternal(child.alignWithin(
           box
             .resizeTo((box.size.x - layoutPad.x * 2) xy h)
@@ -282,21 +313,22 @@ object layout {
     }
 
     override def minimumSize: Vec2d = {
-      val spaceSum = layoutSpace * ((layoutChildren.size - 1) max 0)
-      val childSum = layoutChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x max size.x) xy (sum.y + size.y) }
+      val spaceSum = 0 xy (layoutSpace.y * ((visibleChildren.size - 1) max 0))
+      val childSum = visibleChildren.map(c => c.minimumSize).foldLeft(Vec2d.Zero) { case (sum, size) => (sum.x max size.x) xy (sum.y + size.y) }
       mergeSize(childSum + layoutPad * 2 + spaceSum)
     }
   }
 
   /** Stacks the children on top of each other */
-  case class StackBox() extends LayoutBox {
+  class StackBox() extends LayoutBox {
     override def layoutDown(box: Rec2d): Unit = {
-      layoutChildren.foreach(child => child.layoutDownInternal(child.alignWithin(box)))
+      val padded = box.resizeTo(box.size - layoutPad * 2).offsetBy(layoutPad)
+      visibleChildren.foreach(child => child.layoutDownInternal(child.alignWithin(padded)))
     }
 
     override def minimumSize: Vec2d = {
-      val targetSize = layoutChildren.foldLeft(Vec2d.Zero) { case (maxSize, child) => maxSize maxVec child.minimumSize }
-      mergeSize(targetSize)
+      val targetSize = visibleChildren.foldLeft(Vec2d.Zero) { case (maxSize, child) => maxSize maxVec child.minimumSize }
+      mergeSize(targetSize + layoutPad * 2)
     }
   }
 

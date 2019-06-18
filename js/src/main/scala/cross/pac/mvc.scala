@@ -16,7 +16,7 @@ object mvc extends GlobalContext with Logging {
   override protected def logKey: String = "pac/mvc"
 
   /** Contains logic for pac project */
-  class Controller(val model: Model)(implicit generalConfig: GeneralConfig, config: PacConfig) extends GenericController[Stages.Value] {
+  class Controller(val model: Model)(implicit generalConfig: GeneralConfig, config: PacConfig) extends GenericController[Unit] {
     val timer = new Timer()
 
     /** Initializes the controller */
@@ -31,7 +31,22 @@ object mvc extends GlobalContext with Logging {
 
     /** Binds internal model logic */
     private def bind(): Unit = {
-      model.user /~ { case Some(user) => user.name } /> { case nameOpt => model.username.write(nameOpt.getOrElse("Guest")) }
+      model.page /> { case page =>
+        val path = page match {
+          case Pages.ArtChallenges => "/pac"
+          case Pages.GalleryView => "/pac/gallery"
+          case Pages.SubmissionView => "/pac/submission"
+          case Pages.Manage => "/pac/manage"
+        }
+        val title = page match {
+          case Pages.ArtChallenges => "Home"
+          case Pages.GalleryView => "Gallery"
+          case Pages.SubmissionView => "Submission"
+          case Pages.Manage => "Manage"
+        }
+        http.updateTitle(s"Poku Art Challenge - $title")
+        http.redirectSilent(path)
+      }
     }
 
     /** Reads current user from the server */
@@ -43,10 +58,28 @@ object mvc extends GlobalContext with Logging {
       _ = log.info(s"[controller] current user is [$userOpt]")
     } yield ()
 
+    /** Redirects to art challenges page */
+    def artChallenges(): Unit = {
+      log.info("redirecting to art challenges")
+      model.page.write(Pages.ArtChallenges)
+    }
+
+    /** Redirects to manage stage */
+    def manage(): Unit = {
+      log.info("redirecting to manage stage")
+      model.page.write(Pages.Manage)
+    }
+
     /** Redirects to discord login page */
-    def login(): Unit = {
+    def signIn(): Unit = {
       log.info(s"redirecting to discord login [${generalConfig.discordLogin}]")
       http.redirectFull(generalConfig.discordLogin)
+    }
+
+    /** Signs out the user */
+    def signOut(): Unit = {
+      log.info("signing out")
+      http.postUnit[Unit]("/api/signout", ()).foreach(_ => model.user.write(None))
     }
 
     /** Updates the rendering screen size */
@@ -60,14 +93,14 @@ object mvc extends GlobalContext with Logging {
   case class Model(tick: Writeable[Long] = Data(0),
                    screen: Writeable[Vec2i] = Data(0 xy 0),
                    scale: Writeable[Double] = Data(1.0),
-                   stage: Writeable[Stages.Value] = Data(Stages.ArtChallenges),
+                   stage: Writeable[Unit] = Data(),
+                   page: Writeable[Pages.Value] = Data(Pages.ArtChallenges),
                    mouse: Writeable[Vec2d] = Data(Vec2d.Zero),
-                   user: Writeable[Option[User]] = Data(None),
-                   username: Writeable[String] = Data("Loading...")) extends GenericModel[Stages.Value]
+                   user: Writeable[Option[User]] = Data(None)) extends GenericModel[Unit]
 
   /** Stages for pac project */
-  object Stages extends Enumeration {
-    val ArtChallenges, GalleryView, SubmissionView = Value
+  object Pages extends Enumeration {
+    val ArtChallenges, GalleryView, SubmissionView, Manage = Value
   }
 
 }

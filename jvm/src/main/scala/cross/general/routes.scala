@@ -11,7 +11,7 @@ import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import cross.common.UnitFuture
 import cross.general.config._
-import cross.general.session.{Session, SessionManagerRef, UpdateSession}
+import cross.general.session.{ForgetSession, Session, SessionManagerRef, UpdateSession}
 import cross.pac.config.PacConfig
 import cross.routes._
 import cross.util.akkautil._
@@ -30,18 +30,27 @@ object routes extends SprayJsonSupport with LazyLogging {
 
   /** Returns general routes */
   def generalRoutes()(implicit config: GeneralConfig, system: ActorSystem, manager: SessionManagerRef, materializer: Materializer, ec: ExecutionContext): List[Route] = List(
+    /** Returns 200 OK */
     `GET /api/health` {
       complete(HttpResponse(StatusCodes.OK))
     },
+
+    /** Returns current server configs only for admins */
     `GET /api/config`.apply { session =>
       complete(FullConfig())
     },
+
+    /** Mock for websockets */
     `GET /api/ws` {
       complete(HttpResponse(StatusCodes.OK))
     },
+
+    /** Returns currently logged in user for browser session */
     `GET /api/user`.apply { session =>
       complete(session.discordUser.map(u => u.asUser))
     },
+
+    /** Authorizes the user via discord using grant code */
     `POST /api/discord`.apply { (session, login) =>
       implicit val to: Timeout = Timeout.durationToTimeout(config.timeout)
       onSuccess(for {
@@ -56,6 +65,18 @@ object routes extends SprayJsonSupport with LazyLogging {
       } yield (discordUser, sessionId)) { (discordUser, sessionId) =>
         resetSession(sessionId) {
           complete(discordUser.asUser)
+        }
+      }
+    },
+
+    /** Signs out the user by refreshing the session */
+    `POST /api/signout`.apply { session =>
+      implicit val to: Timeout = Timeout.durationToTimeout(config.timeout)
+      onSuccess(for {
+        refreshed <- (manager.ref ? ForgetSession(session.id)).mapTo[Session]
+      } yield refreshed.id) { sessionId =>
+        resetSession(sessionId) {
+          complete()
         }
       }
     }

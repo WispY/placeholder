@@ -6,15 +6,23 @@ import cross.pixi.TextStyle
 object util {
 
   /** Contains color values */
-  case class Color(r: Int, g: Int, b: Int, a: Int) {
+  case class Color(r: Double, g: Double, b: Double, a: Double) {
     /** Converts the color to a single RGB integer */
-    def toInt: Int = 65536 * r + 256 * g + b
+    def toInt: Int = 65536 * r.toInt + 256 * g.toInt + b.toInt
 
     /** Converts the color to a single RGB double */
     def toDouble: Double = toInt
 
     /** Converts the color to a single hex string */
-    def toHex: String = f"#$r%02x$g%02x$b%02x$a%02x"
+    def toHex: String = f"#${r.toInt}%02x${g.toInt}%02x${b.toInt}%02x${a.toInt}%02x"
+
+    /** Tins the color with given color by the given factor */
+    def tint(other: Color, factor: Double): Color = Color(
+      (r, other.r) %% factor,
+      (g, other.g) %% factor,
+      (b, other.b) %% factor,
+      (a, other.a) %% factor
+    )
   }
 
   object Colors {
@@ -24,17 +32,17 @@ object util {
       clear match {
         case hex if hex.length == 6 =>
           Color(
-            r = Integer.valueOf(hex.substring(0, 2), 16),
-            g = Integer.valueOf(hex.substring(2, 4), 16),
-            b = Integer.valueOf(hex.substring(4, 6), 16),
+            r = Integer.valueOf(hex.substring(0, 2), 16).toDouble,
+            g = Integer.valueOf(hex.substring(2, 4), 16).toDouble,
+            b = Integer.valueOf(hex.substring(4, 6), 16).toDouble,
             a = 255
           )
         case hex if hex.length == 8 =>
           Color(
-            r = Integer.valueOf(hex.substring(0, 2), 16),
-            g = Integer.valueOf(hex.substring(2, 4), 16),
-            b = Integer.valueOf(hex.substring(4, 6), 16),
-            a = Integer.valueOf(hex.substring(6, 8), 16)
+            r = Integer.valueOf(hex.substring(0, 2), 16).toDouble,
+            g = Integer.valueOf(hex.substring(2, 4), 16).toDouble,
+            b = Integer.valueOf(hex.substring(4, 6), 16).toDouble,
+            a = Integer.valueOf(hex.substring(6, 8), 16).toDouble
           )
       }
     }

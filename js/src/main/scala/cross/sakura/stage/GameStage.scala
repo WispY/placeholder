@@ -3,11 +3,11 @@ package cross.sakura.stage
 import cross.common._
 import cross.component.pixel.Button
 import cross.component.{Component, Stage}
-import cross.sakura.config._
 import cross.ops._
 import cross.pixi._
 import cross.sakura.asset.flower._
 import cross.sakura.asset.ui._
+import cross.sakura.config._
 import cross.sakura.mvc.{Asset, Controller, TreeNode}
 import cross.sakura.stage.GameStage.FlowerCluster
 import cross.util.animation.Animation

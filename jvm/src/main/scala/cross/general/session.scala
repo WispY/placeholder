@@ -32,6 +32,10 @@ object session {
         val updated = code.apply(session)
         sessions = sessions + (session.id -> updated)
         sender ! updated
+
+      case ForgetSession(id) =>
+        sessions = sessions - id
+        self.tell(EnsureSession(None), sender)
     }
 
     private def emptySession: Session = Session(
@@ -46,5 +50,8 @@ object session {
 
   /** Requests to update the session data */
   case class UpdateSession(id: SessionId, code: Session => Session)
+
+  /** Removes the session with given id */
+  case class ForgetSession(id: SessionId)
 
 }

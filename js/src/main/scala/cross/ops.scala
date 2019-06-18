@@ -5,8 +5,8 @@ import java.util.UUID
 import cross.common._
 import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
-import cross.component.flat.{Button2, Region}
-import cross.component.util.{Color, Colors}
+import cross.component.flat.{Button, Label, Region}
+import cross.component.util.{Color, Colors, FontStyle}
 import cross.pixi._
 import cross.sakura.config._
 import cross.sakura.mvc._
@@ -220,7 +220,10 @@ object ops extends GlobalContext {
     def region(color: Color): Region = new Region().withPixi(pixi => a.addChild(pixi)).mutate(r => r.color(Some(color)))
 
     /** Adds a button to the container */
-    def button(style: ButtonStyle): Button2 = new Button2(style).withPixi(pixi => a.addChild(pixi))
+    def button(style: ButtonStyle): Button = new Button(style).withPixi(pixi => a.addChild(pixi))
+
+    /** Adds a label to the container */
+    def label(text: String, style: FontStyle): Label = new Label(style).mutate(l => l.label(text).toPixi.addTo(a))
   }
 
   implicit class AssetOps(val a: Asset) extends AnyVal {

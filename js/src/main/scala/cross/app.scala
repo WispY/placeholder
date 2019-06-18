@@ -3,7 +3,7 @@ package cross
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
 import cross.general.protocol._
-import cross.pac.stage.{ArtChallengeStage, GlobalStage}
+import cross.pac.stage.PacStage
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
@@ -77,14 +77,11 @@ object app extends App with GlobalContext with Logging {
 
     for {
       _ <- fonts.load(Roboto :: RobotoSlab :: Nil)
-      _ <- new Ui[Stages.Value]({ (stage, application) =>
+      _ <- new Ui[Unit]({ (stage, application) =>
         implicit val app = application
         stage match {
-          case Stages.ArtChallenges => new ArtChallengeStage()
+          case _ => new PacStage()
         }
-      }, { application =>
-        implicit val app = application
-        Some(new GlobalStage())
       }).load()
       _ <- spring.load()
       _ <- animation.load()

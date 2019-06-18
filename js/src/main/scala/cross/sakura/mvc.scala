@@ -1,8 +1,8 @@
 package cross.sakura
 
 import cross.common._
-import config._
 import cross.sakura.asset.tree._
+import cross.sakura.config._
 import cross.util.global.GlobalContext
 import cross.util.logging.Logging
 import cross.util.mvc.{GenericController, GenericModel}

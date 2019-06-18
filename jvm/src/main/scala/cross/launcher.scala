@@ -17,6 +17,7 @@ import cross.general.session.{SessionManager, SessionManagerRef}
 import cross.pac.bot.ArtChallengeBot
 import cross.pac.config.PacConfig
 import cross.pac.processor.ArtChallengeProcessor
+import cross.pac.routes.pacRoutes
 import cross.pac.thumbnailer.Thumbnailer
 
 import scala.concurrent.ExecutionContextExecutor
@@ -45,7 +46,7 @@ object launcher extends App with LazyLogging {
   }
 
   /** Routes list */
-  val routes = generalRoutes() ++ Nil
+  val routes = generalRoutes() ++ pacRoutes(pacProcessor) ++ Nil
   val route: Route = Route.seal {
     cors() {
       concat(routes: _*)

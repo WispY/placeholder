@@ -8,6 +8,8 @@ import com.vdurmont.emoji.EmojiParser
 import cross.actors.LockActor
 import cross.common._
 import cross.format._
+import cross.general.config.GeneralConfig
+import cross.general.discord.DiscordUser
 import cross.mongo._
 import cross.pac.bot._
 import cross.pac.config.PacConfig
@@ -21,7 +23,7 @@ import scala.concurrent.{ExecutionContext, Future}
 object processor {
 
   /** Processes the art challenge messages */
-  class ArtChallengeProcessor(bot: ActorRef, thumbnailer: ActorRef)(implicit config: PacConfig) extends LockActor {
+  class ArtChallengeProcessor(bot: ActorRef, thumbnailer: ActorRef)(implicit config: PacConfig, generalConfig: GeneralConfig) extends LockActor {
     implicit val ec: ExecutionContext = context.dispatcher
     implicit val s: Scheduler = context.system.scheduler
 
@@ -265,6 +267,20 @@ object processor {
           }
           _ <- Future.sequence(futures)
         } yield ()
+
+      case GetAdminMessages =>
+        val reply = sender
+        for {
+          _ <- UnitFuture
+          admins = generalConfig.discordAdmins
+          _ = log.info(s"reading all admin messages [$admins]")
+          list <- messages.find(
+            query = $ => $(_.author.id $in admins),
+            sort = $ => $(_.createTimestamp $asc)
+          )
+          _ = log.info(s"found [${list.size}] admin messages")
+          _ = reply ! list
+        } yield ()
     }
   }
 
@@ -277,12 +293,8 @@ object processor {
   /** Requests to update the submission data */
   case class UpdateSubmission(submission: Submission)
 
-  /** Describes discord user
-    *
-    * @param id   the discord user id
-    * @param name the discord user name
-    */
-  case class User(id: String, name: String)
+  /** Requests all admin messages */
+  object GetAdminMessages
 
   /** Describes the user message as part of the submission
     *
@@ -293,7 +305,7 @@ object processor {
     * @param text            the cleaned up message text
     * @param images          all images attached or listed within the submission message
     */
-  case class SubmissionMessage(id: String, author: User, createTimestamp: Long, updateTimestamp: Long, text: String, images: List[SubmissionImage]) {
+  case class SubmissionMessage(id: String, author: DiscordUser, createTimestamp: Long, updateTimestamp: Long, text: String, images: List[SubmissionImage]) {
     /** Assigns random uuids to message images */
     def assignIds: SubmissionMessage = copy(images = images.map(i => i.randomizeId))
 
@@ -338,7 +350,7 @@ object processor {
       val updateTimestamp = Option(message.getEditedTime).map(t => t.toInstant.toEpochMilli).getOrElse(createTimestamp)
       SubmissionMessage(
         id = message.getId,
-        author = User(message.getAuthor.getId, message.getAuthor.getName),
+        author = DiscordUser(message.getAuthor.getId, message.getAuthor.getName),
         createTimestamp = createTimestamp,
         updateTimestamp = updateTimestamp,
         text = text,
@@ -384,7 +396,7 @@ object processor {
     * @param messages  the list of messages forming the full submission
     * @param timestamp the time when submission was first posted
     */
-  case class Submission(id: String, author: User, messages: List[SubmissionMessage], timestamp: Long) {
+  case class Submission(id: String, author: DiscordUser, messages: List[SubmissionMessage], timestamp: Long) {
     /** Converts to db representation */
     def toSubmissionDb: SubmissionDb = SubmissionDb(
       id = id,
@@ -405,12 +417,12 @@ object processor {
   }
 
   /** Describes the submission stored in DB */
-  case class SubmissionDb(id: String, author: User, messages: List[String], timestamp: Long)
+  case class SubmissionDb(id: String, author: DiscordUser, messages: List[String], timestamp: Long)
 
   /** Describes the art challenge period */
   case class ArtChallenge(title: String, start: Long, end: Option[Long])
 
-  implicit val userFormat: MF[User] = format2(User)
+  implicit val userFormat: MF[DiscordUser] = format2(DiscordUser)
   implicit val submissionDbFormat: MF[SubmissionDb] = format4(SubmissionDb)
   implicit val submissionImageFormat: MF[SubmissionImage] = format6(SubmissionImage)
   implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)
