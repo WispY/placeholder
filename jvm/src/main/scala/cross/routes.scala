@@ -20,5 +20,5 @@ object routes {
 
   def `POST /api/signout`(implicit manager: SessionManagerRef) = post & path("api" / "signout") & session()
 
-  def `GET /api/pac/admin-messages`(implicit manager: SessionManagerRef, config: GeneralConfig) = post & path("api" / "pac" / "admin-messages") & adminSession()
+  def `GET /api/pac/admin-messages`(implicit manager: SessionManagerRef, config: GeneralConfig) = get & path("api" / "pac" / "admin-messages") & adminSession()
 }

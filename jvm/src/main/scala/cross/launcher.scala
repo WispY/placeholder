@@ -18,6 +18,7 @@ import cross.pac.bot.ArtChallengeBot
 import cross.pac.config.PacConfig
 import cross.pac.processor.ArtChallengeProcessor
 import cross.pac.routes.pacRoutes
+import cross.pac.service.ArtChallengeService
 import cross.pac.thumbnailer.Thumbnailer
 
 import scala.concurrent.ExecutionContextExecutor
@@ -40,13 +41,14 @@ object launcher extends App with LazyLogging {
   val pacBot = system.actorOf(Props(new ArtChallengeBot()), "pac.bot")
   val pacThumbnailer = system.actorOf(Props(new Thumbnailer(materializer)), "pac.thumbnailer")
   val pacProcessor = system.actorOf(Props(new ArtChallengeProcessor(pacBot, pacThumbnailer)), "pac.processor")
+  val pacService = system.actorOf(Props(new ArtChallengeService()), "pac.service")
 
   implicit val exceptionHandler: ExceptionHandler = ExceptionHandler {
     case IllegalRequestException(info, status) => complete(status, Some(info.detail).filter(_.nonEmpty).getOrElse(status.defaultMessage))
   }
 
   /** Routes list */
-  val routes = generalRoutes() ++ pacRoutes(pacProcessor) ++ Nil
+  val routes = generalRoutes() ++ pacRoutes(pacService) ++ Nil
   val route: Route = Route.seal {
     cors() {
       concat(routes: _*)

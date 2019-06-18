@@ -2516,6 +2516,31 @@ $h_Lcross_common$FutureOps$.prototype = $c_Lcross_common$FutureOps$.prototype;
 $c_Lcross_common$FutureOps$.prototype.init___ = (function() {
   return this
 });
+$c_Lcross_common$FutureOps$.prototype.whenSuccessful$extension__s_concurrent_Future__F1__s_concurrent_ExecutionContext__s_concurrent_Future = (function($$this, code, ec) {
+  $$this.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, code$1) {
+    return (function(x0$1$2) {
+      var x0$1 = $as_s_util_Try(x0$1$2);
+      matchEnd8: {
+        if ($is_s_util_Success(x0$1)) {
+          var x2 = $as_s_util_Success(x0$1);
+          var value = x2.value$2;
+          $asUnit(code$1.apply__O__O(value));
+          break matchEnd8
+        };
+        if ($is_s_util_Failure(x0$1)) {
+          var x3 = $as_s_util_Failure(x0$1);
+          var p4 = x3.exception$2;
+          var o12 = $m_s_util_control_NonFatal$().unapply__jl_Throwable__s_Option(p4);
+          if ((!o12.isEmpty__Z())) {
+            break matchEnd8
+          }
+        };
+        throw new $c_s_MatchError().init___O(x0$1)
+      }
+    })
+  })(this, code)), ec);
+  return $$this
+});
 $c_Lcross_common$FutureOps$.prototype.clear$extension__s_concurrent_Future__s_concurrent_ExecutionContext__s_concurrent_Future = (function($$this, ec) {
   return $$this.map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(a$2) {
@@ -3746,6 +3771,37 @@ function $m_Lcross_pac_config$() {
     $n_Lcross_pac_config$ = new $c_Lcross_pac_config$().init___()
   };
   return $n_Lcross_pac_config$
+}
+/** @constructor */
+function $c_Lcross_pac_protocol$() {
+  $c_O.call(this);
+  this.messageFormat$1 = null
+}
+$c_Lcross_pac_protocol$.prototype = new $h_O();
+$c_Lcross_pac_protocol$.prototype.constructor = $c_Lcross_pac_protocol$;
+/** @constructor */
+function $h_Lcross_pac_protocol$() {
+  /*<skip>*/
+}
+$h_Lcross_pac_protocol$.prototype = $c_Lcross_pac_protocol$.prototype;
+$c_Lcross_pac_protocol$.prototype.init___ = (function() {
+  $n_Lcross_pac_protocol$ = this;
+  this.messageFormat$1 = new $c_Lcross_pac_protocol$$anon$1().init___();
+  return this
+});
+var $d_Lcross_pac_protocol$ = new $TypeData().initClass({
+  Lcross_pac_protocol$: 0
+}, false, "cross.pac.protocol$", {
+  Lcross_pac_protocol$: 1,
+  O: 1
+});
+$c_Lcross_pac_protocol$.prototype.$classData = $d_Lcross_pac_protocol$;
+var $n_Lcross_pac_protocol$ = (void 0);
+function $m_Lcross_pac_protocol$() {
+  if ((!$n_Lcross_pac_protocol$)) {
+    $n_Lcross_pac_protocol$ = new $c_Lcross_pac_protocol$().init___()
+  };
+  return $n_Lcross_pac_protocol$
 }
 /** @constructor */
 function $c_Lcross_pixi_EventType$() {
@@ -15418,14 +15474,14 @@ $c_Lcross_pac_mvc$Controller.prototype.bind__p1__V = (function() {
   var code = new $c_Lcross_pac_mvc$Controller$$anonfun$bind$1().init___Lcross_pac_mvc$Controller(this);
   $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$1, code)
 });
+$c_Lcross_pac_mvc$Controller.prototype.model__Lcross_util_mvc$GenericModel = (function() {
+  return this.model$1
+});
 $c_Lcross_pac_mvc$Controller.prototype.init___Lcross_pac_mvc$Model__Lcross_general_config$GeneralConfig__Lcross_pac_config$PacConfig = (function(model, generalConfig, config) {
   this.model$1 = model;
   this.generalConfig$1 = generalConfig;
   this.timer$1 = new $c_Lcross_util_timer$Timer().init___();
   return this
-});
-$c_Lcross_pac_mvc$Controller.prototype.model__Lcross_util_mvc$GenericModel = (function() {
-  return this.model$1
 });
 $c_Lcross_pac_mvc$Controller.prototype.artChallenges__V = (function() {
   $m_Lcross_pac_mvc$().log$1.info__T__Lcross_util_logging$LogKey__V("redirecting to art challenges", $m_Lcross_pac_mvc$().logKeyRef$1);
@@ -15538,7 +15594,31 @@ $c_Lcross_pac_mvc$Controller.prototype.signOut__V = (function() {
 });
 $c_Lcross_pac_mvc$Controller.prototype.manage__V = (function() {
   $m_Lcross_pac_mvc$().log$1.info__T__Lcross_util_logging$LogKey__V("redirecting to manage stage", $m_Lcross_pac_mvc$().logKeyRef$1);
-  this.model$1.page$1.write__O__O($m_Lcross_pac_mvc$Pages$().Manage$2)
+  this.model$1.page$1.write__O__O($m_Lcross_pac_mvc$Pages$().Manage$2);
+  var jsx$2 = $m_Lcross_common$FutureOps$();
+  $m_Lcross_common$();
+  var jsx$1 = $m_Lcross_common$FutureOps$();
+  $m_Lcross_common$();
+  var this$3 = $m_Lcross_util_http$();
+  $m_Lcross_util_http$();
+  var parameters = $m_sci_Nil$();
+  var config = this.generalConfig$1;
+  $m_Lcross_binary$();
+  var evidence$1 = $m_Lcross_pac_protocol$().messageFormat$1;
+  var aformat = new $c_Lcross_binary$$anon$8().init___Lcross_format$AbstractFormat(evidence$1);
+  var future = this$3.request__T__T__sci_List__s_Option__Z__Lcross_general_config$GeneralConfig__Lcross_format$AbstractFormat__Lcross_format$AbstractFormat__s_concurrent_Future("GET", "/api/pac/admin-messages", parameters, $m_s_None$(), true, config, $m_Lcross_binary$().unitFormat$1, aformat);
+  var future$1 = jsx$1.whenSuccessful$extension__s_concurrent_Future__F1__s_concurrent_ExecutionContext__s_concurrent_Future(future, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+    return (function(list$2) {
+      var list = $as_sci_List(list$2);
+      $m_Lcross_pac_mvc$().log$1.info__T__Lcross_util_logging$LogKey__V(("admin messages: " + list.take__I__sci_List(10)), $m_Lcross_pac_mvc$().logKeyRef$1)
+    })
+  })(this)), $m_Lcross_pac_mvc$().ec$1);
+  jsx$2.whenFailed$extension__s_concurrent_Future__F1__s_concurrent_ExecutionContext__s_concurrent_Future(future$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+    return (function(up$2) {
+      var up = $as_jl_Throwable(up$2);
+      $m_Lcross_pac_mvc$().log$1.error__T__jl_Throwable__Lcross_util_logging$LogKey__V("failed to read admin messages", up, $m_Lcross_pac_mvc$().logKeyRef$1)
+    })
+  })(this)), $m_Lcross_pac_mvc$().ec$1)
 });
 var $d_Lcross_pac_mvc$Controller = new $TypeData().initClass({
   Lcross_pac_mvc$Controller: 0
@@ -15548,6 +15628,106 @@ var $d_Lcross_pac_mvc$Controller = new $TypeData().initClass({
   Lcross_util_mvc$GenericController: 1
 });
 $c_Lcross_pac_mvc$Controller.prototype.$classData = $d_Lcross_pac_mvc$Controller;
+/** @constructor */
+function $c_Lcross_pac_protocol$$anon$1() {
+  $c_O.call(this)
+}
+$c_Lcross_pac_protocol$$anon$1.prototype = new $h_O();
+$c_Lcross_pac_protocol$$anon$1.prototype.constructor = $c_Lcross_pac_protocol$$anon$1;
+/** @constructor */
+function $h_Lcross_pac_protocol$$anon$1() {
+  /*<skip>*/
+}
+$h_Lcross_pac_protocol$$anon$1.prototype = $c_Lcross_pac_protocol$$anon$1.prototype;
+$c_Lcross_pac_protocol$$anon$1.prototype.init___ = (function() {
+  return this
+});
+$c_Lcross_pac_protocol$$anon$1.prototype.read__sci_List__Lcross_binary$ByteList__T2 = (function(path, format0) {
+  var jsx$1 = $m_Lcross_binary$().stringFormat$1;
+  var elem = new $c_Lcross_format$FieldPathSegment().init___T("id");
+  var this$1 = $m_sci_List$();
+  var bf = this$1.ReusableCBFInstance$2;
+  var x1 = jsx$1.read__sci_List__O__T2($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem, bf)), format0);
+  if ((x1 === null)) {
+    throw new $c_s_MatchError().init___O(x1)
+  };
+  var value0 = $as_T(x1.$$und1__O());
+  var format1 = $as_Lcross_binary$ByteList(x1.$$und2__O());
+  var jsx$2 = $m_Lcross_binary$().stringFormat$1;
+  var elem$1 = new $c_Lcross_format$FieldPathSegment().init___T("text");
+  var this$2 = $m_sci_List$();
+  var bf$1 = this$2.ReusableCBFInstance$2;
+  var x1$2 = jsx$2.read__sci_List__O__T2($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$1, bf$1)), format1);
+  if ((x1$2 === null)) {
+    throw new $c_s_MatchError().init___O(x1$2)
+  };
+  var value1 = $as_T(x1$2.$$und1__O());
+  var format2 = $as_Lcross_binary$ByteList(x1$2.$$und2__O());
+  var jsx$3 = $m_Lcross_general_protocol$().userFormat$1;
+  var elem$2 = new $c_Lcross_format$FieldPathSegment().init___T("author");
+  var this$3 = $m_sci_List$();
+  var bf$2 = this$3.ReusableCBFInstance$2;
+  var x1$3 = jsx$3.read__sci_List__O__T2($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$2, bf$2)), format2);
+  if ((x1$3 === null)) {
+    throw new $c_s_MatchError().init___O(x1$3)
+  };
+  var value2 = $as_Lcross_general_protocol$User(x1$3.$$und1__O());
+  var format3 = $as_Lcross_binary$ByteList(x1$3.$$und2__O());
+  var jsx$4 = $m_Lcross_binary$().longFormat$1;
+  var elem$3 = new $c_Lcross_format$FieldPathSegment().init___T("createTimestamp");
+  var this$4 = $m_sci_List$();
+  var bf$3 = this$4.ReusableCBFInstance$2;
+  var x1$4 = jsx$4.read__sci_List__O__T2($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$3, bf$3)), format3);
+  if ((x1$4 === null)) {
+    throw new $c_s_MatchError().init___O(x1$4)
+  };
+  var t = $uJ(x1$4.$$und1__O());
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  var format4 = $as_Lcross_binary$ByteList(x1$4.$$und2__O());
+  var t$1 = $uJ(new $c_sjsr_RuntimeLong().init___I__I(lo, hi));
+  var lo$1 = t$1.lo$2;
+  var hi$1 = t$1.hi$2;
+  var self = new $c_Lcross_pac_protocol$Message().init___T__T__Lcross_general_protocol$User__J(value0, value1, value2, new $c_sjsr_RuntimeLong().init___I__I(lo$1, hi$1));
+  return new $c_T2().init___O__O(self, format4)
+});
+$c_Lcross_pac_protocol$$anon$1.prototype.read__sci_List__O__T2 = (function(path, formatted) {
+  return this.read__sci_List__Lcross_binary$ByteList__T2(path, $as_Lcross_binary$ByteList(formatted))
+});
+$c_Lcross_pac_protocol$$anon$1.prototype.append__sci_List__O__O__O = (function(path, a, formatted) {
+  return this.append__sci_List__Lcross_pac_protocol$Message__Lcross_binary$ByteList__Lcross_binary$ByteList(path, $as_Lcross_pac_protocol$Message(a), $as_Lcross_binary$ByteList(formatted))
+});
+$c_Lcross_pac_protocol$$anon$1.prototype.append__sci_List__Lcross_pac_protocol$Message__Lcross_binary$ByteList__Lcross_binary$ByteList = (function(path, a, format0) {
+  var jsx$1 = $m_Lcross_binary$().stringFormat$1;
+  var elem = new $c_Lcross_format$FieldPathSegment().init___T("id");
+  var this$1 = $m_sci_List$();
+  var bf = this$1.ReusableCBFInstance$2;
+  var format1 = $as_Lcross_binary$ByteList(jsx$1.append__sci_List__O__O__O($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem, bf)), a.id$1, format0));
+  var jsx$2 = $m_Lcross_binary$().stringFormat$1;
+  var elem$1 = new $c_Lcross_format$FieldPathSegment().init___T("text");
+  var this$2 = $m_sci_List$();
+  var bf$1 = this$2.ReusableCBFInstance$2;
+  var format2 = $as_Lcross_binary$ByteList(jsx$2.append__sci_List__O__O__O($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$1, bf$1)), a.text$1, format1));
+  var jsx$3 = $m_Lcross_general_protocol$().userFormat$1;
+  var elem$2 = new $c_Lcross_format$FieldPathSegment().init___T("author");
+  var this$3 = $m_sci_List$();
+  var bf$2 = this$3.ReusableCBFInstance$2;
+  var format3 = $as_Lcross_binary$ByteList(jsx$3.append__sci_List__O__O__O($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$2, bf$2)), a.author$1, format2));
+  var jsx$4 = $m_Lcross_binary$().longFormat$1;
+  var elem$3 = new $c_Lcross_format$FieldPathSegment().init___T("createTimestamp");
+  var this$4 = $m_sci_List$();
+  var bf$3 = this$4.ReusableCBFInstance$2;
+  var format4 = $as_Lcross_binary$ByteList(jsx$4.append__sci_List__O__O__O($as_sci_List($f_sc_SeqLike__$$colon$plus__O__scg_CanBuildFrom__O(path, elem$3, bf$3)), a.createTimestamp$1, format3));
+  return format4
+});
+var $d_Lcross_pac_protocol$$anon$1 = new $TypeData().initClass({
+  Lcross_pac_protocol$$anon$1: 0
+}, false, "cross.pac.protocol$$anon$1", {
+  Lcross_pac_protocol$$anon$1: 1,
+  O: 1,
+  Lcross_format$AbstractFormat: 1
+});
+$c_Lcross_pac_protocol$$anon$1.prototype.$classData = $d_Lcross_pac_protocol$$anon$1;
 /** @constructor */
 function $c_Lcross_sakura_mvc$Controller() {
   $c_O.call(this);
@@ -16643,9 +16823,13 @@ $c_Lcross_util_http$.prototype.cross$util$http$$$anonfun$request$8__Lorg_scalajs
 $c_Lcross_util_http$.prototype.cross$util$http$$$anonfun$request$4__Lorg_scalajs_dom_raw_Event__Z__s_concurrent_Promise__Lorg_scalajs_dom_raw_XMLHttpRequest__Lcross_format$AbstractFormat__O = (function(x$1, response$1, promise$1, request$1, bformat$1) {
   if (response$1) {
     try {
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("converting response to buffer", $m_Lcross_util_http$().logKeyRef$1);
       var buffer = request$1.response;
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("creating typed buffer", $m_Lcross_util_http$().logKeyRef$1);
       var typed = new $g.Uint8Array(buffer);
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("allocating byte buffer", $m_Lcross_util_http$().logKeyRef$1);
       var bytes = $m_Ljava_nio_ByteBuffer$().allocate__I__Ljava_nio_ByteBuffer($uI(buffer.byteLength));
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("reading bytes", $m_Lcross_util_http$().logKeyRef$1);
       var __self = typed[$g.Symbol.iterator]();
       var scala$scalajs$js$Iterator$WrappedIterator$$lastEntry$f = null;
       scala$scalajs$js$Iterator$WrappedIterator$$lastEntry$f = __self.next();
@@ -16655,10 +16839,12 @@ $c_Lcross_util_http$.prototype.cross$util$http$$$anonfun$request$4__Lorg_scalajs
         var $byte = $uS(value);
         bytes.put__B__Ljava_nio_ByteBuffer((($byte << 24) >> 24))
       };
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("converting to scala", $m_Lcross_util_http$().logKeyRef$1);
       var this$5 = $m_sci_Nil$();
       var qual$1 = new $c_Lcross_binary$ByteList().init___sci_List(new $c_sci_$colon$colon().init___O__sci_List(bytes, this$5));
       var x$1$1 = $m_sci_Nil$();
       var b = qual$1.toScala__sci_List__Lcross_format$AbstractFormat__Lcross_format$AbstractFormat__O(x$1$1, bformat$1, bformat$1);
+      $m_Lcross_util_http$().log$1.info__T__Lcross_util_logging$LogKey__V("done", $m_Lcross_util_http$().logKeyRef$1);
       var result = new $c_s_util_Success().init___O(b)
     } catch (e) {
       var e$2 = $m_sjsr_package$().wrapJavaScriptException__O__jl_Throwable(e);
@@ -28704,6 +28890,119 @@ function $m_Lcross_pac_mvc$Model$() {
   };
   return $n_Lcross_pac_mvc$Model$
 }
+/** @constructor */
+function $c_Lcross_pac_protocol$Message() {
+  $c_O.call(this);
+  this.id$1 = null;
+  this.text$1 = null;
+  this.author$1 = null;
+  this.createTimestamp$1 = $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()
+}
+$c_Lcross_pac_protocol$Message.prototype = new $h_O();
+$c_Lcross_pac_protocol$Message.prototype.constructor = $c_Lcross_pac_protocol$Message;
+/** @constructor */
+function $h_Lcross_pac_protocol$Message() {
+  /*<skip>*/
+}
+$h_Lcross_pac_protocol$Message.prototype = $c_Lcross_pac_protocol$Message.prototype;
+$c_Lcross_pac_protocol$Message.prototype.productPrefix__T = (function() {
+  return "Message"
+});
+$c_Lcross_pac_protocol$Message.prototype.init___T__T__Lcross_general_protocol$User__J = (function(id, text, author, createTimestamp) {
+  this.id$1 = id;
+  this.text$1 = text;
+  this.author$1 = author;
+  this.createTimestamp$1 = createTimestamp;
+  return this
+});
+$c_Lcross_pac_protocol$Message.prototype.productArity__I = (function() {
+  return 4
+});
+$c_Lcross_pac_protocol$Message.prototype.equals__O__Z = (function(x$1) {
+  if ((this === x$1)) {
+    return true
+  } else if ($is_Lcross_pac_protocol$Message(x$1)) {
+    var Message$1 = $as_Lcross_pac_protocol$Message(x$1);
+    if (((this.id$1 === Message$1.id$1) && (this.text$1 === Message$1.text$1))) {
+      var x = this.author$1;
+      var x$2 = Message$1.author$1;
+      var jsx$1 = ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      var jsx$1 = false
+    };
+    if (jsx$1) {
+      var t = this.createTimestamp$1;
+      var lo = t.lo$2;
+      var hi = t.hi$2;
+      var b = Message$1.createTimestamp$1;
+      return ((lo === b.lo$2) && (hi === b.hi$2))
+    } else {
+      return false
+    }
+  } else {
+    return false
+  }
+});
+$c_Lcross_pac_protocol$Message.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.id$1;
+      break
+    }
+    case 1: {
+      return this.text$1;
+      break
+    }
+    case 2: {
+      return this.author$1;
+      break
+    }
+    case 3: {
+      return this.createTimestamp$1;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lcross_pac_protocol$Message.prototype.toString__T = (function() {
+  return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lcross_pac_protocol$Message.prototype.hashCode__I = (function() {
+  var acc = (-889275714);
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.id$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.text$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.author$1));
+  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().longHash__J__I(this.createTimestamp$1));
+  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 4)
+});
+$c_Lcross_pac_protocol$Message.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+function $is_Lcross_pac_protocol$Message(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcross_pac_protocol$Message)))
+}
+function $as_Lcross_pac_protocol$Message(obj) {
+  return (($is_Lcross_pac_protocol$Message(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "cross.pac.protocol$Message"))
+}
+function $isArrayOf_Lcross_pac_protocol$Message(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcross_pac_protocol$Message)))
+}
+function $asArrayOf_Lcross_pac_protocol$Message(obj, depth) {
+  return (($isArrayOf_Lcross_pac_protocol$Message(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcross.pac.protocol$Message;", depth))
+}
+var $d_Lcross_pac_protocol$Message = new $TypeData().initClass({
+  Lcross_pac_protocol$Message: 0
+}, false, "cross.pac.protocol$Message", {
+  Lcross_pac_protocol$Message: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcross_pac_protocol$Message.prototype.$classData = $d_Lcross_pac_protocol$Message;
 /** @constructor */
 function $c_Lcross_pac_stage_PacStage() {
   $c_O.call(this);

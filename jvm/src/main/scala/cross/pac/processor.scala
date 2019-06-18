@@ -267,20 +267,6 @@ object processor {
           }
           _ <- Future.sequence(futures)
         } yield ()
-
-      case GetAdminMessages =>
-        val reply = sender
-        for {
-          _ <- UnitFuture
-          admins = generalConfig.discordAdmins
-          _ = log.info(s"reading all admin messages [$admins]")
-          list <- messages.find(
-            query = $ => $(_.author.id $in admins),
-            sort = $ => $(_.createTimestamp $asc)
-          )
-          _ = log.info(s"found [${list.size}] admin messages")
-          _ = reply ! list
-        } yield ()
     }
   }
 
@@ -292,9 +278,6 @@ object processor {
 
   /** Requests to update the submission data */
   case class UpdateSubmission(submission: Submission)
-
-  /** Requests all admin messages */
-  object GetAdminMessages
 
   /** Describes the user message as part of the submission
     *

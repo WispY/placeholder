@@ -81,11 +81,17 @@ object http extends Logging {
     request.onload = { _ =>
       if (response) {
         promise.complete(Try {
+          log.info("converting response to buffer")
           val buffer = request.response.asInstanceOf[ArrayBuffer]
+          log.info("creating typed buffer")
           val typed = new Uint8Array(buffer)
+          log.info("allocating byte buffer")
           val bytes = ByteBuffer.allocate(buffer.byteLength)
+          log.info("reading bytes")
           typed.foreach(byte => bytes.put(byte.toByte))
+          log.info("converting to scala")
           val b = ByteList(bytes :: Nil).toScala[B]()
+          log.info("done")
           b
         })
       } else {
