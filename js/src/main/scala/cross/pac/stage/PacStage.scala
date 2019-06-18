@@ -26,6 +26,7 @@ class PacStage(implicit config: PacGlobalStageConfig, controller: Controller, ap
   private lazy val signinLabel = body.label("Sign In", config.signinLabelStyle)
   private lazy val signin = body.button(config.signinButtonStyle).children(signinLabel)
   private lazy val manage = body.button(config.manageButtonStyle).children(body.label("Manage", config.manageLabelStyle))
+  private lazy val contentScroll = body.scroll()
 
   private lazy val layout = screenLayout
     .children(
@@ -40,6 +41,14 @@ class PacStage(implicit config: PacGlobalStageConfig, controller: Controller, ap
           )
         ),
         shadow.fillX.alignTop.height(config.stageShadowSize),
+        contentScroll.content { case (content, contentLayout) =>
+          val buttons = (0 until 50).map { i =>
+            content.button(config.signinButtonStyle).pad(15).children(content.label(s"Art Challenge $i", config.signinLabelStyle))
+          }
+          contentLayout.children(
+            ybox.pad(20).space(10).children(buttons: _*)
+          )
+        },
         filler
       )
     )

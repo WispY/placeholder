@@ -87,3 +87,10 @@ trait Interactive {
       })
   }
 }
+
+object Interactive {
+  /** Registers new mouse wheel event */
+  def mouseWheel(code: () => Unit): Unit = {
+
+  }
+}

@@ -5,7 +5,7 @@ import java.util.UUID
 import cross.common._
 import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
-import cross.component.flat.{Button, Label, Region}
+import cross.component.flat.{Button, Label, Region, ScrollArea}
 import cross.component.util.{Color, Colors, FontStyle}
 import cross.pixi._
 import cross.sakura.config._
@@ -224,6 +224,9 @@ object ops extends GlobalContext {
 
     /** Adds a label to the container */
     def label(text: String, style: FontStyle): Label = new Label(style).mutate(l => l.label(text).toPixi.addTo(a))
+
+    /** Adds a scroll area to the container */
+    def scroll(): ScrollArea = new ScrollArea().withPixi(pixi => a.addChild(pixi))
   }
 
   implicit class AssetOps(val a: Asset) extends AnyVal {

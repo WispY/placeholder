@@ -34,7 +34,7 @@ object layout {
     def add(child: LayoutBox): this.type = this.synchronized {
       layoutChildren = layoutChildren :+ child
       child.layoutParent = Some(this)
-      if (layoutEnabled) child.layout(propagate = false)
+      if (layoutEnabled) child.layout()
       layoutUp()
       this
     }
@@ -209,7 +209,7 @@ object layout {
     def children(children: LayoutBox*): this.type = this.synchronized {
       layoutChildren = children.toList
       children.foreach(c => c.layoutParent = Some(this))
-      if (layoutEnabled) layoutChildren.foreach(c => c.layout(propagate = false))
+      if (layoutEnabled) layoutChildren.foreach(c => c.layout())
       layoutUp()
       this
     }
@@ -225,9 +225,9 @@ object layout {
     }
 
     /** Enables the layout of this box */
-    def layout(propagate: Boolean = true): this.type = {
+    def layout(): this.type = {
       layoutEnabled = true
-      layoutChildren.foreach(c => c.layout(propagate = false))
+      layoutChildren.foreach(c => c.layout())
       if (layoutEnabled) layoutUp()
       this
     }

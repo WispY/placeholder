@@ -22,6 +22,11 @@ object logging {
     protected val log: LogApi = BrowserLogApi
   }
 
+  /** Mix in for debugging using logs */
+  trait Debug extends Logging {
+    override protected def logKey: String = this.getClass.getSimpleName
+  }
+
   trait LogApi {
     /** Logs wire message */
     def wire(message: String)(implicit key: LogKey): Unit

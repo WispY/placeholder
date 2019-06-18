@@ -497,6 +497,9 @@ object common {
     /** Resizes the rectangle to given size */
     def resizeTo(size: Vec2d): Rec2d = copy(size = size)
 
+    /** Moves the rectangle to a given position */
+    def positionAt(position: Vec2d): Rec2d = copy(position = position)
+
     /** Translates the position of the rectangle by given offset */
     def offsetBy(offset: Vec2d): Rec2d = copy(position = position + offset)
   }
