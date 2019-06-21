@@ -502,6 +502,11 @@ object common {
 
     /** Translates the position of the rectangle by given offset */
     def offsetBy(offset: Vec2d): Rec2d = copy(position = position + offset)
+
+    /** Returns true if given point is within rectangle bounds */
+    def contains(point: Vec2d): Boolean = {
+      point.x >= position.x && point.y >= position.y && point.x <= position.x + size.x && point.y <= position.y + size.y
+    }
   }
 
   object Rec2d {

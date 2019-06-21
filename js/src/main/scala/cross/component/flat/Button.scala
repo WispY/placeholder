@@ -37,8 +37,8 @@ class Button(style: ButtonStyle) extends StackBox with Component with Interactiv
     }
   }
 
-  override def layoutDown(box: Rec2d): Unit = {
-    super.layoutDown(box)
+  override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
+    super.layoutDown(absoluteOffset, box)
     background.draw { (graphics, color) =>
       style.depth match {
         case 0 =>

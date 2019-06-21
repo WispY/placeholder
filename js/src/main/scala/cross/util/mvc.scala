@@ -40,6 +40,9 @@ object mvc {
 
     /** Returns the current application stage/screen */
     def stage: Writeable[A]
+
+    /** Returns current mouse coordinates */
+    def mouse: Writeable[Vec2d]
   }
 
   class Ui[A](stages: (A, Application) => Stage, global: Application => Option[Stage] = _ => None)(implicit controller: GenericController[A]) extends Logging with GlobalContext {

@@ -27,17 +27,16 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
   private lazy val signinLabel = label("Sign In", config.signinLabelStyle)
   private lazy val signin = button(config.signinButtonStyle).children(signinLabel)
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
-  private lazy val contentScroll = scroll()
-
-  private lazy val managePage = {
+  private lazy val manageContent = {
     val buttons = (0 until 50).map { i =>
       val l = label(s"Art Challenge $i", config.signinLabelStyle)
       button(config.signinButtonStyle).fillX.pad(15).children(l)
     }
-    ybox.pad(20).space(10).children(buttons: _*).alignTop
+    ybox.pad(20).space(10).children(buttons: _*).alignTop.fillX
   }
+  private lazy val managePage = scroll(config.manageScroll).view(manageContent).alignTop
 
-  private lazy val pages = box.children(managePage).alignTop
+  private lazy val pages = box.children(managePage).fillBoth
 
   private lazy val layout = screenLayout
     .children(
@@ -52,9 +51,8 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
           )
         ),
         shadow.fillX.alignTop.height(config.stageShadowSize),
-        contentScroll.content { case (content, contentLayout) =>
-          contentLayout.children(pages.componentsIn(content))
-        }
+        pages,
+        filler
       )
     )
     .layout()
@@ -91,7 +89,7 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
     manage.onClick(_ => controller.manage())
 
     controller.model.page /> { case page =>
-      pages.immediateChildren.foreach(c => c.visible(false))
+      pages.getImmediateChildren.foreach(c => c.visible(false))
       page match {
         case Pages.Manage => managePage.visible(true)
         case _ =>

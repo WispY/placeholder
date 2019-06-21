@@ -72,7 +72,7 @@ class LayoutSpec extends Spec {
   case class Probe(size: Vec2d = Vec2d.Zero) extends LayoutBox {
     var box: Rec2d = Rec2d.Zero
 
-    override def layoutDown(box: Rec2d): Unit = this.box = box
+    override def layoutDown(absolutePosition: Vec2d, box: Rec2d): Unit = this.box = box
 
     override def minimumSize: Vec2d = size
   }

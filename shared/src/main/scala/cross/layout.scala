@@ -27,6 +27,7 @@ object layout {
     private[layout] var layoutSize: Vec2d = Vec2d.Zero
     private[layout] var layoutPad: Vec2d = Vec2d.Zero
     private[layout] var layoutSpace: Vec2d = Vec2d.Zero
+    private[layout] var layoutAbsoluteOffset: Vec2d = Vec2d.Zero
     private[layout] var layoutBounds: Option[Rec2d] = None
     private[layout] var layoutBoxMapper: Rec2d => Rec2d = { box => box }
 
@@ -58,23 +59,24 @@ object layout {
     def layoutUp(): Unit = layoutParent match {
       case _ if !layoutEnabled => // ignore
       case Some(p) => p.layoutUp()
-      case None => layoutDown(Rec2d(Vec2d.Zero, minimumSize))
+      case None => layoutDown(layoutAbsoluteOffset, Rec2d(Vec2d.Zero, minimumSize))
     }
 
     /** Propagates the layout request internally */
-    private[layout] def layoutDownInternal(box: Rec2d): Unit = {
+    private[layout] def layoutDownInternal(absoluteOffset: Vec2d, box: Rec2d): Unit = {
       layoutBounds = Some(box)
-      layoutDown(layoutBoxMapper.apply(box))
+      layoutAbsoluteOffset = absoluteOffset
+      layoutDown(absoluteOffset, layoutBoxMapper.apply(box))
     }
 
     /** Re-layouts the component and it's children */
     def reLayoutDown(): Unit = layoutBounds match {
-      case Some(box) => layoutDownInternal(box)
+      case Some(box) => layoutDownInternal(layoutAbsoluteOffset, box)
       case None => layoutUp()
     }
 
     /** Updates the layout of the box within given bounds */
-    def layoutDown(box: Rec2d): Unit
+    def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit
 
     /** Aligns the box within the given bounds */
     def alignWithin(box: Rec2d, forcedSize: Option[Vec2d] = None): Rec2d = {
@@ -215,13 +217,16 @@ object layout {
     }
 
     /** Returns immediate children of this box */
-    def immediateChildren: List[LayoutBox] = layoutChildren
+    def getImmediateChildren: List[LayoutBox] = layoutChildren
 
     /** Returns all children within this box */
-    def allChildren: List[LayoutBox] = layoutChildren ++ layoutChildren.flatMap(c => c.allChildren)
+    def getAllChildren: List[LayoutBox] = layoutChildren ++ layoutChildren.flatMap(c => c.getAllChildren)
 
     /** Returns only visible children */
     private[layout] def visibleChildren: List[LayoutBox] = layoutChildren.filter(c => c.layoutVisible)
+
+    /** Returns the current absolute position and size of the box */
+    def getAbsoluteBounds: Rec2d = layoutBounds.map(b => b.offsetBy(layoutAbsoluteOffset)).getOrElse(Rec2d.Zero)
 
     /** Sets the bounds mapping function for effects on box applied to the layout */
     def mapBounds(code: Rec2d => Rec2d): this.type = {
@@ -267,13 +272,13 @@ object layout {
   class XBox() extends LayoutBox {
     this.fillX
 
-    override def layoutDown(box: Rec2d): Unit = {
+    override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
       val fillCount = visibleChildren.count(c => c.layoutFill.x == 1)
       val fillX = if (fillCount > 0) ((box.size.x - minimumSize.x) max 0) / fillCount else 0
       visibleChildren.foldLeft(layoutPad.x) { case (x, child) =>
         val s = child.minimumSize
         val w = if (child.layoutFill.x == 1) s.x + fillX else s.x
-        child.layoutDownInternal(child.alignWithin(
+        child.layoutDownInternal(absoluteOffset, child.alignWithin(
           box
             .resizeTo(w xy (box.size.y - layoutPad.y * 2))
             .offsetBy(x xy layoutPad.y)
@@ -298,13 +303,13 @@ object layout {
   class YBox() extends LayoutBox {
     this.fillY
 
-    override def layoutDown(box: Rec2d): Unit = {
+    override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
       val fillCount = visibleChildren.count(c => c.layoutFill.y == 1)
       val fillY = if (fillCount > 0) ((box.size.y - minimumSize.y) max 0) / fillCount else 0
       visibleChildren.foldLeft(layoutPad.y) { case (y, child) =>
         val s = child.minimumSize
         val h = if (child.layoutFill.y == 1) s.y + fillY else s.y
-        child.layoutDownInternal(child.alignWithin(
+        child.layoutDownInternal(absoluteOffset, child.alignWithin(
           box
             .resizeTo((box.size.x - layoutPad.x * 2) xy h)
             .offsetBy(layoutPad.x xy y)
@@ -327,9 +332,9 @@ object layout {
 
   /** Stacks the children on top of each other */
   class StackBox() extends LayoutBox {
-    override def layoutDown(box: Rec2d): Unit = {
+    override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
       val padded = box.resizeTo(box.size - layoutPad * 2).offsetBy(layoutPad)
-      visibleChildren.foreach(child => child.layoutDownInternal(child.alignWithin(padded)))
+      visibleChildren.foreach(child => child.layoutDownInternal(absoluteOffset, child.alignWithin(padded)))
     }
 
     override def minimumSize: Vec2d = {

@@ -36,8 +36,8 @@ class Label(style: FontStyle) extends StackBox with Component {
     super.minimumSize maxVec size
   }
 
-  override def layoutDown(box: Rec2d): Unit = {
-    super.layoutDown(box)
+  override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
+    super.layoutDown(absoluteOffset, box)
     text.positionAt(box.position + getPad)
   }
 

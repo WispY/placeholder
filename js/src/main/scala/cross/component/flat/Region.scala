@@ -1,6 +1,7 @@
 package cross.component.flat
 
 import cross.common
+import cross.common.Vec2d
 import cross.component.util.{Color, Colors}
 import cross.component.{Component, RedrawGraphics}
 import cross.layout.StackBox
@@ -23,8 +24,8 @@ class Region() extends StackBox with Component {
 
   override def toPixi: DisplayObject = root
 
-  override def layoutDown(box: common.Rec2d): Unit = {
-    super.layoutDown(box)
+  override def layoutDown(absoluteOffset: Vec2d, box: common.Rec2d): Unit = {
+    super.layoutDown(absoluteOffset, box)
     background.draw({ (graphics, color) =>
       graphics.fillRect(box.size, box.position, color)
     })

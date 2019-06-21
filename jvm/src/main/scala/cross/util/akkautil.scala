@@ -21,7 +21,6 @@ import cross.general.config.GeneralConfig
 import cross.general.protocol.User
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
 import cross.pac.protocol.ChatMessage
-import spray.json.RootJsonFormat
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}

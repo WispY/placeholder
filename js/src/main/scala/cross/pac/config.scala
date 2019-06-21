@@ -2,6 +2,7 @@ package cross.pac
 
 import cross.common._
 import cross.component.flat.Button.ButtonStyle
+import cross.component.flat.ScrollArea.ScrollAreaStyle
 import cross.component.util._
 import cross.config._
 import cross.format._
@@ -20,7 +21,8 @@ object config {
                        signinButtonStyle: ButtonStyle,
                        signinLabelStyle: FontStyle,
                        manageButtonStyle: ButtonStyle,
-                       manageLabelStyle: FontStyle)
+                       manageLabelStyle: FontStyle,
+                       manageScroll: ScrollAreaStyle)
 
   implicit val colorFormat: CF[Color] = stringFormat.map(v => Colors.hex(v), v => v.toHex)
   implicit val fontFormat: CF[Font] = stringFormat.map(v => Font(v), v => v.family)
@@ -28,8 +30,9 @@ object config {
   implicit val vec2iFormat: CF[Vec2i] = format2(Vec2i.apply)
   implicit val fontStyleFormat: CF[FontStyle] = format4(FontStyle)
   implicit val buttonStyleFormat: CF[ButtonStyle] = format5(ButtonStyle)
+  implicit val scrollStyleFormat: CF[ScrollAreaStyle] = format5(ScrollAreaStyle)
 
-  implicit val pacConfigFormat: CF[PacConfig] = format12(PacConfig)
+  implicit val pacConfigFormat: CF[PacConfig] = format13(PacConfig)
 
   val FlatFontStyle = FontStyle(
     font = RobotoSlab,
@@ -54,6 +57,13 @@ object config {
     colorDisabled = Colors.BlueDarkest,
     depth = 0
   )
+  val ScrollStyle = ScrollAreaStyle(
+    speed = 0.25,
+    distance = 200,
+    barWidth = 15,
+    barMinLength = 50,
+    barSpacing = 5
+  )
   val DefaultConfig = PacConfig(
     stagePad = 15 xy 10,
     stageSpace = 10 xy 10,
@@ -66,7 +76,8 @@ object config {
     signinButtonStyle = PopButtonStyle,
     signinLabelStyle = PopFontStyle,
     manageButtonStyle = FlatButtonStyle,
-    manageLabelStyle = FlatFontStyle
+    manageLabelStyle = FlatFontStyle,
+    manageScroll = ScrollStyle
   )
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultConfig))

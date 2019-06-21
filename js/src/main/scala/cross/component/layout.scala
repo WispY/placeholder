@@ -1,6 +1,7 @@
 package cross.component
 
 import cross.common
+import cross.common.Vec2d
 import cross.layout._
 import cross.ops._
 import cross.util.logging.Logging
@@ -14,8 +15,8 @@ object layout {
       this.size(size)
     }
 
-    override def layoutDown(box: common.Rec2d): Unit = {
-      super.layoutDown(box)
+    override def layoutDown(absoluteOffset: Vec2d, box: common.Rec2d): Unit = {
+      super.layoutDown(absoluteOffset, box)
     }
 
     override protected def logKey: String = "screen"

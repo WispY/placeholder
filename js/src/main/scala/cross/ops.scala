@@ -5,9 +5,9 @@ import java.util.UUID
 import cross.common._
 import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
+import cross.component.flat.ScrollArea.ScrollAreaStyle
 import cross.component.flat.{Button, Label, Region, ScrollArea}
 import cross.component.util.{Color, Colors, FontStyle}
-import cross.general.config.GeneralConfig
 import cross.layout.LayoutBox
 import cross.pixi._
 import cross.sakura.config._
@@ -97,7 +97,7 @@ object ops extends GlobalContext with Logging {
   def label(text: String, style: FontStyle): Label = new Label(style).label(text)
 
   /** Adds a scroll area to the container */
-  def scroll()(implicit generalConfig: GeneralConfig): ScrollArea = new ScrollArea()
+  def scroll(style: ScrollAreaStyle)(implicit controller: GenericController[_]): ScrollArea = new ScrollArea(style)
 
   implicit class JsMapOps(val map: Map[String, js.Any]) extends AnyVal {
     /** Converts map to javascript object */
@@ -318,7 +318,7 @@ object ops extends GlobalContext with Logging {
   implicit class LayoutOps[A <: LayoutBox](val box: A) extends AnyVal {
     /** Adds all component children to given container */
     def componentsIn(container: Container): A = {
-      box.allChildren.foreach {
+      box.getAllChildren.foreach {
         case component: Component => component.in(container)
         case _ => // ignore
       }
