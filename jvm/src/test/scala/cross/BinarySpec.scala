@@ -73,16 +73,14 @@ class BinarySpec extends Spec {
     }
 
     "format huge payload" in {
-      logger.info("testing huge payload")
       val people = (0 until 10000).map(index => Person(s"name$index", index)).toList
-      logger.info("converting to bytes")
       val bytes = ByteList(people.toBinary.compact :: Nil)
-      logger.info("done converting to bytes")
-      logger.info("reading back to scala")
       val actual = bytes.toScala[List[Person]]()
-      logger.info("done reading back to scala")
       actual shouldBe people
-      logger.info(s"byte list size [${bytes.compact.array().length}]")
+    }
+
+    "format weird strings" in {
+      check("That’s so freaking awesome!")
     }
   }
 

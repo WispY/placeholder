@@ -70,7 +70,6 @@ object app extends App with GlobalContext with Logging {
     log.info("starting pac project")
     updateTitle("Poku Art Challenge")
     implicit val pacConfig = pac.config.Config
-    implicit val pacGlobalStageConfig = pacConfig.globalStage
     implicit val model = Model()
     implicit val controller = new Controller(model)
     implicit val ec = ExecutionContext.global

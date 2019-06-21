@@ -137,7 +137,7 @@ object util {
       case Colors.PurpleLight => Colors.Purple
       case Colors.OliveLight => Colors.Olive
       case Colors.Olive => Colors.OliveDark
-      case other => other
+      case other => other.tint(Colors.Black, 0.3)
     }
 
     /** Returns the lighter version of this color */
@@ -163,7 +163,7 @@ object util {
       case Colors.Purple => Colors.PurpleLight
       case Colors.RedDark => Colors.Red
       case Colors.Olive => Colors.OliveLight
-      case other => other
+      case other => other.tint(Colors.BrownLightest, 0.3)
     }
   }
 

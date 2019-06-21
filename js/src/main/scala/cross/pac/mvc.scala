@@ -4,7 +4,7 @@ import cross.common._
 import cross.general.config.GeneralConfig
 import cross.general.protocol.User
 import cross.pac.config.PacConfig
-import cross.pac.protocol.Message
+import cross.pac.protocol.ChatMessage
 import cross.util.global.GlobalContext
 import cross.util.http
 import cross.util.logging.Logging
@@ -69,7 +69,7 @@ object mvc extends GlobalContext with Logging {
     def manage(): Unit = {
       log.info("redirecting to manage stage")
       model.page.write(Pages.Manage)
-      http.get[List[Message]]("/api/pac/admin-messages")
+      http.get[List[ChatMessage]]("/api/pac/admin-messages")
         .whenSuccessful(list => log.info(s"admin messages: ${list.take(10)}"))
         .whenFailed(up => log.error("failed to read admin messages", up))
     }

@@ -7,7 +7,7 @@ import cross.general.config.GeneralConfig
 import cross.mongo._
 import cross.pac.config.PacConfig
 import cross.pac.processor.{ArtChallenge, SubmissionDb, SubmissionMessage}
-import cross.pac.protocol.Message
+import cross.pac.protocol.ChatMessage
 import org.mongodb.scala.MongoClient
 
 import scala.concurrent.ExecutionContext
@@ -38,7 +38,7 @@ object service {
           )
           _ = log.info(s"found [${list.size}] admin messages")
           view = list.map { message =>
-            Message(
+            ChatMessage(
               id = message.id,
               text = message.text,
               author = message.author.asUser,

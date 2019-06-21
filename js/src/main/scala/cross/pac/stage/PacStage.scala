@@ -2,10 +2,11 @@ package cross.pac.stage
 
 import cross.component._
 import cross.component.layout._
+import cross.general.config.GeneralConfig
 import cross.layout._
 import cross.ops._
-import cross.pac.config.PacGlobalStageConfig
-import cross.pac.mvc.Controller
+import cross.pac.config.PacConfig
+import cross.pac.mvc.{Controller, Pages}
 import cross.pixi._
 import cross.util.animation.Animation
 import cross.util.global.GlobalContext
@@ -13,20 +14,30 @@ import cross.util.logging.Logging
 
 import scala.concurrent.Future
 
-class PacStage(implicit config: PacGlobalStageConfig, controller: Controller, app: Application) extends Stage with Logging with GlobalContext {
+class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, controller: Controller, app: Application) extends Stage with Logging with GlobalContext {
   override protected def logKey: String = "pac/stage"
 
   private lazy val stage = new Container
   private lazy val body = stage.sub
 
-  private lazy val bar = body.region(config.stageColor)
-  private lazy val shadow = body.region(config.stageShadow)
-  private lazy val welcome = body.button(config.welcomeButtonStyle).children(body.label("Poku Art Challenge", config.welcomeLabelStyle))
-  private lazy val user = body.label("", config.userStyle)
-  private lazy val signinLabel = body.label("Sign In", config.signinLabelStyle)
-  private lazy val signin = body.button(config.signinButtonStyle).children(signinLabel)
-  private lazy val manage = body.button(config.manageButtonStyle).children(body.label("Manage", config.manageLabelStyle))
-  private lazy val contentScroll = body.scroll()
+  private lazy val bar = region(config.stageColor)
+  private lazy val shadow = region(config.stageShadow)
+  private lazy val welcome = button(config.welcomeButtonStyle).children(label("Poku Art Challenge", config.welcomeLabelStyle))
+  private lazy val user = label("", config.userStyle)
+  private lazy val signinLabel = label("Sign In", config.signinLabelStyle)
+  private lazy val signin = button(config.signinButtonStyle).children(signinLabel)
+  private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
+  private lazy val contentScroll = scroll()
+
+  private lazy val managePage = {
+    val buttons = (0 until 50).map { i =>
+      val l = label(s"Art Challenge $i", config.signinLabelStyle)
+      button(config.signinButtonStyle).fillX.pad(15).children(l)
+    }
+    ybox.pad(20).space(10).children(buttons: _*).alignTop
+  }
+
+  private lazy val pages = box.children(managePage).alignTop
 
   private lazy val layout = screenLayout
     .children(
@@ -42,21 +53,17 @@ class PacStage(implicit config: PacGlobalStageConfig, controller: Controller, ap
         ),
         shadow.fillX.alignTop.height(config.stageShadowSize),
         contentScroll.content { case (content, contentLayout) =>
-          val buttons = (0 until 50).map { i =>
-            content.button(config.signinButtonStyle).pad(15).children(content.label(s"Art Challenge $i", config.signinLabelStyle))
-          }
-          contentLayout.children(
-            ybox.pad(20).space(10).children(buttons: _*)
-          )
-        },
-        filler
+          contentLayout.children(pages.componentsIn(content))
+        }
       )
     )
     .layout()
 
   override lazy val create: Future[Unit] = Future {
     log.info("setting up...")
-    shadow :: bar :: welcome :: user :: manage :: signin :: signinLabel :: layout :: Nil
+    pages :: shadow :: bar :: welcome :: user :: manage :: signin :: signinLabel :: layout :: Nil
+
+    layout.componentsIn(body)
 
     controller.model.user /> {
       case Some(u) =>
@@ -82,6 +89,14 @@ class PacStage(implicit config: PacGlobalStageConfig, controller: Controller, ap
     welcome.onClick(_ => controller.artChallenges())
 
     manage.onClick(_ => controller.manage())
+
+    controller.model.page /> { case page =>
+      pages.immediateChildren.foreach(c => c.visible(false))
+      page match {
+        case Pages.Manage => managePage.visible(true)
+        case _ =>
+      }
+    }
 
     log.info("created")
   }

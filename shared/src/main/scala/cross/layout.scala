@@ -214,6 +214,12 @@ object layout {
       this
     }
 
+    /** Returns immediate children of this box */
+    def immediateChildren: List[LayoutBox] = layoutChildren
+
+    /** Returns all children within this box */
+    def allChildren: List[LayoutBox] = layoutChildren ++ layoutChildren.flatMap(c => c.allChildren)
+
     /** Returns only visible children */
     private[layout] def visibleChildren: List[LayoutBox] = layoutChildren.filter(c => c.layoutVisible)
 

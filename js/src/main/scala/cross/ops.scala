@@ -7,11 +7,14 @@ import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
 import cross.component.flat.{Button, Label, Region, ScrollArea}
 import cross.component.util.{Color, Colors, FontStyle}
+import cross.general.config.GeneralConfig
+import cross.layout.LayoutBox
 import cross.pixi._
 import cross.sakura.config._
 import cross.sakura.mvc._
 import cross.util.animation.{Animation, ChaseInOut, Delay, FadeIn, FadeOut, FlipIn, FlipOut, OffsetIn, OffsetOut, Parallel}
 import cross.util.global.GlobalContext
+import cross.util.logging.Logging
 import cross.util.mvc.GenericController
 import cross.util.spring
 import cross.util.spring.SpritePositionSpring
@@ -24,7 +27,9 @@ import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success, Try}
 
 //noinspection LanguageFeature
-object ops extends GlobalContext {
+object ops extends GlobalContext with Logging {
+  override protected def logKey: String = "ops"
+
   /** Converts scala map into javascript object */
   implicit def mapToJs[A](map: Map[String, A]): js.Dictionary[A] = map.toJSDictionary
 
@@ -81,6 +86,18 @@ object ops extends GlobalContext {
 
   /** Applies the given code in next anumation frame */
   def nextFrame(code: => Unit): Unit = dom.window.requestAnimationFrame(_ => code)
+
+  /** Adds a region to the container */
+  def region(color: Color): Region = new Region().color(Some(color))
+
+  /** Adds a button to the container */
+  def button(style: ButtonStyle): Button = new Button(style)
+
+  /** Adds a label to the container */
+  def label(text: String, style: FontStyle): Label = new Label(style).label(text)
+
+  /** Adds a scroll area to the container */
+  def scroll()(implicit generalConfig: GeneralConfig): ScrollArea = new ScrollArea()
 
   implicit class JsMapOps(val map: Map[String, js.Any]) extends AnyVal {
     /** Converts map to javascript object */
@@ -215,18 +232,6 @@ object ops extends GlobalContext {
 
     /** Removes all children from container */
     def removeChildren: Container = a.mutate { a => while (a.children.nonEmpty) a.removeChild(a.children.head) }
-
-    /** Adds a region to the container */
-    def region(color: Color): Region = new Region().withPixi(pixi => a.addChild(pixi)).mutate(r => r.color(Some(color)))
-
-    /** Adds a button to the container */
-    def button(style: ButtonStyle): Button = new Button(style).withPixi(pixi => a.addChild(pixi))
-
-    /** Adds a label to the container */
-    def label(text: String, style: FontStyle): Label = new Label(style).mutate(l => l.label(text).toPixi.addTo(a))
-
-    /** Adds a scroll area to the container */
-    def scroll(): ScrollArea = new ScrollArea().withPixi(pixi => a.addChild(pixi))
   }
 
   implicit class AssetOps(val a: Asset) extends AnyVal {
@@ -304,9 +309,20 @@ object ops extends GlobalContext {
 
   implicit class ComponentOps[A <: Component](val component: A) extends AnyVal {
     /** Adds the component to given container */
-    def addTo(container: Container): A = {
+    def in(container: Container): A = {
       component.toPixi.addTo(container)
       component
+    }
+  }
+
+  implicit class LayoutOps[A <: LayoutBox](val box: A) extends AnyVal {
+    /** Adds all component children to given container */
+    def componentsIn(container: Container): A = {
+      box.allChildren.foreach {
+        case component: Component => component.in(container)
+        case _ => // ignore
+      }
+      box
     }
   }
 

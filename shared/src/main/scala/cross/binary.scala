@@ -59,7 +59,7 @@ object binary {
   }
 
   /** Reads and writes lists of A */
-  implicit def listFormat[A: BF]: BF[List[A]] = new BinaryFormat[List[A]] {
+  implicit def implicitListFormat[A: BF]: BF[List[A]] = new BinaryFormat[List[A]] {
     override def read(path: Path, bytes: ByteList): (List[A], ByteList) = {
       val (length, tail) = bytes.readInt
       (0 until length).foldLeft[(List[A], ByteList)](Nil, tail) { case ((list, currentTail), index) =>
@@ -77,7 +77,7 @@ object binary {
   }
 
   /** Reads and writes optional A */
-  implicit def optionFormat[A: BF]: BF[Option[A]] = listFormat[A].map(list => list.headOption, option => option.toList)
+  implicit def implicitOptionFormat[A: BF]: BF[Option[A]] = implicitListFormat[A].map(list => list.headOption, option => option.toList)
 
   /** Represents a lazy byte array */
   case class ByteList(parts: List[ByteBuffer]) {
@@ -101,7 +101,8 @@ object binary {
 
     /** Appends string */
     def +(string: String): ByteList = {
-      this + string.length + ByteBuffer.wrap(string.getBytes(UTF_8))
+      val bytes = string.getBytes(UTF_8)
+      this + bytes.length + ByteBuffer.wrap(bytes)
     }
 
     /** Appends another byte list */

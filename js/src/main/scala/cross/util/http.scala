@@ -1,7 +1,7 @@
 package cross.util
 
 import java.net.URI
-import java.nio.ByteBuffer
+import java.util.Base64
 
 import cross.binary._
 import cross.general.config.GeneralConfig
@@ -10,7 +10,6 @@ import org.scalajs.dom.{XMLHttpRequest, document, window}
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js.URIUtils
-import scala.scalajs.js.typedarray.{ArrayBuffer, Uint8Array}
 import scala.util.Try
 
 object http extends Logging {
@@ -66,12 +65,9 @@ object http extends Logging {
       s"?$string"
     }
 
-    val requestBuffer = body.map { a =>
+    val requestBase64 = body.map { a =>
       val bytes = a.toBinary.toByteArray
-      val buffer = new ArrayBuffer(bytes.length)
-      val typed = new Uint8Array(buffer)
-      bytes.zipWithIndex.foreach { case (byte, index) => typed(index) = byte }
-      buffer
+      Base64.getEncoder.encodeToString(bytes)
     }
 
     val promise = Promise[B]()
@@ -81,18 +77,9 @@ object http extends Logging {
     request.onload = { _ =>
       if (response) {
         promise.complete(Try {
-          log.info("converting response to buffer")
-          val buffer = request.response.asInstanceOf[ArrayBuffer]
-          log.info("creating typed buffer")
-          val typed = new Uint8Array(buffer)
-          log.info("allocating byte buffer")
-          val bytes = ByteBuffer.allocate(buffer.byteLength)
-          log.info("reading bytes")
-          typed.foreach(byte => bytes.put(byte.toByte))
-          log.info("converting to scala")
-          val b = ByteList(bytes :: Nil).toScala[B]()
-          log.info("done")
-          b
+          val base64 = request.response.asInstanceOf[String]
+          val bytes = Base64.getDecoder.decode(base64)
+          ByteList(bytes).toScala[B]()
         })
       } else {
         promise.success(().asInstanceOf[B])
@@ -105,10 +92,10 @@ object http extends Logging {
       promise.failure(up)
     }
     request.open(method, s"${config.server}$path$query", async = true)
-    request.responseType = "arraybuffer"
-    request.setRequestHeader("Content-Type", "application/octet-stream")
-    requestBuffer match {
-      case Some(buffer) => request.send(buffer)
+    request.responseType = "text"
+    request.setRequestHeader("Content-Type", "text/plain")
+    requestBase64 match {
+      case Some(base64) => request.send(base64)
       case None => request.send()
     }
 

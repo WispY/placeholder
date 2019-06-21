@@ -22,7 +22,7 @@ object routes {
     /** Returns a list of chat messages from admins */
     `GET /api/pac/admin-messages`.apply { session =>
       implicit val to: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
-      onSuccess(processor ? GetAdminMessages) { case list: List[Message] => complete(list) }
+      onSuccess(processor ? GetAdminMessages) { case list: List[ChatMessage] => complete(list) }
     }
   )
 

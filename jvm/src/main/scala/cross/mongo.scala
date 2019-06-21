@@ -85,7 +85,7 @@ object mongo {
   )
 
   /** Reads lists of A */
-  implicit def listFormat[A: MF]: MF[List[A]] = new MF[List[A]] {
+  implicit def implicitListFormat[A: MF]: MF[List[A]] = new MF[List[A]] {
     override def read(path: Path, formatted: BsonValue): (List[A], BsonValue) = {
       readPath(path, formatted) match {
         case None =>
@@ -106,7 +106,7 @@ object mongo {
   }
 
   /** Reads optional A */
-  implicit def optionFormat[A: MF]: MF[Option[A]] = listFormat[A].map(list => list.headOption, option => option.toList)
+  implicit def implicitOptionFormat[A: MF]: MF[Option[A]] = implicitListFormat[A].map(list => list.headOption, option => option.toList)
 
   /** Reads the bson value at given path */
   private def readPath(path: Path, bson: BsonValue): Option[BsonValue] = path match {

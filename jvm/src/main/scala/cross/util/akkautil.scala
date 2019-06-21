@@ -1,14 +1,16 @@
 package cross.util
 
+import java.util.Base64
+
 import akka.actor.Scheduler
 import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
 import akka.http.scaladsl.marshalling.PredefinedToResponseMarshallers._
 import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
-import akka.http.scaladsl.model.ContentTypes.`application/octet-stream`
-import akka.http.scaladsl.model.{HttpRequest, IllegalRequestException, StatusCodes}
+import akka.http.scaladsl.model.MediaTypes.`text/plain`
 import akka.http.scaladsl.model.headers.{HttpCookie, HttpCookiePair}
-import akka.http.scaladsl.server.{Directive0, Directive1}
+import akka.http.scaladsl.model.{HttpRequest, IllegalRequestException, StatusCodes}
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.{Directive0, Directive1}
 import akka.http.scaladsl.unmarshalling.PredefinedFromEntityUnmarshallers._
 import akka.http.scaladsl.unmarshalling.{FromEntityUnmarshaller, FromRequestUnmarshaller}
 import akka.pattern.ask
@@ -16,7 +18,10 @@ import akka.stream.Materializer
 import akka.util.Timeout
 import cross.binary._
 import cross.general.config.GeneralConfig
+import cross.general.protocol.User
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
+import cross.pac.protocol.ChatMessage
+import spray.json.RootJsonFormat
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -26,7 +31,8 @@ import scala.util.{Failure, Success}
 object akkautil {
   /** Creates the entity parser from binary format */
   implicit def binaryFormatToEntityUnmarshaller[A](implicit format: BF[A]): FromEntityUnmarshaller[A] = {
-    byteArrayUnmarshaller.map { bytes =>
+    stringUnmarshaller.map { string =>
+      val bytes = Base64.getDecoder.decode(string)
       val a = ByteList(bytes).toScala[A]()
       a
     }
@@ -41,7 +47,21 @@ object akkautil {
 
   /** Creates the entity marshaller from binary format */
   implicit def binaryFormatToEntityMarshaller[A](implicit format: BF[A]): ToEntityMarshaller[A] = {
-    byteArrayMarshaller(`application/octet-stream`).compose(value => value.toBinary.toByteArray)
+    stringMarshaller(`text/plain`).compose { value =>
+      val bytes = value.toBinary.toByteArray
+      val base64 = Base64.getEncoder.encodeToString(bytes)
+      value match {
+        case list: List[ChatMessage] =>
+          import spray.json.DefaultJsonProtocol._
+          import spray.json._
+          implicit val userF: RootJsonFormat[User] = jsonFormat3(User)
+          implicit val messageF: RootJsonFormat[ChatMessage] = jsonFormat4(ChatMessage)
+          val json = list.asInstanceOf[List[ChatMessage]].toJson.compactPrint
+          println(json)
+        case _ =>
+      }
+      base64
+    }
   }
 
   /** Creates the response marshaller from binary format */
