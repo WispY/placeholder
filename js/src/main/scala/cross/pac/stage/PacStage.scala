@@ -29,7 +29,7 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
   private lazy val manageContent = {
     val buttons = (0 until 50).map { i =>
-      button(config.signinButtonStyle).fillX.pad(15).children(fillLabel(s"Art Challenge $i", config.signinLabelStyle))
+      button(config.signinButtonStyle).fillX.pad(15).children(fillLabel(s"Art Challenge - Art Challenge - Art Challenge $i", config.signinLabelStyle))
     }
     ybox.pad(20).space(10).children(buttons: _*).alignTop.fillX
   }

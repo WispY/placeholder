@@ -25374,7 +25374,7 @@ $c_Lcross_component_flat_FillLabel.prototype.init__p2__V = (function() {
   var a = this.text$2;
   jsx$1.anchorAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a, $m_Lcross_common$Vec2d$().Zero$1);
   this.textHeight$2 = $uD($g.PIXI.TextMetrics.measureText("A", this.text$2.style).height);
-  $f_Lcross_layout$LayoutBox__layoutUp__V(this)
+  $f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this)
 });
 $c_Lcross_component_flat_FillLabel.prototype.init___Lcross_component_util$FontStyle = (function(style) {
   this.style$2 = style;
@@ -25393,26 +25393,31 @@ $c_Lcross_component_flat_FillLabel.prototype.calculateWidths__p2__V = (function(
   var this$5 = new $c_sci_Range$Inclusive().init___I__I__I(0, end, 1).reverse__sci_Range();
   var this$6 = $m_sci_List$();
   var cbf = this$6.ReusableCBFInstance$2;
-  var this$12 = $as_sci_List($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this$5, cbf));
+  var this$13 = $as_sci_List($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this$5, cbf));
   var f = (function($this) {
     return (function(length$2) {
       var length = $uI(length$2);
       var thiz$1 = $this.textString$2;
-      var string = ($as_T(thiz$1.substring(0, length)) + "...");
+      if ((length === $uI(thiz$1.length))) {
+        var string = $this.textString$2
+      } else {
+        var thiz$2 = $this.textString$2;
+        var string = ($as_T(thiz$2.substring(0, length)) + "...")
+      };
       var width = $uD($g.PIXI.TextMetrics.measureText(string, $this.text$2.style).width);
       return new $c_T2().init___O__O(string, width)
     })
   })(this);
-  var this$11 = $m_sci_List$();
-  var bf = this$11.ReusableCBFInstance$2;
+  var this$12 = $m_sci_List$();
+  var bf = this$12.ReusableCBFInstance$2;
   if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
-    if ((this$12 === $m_sci_Nil$())) {
+    if ((this$13 === $m_sci_Nil$())) {
       var jsx$1 = $m_sci_Nil$()
     } else {
-      var arg1 = this$12.head__O();
+      var arg1 = this$13.head__O();
       var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
       var t = h;
-      var rest = $as_sci_List(this$12.tail__O());
+      var rest = $as_sci_List(this$13.tail__O());
       while ((rest !== $m_sci_Nil$())) {
         var arg1$1 = rest.head__O();
         var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
@@ -25423,8 +25428,8 @@ $c_Lcross_component_flat_FillLabel.prototype.calculateWidths__p2__V = (function(
       var jsx$1 = h
     }
   } else {
-    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$12, bf);
-    var these = this$12;
+    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$13, bf);
+    var these = this$13;
     while ((!these.isEmpty__Z())) {
       var arg1$2 = these.head__O();
       b.$$plus$eq__O__scm_Builder(f(arg1$2));
@@ -31697,13 +31702,12 @@ $c_Lcross_pac_stage_PacStage.prototype.manageContent$lzycompute__p1__Lcross_layo
     var i = 0;
     while (true) {
       var arg1 = i;
-      var l = $m_Lcross_ops$().fillLabel__T__Lcross_component_util$FontStyle__Lcross_component_flat_FillLabel(("Art Challenge " + arg1), this.config$1.signinLabelStyle$1);
       $m_Lcross_ops$();
       var style = this.config$1.signinButtonStyle$1;
       var this$8 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style);
       var this$9 = $f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this$8);
       var this$12 = $f_Lcross_layout$LayoutBox__pad__D__Lcross_layout$LayoutBox(this$9, 15.0);
-      var array = [l];
+      var array = [$m_Lcross_ops$().fillLabel__T__Lcross_component_util$FontStyle__Lcross_component_flat_FillLabel(("Art Challenge - Art Challenge - Art Challenge " + arg1), this.config$1.signinLabelStyle$1)];
       var i$1 = (((-1) + $uI(array.length)) | 0);
       var result = $m_sci_Nil$();
       while ((i$1 >= 0)) {

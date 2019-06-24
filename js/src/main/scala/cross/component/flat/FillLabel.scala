@@ -38,7 +38,7 @@ class FillLabel(style: FontStyle) extends StackBox with Component {
 
   private def calculateWidths(): Unit = {
     textWidths = (0 to textString.length).reverse.toList.map { length =>
-      val string = textString.substring(0, length) + "..."
+      val string = if (length == textString.length) textString else textString.substring(0, length) + "..."
       val width = TextMetrics.measureText(string, text.style).width
       string -> width
     }
@@ -60,7 +60,7 @@ class FillLabel(style: FontStyle) extends StackBox with Component {
     text.style = style.toTextStyle
     text.anchorAt(Vec2d.Zero)
     textHeight = TextMetrics.measureText("A", text.style).height
-    layoutUp()
+    fillX
   }
 
   override def handleVisibility(selfVisible: Boolean, parentVisible: Boolean): Unit = {
