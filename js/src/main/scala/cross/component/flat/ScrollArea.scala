@@ -2,7 +2,7 @@ package cross.component.flat
 
 import cross.common._
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.util.Colors
+import cross.component.util.{Color, Colors}
 import cross.component.{Component, Interactive, RedrawGraphics}
 import cross.layout.{LayoutBox, StackBox, _}
 import cross.ops._
@@ -11,6 +11,8 @@ import cross.util.mvc.GenericController
 import cross.util.spring
 import cross.util.spring.DoubleSpring
 
+import scala.util.Try
+
 /** Scrollable area */
 class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[_]) extends StackBox with Component with Interactive {
   private val self = this
@@ -18,8 +20,12 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
   private var viewSize = Vec2d.Zero
 
   private val root = new Container()
+  private val bar = RedrawGraphics().setColor(style.color).in(root)
+  private val barRegion = region()
   private val mask = RedrawGraphics().in(root)
   private val contentContainer = root.sub.maskWith(mask.interactive)
+
+  /** Scrollable content layout */
   private val contentLayout = new StackBox() {
     override def layoutUp(): Unit = {
       super.layoutUp()
@@ -37,8 +43,16 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
       size
     }
   }.fillBoth
-  private val totalLayout = xbox.children(contentLayout, region(Colors.Red).width(style.barWidth).fillY).space(style.barSpacing)
 
+  /** Content + scroll bad */
+  private val totalLayout = xbox.space(style.space).children(
+    contentLayout,
+    box.fillY.pad(style.pad).children(
+      barRegion.width(style.barWidth).fillY
+    )
+  )
+
+  /** Spring for smooth scrolling */
   private val containerSpring = DoubleSpring(0, 0, { y => contentContainer.positionAt(0 xy y.current) }, style.speed)
   this.init()
 
@@ -66,6 +80,7 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
     super.handleVisibility(selfVisible, parentVisible)
     val enabled = selfVisible && parentVisible
     contentContainer.visibleTo(enabled)
+    bar.toPixi.visibleTo(enabled)
     if (enabled) enableWheel() else disableWheel()
   }
 
@@ -84,6 +99,13 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
     val targetY = currentY + delta
     val boundedY = (targetY max 0) min (contentSize.y - viewSize.y)
     containerSpring.target = -boundedY
+
+    val barLength = Try(viewSize.y / contentSize.y * viewSize.y).getOrElse(0.0) max style.barMinLength
+    val barOffset = Try(boundedY / (contentSize.y - viewSize.y) * (viewSize.y - barLength)).getOrElse(0.0)
+    val barPosition = barRegion.getRelativeBounds.position + (0 xy barOffset)
+    bar.draw { (graphics, color) =>
+      graphics.fillRect(style.barWidth xy barLength, barPosition, color)
+    }
   }
 
   private def init(): Unit = {
@@ -102,10 +124,12 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
 object ScrollArea {
 
   /** Describes the visual style of the scroll area */
-  case class ScrollAreaStyle(speed: Double,
+  case class ScrollAreaStyle(color: Color,
+                             speed: Double,
                              distance: Double,
                              barWidth: Double,
                              barMinLength: Double,
-                             barSpacing: Double)
+                             space: Double,
+                             pad: Double)
 
 }

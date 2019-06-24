@@ -6,7 +6,7 @@ import cross.common._
 import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.flat.{Button, Label, Region, ScrollArea}
+import cross.component.flat.{Button, FillLabel, Label, Region, ScrollArea}
 import cross.component.util.{Color, Colors, FontStyle}
 import cross.layout.LayoutBox
 import cross.pixi._
@@ -88,6 +88,9 @@ object ops extends GlobalContext with Logging {
   def nextFrame(code: => Unit): Unit = dom.window.requestAnimationFrame(_ => code)
 
   /** Adds a region to the container */
+  def region(): Region = new Region()
+
+  /** Adds a region to the container */
   def region(color: Color): Region = new Region().color(Some(color))
 
   /** Adds a button to the container */
@@ -95,6 +98,9 @@ object ops extends GlobalContext with Logging {
 
   /** Adds a label to the container */
   def label(text: String, style: FontStyle): Label = new Label(style).label(text)
+
+  /** Adds a fill label to the container */
+  def fillLabel(text: String, style: FontStyle): FillLabel = new FillLabel(style).label(text)
 
   /** Adds a scroll area to the container */
   def scroll(style: ScrollAreaStyle)(implicit controller: GenericController[_]): ScrollArea = new ScrollArea(style)

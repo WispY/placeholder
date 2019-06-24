@@ -20,8 +20,8 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
   private lazy val stage = new Container
   private lazy val body = stage.sub
 
-  private lazy val bar = region(config.stageColor)
-  private lazy val shadow = region(config.stageShadow)
+  private lazy val bar = region(config.barBackground)
+  private lazy val shadow = region(config.barShadow)
   private lazy val welcome = button(config.welcomeButtonStyle).children(label("Poku Art Challenge", config.welcomeLabelStyle))
   private lazy val user = label("", config.userStyle)
   private lazy val signinLabel = label("Sign In", config.signinLabelStyle)
@@ -29,8 +29,7 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
   private lazy val manageContent = {
     val buttons = (0 until 50).map { i =>
-      val l = label(s"Art Challenge $i", config.signinLabelStyle)
-      button(config.signinButtonStyle).fillX.pad(15).children(l)
+      button(config.signinButtonStyle).fillX.pad(15).children(fillLabel(s"Art Challenge $i", config.signinLabelStyle))
     }
     ybox.pad(20).space(10).children(buttons: _*).alignTop.fillX
   }
@@ -50,9 +49,8 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
             signin.pad(config.stagePad).fillY
           )
         ),
-        shadow.fillX.alignTop.height(config.stageShadowSize),
-        pages,
-        filler
+        shadow.fillX.alignTop.height(config.barShadowSize),
+        pages
       )
     )
     .layout()

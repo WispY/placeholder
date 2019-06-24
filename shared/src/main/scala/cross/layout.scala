@@ -226,7 +226,10 @@ object layout {
     private[layout] def visibleChildren: List[LayoutBox] = layoutChildren.filter(c => c.layoutVisible)
 
     /** Returns the current absolute position and size of the box */
-    def getAbsoluteBounds: Rec2d = layoutBounds.map(b => b.offsetBy(layoutAbsoluteOffset)).getOrElse(Rec2d.Zero)
+    def getAbsoluteBounds: Rec2d = layoutBounds.getOrElse(Rec2d.Zero).offsetBy(layoutAbsoluteOffset)
+
+    /** Returns the current position and size of the box relative to it's parent */
+    def getRelativeBounds: Rec2d = layoutBounds.getOrElse(Rec2d.Zero)
 
     /** Sets the bounds mapping function for effects on box applied to the layout */
     def mapBounds(code: Rec2d => Rec2d): this.type = {
