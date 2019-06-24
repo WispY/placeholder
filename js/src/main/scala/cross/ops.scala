@@ -5,8 +5,9 @@ import java.util.UUID
 import cross.common._
 import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
+import cross.component.flat.Paginator.PaginatorStyle
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.flat.{Button, FillLabel, Label, Region, ScrollArea}
+import cross.component.flat.{Button, FillLabel, Label, Paginator, Region, ScrollArea}
 import cross.component.util.{Color, Colors, FontStyle}
 import cross.layout.LayoutBox
 import cross.pixi._
@@ -100,10 +101,13 @@ object ops extends GlobalContext with Logging {
   def label(text: String, style: FontStyle): Label = new Label(style).label(text)
 
   /** Adds a fill label to the container */
-  def fillLabel(text: String, style: FontStyle): FillLabel = new FillLabel(style).label(text)
+  def fillLabel(text: String, maxLength: Int, style: FontStyle): FillLabel = new FillLabel(style, maxLength).label(text)
 
   /** Adds a scroll area to the container */
   def scroll(style: ScrollAreaStyle)(implicit controller: GenericController[_]): ScrollArea = new ScrollArea(style)
+
+  /** Adds a paginator to the container */
+  def paginator[A](style: PaginatorStyle, source: Data[List[A]], view: Writeable[List[A]]): Paginator[A] = new Paginator[A](style, source, view)
 
   implicit class JsMapOps(val map: Map[String, js.Any]) extends AnyVal {
     /** Converts map to javascript object */

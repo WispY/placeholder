@@ -89,7 +89,7 @@ object mvc {
     private def bindStageTransitions()(implicit app: Application): Unit = {
       val stageContainer = app.stage.sub
       global.apply(app).foreach { stage =>
-        stage.create
+        stage.create.whenFailed(up => log.error(s"failed to create global stage", up))
         stage.toPixi.addTo(app.stage)
       }
       var stage: Future[Stage] = Future.successful(new EmptyStage())
@@ -98,7 +98,7 @@ object mvc {
         stage = for {
           current <- stage
           _ = animation += current.fadeOut().onEnd(current.toPixi.detach)
-          _ <- next.create
+          _ <- next.create.whenFailed(up => log.error(s"failed to create stage [$nextType]", up))
           _ = animation += next.fadeIn().onStart(stageContainer.addChild(next.toPixi))
         } yield next
       }

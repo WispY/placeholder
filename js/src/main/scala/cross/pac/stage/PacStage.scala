@@ -5,7 +5,7 @@ import cross.component.layout._
 import cross.general.config.GeneralConfig
 import cross.layout._
 import cross.ops._
-import cross.pac.config.PacConfig
+import cross.pac.config.{BarConfig, ManageConfig}
 import cross.pac.mvc.{Controller, Pages}
 import cross.pixi._
 import cross.util.animation.Animation
@@ -14,7 +14,11 @@ import cross.util.logging.Logging
 
 import scala.concurrent.Future
 
-class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, controller: Controller, app: Application) extends Stage with Logging with GlobalContext {
+class PacStage(implicit generalConfig: GeneralConfig,
+               config: BarConfig,
+               manageConfig: ManageConfig,
+               controller: Controller,
+               app: Application) extends Stage with Logging with GlobalContext {
   override protected def logKey: String = "pac/stage"
 
   private lazy val stage = new Container
@@ -27,16 +31,8 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
   private lazy val signinLabel = label("Sign In", config.signinLabelStyle)
   private lazy val signin = button(config.signinButtonStyle).children(signinLabel)
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
-  private lazy val manageContent = {
-    val buttons = (0 until 50).map { i =>
-      button(config.signinButtonStyle).fillX.pad(15).children(fillLabel(s"Art Challenge - Art Challenge - Art Challenge $i", config.signinLabelStyle))
-    }
-    ybox.pad(20).space(10).children(buttons: _*).alignTop.fillX
-  }
-  private lazy val managePage = scroll(config.manageScroll).view(manageContent).alignTop
-
-  private lazy val pages = box.children(managePage).fillBoth
-
+  private lazy val managePage = new ManagePage()
+  private lazy val pages = box.children(managePage.pageLayout).fillBoth
   private lazy val layout = screenLayout
     .children(
       ybox.fillBoth.children(
@@ -50,7 +46,7 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
           )
         ),
         shadow.fillX.alignTop.height(config.barShadowSize),
-        pages
+        pages.pad(config.stagePad)
       )
     )
     .layout()
@@ -82,14 +78,14 @@ class PacStage(implicit generalConfig: GeneralConfig, config: PacConfig, control
         user.label("Guest")
     }
 
-    welcome.onClick(_ => controller.artChallenges())
+    welcome.onClick(_ => controller.artChallengesPage())
 
-    manage.onClick(_ => controller.manage())
+    manage.onClick(_ => controller.managePage())
 
     controller.model.page /> { case page =>
       pages.getImmediateChildren.foreach(c => c.visible(false))
       page match {
-        case Pages.Manage => managePage.visible(true)
+        case Pages.Manage => managePage.pageLayout.visible(true)
         case _ =>
       }
     }

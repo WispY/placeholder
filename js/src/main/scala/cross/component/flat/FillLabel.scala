@@ -9,7 +9,7 @@ import cross.ops._
 import cross.pixi.{Container, DisplayObject, Text, TextMetrics}
 
 /** Dynamic text label that fills the given space as much as possible */
-class FillLabel(style: FontStyle) extends StackBox with Component {
+class FillLabel(style: FontStyle, maxLength: Int) extends StackBox with Component {
   private val root = new Container()
   private val text = new Text()
   private var textString = ""
@@ -37,7 +37,7 @@ class FillLabel(style: FontStyle) extends StackBox with Component {
   }
 
   private def calculateWidths(): Unit = {
-    textWidths = (0 to textString.length).reverse.toList.map { length =>
+    textWidths = (0 to (textString.length min maxLength)).reverse.toList.map { length =>
       val string = if (length == textString.length) textString else textString.substring(0, length) + "..."
       val width = TextMetrics.measureText(string, text.style).width
       string -> width

@@ -77,9 +77,12 @@ object http extends Logging {
     request.onload = { _ =>
       if (response) {
         promise.complete(Try {
+          log.info("parsing response")
           val base64 = request.response.asInstanceOf[String]
           val bytes = Base64.getDecoder.decode(base64)
-          ByteList(bytes).toScala[B]()
+          val b = ByteList(bytes).toScala[B]()
+          log.info("response successfully parsed")
+          b
         })
       } else {
         promise.success(().asInstanceOf[B])

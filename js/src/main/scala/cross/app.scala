@@ -27,7 +27,7 @@ object app extends App with GlobalContext with Logging {
     case sakura if sakura.startsWith("/sakura") =>
       startSakura()
     case pac if pac.startsWith("/pac") =>
-      startPac()
+      startPac(pac)
     case discord if discord.startsWith("/discord") =>
       queryParameter("code") match {
         case Some(code) => loginDiscord(code)
@@ -64,12 +64,14 @@ object app extends App with GlobalContext with Logging {
     } yield ()
   }
 
-  def startPac(): Unit = {
+  def startPac(path: String): Unit = {
     import cross.pac.mvc._
 
     log.info("starting pac project")
     updateTitle("Poku Art Challenge")
     implicit val pacConfig = pac.config.Config
+    implicit val barConfig = pacConfig.bar
+    implicit val manageConfig = pacConfig.manage
     implicit val model = Model()
     implicit val controller = new Controller(model)
     implicit val ec = ExecutionContext.global
@@ -84,7 +86,7 @@ object app extends App with GlobalContext with Logging {
       }).load()
       _ <- spring.load()
       _ <- animation.load()
-      _ <- controller.start()
+      _ <- controller.start(path)
     } yield ()
   }
 
@@ -92,7 +94,7 @@ object app extends App with GlobalContext with Logging {
     user <- post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
     _ = log.info(s"logged in as [$user]")
     _ = redirectSilent("/pac", preserveQuery = false)
-    _ = startPac()
+    _ = startPac("/pac")
   } yield user
 
 }
