@@ -13,15 +13,15 @@ class ManagePage()(implicit config: ManageConfig, controller: Controller) extend
 
   private lazy val layout = xbox.space(config.space).fillBoth.children(
     ybox.fillBoth.space(config.space).children(
-      messagesBox,
+      messagesLoader,
       filler,
       messagesPaginator
     ),
     scroll(config.scroll).alignTop.width(config.challengesWidth).fillY
   )
   private lazy val messagesLoading = label("", config.messagesLoadingLabelStyle)
-  private lazy val messagesBox = box.fillBoth.children(messagesLoading, messagesList)
-  private lazy val messagesList = ybox.space(config.messagesSpace)
+  private lazy val messagesLoader = box.fillBoth.children(messagesLoading, messagesList)
+  private lazy val messagesList = ybox.space(config.messagesSpace).fillX
   private lazy val messagesPaginator = paginator(config.messagesPaginatorStyle, controller.model.adminMessages.view(Nil), messagesData)
   private lazy val messagesData: Writeable[List[ChatMessage]] = Data(Nil)
 
@@ -47,7 +47,10 @@ class ManagePage()(implicit config: ManageConfig, controller: Controller) extend
         messagesList.visible(false)
       }
 
-    messagesData /> { case messages =>
+    messagesData /> { case messages if messages.nonEmpty =>
+      messagesLoading.visible(true)
+      messagesList.visible(false)
+
       val buttons = messages.map { message =>
         val line = message.text.replaceAll("\n", " ")
         val text = s"${message.author.name}: $line"
@@ -56,6 +59,10 @@ class ManagePage()(implicit config: ManageConfig, controller: Controller) extend
         )
       }
       messagesList.children(buttons: _*)
+
+
+      messagesLoading.visible(false)
+      messagesList.visible(true)
     }
   }
 

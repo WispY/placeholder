@@ -37,6 +37,7 @@ object layout {
       child.layoutParent = Some(this)
       if (layoutEnabled) child.layout()
       layoutUp()
+      propagateChildAdded(child)
       this
     }
 
@@ -44,6 +45,7 @@ object layout {
     def remove(child: LayoutBox): this.type = this.synchronized {
       layoutChildren = layoutChildren.filterNot(c => c eq child)
       child.layoutParent = None
+      propagateChildRemoved(child)
       layoutUp()
       this
     }
@@ -54,6 +56,24 @@ object layout {
       layoutUp()
       this
     }
+
+    /** Propagates the child added to all parents */
+    private def propagateChildAdded(child: LayoutBox): Unit = {
+      onChildAdded(child)
+      layoutParent.foreach(p => p.propagateChildAdded(child))
+    }
+
+    /** Is executed when child is added to the box or any of it's children */
+    def onChildAdded(child: LayoutBox): Unit = {}
+
+    /** Propagates the child removed to all parents */
+    private def propagateChildRemoved(child: LayoutBox): Unit = {
+      onChildRemoved(child)
+      layoutParent.foreach(p => p.propagateChildRemoved(child))
+    }
+
+    /** Is executed when child is removed from the box or any of it's children */
+    def onChildRemoved(child: LayoutBox): Unit = {}
 
     /** Propagates the layout request up the parent chain */
     def layoutUp(): Unit = layoutParent match {
@@ -212,6 +232,7 @@ object layout {
       layoutChildren = children.toList
       children.foreach(c => c.layoutParent = Some(this))
       if (layoutEnabled) layoutChildren.foreach(c => c.layout())
+      children.foreach(c => propagateChildAdded(c))
       layoutUp()
       this
     }

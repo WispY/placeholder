@@ -33,7 +33,7 @@ class PacStage(implicit generalConfig: GeneralConfig,
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
   private lazy val managePage = new ManagePage()
   private lazy val pages = box.children(managePage.pageLayout).fillBoth
-  private lazy val layout = screenLayout
+  private lazy val layout = screenLayout(body)
     .children(
       ybox.fillBoth.children(
         bar.fillX.alignTop.children(
@@ -54,8 +54,6 @@ class PacStage(implicit generalConfig: GeneralConfig,
   override lazy val create: Future[Unit] = Future {
     log.info("setting up...")
     pages :: shadow :: bar :: welcome :: user :: manage :: signin :: signinLabel :: layout :: Nil
-
-    layout.componentsIn(body)
 
     controller.model.user /> {
       case Some(u) =>

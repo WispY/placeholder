@@ -7,9 +7,8 @@ import cross.component.Component
 import cross.component.flat.Button.ButtonStyle
 import cross.component.flat.Paginator.PaginatorStyle
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.flat.{Button, FillLabel, Label, Paginator, Region, ScrollArea}
+import cross.component.flat._
 import cross.component.util.{Color, Colors, FontStyle}
-import cross.layout.LayoutBox
 import cross.pixi._
 import cross.sakura.config._
 import cross.sakura.mvc._
@@ -322,17 +321,6 @@ object ops extends GlobalContext with Logging {
     def in(container: Container): A = {
       component.toPixi.addTo(container)
       component
-    }
-  }
-
-  implicit class LayoutOps[A <: LayoutBox](val box: A) extends AnyVal {
-    /** Adds all component children to given container */
-    def componentsIn(container: Container): A = {
-      box.getAllChildren.foreach {
-        case component: Component => component.in(container)
-        case _ => // ignore
-      }
-      box
     }
   }
 

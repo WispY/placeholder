@@ -2,7 +2,7 @@ package cross.component.flat
 
 import cross.common._
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.util.{Color, Colors}
+import cross.component.util.Color
 import cross.component.{Component, Interactive, RedrawGraphics}
 import cross.layout.{LayoutBox, StackBox, _}
 import cross.ops._
@@ -42,9 +42,25 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
       contentSize = size
       size
     }
+
+    override def onChildAdded(child: LayoutBox): Unit = {
+      (child :: child.getAllChildren).foreach {
+        case component: Component => component.in(contentContainer)
+        case _ => // ignore
+      }
+      super.onChildAdded(child)
+    }
+
+    override def onChildRemoved(child: LayoutBox): Unit = {
+      (child :: child.getAllChildren).foreach {
+        case component: Component => component.toPixi.detach
+        case _ => // ignore
+      }
+      super.onChildRemoved(child)
+    }
   }.fillBoth
 
-  /** Content + scroll bad */
+  /** Content + scroll bar */
   private val totalLayout = xbox.space(style.space).children(
     contentLayout,
     box.fillY.pad(style.pad).children(
@@ -86,7 +102,7 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
 
   /** Defines the content of this scroll area from pixi container and internal layout box */
   def view(content: LayoutBox): this.type = {
-    contentLayout.children(content.componentsIn(contentContainer))
+    contentLayout.children(content)
     this
   }
 
@@ -111,7 +127,6 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
   private def init(): Unit = {
     this.fillBoth
     spring.add(containerSpring)
-    totalLayout.componentsIn(contentContainer)
     onWheel { direction =>
       if (getAbsoluteBounds.contains(controller.model.mouse.read)) {
         val delta = style.distance * (if (direction) +1 else -1)

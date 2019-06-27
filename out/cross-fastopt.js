@@ -1338,6 +1338,10 @@ function $f_Lcross_layout$LayoutBox__mapBounds__F1__Lcross_layout$LayoutBox($thi
   $f_Lcross_layout$LayoutBox__reLayoutDown__V($thiz);
   return $thiz
 }
+function $f_Lcross_layout$LayoutBox__getRelativeBounds__Lcross_common$Rec2d($thiz) {
+  var this$1 = $thiz.layoutBounds__s_Option();
+  return $as_Lcross_common$Rec2d((this$1.isEmpty__Z() ? $m_Lcross_common$Rec2d$().Zero$1 : this$1.get__O()))
+}
 function $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox($thiz) {
   $m_Lcross_common$();
   var $$this = 1;
@@ -1345,9 +1349,14 @@ function $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox($thiz) {
   $thiz.layoutUp__V();
   return $thiz
 }
-function $f_Lcross_layout$LayoutBox__getRelativeBounds__Lcross_common$Rec2d($thiz) {
-  var this$1 = $thiz.layoutBounds__s_Option();
-  return $as_Lcross_common$Rec2d((this$1.isEmpty__Z() ? $m_Lcross_common$Rec2d$().Zero$1 : this$1.get__O()))
+function $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V($thiz, child) {
+  $thiz.onChildAdded__Lcross_layout$LayoutBox__V(child);
+  var this$1 = $thiz.layoutParent__s_Option();
+  if ((!this$1.isEmpty__Z())) {
+    var arg1 = this$1.get__O();
+    var p = $as_Lcross_layout$LayoutBox(arg1);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(p, child)
+  }
 }
 function $f_Lcross_layout$LayoutBox__getAbsoluteBounds__Lcross_common$Rec2d($thiz) {
   var this$1 = $thiz.layoutBounds__s_Option();
@@ -1485,6 +1494,12 @@ function $f_Lcross_layout$LayoutBox__children__sc_Seq__Lcross_layout$LayoutBox($
       these = $as_sci_List(these.tail__O())
     }
   };
+  children.foreach__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3) {
+    return (function(c$4$2) {
+      var c$4 = $as_Lcross_layout$LayoutBox(c$4$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$3, c$4)
+    })
+  })($thiz)));
   $thiz.layoutUp__V();
   return $thiz
 }
@@ -3779,50 +3794,6 @@ function $m_Lcross_ops$GraphicsOps$() {
     $n_Lcross_ops$GraphicsOps$ = new $c_Lcross_ops$GraphicsOps$().init___()
   };
   return $n_Lcross_ops$GraphicsOps$
-}
-/** @constructor */
-function $c_Lcross_ops$LayoutOps$() {
-  $c_O.call(this)
-}
-$c_Lcross_ops$LayoutOps$.prototype = new $h_O();
-$c_Lcross_ops$LayoutOps$.prototype.constructor = $c_Lcross_ops$LayoutOps$;
-/** @constructor */
-function $h_Lcross_ops$LayoutOps$() {
-  /*<skip>*/
-}
-$h_Lcross_ops$LayoutOps$.prototype = $c_Lcross_ops$LayoutOps$.prototype;
-$c_Lcross_ops$LayoutOps$.prototype.init___ = (function() {
-  return this
-});
-$c_Lcross_ops$LayoutOps$.prototype.componentsIn$extension__Lcross_layout$LayoutBox__Lcross_pixi_Container__Lcross_layout$LayoutBox = (function($$this, container) {
-  var this$1 = $f_Lcross_layout$LayoutBox__getAllChildren__sci_List($$this);
-  var these = this$1;
-  while ((!these.isEmpty__Z())) {
-    var arg1 = these.head__O();
-    var x0$1 = $as_Lcross_layout$LayoutBox(arg1);
-    if ($is_Lcross_component_Component(x0$1)) {
-      var jsx$1 = $m_Lcross_ops$ComponentOps$();
-      $m_Lcross_ops$();
-      var component = $as_Lcross_component_Component(x0$1);
-      jsx$1.in$extension__Lcross_component_Component__Lcross_pixi_Container__Lcross_component_Component(component, container)
-    };
-    these = $as_sci_List(these.tail__O())
-  };
-  return $$this
-});
-var $d_Lcross_ops$LayoutOps$ = new $TypeData().initClass({
-  Lcross_ops$LayoutOps$: 0
-}, false, "cross.ops$LayoutOps$", {
-  Lcross_ops$LayoutOps$: 1,
-  O: 1
-});
-$c_Lcross_ops$LayoutOps$.prototype.$classData = $d_Lcross_ops$LayoutOps$;
-var $n_Lcross_ops$LayoutOps$ = (void 0);
-function $m_Lcross_ops$LayoutOps$() {
-  if ((!$n_Lcross_ops$LayoutOps$)) {
-    $n_Lcross_ops$LayoutOps$ = new $c_Lcross_ops$LayoutOps$().init___()
-  };
-  return $n_Lcross_ops$LayoutOps$
 }
 /** @constructor */
 function $c_Lcross_ops$PointOps$() {
@@ -15272,6 +15243,9 @@ function $h_Lcross_layout$StackBox() {
   /*<skip>*/
 }
 $h_Lcross_layout$StackBox.prototype = $c_Lcross_layout$StackBox.prototype;
+$c_Lcross_layout$StackBox.prototype.onChildAdded__Lcross_layout$LayoutBox__V = (function(child) {
+  /*<skip>*/
+});
 $c_Lcross_layout$StackBox.prototype.layoutBoxMapper__F1 = (function() {
   return this.layoutBoxMapper$1
 });
@@ -15424,6 +15398,9 @@ function $h_Lcross_layout$XBox() {
   /*<skip>*/
 }
 $h_Lcross_layout$XBox.prototype = $c_Lcross_layout$XBox.prototype;
+$c_Lcross_layout$XBox.prototype.onChildAdded__Lcross_layout$LayoutBox__V = (function(child) {
+  /*<skip>*/
+});
 $c_Lcross_layout$XBox.prototype.layoutBoxMapper__F1 = (function() {
   return this.layoutBoxMapper$1
 });
@@ -15654,6 +15631,9 @@ function $h_Lcross_layout$YBox() {
   /*<skip>*/
 }
 $h_Lcross_layout$YBox.prototype = $c_Lcross_layout$YBox.prototype;
+$c_Lcross_layout$YBox.prototype.onChildAdded__Lcross_layout$LayoutBox__V = (function(child) {
+  /*<skip>*/
+});
 $c_Lcross_layout$YBox.prototype.layoutBoxMapper__F1 = (function() {
   return this.layoutBoxMapper$1
 });
@@ -17284,8 +17264,8 @@ $c_Lcross_pac_protocol$$anon$2.prototype.$classData = $d_Lcross_pac_protocol$$an
 function $c_Lcross_pac_stage_ManagePage() {
   $c_O.call(this);
   this.layout$1 = null;
-  this.messagesLoading$1 = null;
-  this.messagesBox$1 = null;
+  this.cross$pac$stage$ManagePage$$messagesLoading$1 = null;
+  this.messagesLoader$1 = null;
   this.cross$pac$stage$ManagePage$$messagesList$1 = null;
   this.messagesPaginator$1 = null;
   this.messagesData$1 = null;
@@ -17303,9 +17283,6 @@ function $h_Lcross_pac_stage_ManagePage() {
   /*<skip>*/
 }
 $h_Lcross_pac_stage_ManagePage.prototype = $c_Lcross_pac_stage_ManagePage.prototype;
-$c_Lcross_pac_stage_ManagePage.prototype.messagesBox__p1__Lcross_layout$StackBox = (function() {
-  return (((((4 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.messagesBox$lzycompute__p1__Lcross_layout$StackBox() : this.messagesBox$1)
-});
 $c_Lcross_pac_stage_ManagePage.prototype.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox = (function() {
   return (((((8 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.messagesList$lzycompute__p1__Lcross_layout$YBox() : this.cross$pac$stage$ManagePage$$messagesList$1)
 });
@@ -17316,26 +17293,27 @@ $c_Lcross_pac_stage_ManagePage.prototype.messagesList$lzycompute__p1__Lcross_lay
   if (((((8 & this.bitmap$0$1) << 24) >> 24) === 0)) {
     var this$2 = new $c_Lcross_layout$YBox().init___();
     var space = this.cross$pac$stage$ManagePage$$config$f.messagesSpace$1;
-    this.cross$pac$stage$ManagePage$$messagesList$1 = $as_Lcross_layout$YBox($f_Lcross_layout$LayoutBox__space__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$2, space));
+    var this$3 = $f_Lcross_layout$LayoutBox__space__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$2, space);
+    this.cross$pac$stage$ManagePage$$messagesList$1 = $as_Lcross_layout$YBox($f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this$3));
     this.bitmap$0$1 = (((8 | this.bitmap$0$1) << 24) >> 24)
   };
   return this.cross$pac$stage$ManagePage$$messagesList$1
 });
 $c_Lcross_pac_stage_ManagePage.prototype.messagesLoading$lzycompute__p1__Lcross_component_flat_Label = (function() {
   if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.messagesLoading$1 = $m_Lcross_ops$().label__T__Lcross_component_util$FontStyle__Lcross_component_flat_Label("", this.cross$pac$stage$ManagePage$$config$f.messagesLoadingLabelStyle$1);
+    this.cross$pac$stage$ManagePage$$messagesLoading$1 = $m_Lcross_ops$().label__T__Lcross_component_util$FontStyle__Lcross_component_flat_Label("", this.cross$pac$stage$ManagePage$$config$f.messagesLoadingLabelStyle$1);
     this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
   };
-  return this.messagesLoading$1
+  return this.cross$pac$stage$ManagePage$$messagesLoading$1
 });
 $c_Lcross_pac_stage_ManagePage.prototype.cross$util$logging$Logging$$undsetter$und$log$und$eq__Lcross_util_logging$LogApi__V = (function(x$1) {
   this.log$1 = x$1
 });
-$c_Lcross_pac_stage_ManagePage.prototype.messagesBox$lzycompute__p1__Lcross_layout$StackBox = (function() {
+$c_Lcross_pac_stage_ManagePage.prototype.messagesLoader$lzycompute__p1__Lcross_layout$StackBox = (function() {
   if (((((4 & this.bitmap$0$1) << 24) >> 24) === 0)) {
     var this$2 = new $c_Lcross_layout$StackBox().init___();
     var this$5 = $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$2);
-    var array = [this.messagesLoading__p1__Lcross_component_flat_Label(), this.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox()];
+    var array = [this.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label(), this.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox()];
     var i = (((-1) + $uI(array.length)) | 0);
     var result = $m_sci_Nil$();
     while ((i >= 0)) {
@@ -17365,17 +17343,23 @@ $c_Lcross_pac_stage_ManagePage.prototype.messagesBox$lzycompute__p1__Lcross_layo
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$5, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     this$5.layoutUp__V();
-    this.messagesBox$1 = $as_Lcross_layout$StackBox(this$5);
+    this.messagesLoader$1 = $as_Lcross_layout$StackBox(this$5);
     this.bitmap$0$1 = (((4 | this.bitmap$0$1) << 24) >> 24)
   };
-  return this.messagesBox$1
+  return this.messagesLoader$1
 });
 $c_Lcross_pac_stage_ManagePage.prototype.cross$util$logging$Logging$$undsetter$und$logKeyRef$und$eq__Lcross_util_logging$LogKey__V = (function(x$1) {
   this.logKeyRef$1 = x$1
-});
-$c_Lcross_pac_stage_ManagePage.prototype.messagesLoading__p1__Lcross_component_flat_Label = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.messagesLoading$lzycompute__p1__Lcross_component_flat_Label() : this.messagesLoading$1)
 });
 $c_Lcross_pac_stage_ManagePage.prototype.init__p1__V = (function() {
   var jsx$3 = $m_Lcross_pac_mvc$LoadableOps$();
@@ -17387,7 +17371,7 @@ $c_Lcross_pac_stage_ManagePage.prototype.init__p1__V = (function() {
   var loadable = this.controller$1.model$1.adminMessages$1;
   var loadable$1 = jsx$1.onLoading$extension__Lcross_common$Writeable__F0__Lcross_common$Writeable(loadable, new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
     return (function() {
-      var this$2 = $this.messagesLoading__p1__Lcross_component_flat_Label().label__T__Lcross_component_flat_Label("Loading messages...");
+      var this$2 = $this.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label().label__T__Lcross_component_flat_Label("Loading messages...");
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$2, true);
       var this$3 = $this.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$3, false)
@@ -17396,7 +17380,7 @@ $c_Lcross_pac_stage_ManagePage.prototype.init__p1__V = (function() {
   var loadable$2 = jsx$2.onLoad$extension__Lcross_common$Writeable__F1__Lcross_common$Writeable(loadable$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(messages$2) {
       $as_sci_List(messages$2);
-      var this$5 = this$2$1.messagesLoading__p1__Lcross_component_flat_Label();
+      var this$5 = this$2$1.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label();
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$5, false);
       var this$6 = this$2$1.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$6, true)
@@ -17405,7 +17389,7 @@ $c_Lcross_pac_stage_ManagePage.prototype.init__p1__V = (function() {
   jsx$3.onFailed$extension__Lcross_common$Writeable__F1__Lcross_common$Writeable(loadable$2, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(error$2) {
       var error = $as_T(error$2);
-      var this$8 = this$3$1.messagesLoading__p1__Lcross_component_flat_Label().label__T__Lcross_component_flat_Label(error);
+      var this$8 = this$3$1.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label().label__T__Lcross_component_flat_Label(error);
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$8, true);
       var this$9 = this$3$1.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
       $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$9, false)
@@ -17450,7 +17434,7 @@ $c_Lcross_pac_stage_ManagePage.prototype.layout$lzycompute__p1__Lcross_layout$XB
     var this$6 = $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$5);
     var space$1 = this.cross$pac$stage$ManagePage$$config$f.space$1;
     var this$11 = $f_Lcross_layout$LayoutBox__space__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$6, space$1);
-    var jsx$1 = this.messagesBox__p1__Lcross_layout$StackBox();
+    var jsx$1 = this.messagesLoader__p1__Lcross_layout$StackBox();
     var this$8 = new $c_Lcross_layout$StackBox().init___();
     var array = [jsx$1, $as_Lcross_layout$StackBox($f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$8)), this.messagesPaginator__p1__Lcross_component_flat_Paginator()];
     var i = (((-1) + $uI(array.length)) | 0);
@@ -17482,6 +17466,15 @@ $c_Lcross_pac_stage_ManagePage.prototype.layout$lzycompute__p1__Lcross_layout$XB
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$11, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     this$11.layoutUp__V();
     $m_Lcross_ops$();
     var style = this.cross$pac$stage$ManagePage$$config$f.scroll$1;
@@ -17492,34 +17485,43 @@ $c_Lcross_pac_stage_ManagePage.prototype.layout$lzycompute__p1__Lcross_layout$XB
     var width = this.cross$pac$stage$ManagePage$$config$f.challengesWidth$1;
     var this$17 = $f_Lcross_layout$LayoutBox__width__D__Lcross_layout$LayoutBox(this$16, width);
     var array$1 = [this$11, $f_Lcross_layout$LayoutBox__fillY__Lcross_layout$LayoutBox(this$17)];
-    var i$2 = (((-1) + $uI(array$1.length)) | 0);
+    var i$3 = (((-1) + $uI(array$1.length)) | 0);
     var result$1 = $m_sci_Nil$();
-    while ((i$2 >= 0)) {
+    while ((i$3 >= 0)) {
       var this$21 = result$1;
-      var index$2 = i$2;
-      var x$1 = array$1[index$2];
+      var index$3 = i$3;
+      var x$1 = array$1[index$3];
       result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$1, this$21);
-      i$2 = (((-1) + i$2) | 0)
+      i$3 = (((-1) + i$3) | 0)
     };
     this$20.layoutChildren$und$eq__sci_List__V(result$1);
-    var i$3 = 0;
-    var len$1 = $uI(array$1.length);
-    while ((i$3 < len$1)) {
-      var index$3 = i$3;
-      var arg1$2 = array$1[index$3];
-      var c$1 = $as_Lcross_layout$LayoutBox(arg1$2);
+    var i$4 = 0;
+    var len$2 = $uI(array$1.length);
+    while ((i$4 < len$2)) {
+      var index$4 = i$4;
+      var arg1$3 = array$1[index$4];
+      var c$1 = $as_Lcross_layout$LayoutBox(arg1$3);
       c$1.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$20));
-      i$3 = ((1 + i$3) | 0)
+      i$4 = ((1 + i$4) | 0)
     };
     if (this$20.layoutEnabled__Z()) {
       var this$22 = this$20.layoutChildren__sci_List();
       var these$1 = this$22;
       while ((!these$1.isEmpty__Z())) {
-        var arg1$3 = these$1.head__O();
-        var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$3);
+        var arg1$4 = these$1.head__O();
+        var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$4);
         c$3$1.layout__Lcross_layout$LayoutBox();
         these$1 = $as_sci_List(these$1.tail__O())
       }
+    };
+    var i$5 = 0;
+    var len$3 = $uI(array$1.length);
+    while ((i$5 < len$3)) {
+      var index$5 = i$5;
+      var arg1$5 = array$1[index$5];
+      var c$4$1 = $as_Lcross_layout$LayoutBox(arg1$5);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$20, c$4$1);
+      i$5 = ((1 + i$5) | 0)
     };
     this$20.layoutUp__V();
     this.layout$1 = $as_Lcross_layout$XBox(this$20);
@@ -17530,6 +17532,9 @@ $c_Lcross_pac_stage_ManagePage.prototype.layout$lzycompute__p1__Lcross_layout$XB
 $c_Lcross_pac_stage_ManagePage.prototype.layout__p1__Lcross_layout$XBox = (function() {
   return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.layout$lzycompute__p1__Lcross_layout$XBox() : this.layout$1)
 });
+$c_Lcross_pac_stage_ManagePage.prototype.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.messagesLoading$lzycompute__p1__Lcross_component_flat_Label() : this.cross$pac$stage$ManagePage$$messagesLoading$1)
+});
 $c_Lcross_pac_stage_ManagePage.prototype.init___Lcross_pac_config$ManageConfig__Lcross_pac_mvc$Controller = (function(config, controller) {
   this.cross$pac$stage$ManagePage$$config$f = config;
   this.controller$1 = controller;
@@ -17539,6 +17544,9 @@ $c_Lcross_pac_stage_ManagePage.prototype.init___Lcross_pac_config$ManageConfig__
 });
 $c_Lcross_pac_stage_ManagePage.prototype.logKey__T = (function() {
   return "pac/manage"
+});
+$c_Lcross_pac_stage_ManagePage.prototype.messagesLoader__p1__Lcross_layout$StackBox = (function() {
+  return (((((4 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.messagesLoader$lzycompute__p1__Lcross_layout$StackBox() : this.messagesLoader$1)
 });
 var $d_Lcross_pac_stage_ManagePage = new $TypeData().initClass({
   Lcross_pac_stage_ManagePage: 0
@@ -21977,6 +21985,22 @@ function $h_Lcross_component_flat_ScrollArea$$anon$1() {
   /*<skip>*/
 }
 $h_Lcross_component_flat_ScrollArea$$anon$1.prototype = $c_Lcross_component_flat_ScrollArea$$anon$1.prototype;
+$c_Lcross_component_flat_ScrollArea$$anon$1.prototype.onChildAdded__Lcross_layout$LayoutBox__V = (function(child) {
+  var this$1 = $f_Lcross_layout$LayoutBox__getAllChildren__sci_List(child);
+  var this$2 = new $c_sci_$colon$colon().init___O__sci_List(child, this$1);
+  var these = this$2;
+  while ((!these.isEmpty__Z())) {
+    var arg1 = these.head__O();
+    var x0$1 = $as_Lcross_layout$LayoutBox(arg1);
+    if ($is_Lcross_component_Component(x0$1)) {
+      var jsx$1 = $m_Lcross_ops$ComponentOps$();
+      $m_Lcross_ops$();
+      var component = $as_Lcross_component_Component(x0$1);
+      jsx$1.in$extension__Lcross_component_Component__Lcross_pixi_Container__Lcross_component_Component(component, this.$$outer$2.cross$component$flat$ScrollArea$$contentContainer$2)
+    };
+    these = $as_sci_List(these.tail__O())
+  }
+});
 $c_Lcross_component_flat_ScrollArea$$anon$1.prototype.minimumSize__Lcross_common$Vec2d = (function() {
   var size = $c_Lcross_layout$StackBox.prototype.minimumSize__Lcross_common$Vec2d.call(this);
   this.$$outer$2.cross$component$flat$ScrollArea$$contentSize$2 = size;
@@ -26405,7 +26429,8 @@ function $c_Lcross_component_flat_FillLabel() {
   this.text$2 = null;
   this.textString$2 = null;
   this.textWidths$2 = null;
-  this.textHeight$2 = 0.0
+  this.textHeight$2 = 0.0;
+  this.requiresUpdate$2 = false
 }
 $c_Lcross_component_flat_FillLabel.prototype = new $h_Lcross_layout$StackBox();
 $c_Lcross_component_flat_FillLabel.prototype.constructor = $c_Lcross_component_flat_FillLabel;
@@ -26424,60 +26449,6 @@ $c_Lcross_component_flat_FillLabel.prototype.init__p2__V = (function() {
   this.textHeight$2 = $uD($g.PIXI.TextMetrics.measureText("A", this.text$2.style).height);
   $f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this)
 });
-$c_Lcross_component_flat_FillLabel.prototype.calculateWidths__p2__V = (function() {
-  var thiz = this.textString$2;
-  var x = $uI(thiz.length);
-  var that = this.maxLength$2;
-  var end = ((x < that) ? x : that);
-  var this$9 = new $c_sci_Range$Inclusive().init___I__I__I(0, end, 1).reverse__sci_Range();
-  var this$10 = $m_sci_List$();
-  var cbf = this$10.ReusableCBFInstance$2;
-  var this$17 = $as_sci_List($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this$9, cbf));
-  var f = (function($this) {
-    return (function(length$2) {
-      var length = $uI(length$2);
-      var thiz$1 = $this.textString$2;
-      if ((length === $uI(thiz$1.length))) {
-        var string = $this.textString$2
-      } else {
-        var thiz$2 = $this.textString$2;
-        var string = ($as_T(thiz$2.substring(0, length)) + "...")
-      };
-      var width = $uD($g.PIXI.TextMetrics.measureText(string, $this.text$2.style).width);
-      return new $c_T2().init___O__O(string, width)
-    })
-  })(this);
-  var this$16 = $m_sci_List$();
-  var bf = this$16.ReusableCBFInstance$2;
-  if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
-    if ((this$17 === $m_sci_Nil$())) {
-      var jsx$1 = $m_sci_Nil$()
-    } else {
-      var arg1 = this$17.head__O();
-      var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
-      var t = h;
-      var rest = $as_sci_List(this$17.tail__O());
-      while ((rest !== $m_sci_Nil$())) {
-        var arg1$1 = rest.head__O();
-        var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
-        t.tl$5 = nx;
-        t = nx;
-        rest = $as_sci_List(rest.tail__O())
-      };
-      var jsx$1 = h
-    }
-  } else {
-    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$17, bf);
-    var these = this$17;
-    while ((!these.isEmpty__Z())) {
-      var arg1$2 = these.head__O();
-      b.$$plus$eq__O__scm_Builder(f(arg1$2));
-      these = $as_sci_List(these.tail__O())
-    };
-    var jsx$1 = b.result__O()
-  };
-  this.textWidths$2 = $as_sci_List(jsx$1)
-});
 $c_Lcross_component_flat_FillLabel.prototype.minimumSize__Lcross_common$Vec2d = (function() {
   $m_Lcross_common$();
   var $$this = 0;
@@ -26488,9 +26459,66 @@ $c_Lcross_component_flat_FillLabel.prototype.minimumSize__Lcross_common$Vec2d = 
 $c_Lcross_component_flat_FillLabel.prototype.label__T__Lcross_component_flat_FillLabel = (function(label) {
   this.text$2.text = label;
   this.textString$2 = label;
-  this.calculateWidths__p2__V();
+  this.requiresUpdate$2 = true;
   $f_Lcross_layout$LayoutBox__layoutUp__V(this);
   return this
+});
+$c_Lcross_component_flat_FillLabel.prototype.recalculateWidths__p2__V = (function() {
+  if (this.requiresUpdate$2) {
+    this.requiresUpdate$2 = false;
+    var thiz = this.textString$2;
+    var x = $uI(thiz.length);
+    var that = this.maxLength$2;
+    var end = ((x < that) ? x : that);
+    var this$9 = new $c_sci_Range$Inclusive().init___I__I__I(0, end, 1).reverse__sci_Range();
+    var this$10 = $m_sci_List$();
+    var cbf = this$10.ReusableCBFInstance$2;
+    var this$17 = $as_sci_List($f_sc_TraversableLike__to__scg_CanBuildFrom__O(this$9, cbf));
+    var f = (function($this) {
+      return (function(length$2) {
+        var length = $uI(length$2);
+        var thiz$1 = $this.textString$2;
+        if ((length === $uI(thiz$1.length))) {
+          var string = $this.textString$2
+        } else {
+          var thiz$2 = $this.textString$2;
+          var string = ($as_T(thiz$2.substring(0, length)) + "...")
+        };
+        var width = $uD($g.PIXI.TextMetrics.measureText(string, $this.text$2.style).width);
+        return new $c_T2().init___O__O(string, width)
+      })
+    })(this);
+    var this$16 = $m_sci_List$();
+    var bf = this$16.ReusableCBFInstance$2;
+    if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+      if ((this$17 === $m_sci_Nil$())) {
+        var jsx$1 = $m_sci_Nil$()
+      } else {
+        var arg1 = this$17.head__O();
+        var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1), $m_sci_Nil$());
+        var t = h;
+        var rest = $as_sci_List(this$17.tail__O());
+        while ((rest !== $m_sci_Nil$())) {
+          var arg1$1 = rest.head__O();
+          var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$1), $m_sci_Nil$());
+          t.tl$5 = nx;
+          t = nx;
+          rest = $as_sci_List(rest.tail__O())
+        };
+        var jsx$1 = h
+      }
+    } else {
+      var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$17, bf);
+      var these = this$17;
+      while ((!these.isEmpty__Z())) {
+        var arg1$2 = these.head__O();
+        b.$$plus$eq__O__scm_Builder(f(arg1$2));
+        these = $as_sci_List(these.tail__O())
+      };
+      var jsx$1 = b.result__O()
+    };
+    this.textWidths$2 = $as_sci_List(jsx$1)
+  }
 });
 $c_Lcross_component_flat_FillLabel.prototype.init___Lcross_component_util$FontStyle__I = (function(style, maxLength) {
   this.style$2 = style;
@@ -26501,6 +26529,7 @@ $c_Lcross_component_flat_FillLabel.prototype.init___Lcross_component_util$FontSt
   this.textString$2 = "";
   this.textWidths$2 = $m_sci_Nil$();
   this.textHeight$2 = 0.0;
+  this.requiresUpdate$2 = false;
   this.init__p2__V();
   return this
 });
@@ -26519,6 +26548,7 @@ $c_Lcross_component_flat_FillLabel.prototype.layoutDown__Lcross_common$Vec2d__Lc
   $m_Lcross_ops$();
   var a = this.text$2;
   jsx$1.positionAt$extension__Lcross_pixi_DisplayObject__Lcross_common$Vec2d__Lcross_pixi_DisplayObject(a, box.position$1.$$plus__Lcross_common$Vec2d__Lcross_common$Vec2d(this.layoutPad$1));
+  this.recalculateWidths__p2__V();
   var jsx$2 = this.text$2;
   var this$2 = this.textWidths$2;
   var pf = new $c_Lcross_component_flat_FillLabel$$anonfun$layoutDown$1().init___Lcross_component_flat_FillLabel__Lcross_common$Rec2d(this, box);
@@ -26697,7 +26727,8 @@ $c_Lcross_component_flat_Region.prototype.$classData = $d_Lcross_component_flat_
 function $c_Lcross_component_layout$$anon$1() {
   $c_Lcross_layout$StackBox.call(this);
   this.logKeyRef$2 = null;
-  this.log$2 = null
+  this.log$2 = null;
+  this.container$1$2 = null
 }
 $c_Lcross_component_layout$$anon$1.prototype = new $h_Lcross_layout$StackBox();
 $c_Lcross_component_layout$$anon$1.prototype.constructor = $c_Lcross_component_layout$$anon$1;
@@ -26706,16 +26737,33 @@ function $h_Lcross_component_layout$$anon$1() {
   /*<skip>*/
 }
 $h_Lcross_component_layout$$anon$1.prototype = $c_Lcross_component_layout$$anon$1.prototype;
-$c_Lcross_component_layout$$anon$1.prototype.init___Lcross_util_mvc$GenericController = (function(controller$1) {
+$c_Lcross_component_layout$$anon$1.prototype.onChildAdded__Lcross_layout$LayoutBox__V = (function(child) {
+  var this$1 = $f_Lcross_layout$LayoutBox__getAllChildren__sci_List(child);
+  var this$2 = new $c_sci_$colon$colon().init___O__sci_List(child, this$1);
+  var these = this$2;
+  while ((!these.isEmpty__Z())) {
+    var arg1 = these.head__O();
+    var x0$1 = $as_Lcross_layout$LayoutBox(arg1);
+    if ($is_Lcross_component_Component(x0$1)) {
+      var jsx$1 = $m_Lcross_ops$ComponentOps$();
+      $m_Lcross_ops$();
+      var component = $as_Lcross_component_Component(x0$1);
+      jsx$1.in$extension__Lcross_component_Component__Lcross_pixi_Container__Lcross_component_Component(component, this.container$1$2)
+    };
+    these = $as_sci_List(these.tail__O())
+  }
+});
+$c_Lcross_component_layout$$anon$1.prototype.cross$util$logging$Logging$$undsetter$und$log$und$eq__Lcross_util_logging$LogApi__V = (function(x$1) {
+  this.log$2 = x$1
+});
+$c_Lcross_component_layout$$anon$1.prototype.init___Lcross_util_mvc$GenericController__Lcross_pixi_Container = (function(controller$1, container$1) {
+  this.container$1$2 = container$1;
   $f_Lcross_layout$LayoutBox__$$init$__V(this);
   $f_Lcross_util_logging$Logging__$$init$__V(this);
   var this$1 = controller$1.model__Lcross_util_mvc$GenericModel().screen__Lcross_common$Writeable();
   var code = new $c_Lcross_component_layout$$anon$1$$anonfun$1().init___Lcross_component_layout$$anon$1(this);
   $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$1, code);
   return this
-});
-$c_Lcross_component_layout$$anon$1.prototype.cross$util$logging$Logging$$undsetter$und$log$und$eq__Lcross_util_logging$LogApi__V = (function(x$1) {
-  this.log$2 = x$1
 });
 $c_Lcross_component_layout$$anon$1.prototype.cross$util$logging$Logging$$undsetter$und$logKeyRef$und$eq__Lcross_util_logging$LogKey__V = (function(x$1) {
   this.logKeyRef$2 = x$1
@@ -30946,6 +30994,15 @@ $c_Lcross_component_flat_Paginator.prototype.init__p2__V = (function() {
       these = $as_sci_List(these.tail__O())
     }
   };
+  var i$2 = 0;
+  var len$1 = $uI(array.length);
+  while ((i$2 < len$1)) {
+    var index$2 = i$2;
+    var arg1$2 = array[index$2];
+    var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$20, c$4);
+    i$2 = ((1 + i$2) | 0)
+  };
   this$20.layoutUp__V();
   var this$23 = this.next$2;
   var pad$4 = this.cross$component$flat$Paginator$$style$f.pad$1;
@@ -30953,65 +31010,83 @@ $c_Lcross_component_flat_Paginator.prototype.init__p2__V = (function() {
   var this$24 = this.last$2;
   var pad$5 = this.cross$component$flat$Paginator$$style$f.pad$1;
   var array$1 = [jsx$3, jsx$2, this$20, jsx$1, $f_Lcross_layout$LayoutBox__pad__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$24, pad$5)];
-  var i$2 = (((-1) + $uI(array$1.length)) | 0);
+  var i$3 = (((-1) + $uI(array$1.length)) | 0);
   var result$1 = $m_sci_Nil$();
-  while ((i$2 >= 0)) {
+  while ((i$3 >= 0)) {
     var this$28 = result$1;
-    var index$2 = i$2;
-    var x$5 = array$1[index$2];
+    var index$3 = i$3;
+    var x$5 = array$1[index$3];
     result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$5, this$28);
-    i$2 = (((-1) + i$2) | 0)
+    i$3 = (((-1) + i$3) | 0)
   };
   this$27.layoutChildren$und$eq__sci_List__V(result$1);
-  var i$3 = 0;
-  var len$1 = $uI(array$1.length);
-  while ((i$3 < len$1)) {
-    var index$3 = i$3;
-    var arg1$2 = array$1[index$3];
-    var c$1 = $as_Lcross_layout$LayoutBox(arg1$2);
+  var i$4 = 0;
+  var len$2 = $uI(array$1.length);
+  while ((i$4 < len$2)) {
+    var index$4 = i$4;
+    var arg1$3 = array$1[index$4];
+    var c$1 = $as_Lcross_layout$LayoutBox(arg1$3);
     c$1.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$27));
-    i$3 = ((1 + i$3) | 0)
+    i$4 = ((1 + i$4) | 0)
   };
   if (this$27.layoutEnabled__Z()) {
     var this$29 = this$27.layoutChildren__sci_List();
     var these$1 = this$29;
     while ((!these$1.isEmpty__Z())) {
-      var arg1$3 = these$1.head__O();
-      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$3);
+      var arg1$4 = these$1.head__O();
+      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$4);
       c$3$1.layout__Lcross_layout$LayoutBox();
       these$1 = $as_sci_List(these$1.tail__O())
     }
   };
+  var i$5 = 0;
+  var len$3 = $uI(array$1.length);
+  while ((i$5 < len$3)) {
+    var index$5 = i$5;
+    var arg1$5 = array$1[index$5];
+    var c$4$1 = $as_Lcross_layout$LayoutBox(arg1$5);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$27, c$4$1);
+    i$5 = ((1 + i$5) | 0)
+  };
   this$27.layoutUp__V();
   var array$2 = [this$27];
-  var i$4 = (((-1) + $uI(array$2.length)) | 0);
+  var i$6 = (((-1) + $uI(array$2.length)) | 0);
   var result$2 = $m_sci_Nil$();
-  while ((i$4 >= 0)) {
+  while ((i$6 >= 0)) {
     var this$33 = result$2;
-    var index$4 = i$4;
-    var x$6 = array$2[index$4];
+    var index$6 = i$6;
+    var x$6 = array$2[index$6];
     result$2 = new $c_sci_$colon$colon().init___O__sci_List(x$6, this$33);
-    i$4 = (((-1) + i$4) | 0)
+    i$6 = (((-1) + i$6) | 0)
   };
   this$32.layoutChildren$und$eq__sci_List__V(result$2);
-  var i$5 = 0;
-  var len$2 = $uI(array$2.length);
-  while ((i$5 < len$2)) {
-    var index$5 = i$5;
-    var arg1$4 = array$2[index$5];
-    var c$2 = $as_Lcross_layout$LayoutBox(arg1$4);
+  var i$7 = 0;
+  var len$4 = $uI(array$2.length);
+  while ((i$7 < len$4)) {
+    var index$7 = i$7;
+    var arg1$6 = array$2[index$7];
+    var c$2 = $as_Lcross_layout$LayoutBox(arg1$6);
     c$2.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$32));
-    i$5 = ((1 + i$5) | 0)
+    i$7 = ((1 + i$7) | 0)
   };
   if (this$32.layoutEnabled__Z()) {
     var this$34 = this$32.layoutChildren__sci_List();
     var these$2 = this$34;
     while ((!these$2.isEmpty__Z())) {
-      var arg1$5 = these$2.head__O();
-      var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$5);
+      var arg1$7 = these$2.head__O();
+      var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$7);
       c$3$2.layout__Lcross_layout$LayoutBox();
       these$2 = $as_sci_List(these$2.tail__O())
     }
+  };
+  var i$8 = 0;
+  var len$5 = $uI(array$2.length);
+  while ((i$8 < len$5)) {
+    var index$8 = i$8;
+    var arg1$8 = array$2[index$8];
+    var c$4$2 = $as_Lcross_layout$LayoutBox(arg1$8);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$32, c$4$2);
+    i$8 = ((1 + i$8) | 0)
   };
   this$32.layoutUp__V()
 });
@@ -31070,40 +31145,58 @@ $c_Lcross_component_flat_Paginator.prototype.init___Lcross_component_flat_Pagina
       these = $as_sci_List(these.tail__O())
     }
   };
+  var i$2 = 0;
+  var len$1 = $uI(array.length);
+  while ((i$2 < len$1)) {
+    var index$2 = i$2;
+    var arg1$2 = array[index$2];
+    var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$4, c$4);
+    i$2 = ((1 + i$2) | 0)
+  };
   $f_Lcross_layout$LayoutBox__layoutUp__V(this$4);
   this.first$2 = this$4;
   $m_Lcross_ops$();
   var style$2 = style.button$1;
   var this$10 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style$2);
   var array$1 = [$m_Lcross_ops$().label__T__Lcross_component_util$FontStyle__Lcross_component_flat_Label("<", style.buttonLabel$1)];
-  var i$2 = (((-1) + $uI(array$1.length)) | 0);
+  var i$3 = (((-1) + $uI(array$1.length)) | 0);
   var result$1 = $m_sci_Nil$();
-  while ((i$2 >= 0)) {
+  while ((i$3 >= 0)) {
     var this$11 = result$1;
-    var index$2 = i$2;
-    var x$1 = array$1[index$2];
+    var index$3 = i$3;
+    var x$1 = array$1[index$3];
     result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$1, this$11);
-    i$2 = (((-1) + i$2) | 0)
+    i$3 = (((-1) + i$3) | 0)
   };
   this$10.layoutChildren$1 = result$1;
-  var i$3 = 0;
-  var len$1 = $uI(array$1.length);
-  while ((i$3 < len$1)) {
-    var index$3 = i$3;
-    var arg1$2 = array$1[index$3];
-    var c$1 = $as_Lcross_layout$LayoutBox(arg1$2);
+  var i$4 = 0;
+  var len$2 = $uI(array$1.length);
+  while ((i$4 < len$2)) {
+    var index$4 = i$4;
+    var arg1$3 = array$1[index$4];
+    var c$1 = $as_Lcross_layout$LayoutBox(arg1$3);
     c$1.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$10));
-    i$3 = ((1 + i$3) | 0)
+    i$4 = ((1 + i$4) | 0)
   };
   if (this$10.layoutEnabled$1) {
     var this$12 = this$10.layoutChildren$1;
     var these$1 = this$12;
     while ((!these$1.isEmpty__Z())) {
-      var arg1$3 = these$1.head__O();
-      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$3);
+      var arg1$4 = these$1.head__O();
+      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$4);
       c$3$1.layout__Lcross_layout$LayoutBox();
       these$1 = $as_sci_List(these$1.tail__O())
     }
+  };
+  var i$5 = 0;
+  var len$3 = $uI(array$1.length);
+  while ((i$5 < len$3)) {
+    var index$5 = i$5;
+    var arg1$5 = array$1[index$5];
+    var c$4$1 = $as_Lcross_layout$LayoutBox(arg1$5);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$10, c$4$1);
+    i$5 = ((1 + i$5) | 0)
   };
   $f_Lcross_layout$LayoutBox__layoutUp__V(this$10);
   this.previous$2 = this$10;
@@ -31112,34 +31205,43 @@ $c_Lcross_component_flat_Paginator.prototype.init___Lcross_component_flat_Pagina
   var style$3 = style.button$1;
   var this$16 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style$3);
   var array$2 = [$m_Lcross_ops$().label__T__Lcross_component_util$FontStyle__Lcross_component_flat_Label(">", style.buttonLabel$1)];
-  var i$4 = (((-1) + $uI(array$2.length)) | 0);
+  var i$6 = (((-1) + $uI(array$2.length)) | 0);
   var result$2 = $m_sci_Nil$();
-  while ((i$4 >= 0)) {
+  while ((i$6 >= 0)) {
     var this$17 = result$2;
-    var index$4 = i$4;
-    var x$2 = array$2[index$4];
+    var index$6 = i$6;
+    var x$2 = array$2[index$6];
     result$2 = new $c_sci_$colon$colon().init___O__sci_List(x$2, this$17);
-    i$4 = (((-1) + i$4) | 0)
+    i$6 = (((-1) + i$6) | 0)
   };
   this$16.layoutChildren$1 = result$2;
-  var i$5 = 0;
-  var len$2 = $uI(array$2.length);
-  while ((i$5 < len$2)) {
-    var index$5 = i$5;
-    var arg1$4 = array$2[index$5];
-    var c$2 = $as_Lcross_layout$LayoutBox(arg1$4);
+  var i$7 = 0;
+  var len$4 = $uI(array$2.length);
+  while ((i$7 < len$4)) {
+    var index$7 = i$7;
+    var arg1$6 = array$2[index$7];
+    var c$2 = $as_Lcross_layout$LayoutBox(arg1$6);
     c$2.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$16));
-    i$5 = ((1 + i$5) | 0)
+    i$7 = ((1 + i$7) | 0)
   };
   if (this$16.layoutEnabled$1) {
     var this$18 = this$16.layoutChildren$1;
     var these$2 = this$18;
     while ((!these$2.isEmpty__Z())) {
-      var arg1$5 = these$2.head__O();
-      var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$5);
+      var arg1$7 = these$2.head__O();
+      var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$7);
       c$3$2.layout__Lcross_layout$LayoutBox();
       these$2 = $as_sci_List(these$2.tail__O())
     }
+  };
+  var i$8 = 0;
+  var len$5 = $uI(array$2.length);
+  while ((i$8 < len$5)) {
+    var index$8 = i$8;
+    var arg1$8 = array$2[index$8];
+    var c$4$2 = $as_Lcross_layout$LayoutBox(arg1$8);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$16, c$4$2);
+    i$8 = ((1 + i$8) | 0)
   };
   $f_Lcross_layout$LayoutBox__layoutUp__V(this$16);
   this.next$2 = this$16;
@@ -31147,34 +31249,43 @@ $c_Lcross_component_flat_Paginator.prototype.init___Lcross_component_flat_Pagina
   var style$4 = style.button$1;
   var this$22 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style$4);
   var array$3 = [$m_Lcross_ops$().label__T__Lcross_component_util$FontStyle__Lcross_component_flat_Label(">>", style.buttonLabel$1)];
-  var i$6 = (((-1) + $uI(array$3.length)) | 0);
+  var i$9 = (((-1) + $uI(array$3.length)) | 0);
   var result$3 = $m_sci_Nil$();
-  while ((i$6 >= 0)) {
+  while ((i$9 >= 0)) {
     var this$23 = result$3;
-    var index$6 = i$6;
-    var x$3 = array$3[index$6];
+    var index$9 = i$9;
+    var x$3 = array$3[index$9];
     result$3 = new $c_sci_$colon$colon().init___O__sci_List(x$3, this$23);
-    i$6 = (((-1) + i$6) | 0)
+    i$9 = (((-1) + i$9) | 0)
   };
   this$22.layoutChildren$1 = result$3;
-  var i$7 = 0;
-  var len$3 = $uI(array$3.length);
-  while ((i$7 < len$3)) {
-    var index$7 = i$7;
-    var arg1$6 = array$3[index$7];
-    var c$4 = $as_Lcross_layout$LayoutBox(arg1$6);
-    c$4.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$22));
-    i$7 = ((1 + i$7) | 0)
+  var i$10 = 0;
+  var len$6 = $uI(array$3.length);
+  while ((i$10 < len$6)) {
+    var index$10 = i$10;
+    var arg1$9 = array$3[index$10];
+    var c$5 = $as_Lcross_layout$LayoutBox(arg1$9);
+    c$5.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$22));
+    i$10 = ((1 + i$10) | 0)
   };
   if (this$22.layoutEnabled$1) {
     var this$24 = this$22.layoutChildren$1;
     var these$3 = this$24;
     while ((!these$3.isEmpty__Z())) {
-      var arg1$7 = these$3.head__O();
-      var c$3$3 = $as_Lcross_layout$LayoutBox(arg1$7);
+      var arg1$10 = these$3.head__O();
+      var c$3$3 = $as_Lcross_layout$LayoutBox(arg1$10);
       c$3$3.layout__Lcross_layout$LayoutBox();
       these$3 = $as_sci_List(these$3.tail__O())
     }
+  };
+  var i$11 = 0;
+  var len$7 = $uI(array$3.length);
+  while ((i$11 < len$7)) {
+    var index$11 = i$11;
+    var arg1$11 = array$3[index$11];
+    var c$4$3 = $as_Lcross_layout$LayoutBox(arg1$11);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$22, c$4$3);
+    i$11 = ((1 + i$11) | 0)
   };
   $f_Lcross_layout$LayoutBox__layoutUp__V(this$22);
   this.last$2 = this$22;
@@ -31355,7 +31466,7 @@ function $c_Lcross_component_flat_ScrollArea() {
   this.bar$2 = null;
   this.barRegion$2 = null;
   this.mask$2 = null;
-  this.contentContainer$2 = null;
+  this.cross$component$flat$ScrollArea$$contentContainer$2 = null;
   this.contentLayout$2 = null;
   this.totalLayout$2 = null;
   this.containerSpring$2 = null;
@@ -31377,16 +31488,12 @@ $h_Lcross_component_flat_ScrollArea.prototype = $c_Lcross_component_flat_ScrollA
 $c_Lcross_component_flat_ScrollArea.prototype.init__p2__V = (function() {
   $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this);
   $m_Lcross_util_spring$().add__Lcross_util_spring$Updater__Lcross_util_spring$Updater(this.containerSpring$2);
-  var jsx$1 = $m_Lcross_ops$LayoutOps$();
-  $m_Lcross_ops$();
-  var box = this.totalLayout$2;
-  jsx$1.componentsIn$extension__Lcross_layout$LayoutBox__Lcross_pixi_Container__Lcross_layout$LayoutBox(box, this.contentContainer$2);
   var code = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(direction$2) {
       var direction = $uZ(direction$2);
-      var jsx$2 = $f_Lcross_layout$LayoutBox__getAbsoluteBounds__Lcross_common$Rec2d($this);
-      var this$2 = $this.controller$2.model__Lcross_util_mvc$GenericModel().mouse__Lcross_common$Writeable();
-      if (jsx$2.contains__Lcross_common$Vec2d__Z($as_Lcross_common$Vec2d(this$2.value$1))) {
+      var jsx$1 = $f_Lcross_layout$LayoutBox__getAbsoluteBounds__Lcross_common$Rec2d($this);
+      var this$1 = $this.controller$2.model__Lcross_util_mvc$GenericModel().mouse__Lcross_common$Writeable();
+      if (jsx$1.contains__Lcross_common$Vec2d__Z($as_Lcross_common$Vec2d(this$1.value$1))) {
         var delta = ($this.style$2.distance$1 * (direction ? 1 : (-1)));
         $this.cross$component$flat$ScrollArea$$repositionScroll__D__V(delta)
       }
@@ -31509,7 +31616,7 @@ $c_Lcross_component_flat_ScrollArea.prototype.handleVisibility__Z__Z__V = (funct
   var enabled = (selfVisible && parentVisible);
   var jsx$1 = $m_Lcross_ops$DisplayObjectOps$();
   $m_Lcross_ops$();
-  var a = this.contentContainer$2;
+  var a = this.cross$component$flat$ScrollArea$$contentContainer$2;
   jsx$1.visibleTo$extension__Lcross_pixi_DisplayObject__Z__Lcross_pixi_DisplayObject(a, enabled);
   var jsx$2 = $m_Lcross_ops$DisplayObjectOps$();
   $m_Lcross_ops$();
@@ -31568,7 +31675,7 @@ $c_Lcross_component_flat_ScrollArea.prototype.init___Lcross_component_flat_Scrol
   $m_Lcross_common$();
   var this$13 = this.mask$2;
   a$1.mask = this$13.pixiGraphics$1;
-  this.contentContainer$2 = a$1;
+  this.cross$component$flat$ScrollArea$$contentContainer$2 = a$1;
   var this$14 = new $c_Lcross_component_flat_ScrollArea$$anon$1().init___Lcross_component_flat_ScrollArea(this);
   this.contentLayout$2 = $as_Lcross_layout$StackBox($f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$14));
   var this$28 = new $c_Lcross_layout$XBox().init___().space__D__Lcross_layout$XBox(style.space$1);
@@ -31610,36 +31717,54 @@ $c_Lcross_component_flat_ScrollArea.prototype.init___Lcross_component_flat_Scrol
       these = $as_sci_List(these.tail__O())
     }
   };
+  var i$2 = 0;
+  var len$1 = $uI(array.length);
+  while ((i$2 < len$1)) {
+    var index$2 = i$2;
+    var arg1$2 = array[index$2];
+    var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$23, c$4);
+    i$2 = ((1 + i$2) | 0)
+  };
   this$23.layoutUp__V();
   var array$1 = [jsx$4, this$23];
-  var i$2 = (((-1) + $uI(array$1.length)) | 0);
+  var i$3 = (((-1) + $uI(array$1.length)) | 0);
   var result$1 = $m_sci_Nil$();
-  while ((i$2 >= 0)) {
+  while ((i$3 >= 0)) {
     var this$29 = result$1;
-    var index$2 = i$2;
-    var x$1 = array$1[index$2];
+    var index$3 = i$3;
+    var x$1 = array$1[index$3];
     result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$1, this$29);
-    i$2 = (((-1) + i$2) | 0)
+    i$3 = (((-1) + i$3) | 0)
   };
   this$28.layoutChildren$1 = result$1;
-  var i$3 = 0;
-  var len$1 = $uI(array$1.length);
-  while ((i$3 < len$1)) {
-    var index$3 = i$3;
-    var arg1$2 = array$1[index$3];
-    var c$1 = $as_Lcross_layout$LayoutBox(arg1$2);
+  var i$4 = 0;
+  var len$2 = $uI(array$1.length);
+  while ((i$4 < len$2)) {
+    var index$4 = i$4;
+    var arg1$3 = array$1[index$4];
+    var c$1 = $as_Lcross_layout$LayoutBox(arg1$3);
     c$1.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$28));
-    i$3 = ((1 + i$3) | 0)
+    i$4 = ((1 + i$4) | 0)
   };
   if (this$28.layoutEnabled$1) {
     var this$30 = this$28.layoutChildren$1;
     var these$1 = this$30;
     while ((!these$1.isEmpty__Z())) {
-      var arg1$3 = these$1.head__O();
-      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$3);
+      var arg1$4 = these$1.head__O();
+      var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$4);
       c$3$1.layout__Lcross_layout$LayoutBox();
       these$1 = $as_sci_List(these$1.tail__O())
     }
+  };
+  var i$5 = 0;
+  var len$3 = $uI(array$1.length);
+  while ((i$5 < len$3)) {
+    var index$5 = i$5;
+    var arg1$5 = array$1[index$5];
+    var c$4$1 = $as_Lcross_layout$LayoutBox(arg1$5);
+    $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$28, c$4$1);
+    i$5 = ((1 + i$5) | 0)
   };
   $f_Lcross_layout$LayoutBox__layoutUp__V(this$28);
   this.totalLayout$2 = this$28;
@@ -31648,7 +31773,7 @@ $c_Lcross_component_flat_ScrollArea.prototype.init___Lcross_component_flat_Scrol
       var y = $as_Lcross_util_spring$DoubleSpring(y$2);
       var jsx$5 = $m_Lcross_ops$DisplayObjectOps$();
       $m_Lcross_ops$();
-      var a$2 = this$2$1.contentContainer$2;
+      var a$2 = this$2$1.cross$component$flat$ScrollArea$$contentContainer$2;
       $m_Lcross_common$();
       var $$this = 0;
       var y$1 = y.current$1;
@@ -33249,6 +33374,15 @@ $c_Lcross_pac_stage_PacStage.prototype.manage$lzycompute__p1__Lcross_component_f
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$4, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     $f_Lcross_layout$LayoutBox__layoutUp__V(this$4);
     this.cross$pac$stage$PacStage$$manage$1 = this$4;
     this.bitmap$0$1 = (256 | this.bitmap$0$1)
@@ -33331,6 +33465,15 @@ $c_Lcross_pac_stage_PacStage.prototype.signin$lzycompute__p1__Lcross_component_f
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$4, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     $f_Lcross_layout$LayoutBox__layoutUp__V(this$4);
     this.cross$pac$stage$PacStage$$signin$1 = this$4;
     this.bitmap$0$1 = (128 | this.bitmap$0$1)
@@ -33371,6 +33514,15 @@ $c_Lcross_pac_stage_PacStage.prototype.pages$lzycompute__p1__Lcross_layout$Stack
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$5, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     $f_Lcross_layout$LayoutBox__layoutUp__V(this$5);
     this.cross$pac$stage$PacStage$$pages$1 = $as_Lcross_layout$StackBox($f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$5));
     this.bitmap$0$1 = (1024 | this.bitmap$0$1)
@@ -33396,8 +33548,9 @@ $c_Lcross_pac_stage_PacStage.prototype.cross$pac$stage$PacStage$$signinLabel__Lc
 });
 $c_Lcross_pac_stage_PacStage.prototype.layout$lzycompute__p1__Lcross_layout$LayoutBox = (function() {
   if (((2048 & this.bitmap$0$1) === 0)) {
+    var container = this.body__p1__Lcross_pixi_Container();
     var controller = this.cross$pac$stage$PacStage$$controller$f;
-    var this$40 = new $c_Lcross_component_layout$$anon$1().init___Lcross_util_mvc$GenericController(controller);
+    var this$40 = new $c_Lcross_component_layout$$anon$1().init___Lcross_util_mvc$GenericController__Lcross_pixi_Container(controller, container);
     var this$3 = new $c_Lcross_layout$YBox().init___();
     var this$35 = $f_Lcross_layout$LayoutBox__fillBoth__Lcross_layout$LayoutBox(this$3);
     var this$4 = this.bar__p1__Lcross_component_flat_Region();
@@ -33456,36 +33609,54 @@ $c_Lcross_pac_stage_PacStage.prototype.layout$lzycompute__p1__Lcross_layout$Layo
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$21, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     this$21.layoutUp__V();
     var array$1 = [this$21];
-    var i$2 = (((-1) + $uI(array$1.length)) | 0);
+    var i$3 = (((-1) + $uI(array$1.length)) | 0);
     var result$1 = $m_sci_Nil$();
-    while ((i$2 >= 0)) {
+    while ((i$3 >= 0)) {
       var this$27 = result$1;
-      var index$2 = i$2;
-      var x$1 = array$1[index$2];
+      var index$3 = i$3;
+      var x$1 = array$1[index$3];
       result$1 = new $c_sci_$colon$colon().init___O__sci_List(x$1, this$27);
-      i$2 = (((-1) + i$2) | 0)
+      i$3 = (((-1) + i$3) | 0)
     };
     this$26.layoutChildren$und$eq__sci_List__V(result$1);
-    var i$3 = 0;
-    var len$1 = $uI(array$1.length);
-    while ((i$3 < len$1)) {
-      var index$3 = i$3;
-      var arg1$2 = array$1[index$3];
-      var c$1 = $as_Lcross_layout$LayoutBox(arg1$2);
+    var i$4 = 0;
+    var len$2 = $uI(array$1.length);
+    while ((i$4 < len$2)) {
+      var index$4 = i$4;
+      var arg1$3 = array$1[index$4];
+      var c$1 = $as_Lcross_layout$LayoutBox(arg1$3);
       c$1.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$26));
-      i$3 = ((1 + i$3) | 0)
+      i$4 = ((1 + i$4) | 0)
     };
     if (this$26.layoutEnabled__Z()) {
       var this$28 = this$26.layoutChildren__sci_List();
       var these$1 = this$28;
       while ((!these$1.isEmpty__Z())) {
-        var arg1$3 = these$1.head__O();
-        var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$3);
+        var arg1$4 = these$1.head__O();
+        var c$3$1 = $as_Lcross_layout$LayoutBox(arg1$4);
         c$3$1.layout__Lcross_layout$LayoutBox();
         these$1 = $as_sci_List(these$1.tail__O())
       }
+    };
+    var i$5 = 0;
+    var len$3 = $uI(array$1.length);
+    while ((i$5 < len$3)) {
+      var index$5 = i$5;
+      var arg1$5 = array$1[index$5];
+      var c$4$1 = $as_Lcross_layout$LayoutBox(arg1$5);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$26, c$4$1);
+      i$5 = ((1 + i$5) | 0)
     };
     this$26.layoutUp__V();
     var this$29 = this.shadow__p1__Lcross_component_flat_Region();
@@ -33497,65 +33668,83 @@ $c_Lcross_pac_stage_PacStage.prototype.layout$lzycompute__p1__Lcross_layout$Layo
     var this$32 = this.cross$pac$stage$PacStage$$pages__Lcross_layout$StackBox();
     var pad$5 = this.config$1.stagePad$1;
     var array$2 = [this$26, jsx$1, $f_Lcross_layout$LayoutBox__pad__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$32, pad$5)];
-    var i$4 = (((-1) + $uI(array$2.length)) | 0);
+    var i$6 = (((-1) + $uI(array$2.length)) | 0);
     var result$2 = $m_sci_Nil$();
-    while ((i$4 >= 0)) {
+    while ((i$6 >= 0)) {
       var this$36 = result$2;
-      var index$4 = i$4;
-      var x$2 = array$2[index$4];
+      var index$6 = i$6;
+      var x$2 = array$2[index$6];
       result$2 = new $c_sci_$colon$colon().init___O__sci_List(x$2, this$36);
-      i$4 = (((-1) + i$4) | 0)
+      i$6 = (((-1) + i$6) | 0)
     };
     this$35.layoutChildren$und$eq__sci_List__V(result$2);
-    var i$5 = 0;
-    var len$2 = $uI(array$2.length);
-    while ((i$5 < len$2)) {
-      var index$5 = i$5;
-      var arg1$4 = array$2[index$5];
-      var c$2 = $as_Lcross_layout$LayoutBox(arg1$4);
+    var i$7 = 0;
+    var len$4 = $uI(array$2.length);
+    while ((i$7 < len$4)) {
+      var index$7 = i$7;
+      var arg1$6 = array$2[index$7];
+      var c$2 = $as_Lcross_layout$LayoutBox(arg1$6);
       c$2.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$35));
-      i$5 = ((1 + i$5) | 0)
+      i$7 = ((1 + i$7) | 0)
     };
     if (this$35.layoutEnabled__Z()) {
       var this$37 = this$35.layoutChildren__sci_List();
       var these$2 = this$37;
       while ((!these$2.isEmpty__Z())) {
-        var arg1$5 = these$2.head__O();
-        var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$5);
+        var arg1$7 = these$2.head__O();
+        var c$3$2 = $as_Lcross_layout$LayoutBox(arg1$7);
         c$3$2.layout__Lcross_layout$LayoutBox();
         these$2 = $as_sci_List(these$2.tail__O())
       }
     };
+    var i$8 = 0;
+    var len$5 = $uI(array$2.length);
+    while ((i$8 < len$5)) {
+      var index$8 = i$8;
+      var arg1$8 = array$2[index$8];
+      var c$4$2 = $as_Lcross_layout$LayoutBox(arg1$8);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$35, c$4$2);
+      i$8 = ((1 + i$8) | 0)
+    };
     this$35.layoutUp__V();
     var array$3 = [this$35];
-    var i$6 = (((-1) + $uI(array$3.length)) | 0);
+    var i$9 = (((-1) + $uI(array$3.length)) | 0);
     var result$3 = $m_sci_Nil$();
-    while ((i$6 >= 0)) {
+    while ((i$9 >= 0)) {
       var this$41 = result$3;
-      var index$6 = i$6;
-      var x$3 = array$3[index$6];
+      var index$9 = i$9;
+      var x$3 = array$3[index$9];
       result$3 = new $c_sci_$colon$colon().init___O__sci_List(x$3, this$41);
-      i$6 = (((-1) + i$6) | 0)
+      i$9 = (((-1) + i$9) | 0)
     };
     this$40.layoutChildren$1 = result$3;
-    var i$7 = 0;
-    var len$3 = $uI(array$3.length);
-    while ((i$7 < len$3)) {
-      var index$7 = i$7;
-      var arg1$6 = array$3[index$7];
-      var c$4 = $as_Lcross_layout$LayoutBox(arg1$6);
-      c$4.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$40));
-      i$7 = ((1 + i$7) | 0)
+    var i$10 = 0;
+    var len$6 = $uI(array$3.length);
+    while ((i$10 < len$6)) {
+      var index$10 = i$10;
+      var arg1$9 = array$3[index$10];
+      var c$5 = $as_Lcross_layout$LayoutBox(arg1$9);
+      c$5.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$40));
+      i$10 = ((1 + i$10) | 0)
     };
     if (this$40.layoutEnabled$1) {
       var this$42 = this$40.layoutChildren$1;
       var these$3 = this$42;
       while ((!these$3.isEmpty__Z())) {
-        var arg1$7 = these$3.head__O();
-        var c$3$3 = $as_Lcross_layout$LayoutBox(arg1$7);
+        var arg1$10 = these$3.head__O();
+        var c$3$3 = $as_Lcross_layout$LayoutBox(arg1$10);
         c$3$3.layout__Lcross_layout$LayoutBox();
         these$3 = $as_sci_List(these$3.tail__O())
       }
+    };
+    var i$11 = 0;
+    var len$7 = $uI(array$3.length);
+    while ((i$11 < len$7)) {
+      var index$11 = i$11;
+      var arg1$11 = array$3[index$11];
+      var c$4$3 = $as_Lcross_layout$LayoutBox(arg1$11);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$40, c$4$3);
+      i$11 = ((1 + i$11) | 0)
     };
     $f_Lcross_layout$LayoutBox__layoutUp__V(this$40);
     this.layout$1 = $f_Lcross_layout$LayoutBox__layout__Lcross_layout$LayoutBox(this$40);
@@ -33642,6 +33831,15 @@ $c_Lcross_pac_stage_PacStage.prototype.welcome$lzycompute__p1__Lcross_component_
         these = $as_sci_List(these.tail__O())
       }
     };
+    var i$2 = 0;
+    var len$1 = $uI(array.length);
+    while ((i$2 < len$1)) {
+      var index$2 = i$2;
+      var arg1$2 = array[index$2];
+      var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+      $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$4, c$4);
+      i$2 = ((1 + i$2) | 0)
+    };
     $f_Lcross_layout$LayoutBox__layoutUp__V(this$4);
     this.welcome$1 = this$4;
     this.bitmap$0$1 = (16 | this.bitmap$0$1)
@@ -33678,32 +33876,28 @@ $c_Lcross_pac_stage_PacStage.prototype.create$lzycompute__p1__s_concurrent_Futur
         var this$8 = new $c_sci_$colon$colon().init___O__sci_List(x$7, this$7);
         var this$9 = new $c_sci_$colon$colon().init___O__sci_List(x$8, this$8);
         new $c_sci_$colon$colon().init___O__sci_List(x$9, this$9);
-        var jsx$1 = $m_Lcross_ops$LayoutOps$();
-        $m_Lcross_ops$();
-        var box = $this.layout__p1__Lcross_layout$LayoutBox();
-        jsx$1.componentsIn$extension__Lcross_layout$LayoutBox__Lcross_pixi_Container__Lcross_layout$LayoutBox(box, $this.body__p1__Lcross_pixi_Container());
-        var this$11 = $this.cross$pac$stage$PacStage$$controller$f.model$1.user$1;
+        var this$10 = $this.cross$pac$stage$PacStage$$controller$f.model$1.user$1;
         var code = new $c_Lcross_pac_stage_PacStage$$anonfun$$nestedInanonfun$create$1$1().init___Lcross_pac_stage_PacStage($this);
-        $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$11, code);
-        var this$12 = $this.welcome__p1__Lcross_component_flat_Button();
+        $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$10, code);
+        var this$11 = $this.welcome__p1__Lcross_component_flat_Button();
         var code$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this$1) {
           return (function(x$12$2) {
             $as_Lcross_component_flat_Button(x$12$2);
             $this$1.cross$pac$stage$PacStage$$controller$f.artChallengesPage__V()
           })
         })($this));
-        $f_Lcross_component_Interactive__onClick__F1__Lcross_component_Interactive(this$12, code$1);
-        var this$13 = $this.cross$pac$stage$PacStage$$manage__Lcross_component_flat_Button();
+        $f_Lcross_component_Interactive__onClick__F1__Lcross_component_Interactive(this$11, code$1);
+        var this$12 = $this.cross$pac$stage$PacStage$$manage__Lcross_component_flat_Button();
         var code$2 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
           return (function(x$13$2) {
             $as_Lcross_component_flat_Button(x$13$2);
             this$2$1.cross$pac$stage$PacStage$$controller$f.managePage__V()
           })
         })($this));
-        $f_Lcross_component_Interactive__onClick__F1__Lcross_component_Interactive(this$13, code$2);
-        var this$14 = $this.cross$pac$stage$PacStage$$controller$f.model$1.page$1;
+        $f_Lcross_component_Interactive__onClick__F1__Lcross_component_Interactive(this$12, code$2);
+        var this$13 = $this.cross$pac$stage$PacStage$$controller$f.model$1.page$1;
         var code$3 = new $c_Lcross_pac_stage_PacStage$$anonfun$$nestedInanonfun$create$1$2().init___Lcross_pac_stage_PacStage($this);
-        $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$14, code$3);
+        $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$Data(this$13, code$3);
         $this.log$1.info__T__Lcross_util_logging$LogKey__V("created", $this.logKeyRef$1)
       })
     })(this)), this.ec$1);
@@ -38653,83 +38847,105 @@ function $h_Lcross_pac_stage_ManagePage$$anonfun$init$4() {
 }
 $h_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype = $c_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype;
 $c_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype.applyOrElse__sci_List__F1__O = (function(x1, $default) {
-  var f = (function($this) {
-    return (function(message$2) {
-      var message = $as_Lcross_pac_protocol$ChatMessage(message$2);
-      var line = $m_sjsr_RuntimeString$().replaceAll__T__T__T__T(message.text$1, "\n", " ");
-      var text = ((message.author$1.name$1 + ": ") + line);
-      $m_Lcross_ops$();
-      var style = $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesButtonStyle$1;
-      var this$2 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style);
-      var this$3 = $f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this$2);
-      var pad = $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesPad$1;
-      var this$6 = $f_Lcross_layout$LayoutBox__pad__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$3, pad);
-      var array = [$m_Lcross_ops$().fillLabel__T__I__Lcross_component_util$FontStyle__Lcross_component_flat_FillLabel(text, $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesMaxLength$1, $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesLabelStyle$1)];
-      var i = (((-1) + $uI(array.length)) | 0);
-      var result = $m_sci_Nil$();
-      while ((i >= 0)) {
-        var this$7 = result;
-        var index = i;
-        var x = array[index];
-        result = new $c_sci_$colon$colon().init___O__sci_List(x, this$7);
-        i = (((-1) + i) | 0)
-      };
-      this$6.layoutChildren$und$eq__sci_List__V(result);
-      var i$1 = 0;
-      var len = $uI(array.length);
-      while ((i$1 < len)) {
-        var index$1 = i$1;
-        var arg1 = array[index$1];
-        var c = $as_Lcross_layout$LayoutBox(arg1);
-        c.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$6));
-        i$1 = ((1 + i$1) | 0)
-      };
-      if (this$6.layoutEnabled__Z()) {
-        var this$8 = this$6.layoutChildren__sci_List();
-        var these = this$8;
-        while ((!these.isEmpty__Z())) {
-          var arg1$1 = these.head__O();
-          var c$3 = $as_Lcross_layout$LayoutBox(arg1$1);
-          c$3.layout__Lcross_layout$LayoutBox();
-          these = $as_sci_List(these.tail__O())
-        }
-      };
-      this$6.layoutUp__V();
-      return $as_Lcross_component_flat_Button(this$6)
-    })
-  })(this);
-  var this$9 = $m_sci_List$();
-  var bf = this$9.ReusableCBFInstance$2;
-  if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
-    if ((x1 === $m_sci_Nil$())) {
-      var jsx$1 = $m_sci_Nil$()
+  if ($f_sc_TraversableOnce__nonEmpty__Z(x1)) {
+    var this$1 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label();
+    $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$1, true);
+    var this$2 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
+    $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$2, false);
+    var f = (function($this) {
+      return (function(message$2) {
+        var message = $as_Lcross_pac_protocol$ChatMessage(message$2);
+        var line = $m_sjsr_RuntimeString$().replaceAll__T__T__T__T(message.text$1, "\n", " ");
+        var text = ((message.author$1.name$1 + ": ") + line);
+        $m_Lcross_ops$();
+        var style = $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesButtonStyle$1;
+        var this$4 = new $c_Lcross_component_flat_Button().init___Lcross_component_flat_Button$ButtonStyle(style);
+        var this$5 = $f_Lcross_layout$LayoutBox__fillX__Lcross_layout$LayoutBox(this$4);
+        var pad = $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesPad$1;
+        var this$8 = $f_Lcross_layout$LayoutBox__pad__Lcross_common$Vec2d__Lcross_layout$LayoutBox(this$5, pad);
+        var array = [$m_Lcross_ops$().fillLabel__T__I__Lcross_component_util$FontStyle__Lcross_component_flat_FillLabel(text, $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesMaxLength$1, $this.$$outer$2.cross$pac$stage$ManagePage$$config$f.messagesLabelStyle$1)];
+        var i = (((-1) + $uI(array.length)) | 0);
+        var result = $m_sci_Nil$();
+        while ((i >= 0)) {
+          var this$9 = result;
+          var index = i;
+          var x = array[index];
+          result = new $c_sci_$colon$colon().init___O__sci_List(x, this$9);
+          i = (((-1) + i) | 0)
+        };
+        this$8.layoutChildren$und$eq__sci_List__V(result);
+        var i$1 = 0;
+        var len = $uI(array.length);
+        while ((i$1 < len)) {
+          var index$1 = i$1;
+          var arg1 = array[index$1];
+          var c = $as_Lcross_layout$LayoutBox(arg1);
+          c.layoutParent$und$eq__s_Option__V(new $c_s_Some().init___O(this$8));
+          i$1 = ((1 + i$1) | 0)
+        };
+        if (this$8.layoutEnabled__Z()) {
+          var this$10 = this$8.layoutChildren__sci_List();
+          var these = this$10;
+          while ((!these.isEmpty__Z())) {
+            var arg1$1 = these.head__O();
+            var c$3 = $as_Lcross_layout$LayoutBox(arg1$1);
+            c$3.layout__Lcross_layout$LayoutBox();
+            these = $as_sci_List(these.tail__O())
+          }
+        };
+        var i$2 = 0;
+        var len$1 = $uI(array.length);
+        while ((i$2 < len$1)) {
+          var index$2 = i$2;
+          var arg1$2 = array[index$2];
+          var c$4 = $as_Lcross_layout$LayoutBox(arg1$2);
+          $f_Lcross_layout$LayoutBox__propagateChildAdded__pLcross_layout$LayoutBox__Lcross_layout$LayoutBox__V(this$8, c$4);
+          i$2 = ((1 + i$2) | 0)
+        };
+        this$8.layoutUp__V();
+        return $as_Lcross_component_flat_Button(this$8)
+      })
+    })(this);
+    var this$11 = $m_sci_List$();
+    var bf = this$11.ReusableCBFInstance$2;
+    if ((bf === $m_sci_List$().ReusableCBFInstance$2)) {
+      if ((x1 === $m_sci_Nil$())) {
+        var jsx$1 = $m_sci_Nil$()
+      } else {
+        var arg1$3 = x1.head__O();
+        var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$3), $m_sci_Nil$());
+        var t = h;
+        var rest = $as_sci_List(x1.tail__O());
+        while ((rest !== $m_sci_Nil$())) {
+          var arg1$4 = rest.head__O();
+          var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$4), $m_sci_Nil$());
+          t.tl$5 = nx;
+          t = nx;
+          rest = $as_sci_List(rest.tail__O())
+        };
+        var jsx$1 = h
+      }
     } else {
-      var arg1$2 = x1.head__O();
-      var h = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$2), $m_sci_Nil$());
-      var t = h;
-      var rest = $as_sci_List(x1.tail__O());
-      while ((rest !== $m_sci_Nil$())) {
-        var arg1$3 = rest.head__O();
-        var nx = new $c_sci_$colon$colon().init___O__sci_List(f(arg1$3), $m_sci_Nil$());
-        t.tl$5 = nx;
-        t = nx;
-        rest = $as_sci_List(rest.tail__O())
+      var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(x1, bf);
+      var these$1 = x1;
+      while ((!these$1.isEmpty__Z())) {
+        var arg1$5 = these$1.head__O();
+        b.$$plus$eq__O__scm_Builder(f(arg1$5));
+        these$1 = $as_sci_List(these$1.tail__O())
       };
-      var jsx$1 = h
-    }
-  } else {
-    var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(x1, bf);
-    var these$1 = x1;
-    while ((!these$1.isEmpty__Z())) {
-      var arg1$4 = these$1.head__O();
-      b.$$plus$eq__O__scm_Builder(f(arg1$4));
-      these$1 = $as_sci_List(these$1.tail__O())
+      var jsx$1 = b.result__O()
     };
-    var jsx$1 = b.result__O()
-  };
-  var buttons = $as_sci_List(jsx$1);
-  var this$10 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
-  $f_Lcross_layout$LayoutBox__children__sc_Seq__Lcross_layout$LayoutBox(this$10, buttons)
+    var buttons = $as_sci_List(jsx$1);
+    var this$12 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
+    $f_Lcross_layout$LayoutBox__children__sc_Seq__Lcross_layout$LayoutBox(this$12, buttons);
+    var this$13 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesLoading__Lcross_component_flat_Label();
+    $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$13, false);
+    var this$14 = this.$$outer$2.cross$pac$stage$ManagePage$$messagesList__Lcross_layout$YBox();
+    $f_Lcross_layout$LayoutBox__visible__Z__Lcross_layout$LayoutBox(this$14, true);
+    return (void 0)
+  } else {
+    return $default.apply__O__O(x1)
+  }
 });
 $c_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype.init___Lcross_pac_stage_ManagePage = (function($$outer) {
   if (($$outer === null)) {
@@ -38746,7 +38962,7 @@ $c_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype.applyOrElse__O__F1__O =
   return this.applyOrElse__sci_List__F1__O($as_sci_List(x), $default)
 });
 $c_Lcross_pac_stage_ManagePage$$anonfun$init$4.prototype.isDefinedAt__sci_List__Z = (function(x1) {
-  return true
+  return $f_sc_TraversableOnce__nonEmpty__Z(x1)
 });
 var $d_Lcross_pac_stage_ManagePage$$anonfun$init$4 = new $TypeData().initClass({
   Lcross_pac_stage_ManagePage$$anonfun$init$4: 0
