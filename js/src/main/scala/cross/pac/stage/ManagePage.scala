@@ -14,8 +14,8 @@ class ManagePage()(implicit config: ManageConfig, controller: Controller) extend
   private lazy val layout = xbox.space(config.space).fillBoth.children(
     ybox.fillBoth.space(config.space).children(
       messagesLoader,
-      filler,
-      messagesPaginator
+      messagesPaginator,
+      filler
     ),
     scroll(config.scroll).alignTop.width(config.challengesWidth).fillY
   )

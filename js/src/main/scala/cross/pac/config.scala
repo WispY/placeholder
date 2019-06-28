@@ -57,6 +57,8 @@ object config {
     align = Vec2d.Center,
     fill = Colors.PureWhite
   )
+  val SmallFlatFontStyle: FontStyle = FlatFontStyle.copy(size = 12)
+
   val PopFontStyle: FontStyle = FlatFontStyle.copy(
     fill = Colors.GreenDarkest
   )
@@ -104,13 +106,19 @@ object config {
       challengesWidth = 300,
       messagesLoadingLabelStyle = FlatFontStyle,
       scroll = ScrollStyle,
-      messagesSpace = 5 xy 5,
-      messagesButtonStyle = FlatButtonStyle,
-      messagesPad = 5 xy 5,
-      messagesLabelStyle = FlatFontStyle,
+      messagesSpace = 0 xy 0,
+      messagesButtonStyle = ButtonStyle(
+        colorNormal = Colors.Black,
+        colorHover = Colors.BlueDarkest,
+        colorPressed = Colors.BlueDark,
+        colorDisabled = Colors.Black,
+        depth = 1
+      ),
+      messagesPad = 10 xy 5,
+      messagesLabelStyle = SmallFlatFontStyle,
       messagesMaxLength = 1000,
       messagesPaginatorStyle = PaginatorStyle(
-        pageSize = 20,
+        pageSize = 16,
         space = 10 xy 10,
         pad = 15 xy 10,
         button = PopButtonStyle,

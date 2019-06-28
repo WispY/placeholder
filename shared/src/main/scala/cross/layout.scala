@@ -2,6 +2,8 @@ package cross
 
 import cross.common._
 
+import scala.annotation.tailrec
+
 object layout {
 
   /** Fills all space between components */
@@ -291,17 +293,37 @@ object layout {
     def handleVisibility(selfVisible: Boolean, parentVisible: Boolean): Unit = {}
   }
 
+  /** Caches the size of the box */
+  case class SizeCache(box: LayoutBox) {
+    lazy val size: Vec2d = box.minimumSize
+  }
 
   /** Layouts children in horizontal line */
   class XBox() extends LayoutBox {
     this.fillX
 
     override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
-      val fillCount = visibleChildren.count(c => c.layoutFill.x == 1)
-      val fillX = if (fillCount > 0) ((box.size.x - minimumSize.x) max 0) / fillCount else 0
+      @tailrec
+      def stretchList(space: Double, list: List[SizeCache]): (Double, List[SizeCache]) = {
+        if (list.isEmpty) {
+          0.0 -> Nil
+        } else {
+          val threshold = (space + list.map(c => c.size.x).sum) / list.size
+          val small = list.filterNot(box => box.size.x > threshold)
+          if (small.size == list.size) {
+            threshold -> list
+          } else {
+            stretchList(space, small)
+          }
+        }
+      }
+
+      val stretchable = visibleChildren.filter(c => c.layoutFill.x == 1).map(c => SizeCache(c))
+      val (sizeX, list) = stretchList(box.size.x - minimumSize.x, stretchable)
+
       visibleChildren.foldLeft(layoutPad.x) { case (x, child) =>
         val s = child.minimumSize
-        val w = if (child.layoutFill.x == 1) s.x + fillX else s.x
+        val w = if (list.exists(c => c.box eq child)) sizeX else s.x
         child.layoutDownInternal(absoluteOffset, child.alignWithin(
           box
             .resizeTo(w xy (box.size.y - layoutPad.y * 2))
@@ -328,11 +350,27 @@ object layout {
     this.fillY
 
     override def layoutDown(absoluteOffset: Vec2d, box: Rec2d): Unit = {
-      val fillCount = visibleChildren.count(c => c.layoutFill.y == 1)
-      val fillY = if (fillCount > 0) ((box.size.y - minimumSize.y) max 0) / fillCount else 0
+      @tailrec
+      def stretchList(space: Double, list: List[SizeCache]): (Double, List[SizeCache]) = {
+        if (list.isEmpty) {
+          0.0 -> Nil
+        } else {
+          val threshold = (space + list.map(c => c.size.y).sum) / list.size
+          val small = list.filterNot(box => box.size.y > threshold)
+          if (small.size == list.size) {
+            threshold -> list
+          } else {
+            stretchList(space, small)
+          }
+        }
+      }
+
+      val stretchable = visibleChildren.filter(c => c.layoutFill.y == 1).map(c => SizeCache(c))
+      val (sizeY, list) = stretchList(box.size.y - minimumSize.y, stretchable)
+
       visibleChildren.foldLeft(layoutPad.y) { case (y, child) =>
         val s = child.minimumSize
-        val h = if (child.layoutFill.y == 1) s.y + fillY else s.y
+        val h = if (list.exists(c => c.box eq child)) sizeY else s.y
         child.layoutDownInternal(absoluteOffset, child.alignWithin(
           box
             .resizeTo((box.size.x - layoutPad.x * 2) xy h)
