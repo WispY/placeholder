@@ -187,28 +187,31 @@ object common {
     def read: A
 
     /** Adds the given listener that will be invoked on every update */
-    def listen(code: TransitionListener[A], initialize: Boolean): Data[A]
+    def listen(code: TransitionListener[A], initialize: Boolean)(implicit listenerId: ListenerId = ListenerId()): Data[A]
+
+    /** Forgets the given listener */
+    def forget()(implicit listenerId: ListenerId): Data[A]
 
     /** Partially projects the wrapped value with given code */
-    def partialMap[B](code: PartialFunction[A, B]): Data[Option[B]]
+    def partialMap[B](code: PartialFunction[A, B])(implicit listenerId: ListenerId = ListenerId()): Data[Option[B]]
 
     /** Maps the wrapped value with given code */
-    def map[B](code: A => B): Data[B]
+    def map[B](code: A => B)(implicit listenerId: ListenerId = ListenerId()): Data[B]
 
     /** Combines the wrapper with another one for simultaneous subscriptions */
-    def and[B](other: Data[B]): Data[(A, B)]
+    def and[B](other: Data[B])(implicit listenerId: ListenerId = ListenerId()): Data[(A, B)]
 
 
     /** Returns the latest value */
     def apply(): A = this.read
 
     /** Adds the given listener that will be invoked on every update */
-    def />>(code: TransitionListener[A]): Data[A] = {
+    def />>(code: TransitionListener[A])(implicit listenerId: ListenerId = ListenerId()): Data[A] = {
       this.listen(code, initialize = true)
     }
 
     /** Adds the given listener that will be invoked on every update */
-    def />(code: EndListener[A]): Data[A] = {
+    def />(code: EndListener[A])(implicit listenerId: ListenerId = ListenerId()): Data[A] = {
       val listener: TransitionListener[A] = {
         case (before, after) if code.isDefinedAt(after) => code.apply(after)
       }
@@ -216,10 +219,10 @@ object common {
     }
 
     /** Partially projects the wrapped value with given code */
-    def /~[B](code: PartialFunction[A, B]): Data[Option[B]] = this.partialMap(code)
+    def /~[B](code: PartialFunction[A, B])(implicit listenerId: ListenerId = ListenerId()): Data[Option[B]] = this.partialMap(code)
 
     /** Combines the wrapper with another one for simultaneous subscriptions */
-    def &&[B](other: Data[B]): Data[(A, B)] = this.and(other)
+    def &&[B](other: Data[B])(implicit listenerId: ListenerId = ListenerId()): Data[(A, B)] = this.and(other)
   }
 
   /** Represents the wrapper that can mutate it's value */
@@ -228,11 +231,14 @@ object common {
     def write(a: A): A
   }
 
+  /** The unique identifier for the data listener */
+  case class ListenerId(value: String = uuid)
+
   private class Implementation[A](default: A) extends Writeable[A] {
     private var value: A = default
-    private var listeners: List[TransitionListener[A]] = Nil
+    private var listeners: List[(ListenerId, TransitionListener[A])] = Nil
 
-    override def partialMap[B](code: PartialFunction[A, B]): Data[Option[B]] = {
+    override def partialMap[B](code: PartialFunction[A, B])(implicit listenerId: ListenerId = ListenerId()): Data[Option[B]] = {
       new Implementation[Option[B]](code.lift.apply(value)).mutate { source =>
         this.listen({ case (before, after) =>
           val current = source.read
@@ -244,7 +250,7 @@ object common {
 
     override def read: A = value
 
-    override def map[B](code: A => B): Data[B] = {
+    override def map[B](code: A => B)(implicit listenerId: ListenerId = ListenerId()): Data[B] = {
       new Implementation(code.apply(value)).mutate { source =>
         this.listen({ case (before, after) => source.write(code.apply(after)) }, initialize = true)
       }
@@ -254,19 +260,24 @@ object common {
       val before = value
       val after = a
       value = after
-      listeners.foreach { listener => listener.lift.apply(before, after) }
+      listeners.foreach { case (id, listener) => listener.lift.apply(before, after) }
       value
     }
 
-    override def listen(code: TransitionListener[A], initialize: Boolean): Data[A] = this.synchronized {
-      listeners = listeners :+ code
+    override def listen(code: TransitionListener[A], initialize: Boolean)(implicit listenerId: ListenerId = ListenerId()): Data[A] = this.synchronized {
+      listeners = listeners :+ (listenerId -> code)
       if (initialize) {
         code.lift.apply(value, value)
       }
       this
     }
 
-    override def and[B](other: Data[B]): Data[(A, B)] = {
+    override def forget()(implicit listenerId: ListenerId): Data[A] = {
+      listeners = listeners.filterNot { case (id, listener) => id == listenerId }
+      this
+    }
+
+    override def and[B](other: Data[B])(implicit listenerId: ListenerId = ListenerId()): Data[(A, B)] = {
       new Implementation((this.read, other.read))
         .mutate { source =>
           val handler: TransitionListener[Any] = source.synchronized {

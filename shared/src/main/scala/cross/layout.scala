@@ -16,7 +16,7 @@ object layout {
   def ybox: YBox = new YBox()
 
   /** Creates an empty box */
-  def box: StackBox = new StackBox()
+  def sbox: StackBox = new StackBox()
 
   /** Represents a 2D object with layout properties */
   trait LayoutBox {

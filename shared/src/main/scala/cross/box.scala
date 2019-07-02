@@ -1,27 +1,35 @@
 package cross
 
-import cross.common.{Data, Rec2d, Vec2d, Writeable}
+import cross.common._
 
 object box {
 
+  def container(): Box[BasicContainerStyle] = new Box[BasicContainerStyle] {
+    override def startingStyle: BasicContainerStyle = BasicContainerStyle(pad = Vec2d.Zero)
+
+    override def id: BoxId = BoxId()
+
+    override def classes: List[StyleClass] = Nil
+  }
+
   /** The id of the box */
-  case class BoxId(value: String)
+  case class BoxId(value: String = uuid)
 
   /** Represents a 2D layout element */
   trait Box[A <: Style] {
     type Self = this.type
 
     /** Current layout of the box */
-    private[box] val boxLayout = Layout(style = Data(startingStyle))
+    private[box] val boxLayout = Layout(id = id, style = Data(startingStyle))
 
     /** Returns the initial style of the box */
-    private[box] def startingStyle: A
+    def startingStyle: A
 
     /** Returns the unique identifier of the element */
     def id: BoxId
 
     /** Returns the current layout of the box */
-    def layout: Layout[A]
+    def layout: Layout[A] = boxLayout
 
     /** Returns current style of the element */
     def style: A = layout.style()
@@ -35,14 +43,14 @@ object box {
     /** Replaces current children with a given list of children */
     def withChildren(children: AnyBox*): Self = {
       val list = children.toList
-      boxLayout.relativeChildren().foreach(child => child.withParent(this))
       boxLayout.relativeChildren.write(list)
+      list.foreach(child => child.withParent(this))
       this
     }
 
     /** Resets the parent to None */
     private def withParent(parent: AnyBox): Unit = {
-      boxLayout.relativeParents.write(parent :: Nil)
+      boxLayout.relativeParents.write(List[AnyBox](parent))
     }
   }
 
@@ -63,6 +71,7 @@ object box {
 
   /** Describes the current layout of the box
     *
+    * @param id               the unique identifier of the box
     * @param style            current visual style of the box
     * @param relativeChildren direct children of the box
     * @param absoluteChildren all children below this box
@@ -72,7 +81,8 @@ object box {
     * @param absoluteBounds   current bounds of the box within it's farthest parent
     * @tparam A type of box style
     */
-  case class Layout[A <: Style](style: Writeable[A],
+  case class Layout[A <: Style](id: BoxId,
+                                style: Writeable[A],
                                 relativeChildren: Writeable[Boxes] = Data(Nil),
                                 absoluteChildren: Writeable[Boxes] = Data(Nil),
                                 relativeParents: Writeable[Boxes] = Data(Nil),
@@ -80,9 +90,32 @@ object box {
                                 parents: Writeable[Boxes] = Data(Nil),
                                 relativeBounds: Writeable[Rec2d] = Data(Rec2d.Zero),
                                 absoluteBounds: Writeable[Rec2d] = Data(Rec2d.Zero)) {
+    /** Unique subscription id for this layout */
+    private implicit val listenerId: ListenerId = ListenerId(id.value)
 
-    relativeParents /> { case parents =>}
+    /** Calculates absolute parents */
+    relativeParents />> { case (lastParents, nextParents) =>
+      lastParents.foreach { parent =>
+        parent.layout.absoluteParents.forget()
+      }
+      nextParents.foreach { parent =>
+        parent.layout.absoluteParents /> { case grandparents =>
+          this.absoluteParents.write(parent :: grandparents)
+        }
+      }
+    }
 
+    /** Calculates absoule children */
+    relativeChildren />> { case (lastChildren, nextChildren) =>
+      lastChildren.foreach { child =>
+        child.layout.absoluteChildren.forget()
+      }
+      nextChildren.foreach { child =>
+        child.layout.absoluteChildren /> { case any =>
+          this.absoluteChildren.write(relativeChildren() ++ relativeChildren().flatMap(c => c.layout.absoluteChildren()))
+        }
+      }
+    }
   }
 
   /** Represents a style for container boxes */
@@ -90,5 +123,7 @@ object box {
     /** Returns the distance between container edge and it's children */
     def pad: Vec2d
   }
+
+  case class BasicContainerStyle(pad: Vec2d) extends ContainerStyle
 
 }

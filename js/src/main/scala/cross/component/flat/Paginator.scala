@@ -45,7 +45,7 @@ class Paginator[A](style: PaginatorStyle, source: Data[List[A]], view: Writeable
       xbox.space(style.space).children(
         first.pad(style.pad),
         previous.pad(style.pad),
-        box.pad(style.pad).fillX.children(current),
+        sbox.pad(style.pad).fillX.children(current),
         next.pad(style.pad),
         last.pad(style.pad)
       )

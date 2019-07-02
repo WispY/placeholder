@@ -7,7 +7,7 @@ class LayoutSpec extends Spec {
   "layout" can {
     "position probe at center" in {
       val probe = Probe(50 xy 50)
-      box.size(100 xy 100).children(
+      sbox.size(100 xy 100).children(
         probe
       ).layout()
       probe.box shouldBe Rec2d(position = 25 xy 25, size = 50 xy 50)
@@ -15,7 +15,7 @@ class LayoutSpec extends Spec {
 
     "position probe at left via filler" in {
       val probe = Probe(50 xy 50)
-      box.size(100 xy 100).children(
+      sbox.size(100 xy 100).children(
         xbox.children(
           probe,
           filler
@@ -26,7 +26,7 @@ class LayoutSpec extends Spec {
 
     "position probe at right via filler" in {
       val probe = Probe(50 xy 50)
-      box.size(100 xy 100).children(
+      sbox.size(100 xy 100).children(
         xbox.children(
           filler,
           probe
@@ -37,7 +37,7 @@ class LayoutSpec extends Spec {
 
     "position probe in center via two fillers" in {
       val probe = Probe(50 xy 50)
-      box.size(100 xy 100).children(
+      sbox.size(100 xy 100).children(
         xbox.children(
           filler,
           probe,
@@ -51,7 +51,7 @@ class LayoutSpec extends Spec {
       val probeA = Probe(100 xy 0).fillY
       val probeB = Probe(50 xy 0).fillY
       val probeC = Probe(100 xy 0).fillY
-      box.size(1000 xy 1000).children(
+      sbox.size(1000 xy 1000).children(
         ybox.fillBoth.children(
           xbox.alignTop.height(100).pad(10).space(10).children(
             probeA,

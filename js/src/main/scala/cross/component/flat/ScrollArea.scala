@@ -63,7 +63,7 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
   /** Content + scroll bar */
   private val totalLayout = xbox.space(style.space).children(
     contentLayout,
-    box.fillY.pad(style.pad).children(
+    sbox.fillY.pad(style.pad).children(
       barRegion.width(style.barWidth).fillY
     )
   )

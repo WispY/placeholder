@@ -20,7 +20,7 @@ class ManagePage()(implicit config: ManageConfig, controller: Controller) extend
     scroll(config.scroll).alignTop.width(config.challengesWidth).fillY
   )
   private lazy val messagesLoading = label("", config.messagesLoadingLabelStyle)
-  private lazy val messagesLoader = box.fillBoth.children(messagesLoading, messagesList)
+  private lazy val messagesLoader = sbox.fillBoth.children(messagesLoading, messagesList)
   private lazy val messagesList = ybox.space(config.messagesSpace).fillX
   private lazy val messagesPaginator = paginator(config.messagesPaginatorStyle, controller.model.adminMessages.view(Nil), messagesData)
   private lazy val messagesData: Writeable[List[ChatMessage]] = Data(Nil)

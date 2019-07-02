@@ -32,7 +32,7 @@ class PacStage(implicit generalConfig: GeneralConfig,
   private lazy val signin = button(config.signinButtonStyle).children(signinLabel)
   private lazy val manage = button(config.manageButtonStyle).children(label("Manage", config.manageLabelStyle))
   private lazy val managePage = new ManagePage()
-  private lazy val pages = box.children(managePage.pageLayout).fillBoth
+  private lazy val pages = sbox.children(managePage.pageLayout).fillBoth
   private lazy val layout = screenLayout(body)
     .children(
       ybox.fillBoth.children(
