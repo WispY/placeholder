@@ -43,14 +43,15 @@ object box {
     /** Replaces current children with a given list of children */
     def withChildren(children: AnyBox*): Self = {
       val list = children.toList
+      boxLayout.relativeChildren().foreach(child => child.withParent(Nil))
       boxLayout.relativeChildren.write(list)
-      list.foreach(child => child.withParent(this))
+      list.foreach(child => child.withParent(this :: Nil))
       this
     }
 
     /** Resets the parent to None */
-    private def withParent(parent: AnyBox): Unit = {
-      boxLayout.relativeParents.write(List[AnyBox](parent))
+    private def withParent(parents: Boxes): Unit = {
+      boxLayout.relativeParents.write(parents)
     }
   }
 
@@ -103,6 +104,7 @@ object box {
           this.absoluteParents.write(parent :: grandparents)
         }
       }
+      if (nextParents.isEmpty) this.absoluteParents.write(Nil)
     }
 
     /** Calculates absoule children */
@@ -115,6 +117,7 @@ object box {
           this.absoluteChildren.write(relativeChildren() ++ relativeChildren().flatMap(c => c.layout.absoluteChildren()))
         }
       }
+      if (nextChildren.isEmpty) this.absoluteChildren.write(Nil)
     }
   }
 
