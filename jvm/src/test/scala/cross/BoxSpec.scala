@@ -8,22 +8,22 @@ class BoxSpec extends Spec {
       val a = container()
       val b = container()
       a.withChildren(b)
-      a.layout.relativeChildren() shouldBe (b :: Nil)
-      a.layout.absoluteChildren() shouldBe (b :: Nil)
-      b.layout.relativeParents() shouldBe (a :: Nil)
-      b.layout.absoluteParents() shouldBe (a :: Nil)
+      a.layout.relChildren() shouldBe (b :: Nil)
+      a.layout.absChildren() shouldBe (b :: Nil)
+      b.layout.relParents() shouldBe (a :: Nil)
+      b.layout.absParents() shouldBe (a :: Nil)
 
       a.withChildren()
-      a.layout.relativeChildren() shouldBe Nil
-      a.layout.absoluteChildren() shouldBe Nil
-      b.layout.relativeParents() shouldBe Nil
-      b.layout.absoluteParents() shouldBe Nil
+      a.layout.relChildren() shouldBe Nil
+      a.layout.absChildren() shouldBe Nil
+      b.layout.relParents() shouldBe Nil
+      b.layout.absParents() shouldBe Nil
 
       b.withChildren(a)
-      b.layout.relativeChildren() shouldBe (a :: Nil)
-      b.layout.absoluteChildren() shouldBe (a :: Nil)
-      a.layout.relativeParents() shouldBe (b :: Nil)
-      a.layout.absoluteParents() shouldBe (b :: Nil)
+      b.layout.relChildren() shouldBe (a :: Nil)
+      b.layout.absChildren() shouldBe (a :: Nil)
+      a.layout.relParents() shouldBe (b :: Nil)
+      a.layout.absParents() shouldBe (b :: Nil)
     }
 
     "assign 2-deep hierarchy" in {
@@ -34,37 +34,37 @@ class BoxSpec extends Spec {
       a.withChildren(
         b.withChildren(c)
       )
-      a.layout.relativeChildren() shouldBe (b :: Nil)
-      a.layout.absoluteChildren() shouldBe (b :: c :: Nil)
-      b.layout.relativeChildren() shouldBe (c :: Nil)
-      b.layout.absoluteChildren() shouldBe (c :: Nil)
-      b.layout.relativeParents() shouldBe (a :: Nil)
-      b.layout.absoluteParents() shouldBe (a :: Nil)
-      c.layout.relativeParents() shouldBe (b :: Nil)
-      c.layout.absoluteParents() shouldBe (b :: a :: Nil)
+      a.layout.relChildren() shouldBe (b :: Nil)
+      a.layout.absChildren() shouldBe (b :: c :: Nil)
+      b.layout.relChildren() shouldBe (c :: Nil)
+      b.layout.absChildren() shouldBe (c :: Nil)
+      b.layout.relParents() shouldBe (a :: Nil)
+      b.layout.absParents() shouldBe (a :: Nil)
+      c.layout.relParents() shouldBe (b :: Nil)
+      c.layout.absParents() shouldBe (b :: a :: Nil)
 
       a.withChildren()
       b.withChildren()
-      a.layout.relativeChildren() shouldBe Nil
-      a.layout.absoluteChildren() shouldBe Nil
-      b.layout.relativeChildren() shouldBe Nil
-      b.layout.absoluteChildren() shouldBe Nil
-      b.layout.relativeParents() shouldBe Nil
-      b.layout.absoluteParents() shouldBe Nil
-      c.layout.relativeParents() shouldBe Nil
-      c.layout.absoluteParents() shouldBe Nil
+      a.layout.relChildren() shouldBe Nil
+      a.layout.absChildren() shouldBe Nil
+      b.layout.relChildren() shouldBe Nil
+      b.layout.absChildren() shouldBe Nil
+      b.layout.relParents() shouldBe Nil
+      b.layout.absParents() shouldBe Nil
+      c.layout.relParents() shouldBe Nil
+      c.layout.absParents() shouldBe Nil
 
       c.withChildren(
         b.withChildren(a)
       )
-      c.layout.relativeChildren() shouldBe (b :: Nil)
-      c.layout.absoluteChildren() shouldBe (b :: a :: Nil)
-      b.layout.relativeChildren() shouldBe (a :: Nil)
-      b.layout.absoluteChildren() shouldBe (a :: Nil)
-      b.layout.relativeParents() shouldBe (c :: Nil)
-      b.layout.absoluteParents() shouldBe (c :: Nil)
-      a.layout.relativeParents() shouldBe (b :: Nil)
-      a.layout.absoluteParents() shouldBe (b :: c :: Nil)
+      c.layout.relChildren() shouldBe (b :: Nil)
+      c.layout.absChildren() shouldBe (b :: a :: Nil)
+      b.layout.relChildren() shouldBe (a :: Nil)
+      b.layout.absChildren() shouldBe (a :: Nil)
+      b.layout.relParents() shouldBe (c :: Nil)
+      b.layout.absParents() shouldBe (c :: Nil)
+      a.layout.relParents() shouldBe (b :: Nil)
+      a.layout.absParents() shouldBe (b :: c :: Nil)
     }
 
     "assign 2-wide hierarchy" in {
@@ -74,20 +74,20 @@ class BoxSpec extends Spec {
 
       a.withChildren(b, c)
 
-      a.layout.relativeChildren() shouldBe (b :: c :: Nil)
-      a.layout.absoluteChildren() shouldBe (b :: c :: Nil)
-      b.layout.relativeParents() shouldBe (a :: Nil)
-      b.layout.absoluteParents() shouldBe (a :: Nil)
-      c.layout.relativeParents() shouldBe (a :: Nil)
-      c.layout.absoluteParents() shouldBe (a :: Nil)
+      a.layout.relChildren() shouldBe (b :: c :: Nil)
+      a.layout.absChildren() shouldBe (b :: c :: Nil)
+      b.layout.relParents() shouldBe (a :: Nil)
+      b.layout.absParents() shouldBe (a :: Nil)
+      c.layout.relParents() shouldBe (a :: Nil)
+      c.layout.absParents() shouldBe (a :: Nil)
 
       a.withChildren()
-      a.layout.relativeChildren() shouldBe Nil
-      a.layout.absoluteChildren() shouldBe Nil
-      b.layout.relativeParents() shouldBe Nil
-      b.layout.absoluteParents() shouldBe Nil
-      c.layout.relativeParents() shouldBe Nil
-      c.layout.absoluteParents() shouldBe Nil
+      a.layout.relChildren() shouldBe Nil
+      a.layout.absChildren() shouldBe Nil
+      b.layout.relParents() shouldBe Nil
+      b.layout.absParents() shouldBe Nil
+      c.layout.relParents() shouldBe Nil
+      c.layout.absParents() shouldBe Nil
     }
   }
 }
