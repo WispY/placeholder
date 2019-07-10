@@ -10,6 +10,14 @@ object box {
     override def id: BoxId = BoxId()
 
     override def classes: List[StyleClass] = Nil
+
+    override def calculateLayoutX(): Unit = ???
+
+    override def calculateLayoutY(): Unit = ???
+
+    override def calculateMinimumWidth: Double = ???
+
+    override def calculateMinimumHeight: Double = ???
   }
 
   /** The id of the box */
@@ -49,8 +57,11 @@ object box {
       this
     }
 
-    /** Updates the layout of the box */
-    def calculateLayout(): Unit
+    /** Updates the X layout of the box */
+    def calculateLayoutX(): Unit
+
+    /** Updates the Y layout of the box */
+    def calculateLayoutY(): Unit
 
     /** Calculates the minimum width of the component */
     def calculateMinimumWidth: Double
@@ -164,17 +175,29 @@ object box {
     /** Unique subscription id for this layout */
     private implicit val listenerId: ListenerId = ListenerId(self.id.value)
 
+    /** List of parent data subscriptions */
+    private val parentSubscriptions = List[Layout[_] => Writeable[_]](
+      _.absParents,
+      _.absAreaX,
+      _.absAreaY,
+      _.absVisible,
+      _.absDisplay,
+      _.absEnabled
+    )
+
+    /** List of child data subscriptions */
+    private val childSubscriptions = List[Layout[_] => Writeable[_]](
+      _.absChildren,
+      _.minW,
+      _.minH,
+      _.relDisplay,
+      _.fill
+    )
+
     /** Calculates absolute parents and area */
     relParents />> { case (lastParents, nextParents) =>
       lastParents.foreach { parent =>
-        List[Layout[_] => Writeable[_]](
-          _.absParents,
-          _.absAreaX,
-          _.absAreaY,
-          _.absVisible,
-          _.absDisplay,
-          _.absEnabled
-        ).foreach { code => code.apply(parent.layout).forget() }
+        parentSubscriptions.foreach { code => code.apply(parent.layout).forget() }
       }
       relAreaX.forget()
       relAreaY.forget()
@@ -203,14 +226,32 @@ object box {
     /** Calculates absolute children */
     relChildren />> { case (lastChildren, nextChildren) =>
       lastChildren.foreach { child =>
-        child.layout.absChildren.forget()
+        childSubscriptions.foreach { code => code.apply(child.layout).forget() }
       }
       nextChildren.foreach { child =>
         child.layout.absChildren /> { case _ =>
-          this.absChildren.write(relChildren() ++ relChildren().flatMap(c => c.layout.absChildren()))
+          absChildren.write(relChildren() ++ relChildren().flatMap(c => c.layout.absChildren()))
+        }
+        child.layout.minW /> { case _ =>
+          minW.write(self.calculateMinimumWidth)
+        }
+        child.layout.minH /> { case _ =>
+          minH.write(self.calculateMinimumHeight)
+        }
+        child.layout.relDisplay /> { case _ =>
+          minW.write(self.calculateMinimumWidth)
+          minH.write(self.calculateMinimumHeight)
+        }
+        child.layout.fill /> { case _ =>
+          self.calculateLayoutX()
+          self.calculateLayoutY()
         }
       }
-      if (nextChildren.isEmpty) this.absChildren.write(Nil)
+      if (nextChildren.isEmpty) {
+        absChildren.write(Nil)
+        minW.write(self.calculateMinimumWidth)
+        minH.write(self.calculateMinimumHeight)
+      }
     }
 
     (minW && minH) /> { case (w, h) => minSize.write(w xy h) }
@@ -230,24 +271,14 @@ object box {
     }
 
     /** Calculates minimum size of the box */
-    self match {
-      case box: ChildrenSizeBox[A] =>
-        absChildren />> { case _ =>
-          minimumSize.write(box.childrenMinimumSize)
-        }
-        minimumSize /> { case size =>
-          minimumWidth.write(size.x)
-          minimumHeight.write(size.y)
-        }
-      case box: FixedSizeBox[A] =>
-        val size = box.fixedMinimumSize
-        minimumSize.write(size)
-        minimumWidth.write(size.x)
-        minimumHeight.write(size.y)
-      case box: FloatingWidthBox[A] =>
-        relativeBoundXW /> { case Vec2d(x, w) => minimumHeight.write(box.floatingMinimumHeight(w)) }
-        (minimumWidth && minimumHeight) /> { case (w, h) => minimumSize.write(w xy h) }
+    style /> { case _ =>
+      minW.write(self.calculateMinimumWidth)
+      minH.write(self.calculateMinimumHeight)
     }
+
+    /** Updates the layout of the box children */
+    (style && relBoundsX && relChildren) /> { case _ => self.calculateLayoutX() }
+    (style && relBoundsY && relChildren) /> { case _ => self.calculateLayoutY() }
   }
 
   /** Represents a style for container boxes */
