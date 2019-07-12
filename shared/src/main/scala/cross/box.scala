@@ -4,52 +4,57 @@ import cross.common._
 
 object box {
 
-  def container(): Box[BasicContainerStyle] = new Box[BasicContainerStyle] {
-    override def startingStyle: BasicContainerStyle = BasicContainerStyle(pad = Vec2d.Zero)
-
+  def container(): Box = new Box with ContainerStyle {
     override def id: BoxId = BoxId()
 
     override def classes: List[StyleClass] = Nil
 
-    override def calculateLayoutX(): Unit = ???
+    override def calculateLayoutX(): Unit = {
+      layout.relChildren().foreach { child => child.updateAreaX(pad().x, child.layout.minW()) }
+    }
 
-    override def calculateLayoutY(): Unit = ???
+    override def calculateLayoutY(): Unit = {
+      layout.relChildren().foreach { child => child.updateAreaY(pad().y, child.layout.minH()) }
+    }
 
-    override def calculateMinimumWidth: Double = ???
+    override def calculateMinimumWidth: Double = {
+      val width = layout.relChildren().map(c => c.layout.minW()).maxOpt.getOrElse(0.0)
+      width + pad().x * 2
+    }
 
-    override def calculateMinimumHeight: Double = ???
+    override def calculateMinimumHeight: Double = {
+      val height = layout.relChildren().map(c => c.layout.minH()).maxOpt.getOrElse(0.0)
+      height + pad().y * 2
+    }
   }
 
   /** The id of the box */
   case class BoxId(value: String = uuid)
 
   /** Represents a 2D layout element */
-  trait Box[A <: Style] {
+  trait Box {
     type Self = this.type
 
     /** Current layout of the box */
-    private[box] val boxLayout = Layout(self = this, style = LazyData(startingStyle))
-
-    /** Returns the initial style of the box */
-    def startingStyle: A
+    private[box] val boxLayout = Layout(self = this)
 
     /** Returns the unique identifier of the element */
     def id: BoxId
 
     /** Returns the current layout of the box */
-    def layout: Layout[A] = boxLayout
+    def layout: Layout = boxLayout
 
     /** Returns current style of the element */
-    def style: A = layout.style()
+    def style: Style = layout.style()
 
     /** Returns a list of classes that this box is assigned to */
     def classes: List[StyleClass]
 
     /** Returns the whole hierarchy containing this element and everything below */
-    def selfAndAbsoluteChildren: List[AnyBox] = this :: layout.absChildren()
+    def selfAndAbsoluteChildren: List[Box] = this :: layout.absChildren()
 
     /** Replaces current children with a given list of children */
-    def withChildren(children: AnyBox*): Self = {
+    def withChildren(children: Box*): Self = {
       val list = children.toList
       boxLayout.relChildren().foreach(child => child.updateParent(Nil))
       boxLayout.relChildren.write(list)
@@ -75,24 +80,52 @@ object box {
     }
 
     /** Updates the X area occupied by the box */
-    private def updateAreaX(areaX: Vec2d): Unit = {
-      boxLayout.relAreaX.write(areaX)
+    def updateAreaX(x: Double, width: Double): Unit = {
+      boxLayout.relAreaX.write(x xy width)
     }
 
     /** Updates the Y area occupied by the box */
-    private def updateAreaY(areaY: Vec2d): Unit = {
-      boxLayout.relAreaY.write(areaY)
+    def updateAreaY(y: Double, height: Double): Unit = {
+      boxLayout.relAreaY.write(y xy height)
     }
   }
 
-  type AnyBox = Box[_]
-  type AnyLayout = Layout[_]
-  type Boxes = List[AnyBox]
+  type Boxes = List[Box]
+  type AnyStyleKey = StyleKey[_, _ <: Box]
+
+  /** Refers to the box */
+  case class BoxRef[A <: Box](box: A)
 
   /** Represents a style of a 2D layout element */
-  trait Style {
+  case class Style(parameters: Map[AnyStyleKey, Any]) {
+    /** Sets the style parameter */
+    def set[A](key: AnyStyleKey, value: A): Style = copy(parameters = parameters + (key -> value))
 
+    /** Returns the value assign to style parameter */
+    def get[A](key: AnyStyleKey): Option[A] = parameters.get(key).map(a => a.asInstanceOf[A])
   }
+
+  /** Refers to a single parameter for a style */
+  class StyleKey[A, B <: Box](box: B, defaultValue: A) {
+    /** Writes a new style value */
+    def apply(newValue: A): B = {
+      box.layout.style.write(box.style.set(this, newValue))
+      box
+    }
+
+    /** Returns the currently set style value */
+    def apply(): A = {
+      box.layout.style().get[A](this).getOrElse(defaultValue)
+    }
+
+    def get: A = apply()
+  }
+
+  object StyleKey {
+    /** Creates a style parameter reference */
+    def apply[A, B <: Box](startingValue: A, box: B): StyleKey[A, B] = new StyleKey(box, startingValue)
+  }
+
 
   /** Represents a group of similarly styled boxes */
   trait StyleClass {
@@ -110,6 +143,8 @@ object box {
     * @param minW        minimum width of the box
     * @param minH        minimum height of the box
     * @param minSize     minimum size of the box
+    * @param fixedW      optional fixed width of the box
+    * @param fixedH      optional fixed height of the box
     * @param relAreaX    area X and width assigned to the box relative to parent
     * @param relAreaY    area Y and height assigned to the box relative to parent
     * @param relArea     area assigned to the box relative to parent
@@ -130,53 +165,54 @@ object box {
     * @param absDisplay  whether the box is displayed and all parents are displayed
     * @param relEnabled  whether the box interactions are enabled
     * @param absEnabled  whether the box interactions are enabled and all parent interactions are enabled
-    * @tparam A type of box style
     */
-  case class Layout[A <: Style](self: Box[A],
+  case class Layout(self: Box,
 
-                                style: Writeable[A],
-                                relChildren: Writeable[Boxes] = LazyData(Nil),
-                                absChildren: Writeable[Boxes] = LazyData(Nil),
-                                relParents: Writeable[Boxes] = LazyData(Nil),
-                                absParents: Writeable[Boxes] = LazyData(Nil),
+                    style: Writeable[Style] = LazyData(Style(Map.empty)),
+                    relChildren: Writeable[Boxes] = LazyData(Nil),
+                    absChildren: Writeable[Boxes] = LazyData(Nil),
+                    relParents: Writeable[Boxes] = LazyData(Nil),
+                    absParents: Writeable[Boxes] = LazyData(Nil),
 
-                                minW: Writeable[Double] = LazyData(0),
-                                minH: Writeable[Double] = LazyData(0),
-                                minSize: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    minW: Writeable[Double] = LazyData(0),
+                    minH: Writeable[Double] = LazyData(0),
+                    minSize: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    fixedW: Writeable[Option[Double]] = LazyData(None),
+                    fixedH: Writeable[Option[Double]] = LazyData(None),
 
-                                relAreaX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                relAreaY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                relArea: Writeable[Rec2d] = LazyData(Rec2d.Zero),
+                    relAreaX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    relAreaY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    relArea: Writeable[Rec2d] = LazyData(Rec2d.Zero),
 
-                                absAreaX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                absAreaY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                absArea: Writeable[Rec2d] = LazyData(Rec2d.Zero),
+                    absAreaX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    absAreaY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    absArea: Writeable[Rec2d] = LazyData(Rec2d.Zero),
 
-                                relBoundsX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                relBoundsY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                relBounds: Writeable[Rec2d] = LazyData(Rec2d.Zero),
+                    relBoundsX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    relBoundsY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    relBounds: Writeable[Rec2d] = LazyData(Rec2d.Zero),
 
-                                absBoundsX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                absBoundsY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                absBounds: Writeable[Rec2d] = LazyData(Rec2d.Zero),
+                    absBoundsX: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    absBoundsY: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    absBounds: Writeable[Rec2d] = LazyData(Rec2d.Zero),
 
-                                fill: Writeable[Vec2d] = LazyData(Vec2d.Zero),
-                                align: Writeable[Vec2d] = LazyData(Vec2d.Center),
+                    fill: Writeable[Vec2d] = LazyData(Vec2d.Zero),
+                    align: Writeable[Vec2d] = LazyData(Vec2d.Center),
 
-                                relVisible: Writeable[Boolean] = LazyData(true),
-                                absVisible: Writeable[Boolean] = LazyData(true),
+                    relVisible: Writeable[Boolean] = LazyData(true),
+                    absVisible: Writeable[Boolean] = LazyData(true),
 
-                                relDisplay: Writeable[Boolean] = LazyData(true),
-                                absDisplay: Writeable[Boolean] = LazyData(true),
+                    relDisplay: Writeable[Boolean] = LazyData(true),
+                    absDisplay: Writeable[Boolean] = LazyData(true),
 
-                                relEnabled: Writeable[Boolean] = LazyData(true),
-                                absEnabled: Writeable[Boolean] = LazyData(true)) {
+                    relEnabled: Writeable[Boolean] = LazyData(true),
+                    absEnabled: Writeable[Boolean] = LazyData(true)) {
 
     /** Unique subscription id for this layout */
     private implicit val listenerId: ListenerId = ListenerId(self.id.value)
 
     /** List of parent data subscriptions */
-    private val parentSubscriptions = List[Layout[_] => Writeable[_]](
+    private val parentSubscriptions = List[Layout => Writeable[_]](
       _.absParents,
       _.absAreaX,
       _.absAreaY,
@@ -186,7 +222,7 @@ object box {
     )
 
     /** List of child data subscriptions */
-    private val childSubscriptions = List[Layout[_] => Writeable[_]](
+    private val childSubscriptions = List[Layout => Writeable[_]](
       _.absChildren,
       _.minW,
       _.minH,
@@ -223,6 +259,12 @@ object box {
       }
     }
 
+    /** Recalculates and writes the minimum width of the box */
+    def rewriteMinW(): Unit = minW.write(self.calculateMinimumWidth max fixedW().getOrElse(0))
+
+    /** Recalculates and writes the minimum height of the box */
+    def rewriteMinH(): Unit = minH.write(self.calculateMinimumHeight max fixedH().getOrElse(0))
+
     /** Calculates absolute children */
     relChildren />> { case (lastChildren, nextChildren) =>
       lastChildren.foreach { child =>
@@ -232,15 +274,11 @@ object box {
         child.layout.absChildren /> { case _ =>
           absChildren.write(relChildren() ++ relChildren().flatMap(c => c.layout.absChildren()))
         }
-        child.layout.minW /> { case _ =>
-          minW.write(self.calculateMinimumWidth)
-        }
-        child.layout.minH /> { case _ =>
-          minH.write(self.calculateMinimumHeight)
-        }
+        child.layout.minW /> { case _ => rewriteMinW() }
+        child.layout.minH /> { case _ => rewriteMinH() }
         child.layout.relDisplay /> { case _ =>
-          minW.write(self.calculateMinimumWidth)
-          minH.write(self.calculateMinimumHeight)
+          rewriteMinW()
+          rewriteMinH()
         }
         child.layout.fill /> { case _ =>
           self.calculateLayoutX()
@@ -249,8 +287,8 @@ object box {
       }
       if (nextChildren.isEmpty) {
         absChildren.write(Nil)
-        minW.write(self.calculateMinimumWidth)
-        minH.write(self.calculateMinimumHeight)
+        rewriteMinW()
+        rewriteMinH()
       }
     }
 
@@ -271,10 +309,8 @@ object box {
     }
 
     /** Calculates minimum size of the box */
-    style /> { case _ =>
-      minW.write(self.calculateMinimumWidth)
-      minH.write(self.calculateMinimumHeight)
-    }
+    (style && fixedW) /> { case _ => rewriteMinW() }
+    (style && fixedH) /> { case _ => rewriteMinH() }
 
     /** Updates the layout of the box children */
     (style && relBoundsX && relChildren) /> { case _ => self.calculateLayoutX() }
@@ -282,16 +318,16 @@ object box {
   }
 
   /** Represents a style for container boxes */
-  trait ContainerStyle extends Style {
-    /** Returns the distance between container edge and it's children */
-    def pad: Vec2d
+  trait ContainerStyle {
+    this: Box =>
+    /** Space between inner components and the edge of the box */
+    val pad = StyleKey(Vec2d.Zero, this)
   }
 
-  trait RegionStyle extends Style {
+  trait RegionStyle {
+    this: Box =>
     /** Color used as a background of this region */
-    def fillColor: Color
+    val fillColor = StyleKey(Colors.Black, this)
   }
-
-  case class BasicContainerStyle(pad: Vec2d) extends ContainerStyle
 
 }
