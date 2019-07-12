@@ -296,6 +296,8 @@ object common {
           subData = source :: subData
         }
     }
+
+    override def toString: String = value.toString
   }
 
   object Data {
@@ -690,7 +692,7 @@ object common {
   implicit class ColorOps(val color: Color) extends AnyVal {
     /** Returns the darker version of this color */
     def darker: Color = color match {
-      case Colors.Purple => Colors.Black
+      case Colors.PurpleDark => Colors.Black
       case Colors.Brown => Colors.BrownDark
       case Colors.BrownLight => Colors.Brown
       case Colors.BrownLightest => Colors.BrownLight
