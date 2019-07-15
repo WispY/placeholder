@@ -491,8 +491,6 @@ object box {
 
   /** Container box with stackable children */
   trait ContainerBox extends Box with ContainerStyle {
-    override def classes: List[BoxClass] = Nil
-
     override def calculateLayoutX(): Unit = {
       layout.relChildren().foreach { child => child.updateAreaX(pad().x, child.layout.minW()) }
     }
@@ -538,11 +536,14 @@ object box {
     lazy val textSize = StyleKey(12.0, this)
     /** The font used to render box text */
     lazy val textFont = StyleKey(DefaultFont, this)
+    /** The value of the text */
+    lazy val textValue = StyleKey("", this)
   }
 
   /** Refers to a text font with cached metrics */
   case class Font(family: String) {
     private var metrics: Map[Char, Vec2d] = Map.empty
+    private var characterSpaceOpt: Option[Double] = None
 
     /** Returns the size of the character */
     def charMetric(char: Char)(implicit context: BoxContext): Vec2d = {
@@ -557,7 +558,26 @@ object box {
 
     /** Returns the size of the text string */
     def textMetric(text: String)(implicit context: BoxContext): Vec2d = {
-      text.map(charMetric).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) }
+      val characterSpace = characterSpaceOpt.getOrElse {
+        val space = context.measureText("AA").x - charMetric('A').x * 2
+        characterSpaceOpt = Some(space)
+        space
+      }
+      val totalCharacterSpace = characterSpace * ((text.length - 1) max 0)
+      text.map(charMetric).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) } + (totalCharacterSpace xy 0)
+    }
+  }
+
+  /** Displays a line of text */
+  trait TextBox extends Box with TextStyle {
+    def boxContext: BoxContext
+
+    override def calculateMinimumWidth: Double = {
+      textFont().textMetric(textValue())(boxContext).x
+    }
+
+    override def calculateMinimumHeight: Double = {
+      textFont().textMetric("A")(boxContext).y
     }
   }
 
