@@ -223,6 +223,9 @@ object common {
 
     /** Combines the wrapper with another one for simultaneous subscriptions */
     def &&[B](other: Data[B])(implicit listenerId: ListenerId = ListenerId()): Data[(A, B)] = this.and(other)
+
+    /** Forcibly triggers the listeners */
+    def forceTrigger(): Unit
   }
 
   /** Represents the wrapper that can mutate it's value */
@@ -296,6 +299,8 @@ object common {
           subData = source :: subData
         }
     }
+
+    override def forceTrigger: Unit = listeners.foreach { case (id, listener) => listener.lift.apply(value, value) }
 
     override def toString: String = value.toString
   }

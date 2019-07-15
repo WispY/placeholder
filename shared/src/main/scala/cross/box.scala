@@ -161,10 +161,11 @@ object box {
   }
 
   /** Refers to a single parameter for a style */
-  class StyleKey[A, B <: Box](box: B, defaultValue: A) {
+  class StyleKey[A, B <: Box](box: B, defaultValue: A, updatesSize: Boolean) {
     /** Writes a new style value */
     def apply(newValue: A): B = {
       box.layout.style.write(box.style.set(this, newValue))
+      if (updatesSize) box.layout.style.forceTrigger()
       box
     }
 
@@ -178,7 +179,12 @@ object box {
 
   object StyleKey {
     /** Creates a style parameter reference */
-    def apply[A, B <: Box](startingValue: A, box: B): StyleKey[A, B] = new StyleKey(box, startingValue)
+    def apply[A, B <: Box](startingValue: A, box: B): StyleKey[A, B] = new StyleKey(box, startingValue, true)
+  }
+
+  object VisualStyleKey {
+    /** Creates a style parameter reference */
+    def apply[A, B <: Box](startingValue: A, box: B, updatesSize: Boolean = true): StyleKey[A, B] = new StyleKey(box, startingValue, false)
   }
 
   /** Represents a box selector for style applications and searches */
@@ -280,7 +286,7 @@ object box {
     */
   case class Layout(self: Box,
 
-                    style: Writeable[Style] = Data(Style(Map.empty)),
+                    style: Writeable[Style] = LazyData(Style(Map.empty)),
                     classes: Writeable[List[BoxClass]] = LazyData(Nil),
                     relChildren: Writeable[Boxes] = LazyData(Nil),
                     absChildren: Writeable[Boxes] = LazyData(Nil),
@@ -457,6 +463,9 @@ object box {
 
     /** Enables interactions with the box */
     def makeInteractive(box: Box): Unit
+
+    /** Measures the space occupied by the text */
+    def measureText(text: String): Vec2d
   }
 
   /** Context component that can draw within it's bounds */
@@ -471,8 +480,6 @@ object box {
     val hovering: Writeable[Boolean] = LazyData(false)
     /** True, if mouse was pressed while hovering over the box */
     val dragging: Writeable[Boolean] = LazyData(false)
-
-
   }
 
   /** Represents a style for container boxes */
@@ -509,7 +516,7 @@ object box {
   trait RegionStyle {
     this: Box =>
     /** Color used as a background of this region */
-    lazy val fillColor = StyleKey(Colors.Black, this)
+    lazy val fillColor = VisualStyleKey(Colors.Black, this)
   }
 
   /** Container box with background color */
@@ -521,5 +528,40 @@ object box {
       (layout.classes && layout.style && layout.absBounds) /> { case _ => background.fill(layout.absBounds(), fillColor()) }
     }
   }
+
+  /** Represents a style for components with text */
+  trait TextStyle {
+    this: Box =>
+    /** The color of the box text */
+    lazy val textColor = VisualStyleKey(Colors.Black, this)
+    /** The size of the box text in pixels */
+    lazy val textSize = StyleKey(12.0, this)
+    /** The font used to render box text */
+    lazy val textFont = StyleKey(DefaultFont, this)
+  }
+
+  /** Refers to a text font with cached metrics */
+  case class Font(family: String) {
+    private var metrics: Map[Char, Vec2d] = Map.empty
+
+    /** Returns the size of the character */
+    def charMetric(char: Char)(implicit context: BoxContext): Vec2d = {
+      metrics.get(char) match {
+        case Some(size) => size
+        case None =>
+          val size = context.measureText(s"$char")
+          metrics = metrics + (char -> size)
+          size
+      }
+    }
+
+    /** Returns the size of the text string */
+    def textMetric(text: String)(implicit context: BoxContext): Vec2d = {
+      text.map(charMetric).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) }
+    }
+  }
+
+  /** Safe to use default font */
+  val DefaultFont = Font("Arial")
 
 }
