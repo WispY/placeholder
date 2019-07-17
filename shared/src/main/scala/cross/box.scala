@@ -29,6 +29,22 @@ object box {
     }
   }
 
+  /** Creates an instance of box with text */
+  def text(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): TextBox = {
+    val assignedId = id
+    new TextBox {
+      override def boxContext: BoxContext = context
+
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+
+      override def calculateLayoutX(): Unit = {}
+
+      override def calculateLayoutY(): Unit = {}
+    }
+  }
+
   /** Selects boxes that implement given trait */
   def isA[A](implicit tag: ClassTag[A]): Selector = box => tag.runtimeClass.isInstance(box)
 
@@ -465,7 +481,7 @@ object box {
     def makeInteractive(box: Box): Unit
 
     /** Measures the space occupied by the text */
-    def measureText(text: String): Vec2d
+    def measureText(text: String, font: Font): Vec2d
   }
 
   /** Context component that can draw within it's bounds */
@@ -550,7 +566,7 @@ object box {
       metrics.get(char) match {
         case Some(size) => size
         case None =>
-          val size = context.measureText(s"$char")
+          val size = context.measureText(s"$char", this)
           metrics = metrics + (char -> size)
           size
       }
@@ -559,7 +575,7 @@ object box {
     /** Returns the size of the text string */
     def textMetric(text: String)(implicit context: BoxContext): Vec2d = {
       val characterSpace = characterSpaceOpt.getOrElse {
-        val space = context.measureText("AA").x - charMetric('A').x * 2
+        val space = context.measureText("AA", this).x - charMetric('A').x * 2
         characterSpaceOpt = Some(space)
         space
       }

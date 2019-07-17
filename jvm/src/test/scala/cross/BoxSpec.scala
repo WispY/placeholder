@@ -4,6 +4,26 @@ import cross.box._
 import cross.common._
 
 class BoxSpec extends Spec {
+
+  /** Returns 5 by 5 text dimensions for every symbol, with 1px spacing between them */
+  trait MonoText extends BoxContext {
+    override def measureText(text: String, font: Font): Vec2d = text match {
+      case "" => 0 xy 5
+      case single if single.length == 1 => 5 xy 5
+      case other => (other.length * 5 + (other.length - 1)) xy 5
+    }
+  }
+
+  /** Represents a context without available interactions */
+  trait NotInteractive extends BoxContext {
+    override def makeInteractive(box: Box): Unit = ???
+  }
+
+  /** Represents a context without draw components */
+  trait NotDrawable extends BoxContext {
+    override def drawComponent: DrawComponent = ???
+  }
+
   "box" can {
     "assign single hierarchy" in {
       implicit val styler: Styler = Styler.Empty
@@ -167,6 +187,20 @@ class BoxSpec extends Spec {
       boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 2 xy 2)
       boxB.layout.absBounds() shouldBe Rec2d(0 xy 0, 2 xy 2)
       boxC.layout.absBounds() shouldBe Rec2d(1 xy 1, 0 xy 0)
+    }
+
+    "layout text box" in {
+      implicit val styler: Styler = Styler.Empty
+      implicit val context: BoxContext = new MonoText with NotInteractive with NotDrawable
+      val label = text()
+      val button = container().withChildren(label).pad(10 xy 10)
+
+      button.layout.absBounds() shouldBe Rec2d(0 xy 0, 20 xy 25)
+      label.layout.absBounds() shouldBe Rec2d(10 xy 10, 0 xy 5)
+
+      label.textValue("Hello, world!")
+      button.layout.absBounds() shouldBe Rec2d(0 xy 0, 97 xy 25)
+      label.layout.absBounds() shouldBe Rec2d(10 xy 10, 77 xy 5)
     }
   }
 }
