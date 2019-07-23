@@ -450,6 +450,9 @@ object common {
     /** Multiplies components by given vector components */
     def *(v: Vec2d): Vec2d = Vec2d(x * v.x, y * v.y)
 
+    /** Divides components by given number */
+    def /(m: Double): Vec2d = Vec2d(x / m, y / m)
+
     /** Returns minimum component */
     def min: Double = x min y
 

@@ -3,20 +3,16 @@ package cross
 import cross.box._
 import cross.common._
 
+//noinspection TypeAnnotation
 class BoxSpec extends Spec {
 
   /** Returns 5 by 5 text dimensions for every symbol, with 1px spacing between them */
   trait MonoText extends BoxContext {
-    override def measureText(text: String, font: Font): Vec2d = text match {
+    override def measureText(text: String, font: Font, size: Double): Vec2d = text match {
       case "" => 0 xy 5
       case single if single.length == 1 => 5 xy 5
       case other => (other.length * 5 + (other.length - 1)) xy 5
     }
-  }
-
-  /** Represents a context without available interactions */
-  trait NotInteractive extends BoxContext {
-    override def makeInteractive(box: Box): Unit = ???
   }
 
   /** Represents a context without draw components */
@@ -24,9 +20,26 @@ class BoxSpec extends Spec {
     override def drawComponent: DrawComponent = ???
   }
 
+  /** Represents a context without root */
+  trait NoRoot extends BoxContext {
+    override def root: Box = ???
+  }
+
+  /** Represents a context that ignores box registering */
+  trait IgnoreRegister extends BoxContext {
+    override def register(box: Box): Unit = {}
+  }
+
+  trait SimpleContext {
+    implicit val context: BoxContext = new MonoText with NotDrawable with NoRoot with IgnoreRegister
+  }
+
+  trait SimpleBase extends SimpleContext {
+    implicit val styler: Styler = Styler.Empty
+  }
+
   "box" can {
-    "assign single hierarchy" in {
-      implicit val styler: Styler = Styler.Empty
+    "assign single hierarchy" in new SimpleBase {
       val a = container()
       val b = container()
       a.withChildren(b)
@@ -48,7 +61,7 @@ class BoxSpec extends Spec {
       a.layout.absParents() shouldBe (b :: Nil)
     }
 
-    "assign 2-deep hierarchy" in {
+    "assign 2-deep hierarchy" in new SimpleContext {
       implicit val styler: Styler = Styler.Empty
       val a = container()
       val b = container()
@@ -90,8 +103,7 @@ class BoxSpec extends Spec {
       a.layout.absParents() shouldBe (b :: c :: Nil)
     }
 
-    "assign 2-wide hierarchy" in {
-      implicit val styler: Styler = Styler.Empty
+    "assign 2-wide hierarchy" in new SimpleBase {
       val a = container()
       val b = container()
       val c = container()
@@ -114,15 +126,15 @@ class BoxSpec extends Spec {
       c.layout.absParents() shouldBe Nil
     }
 
-    trait ContainerTree {
+    trait ContainerTree extends SimpleContext {
       val idA = BoxId("A")
       val idB = BoxId("B")
       val idC = BoxId("C")
 
       implicit val s: Styler = styler
-      val boxC: ContainerBox = container(id = idC)
-      val boxB: ContainerBox = container(id = idB).withChildren(boxC)
-      val boxA: ContainerBox = container(id = idA).withChildren(boxB)
+      val boxC = container(id = idC)
+      val boxB = container(id = idB).withChildren(boxC)
+      val boxA = container(id = idA).withChildren(boxB)
 
       def styler: Styler = Styler.Empty
     }
@@ -189,9 +201,7 @@ class BoxSpec extends Spec {
       boxC.layout.absBounds() shouldBe Rec2d(1 xy 1, 0 xy 0)
     }
 
-    "layout text box" in {
-      implicit val styler: Styler = Styler.Empty
-      implicit val context: BoxContext = new MonoText with NotInteractive with NotDrawable
+    "layout text box" in new SimpleBase {
       val label = text()
       val button = container().withChildren(label).pad(10 xy 10)
 

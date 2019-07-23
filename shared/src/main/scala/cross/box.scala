@@ -8,31 +8,35 @@ import scala.reflect.ClassTag
 object box {
 
   /** Creates an instance of stack container */
-  def container(id: BoxId = BoxId())(implicit assignedStyler: Styler): ContainerBox = {
+  def container(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ContainerBox = {
     val assignedId = id
-    new ContainerBox {
+    val box = new ContainerBox {
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
     }
+    context.register(box)
+    box
   }
 
   /** Creates an instance of container with background color */
   def region(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): RegionBox = {
     val assignedId = id
-    new RegionBox {
+    val box = new RegionBox {
       override val background: DrawComponent = context.drawComponent
 
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
     }
+    context.register(box)
+    box
   }
 
   /** Creates an instance of box with text */
   def text(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): TextBox = {
     val assignedId = id
-    new TextBox {
+    val box = new TextBox {
       override def boxContext: BoxContext = context
 
       override def id: BoxId = assignedId
@@ -43,6 +47,22 @@ object box {
 
       override def calculateLayoutY(): Unit = {}
     }
+    context.register(box)
+    box
+  }
+
+  /** Creates an instance of button box with text label */
+  def button(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ButtonBox = {
+    val assignedId = id
+    val box = new ButtonBox {
+      override val background: DrawComponent = context.drawComponent
+
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }
+    context.register(box)
+    box
   }
 
   /** Selects boxes that implement given trait */
@@ -69,6 +89,11 @@ object box {
   /** The id of the box */
   case class BoxId(value: String = uuid) {
     override def toString: String = value
+  }
+
+  object BoxId {
+    /** The id of the root box */
+    val Root = BoxId("root")
   }
 
   /** Represents a 2D layout element */
@@ -135,6 +160,11 @@ object box {
       boxLayout.relAreaY.write(y xy height)
     }
 
+    /** Adds the class if enabled is true, removes otherwise */
+    def updateClass(clazz: BoxClass, enabled: Boolean): Unit = {
+      if (enabled) addClass(clazz) else removeClass(clazz)
+    }
+
     /** Adds the given class if not already present */
     def addClass(clazz: BoxClass): Unit = {
       val current = boxLayout.classes()
@@ -152,7 +182,9 @@ object box {
     }
 
     /** Binds the box internal state */
-    protected def bind(): Unit = {}
+    protected def bind(): Unit = {
+      boxLayout.absEnabled /> { case flag => updateClass(BoxClass.Enabled, flag) }
+    }
 
     override def toString: String = s"Box($id)"
   }
@@ -257,9 +289,10 @@ object box {
   object BoxClass {
     /** Interactive boxes that have mouse currently hovering over them */
     val Hover = BoxClass()
-
     /** Interactive boxes that were hovered when mouse was pressed */
     val Drag = BoxClass()
+    /** Interactive boxes that are enabled for mouse interactions */
+    val Enabled = BoxClass()
 
     /** Creates a unique box class */
     def apply(): BoxClass = new BoxClass() {}
@@ -477,25 +510,39 @@ object box {
     /** Creates a new component with draw functionality */
     def drawComponent: DrawComponent
 
-    /** Enables interactions with the box */
-    def makeInteractive(box: Box): Unit
-
     /** Measures the space occupied by the text */
-    def measureText(text: String, font: Font): Vec2d
+    def measureText(text: String, font: Font, size: Double): Vec2d
+
+    /** Registers the box within the context */
+    def register(box: Box): Unit
+
+    /** Returns the very root box that matches screen size */
+    def root: Box
   }
 
   /** Context component that can draw within it's bounds */
   trait DrawComponent {
+    /** Clears the draw component */
+    def clear(): Unit
+
     /** Fills rectangle in the given area with given color */
-    def fill(area: Rec2d, color: Color): Unit
+    def fill(area: Rec2d, color: Color, depth: Double): Unit
   }
 
   /** Refers to interactive boxes */
-  trait Interactive {
+  trait Interactive extends Box {
     /** True, if mouse is currently over the box */
     val hovering: Writeable[Boolean] = LazyData(false)
     /** True, if mouse was pressed while hovering over the box */
     val dragging: Writeable[Boolean] = LazyData(false)
+    /** Updated when element is clicked */
+    val click: Writeable[Unit] = Data()
+
+    override protected def bind(): Unit = {
+      super.bind()
+      hovering /> { case flag => updateClass(BoxClass.Hover, flag) }
+      dragging /> { case flag => updateClass(BoxClass.Drag, flag) }
+    }
   }
 
   /** Represents a style for container boxes */
@@ -503,16 +550,18 @@ object box {
     this: Box =>
     /** Space between inner components and the edge of the box */
     lazy val pad = StyleKey(Vec2d.Zero, this)
+    /** Offsets the children position by this amount */
+    lazy val childOffset = StyleKey(Vec2d.Zero, this)
   }
 
   /** Container box with stackable children */
   trait ContainerBox extends Box with ContainerStyle {
     override def calculateLayoutX(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaX(pad().x, child.layout.minW()) }
+      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, child.layout.minW()) }
     }
 
     override def calculateLayoutY(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaY(pad().y, child.layout.minH()) }
+      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, child.layout.minH()) }
     }
 
     override def calculateMinimumWidth: Double = {
@@ -531,6 +580,8 @@ object box {
     this: Box =>
     /** Color used as a background of this region */
     lazy val fillColor = VisualStyleKey(Colors.Black, this)
+    /** Depth of the background fill of this region */
+    lazy val fillDepth = VisualStyleKey(0.0, this)
   }
 
   /** Container box with background color */
@@ -539,7 +590,7 @@ object box {
 
     override protected def bind(): Unit = {
       super.bind()
-      (layout.classes && layout.style && layout.absBounds) /> { case _ => background.fill(layout.absBounds(), fillColor()) }
+      (layout.style && layout.absBounds) /> { case _ => background.fill(layout.absBounds(), fillColor(), fillDepth()) }
     }
   }
 
@@ -549,7 +600,7 @@ object box {
     /** The color of the box text */
     lazy val textColor = VisualStyleKey(Colors.Black, this)
     /** The size of the box text in pixels */
-    lazy val textSize = StyleKey(12.0, this)
+    lazy val textSize = StyleKey(16.0, this)
     /** The font used to render box text */
     lazy val textFont = StyleKey(DefaultFont, this)
     /** The value of the text */
@@ -558,29 +609,30 @@ object box {
 
   /** Refers to a text font with cached metrics */
   case class Font(family: String) {
+    private val defaultSize = 16.0
     private var metrics: Map[Char, Vec2d] = Map.empty
     private var characterSpaceOpt: Option[Double] = None
 
     /** Returns the size of the character */
-    def charMetric(char: Char)(implicit context: BoxContext): Vec2d = {
+    def charMetric(char: Char, size: Double)(implicit context: BoxContext): Vec2d = {
       metrics.get(char) match {
-        case Some(size) => size
+        case Some(metric) => metric / defaultSize * size
         case None =>
-          val size = context.measureText(s"$char", this)
+          val size = context.measureText(s"$char", this, defaultSize)
           metrics = metrics + (char -> size)
           size
       }
     }
 
     /** Returns the size of the text string */
-    def textMetric(text: String)(implicit context: BoxContext): Vec2d = {
+    def textMetric(text: String, size: Double)(implicit context: BoxContext): Vec2d = {
       val characterSpace = characterSpaceOpt.getOrElse {
-        val space = context.measureText("AA", this).x - charMetric('A').x * 2
+        val space = context.measureText("AA", this, defaultSize).x - charMetric('A', size).x * 2
         characterSpaceOpt = Some(space)
         space
       }
       val totalCharacterSpace = characterSpace * ((text.length - 1) max 0)
-      text.map(charMetric).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) } + (totalCharacterSpace xy 0)
+      text.map(c => charMetric(c, size)).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) } + (totalCharacterSpace xy 0)
     }
   }
 
@@ -589,15 +641,23 @@ object box {
     def boxContext: BoxContext
 
     override def calculateMinimumWidth: Double = {
-      textFont().textMetric(textValue())(boxContext).x
+      textFont().textMetric(textValue(), textSize())(boxContext).x
     }
 
     override def calculateMinimumHeight: Double = {
-      textFont().textMetric("A")(boxContext).y
+      textFont().textMetric("A", textSize())(boxContext).y
     }
   }
 
   /** Safe to use default font */
   val DefaultFont = Font("Arial")
+
+  /** Interactive button box with text label */
+  trait ButtonBox extends RegionBox with Interactive with RegionStyle with TextStyle {
+    override protected def bind(): Unit = {
+      super.bind()
+      layout.style /> { case _ => childOffset(-fillDepth() xy 0) }
+    }
+  }
 
 }

@@ -14,3 +14,7 @@ html, body {
 #offscreen * {
     position: absolute;
 }
+
+.box {
+    position: absolute;
+}
