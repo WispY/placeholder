@@ -2,7 +2,6 @@ package cross.component.flat
 
 import cross.common._
 import cross.component.flat.Button.ButtonStyle
-import cross.component.util.Color
 import cross.component.{Component, Interactive, RedrawGraphics}
 import cross.layout.StackBox
 import cross.ops._

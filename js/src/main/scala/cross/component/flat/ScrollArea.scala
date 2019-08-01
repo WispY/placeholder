@@ -2,7 +2,6 @@ package cross.component.flat
 
 import cross.common._
 import cross.component.flat.ScrollArea.ScrollAreaStyle
-import cross.component.util.Color
 import cross.component.{Component, Interactive, RedrawGraphics}
 import cross.layout.{LayoutBox, StackBox, _}
 import cross.ops._
@@ -20,9 +19,9 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
   private var viewSize = Vec2d.Zero
 
   private val root = new Container()
-  private val bar = RedrawGraphics().setColor(style.color).in(root)
+  private val bar = RedrawGraphics().setColor(style.color).addTo(root)
   private val barRegion = region()
-  private val mask = RedrawGraphics().in(root)
+  private val mask = RedrawGraphics().addTo(root)
   private val contentContainer = root.sub.maskWith(mask.interactive)
 
   /** Scrollable content layout */
@@ -45,7 +44,7 @@ class ScrollArea(style: ScrollAreaStyle)(implicit controller: GenericController[
 
     override def onChildAdded(child: LayoutBox): Unit = {
       (child :: child.getAllChildren).foreach {
-        case component: Component => component.in(contentContainer)
+        case component: Component => component.addTo(contentContainer)
         case _ => // ignore
       }
       super.onChildAdded(child)

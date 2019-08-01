@@ -387,6 +387,9 @@ object common {
     /** Adds components of another vector */
     def +(v: Vec2d): Vec2d = Vec2d(x + v.x, y + v.y)
 
+    /** Subtracts components of another vector */
+    def -(v: Vec2i): Vec2i = Vec2i(x - v.x, y - v.y)
+
     /** Multiplies components by given number */
     def *(m: Int): Vec2i = Vec2i(x * m, y * m)
 
@@ -480,6 +483,12 @@ object common {
 
     /** Adds XW vector to YH vector forming rectangle */
     def coordinateRect(yh: Vec2d): Rec2d = Rec2d(x xy yh.x, y xy yh.y)
+
+    /** Returns vec with only x component */
+    def onlyX: Vec2d = Vec2d(x, 0)
+
+    /** Returns vec with only y component */
+    def onlyY: Vec2d = Vec2d(x, 0)
   }
 
   object Vec2d {
@@ -532,6 +541,20 @@ object common {
     def %%(progress: Double): Vec2d = tuple._1 + (tuple._2 - tuple._1) * progress
   }
 
+  /** Integer 2D rectangle */
+  case class Rec2i(position: Vec2i, size: Vec2i) {
+    /** Resizes the rectangle to given size */
+    def resizeTo(size: Vec2i): Rec2i = copy(size = size)
+
+    /** Moves the rectangle to a given position */
+    def positionAt(position: Vec2i): Rec2i = copy(position = position)
+  }
+
+  object Rec2i {
+    /** Zero size rectangle */
+    val Zero: Rec2i = Rec2i(Vec2i.Zero, Vec2i.Zero)
+  }
+
   /** Double 2D rectangle */
   case class Rec2d(position: Vec2d, size: Vec2d) {
     /** Resizes the rectangle to given size */
@@ -552,6 +575,9 @@ object common {
   object Rec2d {
     /** Zero size rectangle */
     val Zero: Rec2d = Rec2d(Vec2d.Zero, Vec2d.Zero)
+
+    /** Creates rectangle from the corner coordinates */
+    def fromCorners(a: Vec2d, b: Vec2d): Rec2d = Rec2d(a, b - a)
   }
 
   implicit class OffsetDateTimeOps(val odt: OffsetDateTime) extends AnyVal {

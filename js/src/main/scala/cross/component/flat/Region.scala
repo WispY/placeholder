@@ -1,8 +1,7 @@
 package cross.component.flat
 
 import cross.common
-import cross.common.Vec2d
-import cross.component.util.{Color, Colors}
+import cross.common.{Color, Colors, Vec2d}
 import cross.component.{Component, RedrawGraphics}
 import cross.layout.StackBox
 import cross.ops._

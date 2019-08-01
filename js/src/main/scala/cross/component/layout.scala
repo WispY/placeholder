@@ -22,7 +22,7 @@ object layout {
 
     override def onChildAdded(child: LayoutBox): Unit = {
       (child :: child.getAllChildren).foreach {
-        case component: Component => component.in(container)
+        case component: Component => component.addTo(container)
         case _ => // ignore
       }
       super.onChildAdded(child)

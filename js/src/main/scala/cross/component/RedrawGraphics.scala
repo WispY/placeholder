@@ -1,7 +1,6 @@
 package cross.component
 
-import cross.common.Rec2d
-import cross.component.util.{Color, Colors}
+import cross.common.{Color, Colors, Rec2d}
 import cross.ops._
 import cross.pixi._
 

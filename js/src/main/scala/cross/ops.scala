@@ -8,7 +8,7 @@ import cross.component.flat.Button.ButtonStyle
 import cross.component.flat.Paginator.PaginatorStyle
 import cross.component.flat.ScrollArea.ScrollAreaStyle
 import cross.component.flat._
-import cross.component.util.{Color, Colors, FontStyle}
+import cross.component.util.FontStyle
 import cross.pixi._
 import cross.sakura.config._
 import cross.sakura.mvc._
@@ -318,7 +318,7 @@ object ops extends GlobalContext with Logging {
 
   implicit class ComponentOps[A <: Component](val component: A) extends AnyVal {
     /** Adds the component to given container */
-    def in(container: Container): A = {
+    def addTo(container: Container): A = {
       component.toPixi.addTo(container)
       component
     }

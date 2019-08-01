@@ -52,7 +52,7 @@ object box {
   }
 
   /** Creates an instance of button box with text label */
-  def button(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ButtonBox = {
+  def boxButton(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ButtonBox = {
     val assignedId = id
     val box = new ButtonBox {
       override val background: DrawComponent = context.drawComponent
@@ -213,7 +213,7 @@ object box {
     /** Writes a new style value */
     def apply(newValue: A): B = {
       box.layout.style.write(box.style.set(this, newValue))
-      if (updatesSize) box.layout.style.forceTrigger()
+      if (updatesSize) box.layout.styleSize.write(box.layout.styleSize() + 1)
       box
     }
 
@@ -302,6 +302,7 @@ object box {
     *
     * @param self        reference to actual box
     * @param style       current visual style of the box
+    * @param styleSize   a marker that is written every time style affecting component size is changed
     * @param classes     the current classes and states of the box
     * @param relChildren direct children of the box
     * @param absChildren all children below this box
@@ -335,7 +336,8 @@ object box {
     */
   case class Layout(self: Box,
 
-                    style: Writeable[Style] = LazyData(Style(Map.empty)),
+                    style: Writeable[Style] = Data(Style(Map.empty)),
+                    styleSize: Writeable[Long] = Data(1L),
                     classes: Writeable[List[BoxClass]] = LazyData(Nil),
                     relChildren: Writeable[Boxes] = LazyData(Nil),
                     absChildren: Writeable[Boxes] = LazyData(Nil),
@@ -493,12 +495,12 @@ object box {
       }
 
       /** Calculates minimum size of the box */
-      (classes && style && fixedW) /> { case _ => rewriteMinW() }
-      (classes && style && fixedH) /> { case _ => rewriteMinH() }
+      (classes && styleSize && fixedW) /> { case _ => rewriteMinW() }
+      (classes && styleSize && fixedH) /> { case _ => rewriteMinH() }
 
       /** Updates the layout of the box children */
-      (classes && style && relBoundsX && relChildren) /> { case _ => self.calculateLayoutX() }
-      (classes && style && relBoundsY && relChildren) /> { case _ => self.calculateLayoutY() }
+      (classes && styleSize && relBoundsX && relChildren) /> { case _ => self.calculateLayoutX() }
+      (classes && styleSize && relBoundsY && relChildren) /> { case _ => self.calculateLayoutY() }
 
       /** Updates the style of the component */
       (classes && absParents && absChildren) /> { case _ => self.refreshStyle() }
@@ -590,7 +592,10 @@ object box {
 
     override protected def bind(): Unit = {
       super.bind()
-      (layout.style && layout.absBounds) /> { case _ => background.fill(layout.absBounds(), fillColor(), fillDepth()) }
+      (layout.style && layout.absBounds) /> { case _ =>
+        background.clear()
+        background.fill(layout.absBounds(), fillColor(), fillDepth())
+      }
     }
   }
 

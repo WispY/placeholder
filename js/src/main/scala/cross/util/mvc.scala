@@ -2,7 +2,6 @@ package cross.util
 
 import cross.common.{Vec2i, Writeable, _}
 import cross.component._
-import cross.component.util.Colors
 import cross.ops._
 import cross.pixi._
 import cross.util.animation._
