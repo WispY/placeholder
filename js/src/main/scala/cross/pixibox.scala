@@ -3,7 +3,7 @@ package cross
 import cross.box._
 import cross.common._
 import cross.ops._
-import cross.pixi.{Container, DisplayObject, Graphics, Text, TextMetrics}
+import cross.pixi.{TextStyle => _, _}
 
 object pixibox {
   /** The pixi container corresponding to box root */
@@ -31,7 +31,7 @@ object pixibox {
 
       override def styler: Styler = Styler.Empty
 
-      override protected def bind(): Unit = {
+      override def bind(): Unit = {
         super.bind()
         layout.absChildren /> { case children =>
           val drawables = children.flatMap(c => boxDrawables.get(c.id)).flatten

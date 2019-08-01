@@ -4,10 +4,10 @@ import cross.box._
 import cross.common._
 import cross.component.Stage
 import cross.general.config.GeneralConfig
+import cross.ops._
 import cross.pac.config.{BarConfig, ManageConfig}
 import cross.pac.mvc.Controller
 import cross.pixi._
-import cross.ops._
 import cross.pixibox._
 import cross.util.animation.Animation
 import cross.util.global.GlobalContext
@@ -61,17 +61,11 @@ class PacStage(implicit generalConfig: GeneralConfig,
 
   override lazy val create: Future[Unit] = Future {
     log.info("setting up...")
-    log.info("w")
     boxContext.root.withChildren(layout)
-    log.info("a")
     rootContainer.addTo(body)
-    log.info("b")
     controller.model.screen /> { case size =>
-      log.info("c")
       boxContext.root.layout.fixedW.write(Some(size.x))
-      log.info("d")
       boxContext.root.layout.fixedH.write(Some(size.y))
-      log.info("e")
     }
     //    pages :: shadow :: bar :: welcome :: user :: manage :: signin :: signinLabel :: layout :: Nil
     //

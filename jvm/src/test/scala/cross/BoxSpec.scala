@@ -25,6 +25,15 @@ class BoxSpec extends Spec {
     override def root: Box = ???
   }
 
+  /** Represents a context that creates empty drawables */
+  trait IgnoreDrawable extends BoxContext {
+    override def drawComponent: DrawComponent = new DrawComponent {
+      override def clear(): Unit = {}
+
+      override def fill(area: Rec2d, color: Color, depth: Double): Unit = {}
+    }
+  }
+
   /** Represents a context that ignores box registering */
   trait IgnoreRegister extends BoxContext {
     override def register(box: Box): Unit = {}
@@ -211,6 +220,18 @@ class BoxSpec extends Spec {
       label.textValue("Hello, world!")
       button.layout.absBounds() shouldBe Rec2d(0 xy 0, 97 xy 25)
       label.layout.absBounds() shouldBe Rec2d(10 xy 10, 77 xy 5)
+    }
+
+    "layout button" in {
+      implicit val context: BoxContext = new MonoText with IgnoreDrawable with NoRoot with IgnoreRegister
+      implicit val styler: Styler = StyleSheet(
+        isA[ContainerBox] /> { case container: ContainerBox => container.pad(10 xy 10) }
+      )
+      val button = boxButton().textValue("Hello!")
+      val root = container().withChildren(button)
+
+      root.layout.absBounds() shouldBe Rec2d(0 xy 0, 75 xy 45)
+      button.layout.absBounds() shouldBe Rec2d(10 xy 10, 55 xy 25)
     }
   }
 }

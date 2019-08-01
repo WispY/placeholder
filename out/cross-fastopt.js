@@ -1164,8 +1164,7 @@ function $f_Lcross_box$Box__$$init$__V($thiz) {
   var jsx$1 = new $c_Lcross_common$Implementation().init___O__Z($default$20, true);
   var $default$21 = $m_Lcross_common$Vec2d$().Center$1;
   $thiz.cross$box$Box$$undsetter$und$cross$box$Box$$boxLayout$und$eq__Lcross_box$Layout__V(new $c_Lcross_box$Layout().init___Lcross_box$Box__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable($thiz, jsx$25, jsx$24, jsx$23, jsx$22, jsx$21, jsx$20, jsx$19, jsx$18, jsx$17, jsx$16, jsx$15, jsx$14, jsx$13, jsx$12, jsx$11, jsx$10, jsx$9, jsx$8, jsx$7, jsx$6, jsx$5, jsx$4, jsx$3, jsx$2, jsx$1, new $c_Lcross_common$Implementation().init___O__Z($default$21, true), new $c_Lcross_common$Implementation().init___O__Z(true, true), new $c_Lcross_common$Implementation().init___O__Z(true, true), new $c_Lcross_common$Implementation().init___O__Z(true, true), new $c_Lcross_common$Implementation().init___O__Z(true, true), new $c_Lcross_common$Implementation().init___O__Z(true, true), new $c_Lcross_common$Implementation().init___O__Z(true, true)));
-  $thiz.cross$box$Box$$boxLayout__Lcross_box$Layout().bind__V();
-  $thiz.bind__V()
+  $thiz.cross$box$Box$$boxLayout__Lcross_box$Layout().bind__V()
 }
 function $f_Lcross_box$Box__updateAreaX__D__D__V($thiz, x, width) {
   $thiz.cross$box$Box$$boxLayout__Lcross_box$Layout().relAreaX$1.write__O__O(($m_Lcross_common$(), new $c_Lcross_common$Vec2d().init___D__D(x, width)))
@@ -1183,6 +1182,11 @@ function $f_Lcross_box$Box__bind__V($thiz) {
   var x$2 = new $c_Lcross_common$ListenerId().init___T(($m_Lcross_common$(), $m_ju_UUID$().randomUUID__ju_UUID().toString__T()));
   var this$4 = $thiz.cross$box$Box$$boxLayout__Lcross_box$Layout().absEnabled$1;
   $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$ListenerId__Lcross_common$Data(this$4, x$1, x$2)
+}
+function $f_Lcross_box$Box__bindAndRegister__Lcross_box$BoxContext__Lcross_box$Box($thiz, context) {
+  $thiz.bind__V();
+  $m_Lcross_pixibox$().cross$pixibox$$registerBox__Lcross_box$Box__V($thiz);
+  return $thiz
 }
 function $f_Lcross_box$Box__updateParent__pLcross_box$Box__sci_List__V($thiz, parents) {
   $thiz.cross$box$Box$$boxLayout__Lcross_box$Layout().relParents$1.write__O__O(parents)
@@ -2260,14 +2264,12 @@ $c_Lcross_box$.prototype.init___ = (function() {
   return this
 });
 $c_Lcross_box$.prototype.container__Lcross_box$BoxId__Lcross_box$BoxContext__s_PartialFunction__Lcross_box$ContainerBox = (function(id, context, assignedStyler) {
-  var box = new $c_Lcross_box$$anon$1().init___Lcross_box$BoxId__s_PartialFunction(id, assignedStyler);
-  $m_Lcross_pixibox$().cross$pixibox$$registerBox__Lcross_box$Box__V(box);
-  return box
+  var this$1 = new $c_Lcross_box$$anon$1().init___Lcross_box$BoxId__s_PartialFunction(id, assignedStyler);
+  return $as_Lcross_box$ContainerBox($f_Lcross_box$Box__bindAndRegister__Lcross_box$BoxContext__Lcross_box$Box(this$1, context))
 });
 $c_Lcross_box$.prototype.boxButton__Lcross_box$BoxId__Lcross_box$BoxContext__s_PartialFunction__Lcross_box$ButtonBox = (function(id, context, assignedStyler) {
-  var box = new $c_Lcross_box$$anon$4().init___Lcross_box$BoxContext__Lcross_box$BoxId__s_PartialFunction(context, id, assignedStyler);
-  $m_Lcross_pixibox$().cross$pixibox$$registerBox__Lcross_box$Box__V(box);
-  return box
+  var this$1 = new $c_Lcross_box$$anon$4().init___Lcross_box$BoxContext__Lcross_box$BoxId__s_PartialFunction(context, id, assignedStyler);
+  return $as_Lcross_box$ButtonBox($f_Lcross_box$Box__bindAndRegister__Lcross_box$BoxContext__Lcross_box$Box(this$1, context))
 });
 var $d_Lcross_box$ = new $TypeData().initClass({
   Lcross_box$: 0
@@ -2352,20 +2354,23 @@ $c_Lcross_box$StyleKey.prototype.toString__T = (function() {
   return $objectToString(this.apply__O())
 });
 $c_Lcross_box$StyleKey.prototype.apply__O__Lcross_box$Box = (function(newValue) {
-  var this$1 = this.box$1;
-  var jsx$1 = this$1.cross$box$Box$$boxLayout__Lcross_box$Layout().style$1;
-  var this$2 = this.box$1;
-  jsx$1.write__O__O($f_Lcross_box$Box__style__Lcross_box$Style(this$2).set__Lcross_box$StyleKey__O__Lcross_box$Style(this, newValue));
-  if (this.updatesSize$1) {
-    var this$3 = this.box$1;
-    var jsx$2 = this$3.cross$box$Box$$boxLayout__Lcross_box$Layout().styleSize$1;
-    var this$4 = this.box$1;
-    var this$5 = this$4.cross$box$Box$$boxLayout__Lcross_box$Layout().styleSize$1;
-    var b = $uJ(this$5.value$1);
-    var bhi = b.hi$2;
-    var lo = ((1 + b.lo$2) | 0);
-    var hi = ((lo === 0) ? ((1 + bhi) | 0) : bhi);
-    jsx$2.write__O__O(new $c_sjsr_RuntimeLong().init___I__I(lo, hi))
+  var lastValue = this.apply__O();
+  if ((!$m_sr_BoxesRunTime$().equals__O__O__Z(newValue, lastValue))) {
+    var this$1 = this.box$1;
+    var jsx$1 = this$1.cross$box$Box$$boxLayout__Lcross_box$Layout().style$1;
+    var this$2 = this.box$1;
+    jsx$1.write__O__O($f_Lcross_box$Box__style__Lcross_box$Style(this$2).set__Lcross_box$StyleKey__O__Lcross_box$Style(this, newValue));
+    if (this.updatesSize$1) {
+      var this$3 = this.box$1;
+      var jsx$2 = this$3.cross$box$Box$$boxLayout__Lcross_box$Layout().styleSize$1;
+      var this$4 = this.box$1;
+      var this$5 = this$4.cross$box$Box$$boxLayout__Lcross_box$Layout().styleSize$1;
+      var b = $uJ(this$5.value$1);
+      var bhi = b.hi$2;
+      var lo = ((1 + b.lo$2) | 0);
+      var hi = ((lo === 0) ? ((1 + bhi) | 0) : bhi);
+      jsx$2.write__O__O(new $c_sjsr_RuntimeLong().init___I__I(lo, hi))
+    }
   };
   return this.box$1
 });
@@ -16790,6 +16795,16 @@ $c_Lcross_pixibox$$anon$1.prototype.init___ = (function() {
   this.root$1 = new $c_Lcross_pixibox$$anon$1$$anon$2().init___Lcross_pixibox$$anon$1(this);
   return this
 });
+$c_Lcross_pixibox$$anon$1.prototype.measureText__T__Lcross_box$Font__D__Lcross_common$Vec2d = (function(text, font, size) {
+  var style = new $g.PIXI.TextStyle();
+  style.fontSize = size;
+  style.fontFamily = font.family$1;
+  var metrics = $g.PIXI.TextMetrics.measureText(text, style, false);
+  $m_Lcross_common$();
+  var $double = $uD(metrics.width);
+  var y = $uD(metrics.height);
+  return new $c_Lcross_common$Vec2d().init___D__D($double, y)
+});
 var $d_Lcross_pixibox$$anon$1 = new $TypeData().initClass({
   Lcross_pixibox$$anon$1: 0
 }, false, "cross.pixibox$$anon$1", {
@@ -18985,6 +19000,39 @@ var $d_ju_regex_Matcher = new $TypeData().initClass({
   ju_regex_MatchResult: 1
 });
 $c_ju_regex_Matcher.prototype.$classData = $d_ju_regex_Matcher;
+/** @constructor */
+function $c_s_LowPriorityImplicits$$anon$4() {
+  $c_O.call(this)
+}
+$c_s_LowPriorityImplicits$$anon$4.prototype = new $h_O();
+$c_s_LowPriorityImplicits$$anon$4.prototype.constructor = $c_s_LowPriorityImplicits$$anon$4;
+/** @constructor */
+function $h_s_LowPriorityImplicits$$anon$4() {
+  /*<skip>*/
+}
+$h_s_LowPriorityImplicits$$anon$4.prototype = $c_s_LowPriorityImplicits$$anon$4.prototype;
+$c_s_LowPriorityImplicits$$anon$4.prototype.apply__scm_Builder = (function() {
+  $m_sci_IndexedSeq$();
+  $m_sci_Vector$();
+  return new $c_sci_VectorBuilder().init___()
+});
+$c_s_LowPriorityImplicits$$anon$4.prototype.apply__O__scm_Builder = (function(from) {
+  $as_T(from);
+  $m_sci_IndexedSeq$();
+  $m_sci_Vector$();
+  return new $c_sci_VectorBuilder().init___()
+});
+$c_s_LowPriorityImplicits$$anon$4.prototype.init___s_LowPriorityImplicits = (function($$outer) {
+  return this
+});
+var $d_s_LowPriorityImplicits$$anon$4 = new $TypeData().initClass({
+  s_LowPriorityImplicits$$anon$4: 0
+}, false, "scala.LowPriorityImplicits$$anon$4", {
+  s_LowPriorityImplicits$$anon$4: 1,
+  O: 1,
+  scg_CanBuildFrom: 1
+});
+$c_s_LowPriorityImplicits$$anon$4.prototype.$classData = $d_s_LowPriorityImplicits$$anon$4;
 /** @constructor */
 function $c_s_Predef$$anon$1() {
   $c_O.call(this)
@@ -25800,8 +25848,14 @@ function $h_Lcross_box$$anon$1() {
   /*<skip>*/
 }
 $h_Lcross_box$$anon$1.prototype = $c_Lcross_box$$anon$1.prototype;
+$c_Lcross_box$$anon$1.prototype.calculateMinimumHeight__D = (function() {
+  return $f_Lcross_box$ContainerBox__calculateMinimumHeight__D(this)
+});
 $c_Lcross_box$$anon$1.prototype.cross$box$Box$$undsetter$und$cross$box$Box$$boxLayout$und$eq__Lcross_box$Layout__V = (function(x$1) {
   this.cross$box$Box$$boxLayout$1 = x$1
+});
+$c_Lcross_box$$anon$1.prototype.calculateMinimumWidth__D = (function() {
+  return $f_Lcross_box$ContainerBox__calculateMinimumWidth__D(this)
 });
 $c_Lcross_box$$anon$1.prototype.pad__Lcross_box$StyleKey = (function() {
   return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.pad$lzycompute__p1__Lcross_box$StyleKey() : this.pad$1)
@@ -25942,8 +25996,14 @@ function $h_Lcross_pixibox$$anon$1$$anon$2() {
   /*<skip>*/
 }
 $h_Lcross_pixibox$$anon$1$$anon$2.prototype = $c_Lcross_pixibox$$anon$1$$anon$2.prototype;
+$c_Lcross_pixibox$$anon$1$$anon$2.prototype.calculateMinimumHeight__D = (function() {
+  return $f_Lcross_box$ContainerBox__calculateMinimumHeight__D(this)
+});
 $c_Lcross_pixibox$$anon$1$$anon$2.prototype.cross$box$Box$$undsetter$und$cross$box$Box$$boxLayout$und$eq__Lcross_box$Layout__V = (function(x$1) {
   this.cross$box$Box$$boxLayout$1 = x$1
+});
+$c_Lcross_pixibox$$anon$1$$anon$2.prototype.calculateMinimumWidth__D = (function() {
+  return $f_Lcross_box$ContainerBox__calculateMinimumWidth__D(this)
 });
 $c_Lcross_pixibox$$anon$1$$anon$2.prototype.pad__Lcross_box$StyleKey = (function() {
   return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.pad$lzycompute__p1__Lcross_box$StyleKey() : this.pad$1)
@@ -29409,6 +29469,49 @@ $c_Lcross_box$Font.prototype.productPrefix__T = (function() {
 $c_Lcross_box$Font.prototype.productArity__I = (function() {
   return 1
 });
+$c_Lcross_box$Font.prototype.textMetric__T__D__Lcross_box$BoxContext__Lcross_common$Vec2d = (function(text, size, context) {
+  var this$1 = this.characterSpaceOpt$1;
+  if (this$1.isEmpty__Z()) {
+    var space = (context.measureText__T__Lcross_box$Font__D__Lcross_common$Vec2d("AA", this, this.defaultSize$1).x$1 - (2 * this.charMetric__C__D__Lcross_box$BoxContext__Lcross_common$Vec2d(65, size, context).x$1));
+    this.characterSpaceOpt$1 = new $c_s_Some().init___O(space);
+    var jsx$1 = space
+  } else {
+    var jsx$1 = this$1.get__O()
+  };
+  var characterSpace = $uD(jsx$1);
+  var x = (((-1) + $uI(text.length)) | 0);
+  var totalCharacterSpace = (characterSpace * ((x > 0) ? x : 0));
+  var this$9 = new $c_sci_StringOps().init___T(text);
+  var this$8 = $m_s_Predef$();
+  var bf = new $c_s_LowPriorityImplicits$$anon$4().init___s_LowPriorityImplicits(this$8);
+  var b = $f_sc_TraversableLike__builder$1__psc_TraversableLike__scg_CanBuildFrom__scm_Builder(this$9, bf);
+  var i = 0;
+  var $$this = this$9.repr$1;
+  var len = $uI($$this.length);
+  while ((i < len)) {
+    var arg1 = this$9.apply__I__O(i);
+    if ((arg1 === null)) {
+      var c = 0
+    } else {
+      var this$13 = $as_jl_Character(arg1);
+      var c = this$13.value$1
+    };
+    b.$$plus$eq__O__scm_Builder(this.charMetric__C__D__Lcross_box$BoxContext__Lcross_common$Vec2d(c, size, context));
+    i = ((1 + i) | 0)
+  };
+  return $as_Lcross_common$Vec2d($as_sc_TraversableOnce(b.result__O()).foldLeft__O__F2__O($m_Lcross_common$Vec2d$().Zero$1, new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(this$3$1) {
+    return (function(a$2, b$2) {
+      var a = $as_Lcross_common$Vec2d(a$2);
+      var b$1 = $as_Lcross_common$Vec2d(b$2);
+      $m_Lcross_common$();
+      var $double = (a.x$1 + b$1.x$1);
+      var x$1 = a.y$1;
+      var that = b$1.y$1;
+      var y = $uD($g.Math.max(x$1, that));
+      return new $c_Lcross_common$Vec2d().init___D__D($double, y)
+    })
+  })(this)))).$$plus__Lcross_common$Vec2d__Lcross_common$Vec2d(($m_Lcross_common$(), new $c_Lcross_common$Vec2d().init___D__D(totalCharacterSpace, 0.0)))
+});
 $c_Lcross_box$Font.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
     return true
@@ -29432,6 +29535,25 @@ $c_Lcross_box$Font.prototype.productElement__I__O = (function(x$1) {
 });
 $c_Lcross_box$Font.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
+});
+$c_Lcross_box$Font.prototype.charMetric__C__D__Lcross_box$BoxContext__Lcross_common$Vec2d = (function($char, size, context) {
+  var x1 = this.metrics$1.get__O__s_Option(new $c_jl_Character().init___C($char));
+  if ($is_s_Some(x1)) {
+    var x2 = $as_s_Some(x1);
+    var metric = $as_Lcross_common$Vec2d(x2.value$2);
+    return metric.$$div__D__Lcross_common$Vec2d(this.defaultSize$1).$$times__D__Lcross_common$Vec2d(size)
+  } else {
+    var x = $m_s_None$();
+    if ((x === x1)) {
+      var size$2 = context.measureText__T__Lcross_box$Font__D__Lcross_common$Vec2d(("" + new $c_jl_Character().init___C($char)), this, this.defaultSize$1);
+      var jsx$1 = this.metrics$1;
+      var self = new $c_jl_Character().init___C($char);
+      this.metrics$1 = jsx$1.$$plus__T2__sci_Map(new $c_T2().init___O__O(self, size$2));
+      return size$2
+    } else {
+      throw new $c_s_MatchError().init___O(x1)
+    }
+  }
 });
 $c_Lcross_box$Font.prototype.init___T = (function(family) {
   this.family$1 = family;
@@ -29522,11 +29644,10 @@ $c_Lcross_box$Layout.prototype.productPrefix__T = (function() {
 });
 $c_Lcross_box$Layout.prototype.rewriteMinH__V = (function() {
   var jsx$1 = this.minH$1;
-  var this$1 = this.self$1;
-  var x = $f_Lcross_box$ContainerBox__calculateMinimumHeight__D(this$1);
-  var this$3 = this.fixedH$1;
-  var this$4 = $as_s_Option(this$3.value$1);
-  var that = $uD((this$4.isEmpty__Z() ? 0.0 : this$4.get__O()));
+  var x = this.self$1.calculateMinimumHeight__D();
+  var this$2 = this.fixedH$1;
+  var this$3 = $as_s_Option(this$2.value$1);
+  var that = $uD((this$3.isEmpty__Z() ? 0.0 : this$3.get__O()));
   jsx$1.write__O__O($uD($g.Math.max(x, that)))
 });
 $c_Lcross_box$Layout.prototype.init___Lcross_box$Box__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable__Lcross_common$Writeable = (function(self, style, styleSize, classes, relChildren, absChildren, relParents, absParents, minW, minH, minSize, fixedW, fixedH, relAreaX, relAreaY, relArea, absAreaX, absAreaY, absArea, relBoundsX, relBoundsY, relBounds, absBoundsX, absBoundsY, absBounds, fill, align, relVisible, absVisible, relDisplay, absDisplay, relEnabled, absEnabled) {
@@ -30037,11 +30158,10 @@ $c_Lcross_box$Layout.prototype.toString__T = (function() {
 });
 $c_Lcross_box$Layout.prototype.rewriteMinW__V = (function() {
   var jsx$1 = this.minW$1;
-  var this$1 = this.self$1;
-  var x = $f_Lcross_box$ContainerBox__calculateMinimumWidth__D(this$1);
-  var this$3 = this.fixedW$1;
-  var this$4 = $as_s_Option(this$3.value$1);
-  var that = $uD((this$4.isEmpty__Z() ? 0.0 : this$4.get__O()));
+  var x = this.self$1.calculateMinimumWidth__D();
+  var this$2 = this.fixedW$1;
+  var this$3 = $as_s_Option(this$2.value$1);
+  var that = $uD((this$3.isEmpty__Z() ? 0.0 : this$3.get__O()));
   jsx$1.write__O__O($uD($g.Math.max(x, that)))
 });
 $c_Lcross_box$Layout.prototype.bind__V = (function() {
@@ -30669,6 +30789,9 @@ $c_Lcross_common$Vec2d.prototype.productPrefix__T = (function() {
 });
 $c_Lcross_common$Vec2d.prototype.productArity__I = (function() {
   return 2
+});
+$c_Lcross_common$Vec2d.prototype.$$div__D__Lcross_common$Vec2d = (function(m) {
+  return new $c_Lcross_common$Vec2d().init___D__D((this.x$1 / m), (this.y$1 / m))
 });
 $c_Lcross_common$Vec2d.prototype.min__D = (function() {
   var x = this.x$1;
@@ -32554,7 +32677,6 @@ $c_Lcross_pac_stage_PacStage.prototype.create$lzycompute__p1__s_concurrent_Futur
     this.create$1 = $m_s_concurrent_Future$().apply__F0__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
       return (function() {
         $this.log$1.info__T__Lcross_util_logging$LogKey__V("setting up...", $this.logKeyRef$1);
-        $this.log$1.info__T__Lcross_util_logging$LogKey__V("w", $this.logKeyRef$1);
         var this$3 = $m_Lcross_pixibox$().boxContext$1.root$1;
         var array = [$this.layout__p1__Lcross_box$ContainerBox()];
         var i = (((-1) + $uI(array.length)) | 0);
@@ -32587,12 +32709,10 @@ $c_Lcross_pac_stage_PacStage.prototype.create$lzycompute__p1__s_concurrent_Futur
           $f_Lcross_box$Box__updateParent__pLcross_box$Box__sci_List__V(child$3, parents$1);
           these$1 = $as_sci_List(these$1.tail__O())
         };
-        $this.log$1.info__T__Lcross_util_logging$LogKey__V("a", $this.logKeyRef$1);
         var jsx$1 = $m_Lcross_ops$DisplayObjectOps$();
         $m_Lcross_ops$();
         var a = $m_Lcross_pixibox$().rootContainer$1;
         jsx$1.addTo$extension__Lcross_pixi_DisplayObject__Lcross_pixi_Container__Lcross_pixi_DisplayObject(a, $this.body__p1__Lcross_pixi_Container());
-        $this.log$1.info__T__Lcross_util_logging$LogKey__V("b", $this.logKeyRef$1);
         var x$1 = new $c_Lcross_pac_stage_PacStage$$anonfun$2().init___Lcross_pac_stage_PacStage($this);
         var x$2 = new $c_Lcross_common$ListenerId().init___T(($m_Lcross_common$(), $m_ju_UUID$().randomUUID__ju_UUID().toString__T()));
         var this$12 = $this.controller$1.model$1.screen$1;
@@ -36412,53 +36532,6 @@ var $d_Lcross_box$Box$$anonfun$1 = new $TypeData().initClass({
 });
 $c_Lcross_box$Box$$anonfun$1.prototype.$classData = $d_Lcross_box$Box$$anonfun$1;
 /** @constructor */
-function $c_Lcross_box$ButtonBox$$anonfun$19() {
-  $c_sr_AbstractPartialFunction.call(this);
-  this.$$outer$2 = null
-}
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype = new $h_sr_AbstractPartialFunction();
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.constructor = $c_Lcross_box$ButtonBox$$anonfun$19;
-/** @constructor */
-function $h_Lcross_box$ButtonBox$$anonfun$19() {
-  /*<skip>*/
-}
-$h_Lcross_box$ButtonBox$$anonfun$19.prototype = $c_Lcross_box$ButtonBox$$anonfun$19.prototype;
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.isDefinedAt__Lcross_box$Style__Z = (function(x1) {
-  return true
-});
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.init___Lcross_box$ButtonBox = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$2 = $$outer
-  };
-  return this
-});
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.applyOrElse__Lcross_box$Style__F1__O = (function(x1, $default) {
-  var jsx$1 = this.$$outer$2.childOffset__Lcross_box$StyleKey();
-  $m_Lcross_common$();
-  var $double = (-$uD(this.$$outer$2.fillDepth__Lcross_box$StyleKey().apply__O()));
-  jsx$1.apply__O__Lcross_box$Box(new $c_Lcross_common$Vec2d().init___D__D($double, 0.0))
-});
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.isDefinedAt__O__Z = (function(x) {
-  return this.isDefinedAt__Lcross_box$Style__Z($as_Lcross_box$Style(x))
-});
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.applyOrElse__O__F1__O = (function(x, $default) {
-  return this.applyOrElse__Lcross_box$Style__F1__O($as_Lcross_box$Style(x), $default)
-});
-var $d_Lcross_box$ButtonBox$$anonfun$19 = new $TypeData().initClass({
-  Lcross_box$ButtonBox$$anonfun$19: 0
-}, false, "cross.box$ButtonBox$$anonfun$19", {
-  Lcross_box$ButtonBox$$anonfun$19: 1,
-  sr_AbstractPartialFunction: 1,
-  O: 1,
-  F1: 1,
-  s_PartialFunction: 1,
-  s_Serializable: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lcross_box$ButtonBox$$anonfun$19.prototype.$classData = $d_Lcross_box$ButtonBox$$anonfun$19;
-/** @constructor */
 function $c_Lcross_box$Interactive$$anonfun$16() {
   $c_sr_AbstractPartialFunction.call(this);
   this.$$outer$2 = null
@@ -39109,8 +39182,7 @@ var $d_Lcross_pac_stage_PacStage$$anonfun$1 = new $TypeData().initClass({
 $c_Lcross_pac_stage_PacStage$$anonfun$1.prototype.$classData = $d_Lcross_pac_stage_PacStage$$anonfun$1;
 /** @constructor */
 function $c_Lcross_pac_stage_PacStage$$anonfun$2() {
-  $c_sr_AbstractPartialFunction.call(this);
-  this.$$outer$2 = null
+  $c_sr_AbstractPartialFunction.call(this)
 }
 $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype = new $h_sr_AbstractPartialFunction();
 $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.constructor = $c_Lcross_pac_stage_PacStage$$anonfun$2;
@@ -39123,11 +39195,6 @@ $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.isDefinedAt__Lcross_common$Vec
   return true
 });
 $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.init___Lcross_pac_stage_PacStage = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$2 = $$outer
-  };
   return this
 });
 $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.isDefinedAt__O__Z = (function(x) {
@@ -39137,13 +39204,10 @@ $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.applyOrElse__O__F1__O = (funct
   return this.applyOrElse__Lcross_common$Vec2i__F1__O($as_Lcross_common$Vec2i(x), $default)
 });
 $c_Lcross_pac_stage_PacStage$$anonfun$2.prototype.applyOrElse__Lcross_common$Vec2i__F1__O = (function(x1, $default) {
-  this.$$outer$2.log$1.info__T__Lcross_util_logging$LogKey__V("c", this.$$outer$2.logKeyRef$1);
   var this$1 = $m_Lcross_pixibox$().boxContext$1.root$1;
   this$1.cross$box$Box$$boxLayout__Lcross_box$Layout().fixedW$1.write__O__O(new $c_s_Some().init___O(x1.x$1));
-  this.$$outer$2.log$1.info__T__Lcross_util_logging$LogKey__V("d", this.$$outer$2.logKeyRef$1);
   var this$2 = $m_Lcross_pixibox$().boxContext$1.root$1;
-  this$2.cross$box$Box$$boxLayout__Lcross_box$Layout().fixedH$1.write__O__O(new $c_s_Some().init___O(x1.y$1));
-  this.$$outer$2.log$1.info__T__Lcross_util_logging$LogKey__V("e", this.$$outer$2.logKeyRef$1)
+  this$2.cross$box$Box$$boxLayout__Lcross_box$Layout().fixedH$1.write__O__O(new $c_s_Some().init___O(x1.y$1))
 });
 var $d_Lcross_pac_stage_PacStage$$anonfun$2 = new $TypeData().initClass({
   Lcross_pac_stage_PacStage$$anonfun$2: 0
@@ -43696,9 +43760,15 @@ var $d_sjsr_UndefinedBehaviorError = new $TypeData().initClass({
   s_util_control_NoStackTrace: 1
 });
 $c_sjsr_UndefinedBehaviorError.prototype.$classData = $d_sjsr_UndefinedBehaviorError;
+function $f_Lcross_box$ButtonBox__calculateMinimumHeight__D($thiz) {
+  return ((2 * $as_Lcross_common$Vec2d($thiz.pad__Lcross_box$StyleKey().apply__O()).y$1) + $as_Lcross_box$Font($thiz.textFont__Lcross_box$StyleKey().apply__O()).textMetric__T__D__Lcross_box$BoxContext__Lcross_common$Vec2d("A", $uD($thiz.textSize__Lcross_box$StyleKey().apply__O()), $thiz.context$3$1).y$1)
+}
+function $f_Lcross_box$ButtonBox__calculateMinimumWidth__D($thiz) {
+  return ((2 * $as_Lcross_common$Vec2d($thiz.pad__Lcross_box$StyleKey().apply__O()).x$1) + $as_Lcross_box$Font($thiz.textFont__Lcross_box$StyleKey().apply__O()).textMetric__T__D__Lcross_box$BoxContext__Lcross_common$Vec2d($as_T($thiz.textValue__Lcross_box$StyleKey().apply__O()), $uD($thiz.textSize__Lcross_box$StyleKey().apply__O()), $thiz.context$3$1).x$1)
+}
 function $f_Lcross_box$ButtonBox__bind__V($thiz) {
   $f_Lcross_box$Interactive__bind__V($thiz);
-  var qual$1 = $thiz.cross$box$Box$$boxLayout$1.style$1;
+  var qual$1 = $thiz.cross$box$Box$$boxLayout$1.styleSize$1;
   var x$1 = new $c_Lcross_box$ButtonBox$$anonfun$19().init___Lcross_box$ButtonBox($thiz);
   var x$2 = new $c_Lcross_common$ListenerId().init___T(($m_Lcross_common$(), $m_ju_UUID$().randomUUID__ju_UUID().toString__T()));
   $f_Lcross_common$Data__$$div$greater__s_PartialFunction__Lcross_common$ListenerId__Lcross_common$Data(qual$1, x$1, x$2)
@@ -44804,6 +44874,55 @@ function $m_sjs_js_WrappedArray$() {
   };
   return $n_sjs_js_WrappedArray$
 }
+/** @constructor */
+function $c_Lcross_box$ButtonBox$$anonfun$19() {
+  $c_sr_AbstractPartialFunction$mcVJ$sp.call(this);
+  this.$$outer$3 = null
+}
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype = new $h_sr_AbstractPartialFunction$mcVJ$sp();
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.constructor = $c_Lcross_box$ButtonBox$$anonfun$19;
+/** @constructor */
+function $h_Lcross_box$ButtonBox$$anonfun$19() {
+  /*<skip>*/
+}
+$h_Lcross_box$ButtonBox$$anonfun$19.prototype = $c_Lcross_box$ButtonBox$$anonfun$19.prototype;
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.applyOrElse__J__F1__O = (function(x1, $default) {
+  var jsx$1 = this.$$outer$3.childOffset__Lcross_box$StyleKey();
+  $m_Lcross_common$();
+  var $double = (-$uD(this.$$outer$3.fillDepth__Lcross_box$StyleKey().apply__O()));
+  jsx$1.apply__O__Lcross_box$Box(new $c_Lcross_common$Vec2d().init___D__D($double, 0.0))
+});
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.isDefinedAt__J__Z = (function(x1) {
+  return true
+});
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.init___Lcross_box$ButtonBox = (function($$outer) {
+  if (($$outer === null)) {
+    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
+  } else {
+    this.$$outer$3 = $$outer
+  };
+  return this
+});
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.isDefinedAt__O__Z = (function(x) {
+  return this.isDefinedAt__J__Z($uJ(x))
+});
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.applyOrElse__O__F1__O = (function(x, $default) {
+  return this.applyOrElse__J__F1__O($uJ(x), $default)
+});
+var $d_Lcross_box$ButtonBox$$anonfun$19 = new $TypeData().initClass({
+  Lcross_box$ButtonBox$$anonfun$19: 0
+}, false, "cross.box$ButtonBox$$anonfun$19", {
+  Lcross_box$ButtonBox$$anonfun$19: 1,
+  sr_AbstractPartialFunction$mcVJ$sp: 1,
+  sr_AbstractPartialFunction: 1,
+  O: 1,
+  F1: 1,
+  s_PartialFunction: 1,
+  s_Function1$mcVJ$sp: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lcross_box$ButtonBox$$anonfun$19.prototype.$classData = $d_Lcross_box$ButtonBox$$anonfun$19;
 /** @constructor */
 function $c_Lcross_box$Layout$$anonfun$2$$anonfun$applyOrElse$4() {
   $c_sr_AbstractPartialFunction$mcVD$sp.call(this);
@@ -47741,6 +47860,7 @@ function $c_Lcross_box$$anon$4() {
   this.childOffset$1 = null;
   this.cross$box$Box$$boxLayout$1 = null;
   this.bitmap$0$1 = 0;
+  this.context$3$1 = null;
   this.assignedId$4$1 = null;
   this.assignedStyler$4$1 = null
 }
@@ -47751,8 +47871,14 @@ function $h_Lcross_box$$anon$4() {
   /*<skip>*/
 }
 $h_Lcross_box$$anon$4.prototype = $c_Lcross_box$$anon$4.prototype;
+$c_Lcross_box$$anon$4.prototype.calculateMinimumHeight__D = (function() {
+  return $f_Lcross_box$ButtonBox__calculateMinimumHeight__D(this)
+});
 $c_Lcross_box$$anon$4.prototype.cross$box$Box$$undsetter$und$cross$box$Box$$boxLayout$und$eq__Lcross_box$Layout__V = (function(x$1) {
   this.cross$box$Box$$boxLayout$1 = x$1
+});
+$c_Lcross_box$$anon$4.prototype.calculateMinimumWidth__D = (function() {
+  return $f_Lcross_box$ButtonBox__calculateMinimumWidth__D(this)
 });
 $c_Lcross_box$$anon$4.prototype.pad__Lcross_box$StyleKey = (function() {
   return (((((64 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.pad$lzycompute__p1__Lcross_box$StyleKey() : this.pad$1)
@@ -47844,6 +47970,7 @@ $c_Lcross_box$$anon$4.prototype.fillDepth$lzycompute__p1__Lcross_box$StyleKey = 
   return this.fillDepth$1
 });
 $c_Lcross_box$$anon$4.prototype.init___Lcross_box$BoxContext__Lcross_box$BoxId__s_PartialFunction = (function(context$3, assignedId$4, assignedStyler$4) {
+  this.context$3$1 = context$3;
   this.assignedId$4$1 = assignedId$4;
   this.assignedStyler$4$1 = assignedStyler$4;
   $f_Lcross_box$Box__$$init$__V(this);

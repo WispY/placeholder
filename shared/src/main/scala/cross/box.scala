@@ -10,33 +10,29 @@ object box {
   /** Creates an instance of stack container */
   def container(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ContainerBox = {
     val assignedId = id
-    val box = new ContainerBox {
+    new ContainerBox {
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
-    }
-    context.register(box)
-    box
+    }.bindAndRegister()
   }
 
   /** Creates an instance of container with background color */
   def region(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): RegionBox = {
     val assignedId = id
-    val box = new RegionBox {
+    new RegionBox {
       override val background: DrawComponent = context.drawComponent
 
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
-    }
-    context.register(box)
-    box
+    }.bindAndRegister()
   }
 
   /** Creates an instance of box with text */
   def text(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): TextBox = {
     val assignedId = id
-    val box = new TextBox {
+    new TextBox {
       override def boxContext: BoxContext = context
 
       override def id: BoxId = assignedId
@@ -46,23 +42,21 @@ object box {
       override def calculateLayoutX(): Unit = {}
 
       override def calculateLayoutY(): Unit = {}
-    }
-    context.register(box)
-    box
+    }.bindAndRegister()
   }
 
   /** Creates an instance of button box with text label */
   def boxButton(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): ButtonBox = {
     val assignedId = id
-    val box = new ButtonBox {
+    new ButtonBox {
+      override def boxContext: BoxContext = context
+
       override val background: DrawComponent = context.drawComponent
 
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
-    }
-    context.register(box)
-    box
+    }.bindAndRegister()
   }
 
   /** Selects boxes that implement given trait */
@@ -101,7 +95,6 @@ object box {
     /** Current layout of the box */
     private val boxLayout = Layout(self = this)
     boxLayout.bind()
-    this.bind()
 
     /** Returns the unique identifier of the element */
     def id: BoxId
@@ -182,8 +175,15 @@ object box {
     }
 
     /** Binds the box internal state */
-    protected def bind(): Unit = {
+    def bind(): Unit = {
       boxLayout.absEnabled /> { case flag => updateClass(BoxClass.Enabled, flag) }
+    }
+
+    /** Binds the box styles and registers it within the context */
+    def bindAndRegister()(implicit context: BoxContext): this.type = {
+      this.bind()
+      context.register(this)
+      this
     }
 
     override def toString: String = s"Box($id)"
@@ -212,8 +212,11 @@ object box {
   class StyleKey[A, B <: Box](box: B, defaultValue: A, updatesSize: Boolean) {
     /** Writes a new style value */
     def apply(newValue: A): B = {
-      box.layout.style.write(box.style.set(this, newValue))
-      if (updatesSize) box.layout.styleSize.write(box.layout.styleSize() + 1)
+      val lastValue = apply()
+      if (newValue != lastValue) {
+        box.layout.style.write(box.style.set(this, newValue))
+        if (updatesSize) box.layout.styleSize.write(box.layout.styleSize() + 1)
+      }
       box
     }
 
@@ -540,7 +543,7 @@ object box {
     /** Updated when element is clicked */
     val click: Writeable[Unit] = Data()
 
-    override protected def bind(): Unit = {
+    override def bind(): Unit = {
       super.bind()
       hovering /> { case flag => updateClass(BoxClass.Hover, flag) }
       dragging /> { case flag => updateClass(BoxClass.Drag, flag) }
@@ -590,7 +593,7 @@ object box {
   trait RegionBox extends ContainerBox with RegionStyle {
     val background: DrawComponent
 
-    override protected def bind(): Unit = {
+    override def bind(): Unit = {
       super.bind()
       (layout.style && layout.absBounds) /> { case _ =>
         background.clear()
@@ -659,9 +662,19 @@ object box {
 
   /** Interactive button box with text label */
   trait ButtonBox extends RegionBox with Interactive with RegionStyle with TextStyle {
-    override protected def bind(): Unit = {
+    def boxContext: BoxContext
+
+    override def bind(): Unit = {
       super.bind()
-      layout.style /> { case _ => childOffset(-fillDepth() xy 0) }
+      layout.styleSize /> { case _ => childOffset(-fillDepth() xy 0) }
+    }
+
+    override def calculateMinimumWidth: Double = {
+      pad().x * 2 + textFont().textMetric(textValue(), textSize())(boxContext).x
+    }
+
+    override def calculateMinimumHeight: Double = {
+      pad().y * 2 + textFont().textMetric("A", textSize())(boxContext).y
     }
   }
 
