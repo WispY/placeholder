@@ -45,7 +45,7 @@ object routes extends SprayJsonSupport with LazyLogging {
       complete(HttpResponse(StatusCodes.OK))
     },
 
-    /** Returns currently logged in user for browser session */
+    /** Returns Some(user) if browser session contains a valid login, or None if user did not log in */
     `GET /api/user`.apply { session =>
       complete(session.discordUser.map(u => u.asUser))
     },

@@ -180,6 +180,25 @@ class BoxSpec extends Spec {
       boxC.layout.absBounds() shouldBe Rec2d(5 xy 5, 2 xy 2)
     }
 
+    "fill and align containers" in new ContainerTree {
+      override def styler: Styler = Styler.Empty
+
+      boxA.layout.fixedW.write(Some(10))
+      boxB.layout.fixedW.write(Some(4))
+      boxB.layout.fixedH.write(Some(4))
+      boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 10 xy 4)
+      boxB.layout.absBounds() shouldBe Rec2d(3 xy 0, 4 xy 4)
+
+      boxB.layout.align.write(Vec2d.Left)
+      boxB.layout.absBounds() shouldBe Rec2d(0 xy 0, 4 xy 4)
+
+      boxB.layout.align.write(Vec2d.Right)
+      boxB.layout.absBounds() shouldBe Rec2d(6 xy 0, 4 xy 4)
+
+      boxB.layout.fill.write(1 xy 1)
+      boxB.layout.absBounds() shouldBe Rec2d(0 xy 0, 10 xy 4)
+    }
+
     "handle id style" in new ContainerTree {
       override def styler: Styler = StyleSheet(
         idB /> { case container: ContainerBox => container.pad(2 xy 2) }

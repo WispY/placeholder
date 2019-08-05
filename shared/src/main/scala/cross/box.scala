@@ -562,11 +562,11 @@ object box {
   /** Container box with stackable children */
   trait ContainerBox extends Box with ContainerStyle {
     override def calculateLayoutX(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, child.layout.minW()) }
+      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, layout.relArea().size.x - pad().x * 2) }
     }
 
     override def calculateLayoutY(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, child.layout.minH()) }
+      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, layout.relArea().size.y - pad().y * 2) }
     }
 
     override def calculateMinimumWidth: Double = {
@@ -675,6 +675,57 @@ object box {
 
     override def calculateMinimumHeight: Double = {
       pad().y * 2 + textFont().textMetric("A", textSize())(boxContext).y
+    }
+  }
+
+  /** Represents a style for container that puts children in a grid */
+  trait GridStyle {
+    this: Box =>
+    /** The distance between grid cells */
+    lazy val spacing = StyleKey(Vec2d.Zero, this)
+    /** Number of columns in the grid */
+    lazy val columns = StyleKey(1, this)
+  }
+
+  /** Container that arranges children in a grid */
+  trait GridBox extends Box with GridStyle with ContainerStyle {
+    /** Returns rows of relative children */
+    def childrenRows: List[List[Box]] = {
+      layout.relChildren().grouped(columns()).toList
+    }
+
+    /** Returns columns of relative children */
+    def childrenColumns: List[List[Box]] = {
+      val rows = childrenRows
+      (0 until columns()).map(index => rows.flatMap(row => row.lift(index))).toList
+    }
+
+    /** Distributes given extra space among targets */
+    def distributeSpace[A](targets: List[(A, Double, Double)], space: Double): Map[A, Double] = {
+      Map.empty
+    }
+
+    override def calculateLayoutX(): Unit = {
+      val columnFills = childrenColumns.map(col => col.map(c => c.layout.fill().x).maxOpt.getOrElse(0.0))
+      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, layout.relArea().size.x - pad().x * 2) }
+    }
+
+    override def calculateLayoutY(): Unit = {
+      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, layout.relArea().size.y - pad().y * 2) }
+    }
+
+    override def calculateMinimumWidth: Double = {
+      val width = childrenColumns
+        .map(col => col.map(c => c.layout.minW()).maxOpt.getOrElse(0.0))
+        .sum
+      width + pad().x * 2 + (columns() - 1) * spacing().x
+    }
+
+    override def calculateMinimumHeight: Double = {
+      val height = childrenRows
+        .map(row => row.map(c => c.layout.minH()).maxOpt.getOrElse(0.0))
+        .sum
+      height + pad().y * 2 + (columns() - 1) * spacing().y
     }
   }
 
