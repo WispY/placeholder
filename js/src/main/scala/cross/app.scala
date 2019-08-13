@@ -2,7 +2,6 @@ package cross
 
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
-import cross.general.protocol._
 import cross.pac.stage.PacStage
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.stage.{GameStage, LoadingStage}
@@ -13,7 +12,7 @@ import cross.util.mvc.Ui
 import cross.util.{animation, fonts, spring}
 import org.scalajs.dom._
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 /** Starts the UI application */
 //noinspection TypeAnnotation
@@ -91,7 +90,7 @@ object app extends App with GlobalContext with Logging {
   }
 
   def loginDiscord(code: String): Unit = for {
-    user <- post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
+    user <- Future.successful(None) // post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
     _ = log.info(s"logged in as [$user]")
     _ = redirectSilent("/pac", preserveQuery = false)
     _ = startPac("/pac")

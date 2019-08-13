@@ -35,6 +35,7 @@ object thumbnailer {
     private val s3 = AmazonS3ClientBuilder
       .standard()
       .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(config.thumbnailer.awsAccess, config.thumbnailer.awsSecret)))
+      .withRegion(config.thumbnailer.awsRegion)
       .build()
     private val imagePool = Executors.newFixedThreadPool(config.thumbnailer.imagePool)
     private val imageExecutor = ExecutionContext.fromExecutor(imagePool)

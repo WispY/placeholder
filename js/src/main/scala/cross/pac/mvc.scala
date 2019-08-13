@@ -72,7 +72,7 @@ object mvc extends GlobalContext with Logging {
     private def readCurrentUser(): Future[Unit] = for {
       _ <- UnitFuture
       _ = log.info("reading current user")
-      userOpt <- http.get[Option[User]]("/api/user")
+      userOpt <- Future.successful(None) // http.get[Option[User]]("/api/user")
       _ = model.user.write(userOpt)
       _ = log.info(s"current user is [$userOpt]")
     } yield ()
@@ -97,10 +97,10 @@ object mvc extends GlobalContext with Logging {
       //   .whenSuccessful(list => log.info(s"loaded [${list.size}] challenges"))
       //   .whenFailed(up => log.error("failed to read challenges", up))
       //   .load(model.artChallenges, list => list, "Failed to load the list of art challenged")
-      http.get[List[ChatMessage]]("/api/pac/admin-messages")
-        .whenSuccessful(list => log.info(s"loaded [${list.size}] admin messages"))
-        .whenFailed(up => log.error("failed to read admin messages", up))
-        .load(model.adminMessages, list => list.sortBy(m => -m.createTimestamp), "Failed to load the list of messages")
+      // http.get[List[ChatMessage]]("/api/pac/admin-messages")
+      //   .whenSuccessful(list => log.info(s"loaded [${list.size}] admin messages"))
+      //   .whenFailed(up => log.error("failed to read admin messages", up))
+      //   .load(model.adminMessages, list => list.sortBy(m => -m.createTimestamp), "Failed to load the list of messages")
     }
 
     /** Redirects to discord login page */

@@ -19,9 +19,20 @@ object config {
 
   /** Reads the config keys from java runtime environment */
   object JvmReader extends ConfigReader {
+    val envConfig: Map[String, String] = {
+      sys.env.getOrElse("APP_CONFIG", "")
+        .split('~').grouped(2).map(pair => pair.last)
+        .filterNot(kv => kv == "")
+        .map { kv =>
+          val Array(key, value) = kv.split('=')
+          key -> value
+        }
+        .toMap
+    }
+
     override def get(path: Path): Option[String] = {
       val full = path.stringify
-      sys.env.get(full).orElse(sys.props.get(full))
+      sys.env.get(full).orElse(sys.props.get(full)).orElse(envConfig.get(full))
     }
   }
 

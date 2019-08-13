@@ -18,3 +18,12 @@ Server:
 -Dpac.thumbnailer.awsSecret=""
 -Dpac.processor.retryImages="true"
 ```
+
+Heroku:
+```
+heroku container:login
+docker push registry.heroku.com/wispy-cross/web
+heroku container:release web --app wispy-cross
+heroku open --app wispy-cross
+heroku logs --tail --app wispy-cross
+```

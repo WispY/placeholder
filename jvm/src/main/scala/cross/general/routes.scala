@@ -13,6 +13,7 @@ import cross.common.UnitFuture
 import cross.general.config._
 import cross.general.session.{ForgetSession, Session, SessionManagerRef, UpdateSession}
 import cross.pac.config.PacConfig
+import cross.pac.json._
 import cross.routes._
 import cross.util.akkautil._
 import spray.json.DefaultJsonProtocol._
@@ -47,7 +48,7 @@ object routes extends SprayJsonSupport with LazyLogging {
 
     /** Returns Some(user) if browser session contains a valid login, or None if user did not log in */
     `GET /api/user`.apply { session =>
-      complete(session.discordUser.map(u => u.asUser))
+      complete(OptionUser(session.discordUser.map(u => u.asUser)))
     },
 
     /** Authorizes the user via discord using grant code */

@@ -53,10 +53,10 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
       new Dockerfile {
         from("openjdk:8-jre")
         add(artifact, artifactTargetPath)
-        entryPoint("java", "-jar", "-Dgeneral.port=$PORT", artifactTargetPath)
+        cmdRaw(s"java $$JVM_CONFIG -jar -Dgeneral.port=$$PORT $artifactTargetPath")
       }
     },
-    imageNames in docker := Seq(ImageName(s"wispy/cross:latest")),
+    imageNames in docker := Seq(ImageName(s"wispy/cross:latest"), ImageName(s"registry.heroku.com/wispy-cross/web")),
 
     resolvers += Resolver.jcenterRepo,
 
@@ -106,6 +106,7 @@ lazy val crossJS = cross.js
 
 lazy val moveJS = taskKey[Unit]("moveJS")
 lazy val pushJS = taskKey[Unit]("pushJS")
+lazy val deployHeroku = taskKey[Unit]("deployHeroku")
 
 def copyFile(from: String, to: String): Unit = {
   val in = new File(from).toPath
@@ -151,9 +152,19 @@ pushJS := {
   copyFolder("./out", "./deploy")
   val commands = List(
     """cd ./deploy""",
+    """git pull""",
     """git add .""",
     """git commit -m "js deployment"""",
     """git push origin master --recurse-submodules=check"""
+  )
+  s"cmd /C ${commands.mkString(" & ")}".!
+}
+
+deployHeroku := {
+  val commands = List(
+    """heroku container:login""",
+    """docker push registry.heroku.com/wispy-cross/web""",
+    """heroku container:release web --app wispy-cross"""
   )
   s"cmd /C ${commands.mkString(" & ")}".!
 }

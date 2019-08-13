@@ -49,6 +49,7 @@ object config {
     *
     * @param awsAccess                the access key for the aws
     * @param awsSecret                the secret key for the aws
+    * @param awsRegion                the region name for the aws
     * @param awsBucket                the name of the s3 bucket for images
     * @param imagePool                number of thread in pool that will process images
     * @param thumbnailSize            the maximum size of the thumbnail
@@ -57,6 +58,7 @@ object config {
     */
   case class PacThumbnailerConfig(awsAccess: String,
                                   awsSecret: String,
+                                  awsRegion: String,
                                   awsBucket: String,
                                   imagePool: Int,
                                   thumbnailSize: Vec2i,
@@ -80,6 +82,7 @@ object config {
     thumbnailer = PacThumbnailerConfig(
       awsAccess = "changeme",
       awsSecret = "changeme",
+      awsRegion = "us-east-1",
       awsBucket = "art-challenge",
       imagePool = 2,
       thumbnailSize = 400 xy 1000,
@@ -92,13 +95,13 @@ object config {
   implicit val vecFormat: CF[Vec2i] = format2(Vec2i.apply)
   implicit val pacBotConfigFormat: CF[PacBotConfig] = format5(PacBotConfig)
   implicit val pacProcessorConfigFormat: CF[PacProcessorConfig] = format4(PacProcessorConfig)
-  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format7(PacThumbnailerConfig)
+  implicit val pacThumbnailerConfigFormat: CF[PacThumbnailerConfig] = format8(PacThumbnailerConfig)
   implicit val pacConfigFormat: CF[PacConfig] = format3(PacConfig)
 
   implicit val vecJsonFormat: RootJsonFormat[Vec2i] = jsonFormat2(Vec2i.apply)
   implicit val pacBotConfigJsonFormat: RootJsonFormat[PacBotConfig] = jsonFormat5(PacBotConfig)
   implicit val pacProcessorConfigJsonFormat: RootJsonFormat[PacProcessorConfig] = jsonFormat4(PacProcessorConfig)
-  implicit val pacThumbnailerConfigJsonFormat: RootJsonFormat[PacThumbnailerConfig] = jsonFormat7(PacThumbnailerConfig)
+  implicit val pacThumbnailerConfigJsonFormat: RootJsonFormat[PacThumbnailerConfig] = jsonFormat8(PacThumbnailerConfig)
   implicit val pacConfigJsonFormat: RootJsonFormat[PacConfig] = jsonFormat3(PacConfig)
 
   val Config: PacConfig = configureNamespace("pac", Some(DefaultPacConfig))
