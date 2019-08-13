@@ -1,6 +1,6 @@
 .idea/*
 .git/*
-target/*
+target/**
 project/target/*
 out/.*
 out/*.js
