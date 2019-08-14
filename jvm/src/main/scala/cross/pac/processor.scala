@@ -4,6 +4,7 @@ import java.lang.System.currentTimeMillis
 import java.util.UUID
 
 import akka.actor.{ActorRef, Scheduler}
+import akka.pattern.pipe
 import com.vdurmont.emoji.EmojiParser
 import cross.actors.LockActor
 import cross.common._
@@ -13,6 +14,7 @@ import cross.general.discord.DiscordUser
 import cross.mongo._
 import cross.pac.bot._
 import cross.pac.config.PacConfig
+import cross.pac.routes.{GetStatus, SystemStatus}
 import cross.pac.thumbnailer.{CreateThumbnail, ThumbnailError, ThumbnailSuccess}
 import net.dv8tion.jda.core.entities.Message
 import org.mongodb.scala.{Document, MongoClient, Observable}
@@ -41,6 +43,12 @@ object processor {
 
     /** Processes commands one by one */
     def awaitCommands(): Receive = lock {
+      case GetStatus =>
+        Future
+          .sequence(submissions.status("pac.processor") :: messages.status("pac.processor") :: challenges.status("pac.processor") :: Nil)
+          .map(list => SystemStatus("pac.processor", healthy = true) :: list)
+          .pipeTo(sender)
+
       case Startup =>
         for {
           _ <- UnitFuture

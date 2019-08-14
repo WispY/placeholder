@@ -1,6 +1,7 @@
 package cross.pac
 
 import akka.actor.{Actor, ActorLogging, Scheduler}
+import akka.pattern.pipe
 import cross.common.UnitFuture
 import cross.format.{$$, _}
 import cross.general.config.GeneralConfig
@@ -8,9 +9,10 @@ import cross.mongo._
 import cross.pac.config.PacConfig
 import cross.pac.processor.{ArtChallenge, SubmissionDb, SubmissionMessage}
 import cross.pac.protocol.ChatMessage
+import cross.pac.routes.{GetStatus, SystemStatus}
 import org.mongodb.scala.MongoClient
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 object service {
 
@@ -26,6 +28,12 @@ object service {
     private val challenges = db.ensureCollection($$(ArtChallenge), "pac.challenges")
 
     override def receive: Receive = {
+      case GetStatus =>
+        Future
+          .sequence(submissions.status("pac.service") :: messages.status("pac.service") :: challenges.status("pac.service") :: Nil)
+          .map(list => SystemStatus("pac.service", healthy = true) :: list)
+          .pipeTo(sender)
+
       case GetAdminMessages =>
         val reply = sender
         for {

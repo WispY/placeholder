@@ -3,6 +3,7 @@ package cross
 import akka.actor.Scheduler
 import cross.common._
 import cross.format._
+import cross.pac.routes.SystemStatus
 import cross.util.akkautil._
 import org.mongodb.scala.bson._
 import org.mongodb.scala.{Document, MongoCollection, MongoDatabase}
@@ -10,6 +11,7 @@ import org.mongodb.scala.{Document, MongoCollection, MongoDatabase}
 import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 object mongo {
 
@@ -305,6 +307,15 @@ object mongo {
       collection <- delegate
       _ <- collection.deleteOne(query.apply(cct)).toFuture
     } yield ()
+
+    /** Tests if collection is healthy */
+    def status(prefix: String): Future[SystemStatus] = for {
+      collection <- delegate
+      status <- findOne().transform {
+        case Success(any) => Success(SystemStatus(s"$prefix.mongo.${collection.namespace.getCollectionName}", healthy = true))
+        case Failure(up) => Success(SystemStatus(s"$prefix.mongo.${collection.namespace.getCollectionName}", healthy = false, error = Some(up.getMessage)))
+      }
+    } yield status
 
   }
 

@@ -3,6 +3,7 @@ package cross.pac
 import akka.actor.{Actor, ActorLogging, ActorRef}
 import cross.common._
 import cross.pac.config.PacConfig
+import cross.pac.routes.{GetStatus, SystemStatus}
 import net.dv8tion.jda.core.entities.{Message, MessageHistory, TextChannel}
 import net.dv8tion.jda.core.events.message.{GenericMessageEvent, MessageDeleteEvent, MessageReceivedEvent, MessageUpdateEvent}
 import net.dv8tion.jda.core.events.{Event, ReadyEvent}
@@ -51,6 +52,9 @@ object bot {
 
     /** Waits till discord client is ready */
     def awaitReady(client: JDA): Receive = {
+      case GetStatus =>
+        sender ! SystemStatus("pac.bot", healthy = false, error = Some("awaiting ready event"))
+
       case event: ReadyEvent =>
         log.info(s"discord bot is ready [$event] with servers [${client.getGuilds.asScala.map(g => g.getName).toList}]")
         client.getGuildsByName(config.bot.server, true).asScala.headOption match {
@@ -78,6 +82,9 @@ object bot {
 
     /** Waits for new requests */
     def awaitCommands(channel: TextChannel): Receive = {
+      case GetStatus =>
+        sender ! SystemStatus("pac.bot", healthy = true)
+
       case event: MessageReceivedEvent =>
         listeners.foreach(listener => listener ! MessagePosted(event.getMessage))
 
@@ -128,7 +135,11 @@ object bot {
 
     /** Ignores all incoming reports */
     def ignoreMessages(): Receive = {
-      case message => log.warning(s"ignoring message [$message]")
+      case GetStatus =>
+        sender ! SystemStatus("pac.bot", healthy = false, error = Some("ignoring all messages"))
+
+      case message =>
+        log.warning(s"ignoring message [$message]")
     }
   }
 

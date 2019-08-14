@@ -1,6 +1,7 @@
 package cross
 
 import akka.actor.{Actor, ActorLogging}
+import cross.pac.routes.GetStatus
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,6 +23,7 @@ object actors {
     /** Reschedules commands for the later processing */
     private def rescheduleCommands(): Receive = {
       case Continue => context.become(awaitCommands())
+      case GetStatus => awaitCommands().lift(GetStatus)
       case command => context.system.scheduler.scheduleOnce(1.second, self, command)(ec, sender)
     }
 

@@ -48,7 +48,7 @@ object launcher extends App with LazyLogging {
   }
 
   /** Routes list */
-  val routes = generalRoutes() ++ pacRoutes(pacService) ++ Nil
+  val routes = generalRoutes() ++ pacRoutes(pacService, pacBot, pacThumbnailer, pacProcessor) ++ Nil
   val route: Route = cors() {
     Route.seal {
       concat(routes: _*)

@@ -10,6 +10,7 @@ import akka.http.scaladsl.common.{EntityStreamingSupport, JsonEntityStreamingSup
 import akka.http.scaladsl.model.MediaTypes.`image/png`
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest}
 import akka.http.scaladsl.unmarshalling._
+import akka.pattern.pipe
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
 import com.amazonaws.auth.{AWSStaticCredentialsProvider, BasicAWSCredentials}
@@ -19,6 +20,7 @@ import cross.actors.LockActor
 import cross.common._
 import cross.pac.config.PacConfig
 import cross.pac.processor.SubmissionImage
+import cross.pac.routes.{GetStatus, SystemStatus}
 import net.coobird.thumbnailator.Thumbnails
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -50,6 +52,16 @@ object thumbnailer {
     }
 
     override def awaitCommands(): Receive = lock {
+      case GetStatus =>
+        implicit val ec: ExecutionContext = imageExecutor
+        Future(s3.listObjects(config.thumbnailer.awsBucket))
+          .transform {
+            case Success(list) => Success(SystemStatus("pac.thumbnailer.s3", healthy = true))
+            case Failure(up) => Success(SystemStatus("pac.thumbnailer.s3", healthy = false, error = Some(up.getMessage)))
+          }
+          .map(status => SystemStatus("pac.thumbnailer", healthy = true) :: status :: Nil)
+          .pipeTo(sender)
+
       case CreateThumbnail(image) if image.thumbnail.isDefined =>
         log.warning(s"attempted to re-create existing image thumbnail [$image]")
         sender ! ThumbnailSuccess(image, image.thumbnail.get, image.altUrl)
