@@ -1,5 +1,6 @@
 package cross.pac
 
+import cross.box.Font
 import cross.common._
 import cross.component.flat.Button.ButtonStyle
 import cross.component.flat.Paginator.PaginatorStyle

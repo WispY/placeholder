@@ -1,12 +1,10 @@
 package cross.component
 
+import cross.box.Font
 import cross.common._
 import cross.pixi.TextStyle
 
 object util {
-
-  /** Refers to a loaded font */
-  case class Font(family: String)
 
   val Roboto = Font("Roboto")
   val RobotoSlab = Font("Roboto Slab")

@@ -1,7 +1,7 @@
 package cross.util
 
+import cross.box.Font
 import cross.common._
-import cross.component.util.Font
 import cross.ffo.FontFaceObserver
 import cross.util.global.GlobalContext
 import cross.util.logging.Logging
