@@ -38,7 +38,6 @@ object jqbox extends Logging {
 
     /** Measures the space occupied by the text */
     override def measureText(text: String, font: Font, size: Double): Vec2d = {
-      log.info(s"measuring [$text]")
       measurer
         .text(text)
         .css("font-family", font.family)
@@ -48,7 +47,6 @@ object jqbox extends Logging {
 
     /** Registers the box within the context */
     override def register(box: Box): Unit = {
-      log.info(s"registering [$box]")
       val div = divBox
         .attr("boxId", box.id.value)
       boxes = boxes + (box.id -> div)

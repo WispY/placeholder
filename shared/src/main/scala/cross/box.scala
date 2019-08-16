@@ -59,6 +59,9 @@ object box {
     }.bindAndRegister()
   }
 
+  /** Selects any box */
+  val anyBox: Selector = _ => true
+
   /** Selects boxes that implement given trait */
   def isA[A](implicit tag: ClassTag[A]): Selector = box => tag.runtimeClass.isInstance(box)
 
@@ -154,24 +157,51 @@ object box {
     }
 
     /** Adds the class if enabled is true, removes otherwise */
-    def updateClass(clazz: BoxClass, enabled: Boolean): Unit = {
+    def updateClass(clazz: BoxClass, enabled: Boolean): this.type = {
       if (enabled) addClass(clazz) else removeClass(clazz)
+      this
     }
 
     /** Adds the given class if not already present */
-    def addClass(clazz: BoxClass): Unit = {
+    def addClass(clazz: BoxClass): this.type = {
       val current = boxLayout.classes()
       if (!current.contains(clazz)) {
         boxLayout.classes.write(clazz :: current)
       }
+      this
     }
 
     /** Removes the given class if present */
-    def removeClass(clazz: BoxClass): Unit = {
+    def removeClass(clazz: BoxClass): this.type = {
       val current = boxLayout.classes()
       if (current.contains(clazz)) {
         boxLayout.classes.write(current.without(clazz))
       }
+      this
+    }
+
+    /** Updates the fill.x to a given value */
+    def fillX(fill: Double = 1.0): this.type = {
+      boxLayout.fill.write(boxLayout.fill().copy(x = fill))
+      this
+    }
+
+    /** Updates the fill.x to a given value */
+    def fillY(fill: Double = 1.0): this.type = {
+      boxLayout.fill.write(boxLayout.fill().copy(y = fill))
+      this
+    }
+
+    /** Updates both fill.x and fill.y to the given value */
+    def fillBoth(fill: Double = 1.0): this.type = {
+      boxLayout.fill.write(fill xy fill)
+      this
+    }
+
+    /** Updates both fill.x and fill.y to 0 */
+    def fillNone(): this.type = {
+      boxLayout.fill.write(Vec2d.Zero)
+      this
     }
 
     /** Binds the box internal state */

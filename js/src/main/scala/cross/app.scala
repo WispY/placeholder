@@ -103,37 +103,43 @@ object app extends App with GlobalContext with Logging {
     import cross.common._
     import jqbox._
 
-    val a = BoxId("a")
-    val b = BoxId("b")
-    val c = BoxId("c")
+    val refreshScreenSize = () => controller.setScreenSize(window.innerWidth.toInt xy window.innerHeight.toInt)
+    window.addEventListener("resize", (_: Event) => refreshScreenSize(), useCapture = false)
+    refreshScreenSize()
+    scaleToScreen(controller)
+
+    val Even = BoxClass()
+    val Odd = BoxClass()
+
     implicit val styles: Styler = StyleSheet(
-      hasId(a) /> { case region: RegionBox =>
+      hasClass(Even) /> { case region: RegionBox =>
         region.fillColor(Colors.GreenDarkest)
-        region.pad(20.0 xy 20.0)
+        region.pad(2.0 xy 2.0)
         region.layout.fill.write(1 xy 1)
       },
-      hasId(b) /> { case region: RegionBox =>
+      hasClass(Odd) /> { case region: RegionBox =>
         region.fillColor(Colors.GreenDark)
-        region.pad(20.0 xy 20.0)
+        region.pad(2.0 xy 2.0)
       },
-      hasId(c) /> { case text: TextBox =>
+      anyBox /> { case text: TextBox =>
         text.textColor(Colors.PureWhite)
         text.textFont(Roboto)
         text.textSize(20.0)
       },
     )
-    val textC = text(c).textValue("Hello, world!")
-    val refreshScreenSize = () => controller.setScreenSize(window.innerWidth.toInt xy window.innerHeight.toInt)
-    window.addEventListener("resize", (_: Event) => refreshScreenSize(), useCapture = false)
-    refreshScreenSize()
-    scaleToScreen(controller)
-    boxContext.root.withChildren(
-      region(a).withChildren(
-        region(b).withChildren(
-          textC
-        )
-      )
-    )
+
+    (0 until 50)
+      .map { index =>
+        region(BoxId(s"box-$index"))
+          .fillBoth()
+          .addClass(if (index % 2 == 0) Even else Odd)
+      }
+      .foldLeft(boxContext.root) { case (parent, child) =>
+        parent.withChildren(child)
+        child
+      }
+      .withChildren(text().textValue("Hello, world!"))
+
     log.info("loaded test ui")
   }
 
