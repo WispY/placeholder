@@ -17,4 +17,5 @@ html, body {
 
 .box {
     position: absolute;
+    white-space: nowrap;
 }

@@ -252,5 +252,41 @@ class BoxSpec extends Spec {
       root.layout.absBounds() shouldBe Rec2d(0 xy 0, 75 xy 45)
       button.layout.absBounds() shouldBe Rec2d(10 xy 10, 55 xy 25)
     }
+
+    "layout with screen size" in {
+      implicit val context: BoxContext = new MonoText with IgnoreDrawable with NoRoot with IgnoreRegister
+      val a = BoxId("a")
+      val b = BoxId("b")
+      val c = BoxId("c")
+      implicit val styles: Styler = StyleSheet(
+        hasId(a) /> { case region: RegionBox =>
+          region.pad(20.0 xy 20.0)
+          region.layout.fill.write(1 xy 1)
+        },
+        hasId(b) /> { case region: RegionBox =>
+          region.pad(20.0 xy 20.0)
+        },
+        hasId(c) /> { case text: TextBox =>
+          text.textSize(20.0)
+        },
+      )
+      val root = container(BoxId.Root)
+      val boxA = region(a)
+      val boxB = region(b)
+      val textC = text(c).textValue("Hello, world!")
+      root.withChildren(
+        boxA.withChildren(
+          boxB.withChildren(
+            textC
+          )
+        )
+      )
+      root.layout.fixedW.write(Some(200))
+      root.layout.fixedH.write(Some(200))
+
+      root.layout.absBounds() shouldBe Rec2d(0 xy 0, 200 xy 200)
+      root.layout.relBounds() shouldBe Rec2d(0 xy 0, 200 xy 200)
+      textC.layout.relBounds() shouldBe Rec2d(20 xy 20, 77 xy 5)
+    }
   }
 }

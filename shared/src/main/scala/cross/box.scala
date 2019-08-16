@@ -432,7 +432,7 @@ object box {
         nextParents.foreach { parent =>
           parent.layout.absParents /> { case grandparents => absParents.write(parent :: grandparents) }
           (parent.layout.absAreaX && relAreaX) /> { case (absParent, relSelf) => absAreaX.write(relSelf.offsetX(absParent)) }
-          (parent.layout.absAreaY && relAreaY) /> { case (absParent, relSelf) => absAreaY.write(relSelf.offsetX(absParent)) }
+          (parent.layout.absAreaY && relAreaY) /> { case (absParent, relSelf) => absAreaY.write(relSelf.offsetY(absParent)) }
           (parent.layout.absBoundsX && relBoundsX) /> { case (absParent, relSelf) => absBoundsX.write(relSelf.offsetX(absParent)) }
           (parent.layout.absBoundsY && relBoundsY) /> { case (absParent, relSelf) => absBoundsY.write(relSelf.offsetX(absParent)) }
           (parent.layout.absVisible && relVisible) /> { case (absParent, relSelf) => absVisible.write(absParent && relSelf) }
@@ -562,11 +562,11 @@ object box {
   /** Container box with stackable children */
   trait ContainerBox extends Box with ContainerStyle {
     override def calculateLayoutX(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, layout.relArea().size.x - pad().x * 2) }
+      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, layout.relBounds().size.x - pad().x * 2) }
     }
 
     override def calculateLayoutY(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, layout.relArea().size.y - pad().y * 2) }
+      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, layout.relBounds().size.y - pad().y * 2) }
     }
 
     override def calculateMinimumWidth: Double = {
@@ -595,9 +595,9 @@ object box {
 
     override def bind(): Unit = {
       super.bind()
-      (layout.style && layout.absBounds) /> { case _ =>
+      (layout.style && layout.relBounds) /> { case _ =>
         background.clear()
-        background.fill(layout.absBounds(), fillColor(), fillDepth())
+        background.fill(layout.relBounds(), fillColor(), fillDepth())
       }
     }
   }
@@ -617,30 +617,9 @@ object box {
 
   /** Refers to a text font with cached metrics */
   case class Font(family: String) {
-    private val defaultSize = 16.0
-    private var metrics: Map[Char, Vec2d] = Map.empty
-    private var characterSpaceOpt: Option[Double] = None
-
-    /** Returns the size of the character */
-    def charMetric(char: Char, size: Double)(implicit context: BoxContext): Vec2d = {
-      metrics.get(char) match {
-        case Some(metric) => metric / defaultSize * size
-        case None =>
-          val size = context.measureText(s"$char", this, defaultSize)
-          metrics = metrics + (char -> size)
-          size
-      }
-    }
-
     /** Returns the size of the text string */
     def textMetric(text: String, size: Double)(implicit context: BoxContext): Vec2d = {
-      val characterSpace = characterSpaceOpt.getOrElse {
-        val space = context.measureText("AA", this, defaultSize).x - charMetric('A', size).x * 2
-        characterSpaceOpt = Some(space)
-        space
-      }
-      val totalCharacterSpace = characterSpace * ((text.length - 1) max 0)
-      text.map(c => charMetric(c, size)).foldLeft(Vec2d.Zero) { (a, b) => (a.x + b.x) xy (a.y max b.y) } + (totalCharacterSpace xy 0)
+      context.measureText(text, this, size)
     }
   }
 

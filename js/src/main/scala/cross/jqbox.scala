@@ -3,6 +3,7 @@ package cross
 import cross.box._
 import cross.common._
 import cross.util.logging.Logging
+import cross.util.mvc.GenericController
 import org.querki.jquery._
 
 object jqbox extends Logging {
@@ -18,6 +19,15 @@ object jqbox extends Logging {
 
   /** Creates new jq span box */
   def spanBox: JQuery = $("<span>").addClass("box")
+
+  /** Listens to screen size and rescales the root */
+  def scaleToScreen(controller: GenericController[_]): Unit = {
+    controller.model.screen /> { case size =>
+      boxContext.root.layout.fixedW.write(Some(size.x))
+      boxContext.root.layout.fixedH.write(Some(size.y))
+      boxes(BoxId.Root).width(size.x).height(size.y)
+    }
+  }
 
   implicit val boxContext: BoxContext = new BoxContext {
     /** Text metrics measurer */
@@ -40,6 +50,7 @@ object jqbox extends Logging {
     override def register(box: Box): Unit = {
       log.info(s"registering [$box]")
       val div = divBox
+        .attr("boxId", box.id.value)
       boxes = boxes + (box.id -> div)
       box match {
         case region: RegionBox =>
@@ -51,6 +62,7 @@ object jqbox extends Logging {
               .text(text.textValue())
               .css("font-family", text.textFont().family)
               .css("font-size", text.textSize().px)
+              .css("color", text.textColor().toHex)
           }
           div.append(span)
         case other => // ignore
@@ -58,6 +70,13 @@ object jqbox extends Logging {
       box.layout.relParents /> {
         case Nil => div.detach()
         case parent :: xs => div.appendTo(boxes(parent.id))
+      }
+      box.layout.relBounds /> {
+        case bounds => div
+          .css("left", bounds.position.x.px)
+          .css("top", bounds.position.y.px)
+          .width(bounds.size.x)
+          .height(bounds.size.y)
       }
     }
 
@@ -70,7 +89,7 @@ object jqbox extends Logging {
   }
 
   class JqDrawComponent extends DrawComponent {
-    val draw: JQuery = divBox
+    val draw: JQuery = divBox.addClass("box-draw")
 
     /** Clears the draw component */
     override def clear(): Unit = {
@@ -82,8 +101,6 @@ object jqbox extends Logging {
       draw.append(
         divBox
           .css("background-color", color.toHex)
-          .css("left", area.position.x.toInt)
-          .css("top", area.position.y.toInt)
           .width(area.size.x)
           .height(area.size.y)
       )

@@ -1,5 +1,6 @@
 package cross
 
+import cross.common._
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
 import cross.pixi.{ScaleModes, Settings}
@@ -87,16 +88,16 @@ object app extends App with GlobalContext with Logging {
     //      _ <- controller.start(path)
     //    } yield ()
 
-    for {
+    (for {
       _ <- fonts.load(Roboto :: RobotoSlab :: Nil)
-      _ <- testUi()
+      _ <- testUi(controller)
       _ <- spring.load()
       _ <- animation.load()
       _ <- controller.start(path)
-    } yield ()
+    } yield ()).whenFailed(up => log.error("failed to build ui", up))
   }
 
-  def testUi(): Future[Unit] = Future {
+  def testUi(controller: cross.pac.mvc.Controller): Future[Unit] = Future {
     log.info("loading test ui")
     import cross.box._
     import cross.common._
@@ -107,12 +108,13 @@ object app extends App with GlobalContext with Logging {
     val c = BoxId("c")
     implicit val styles: Styler = StyleSheet(
       hasId(a) /> { case region: RegionBox =>
-        region.fillColor(Colors.Blue)
+        region.fillColor(Colors.GreenDarkest)
         region.pad(20.0 xy 20.0)
+        region.layout.fill.write(1 xy 1)
       },
       hasId(b) /> { case region: RegionBox =>
-        region.fillColor(Colors.Green)
-        region.pad(10.0 xy 20.0)
+        region.fillColor(Colors.GreenDark)
+        region.pad(20.0 xy 20.0)
       },
       hasId(c) /> { case text: TextBox =>
         text.textColor(Colors.PureWhite)
@@ -120,10 +122,15 @@ object app extends App with GlobalContext with Logging {
         text.textSize(20.0)
       },
     )
+    val textC = text(c).textValue("Hello, world!")
+    val refreshScreenSize = () => controller.setScreenSize(window.innerWidth.toInt xy window.innerHeight.toInt)
+    window.addEventListener("resize", (_: Event) => refreshScreenSize(), useCapture = false)
+    refreshScreenSize()
+    scaleToScreen(controller)
     boxContext.root.withChildren(
       region(a).withChildren(
         region(b).withChildren(
-          text(c).textValue("Hello, world!")
+          textC
         )
       )
     )
