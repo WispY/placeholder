@@ -26,7 +26,7 @@ class PacStage(implicit generalConfig: GeneralConfig,
   private lazy val body = stage.sub
 
   private implicit val styler: Styler = StyleSheet(
-    isA[ContainerBox] /> { case container: ContainerBox => container.pad(10 xy 10) }
+    isA[ContainerBox] |>> { case container: ContainerBox => container.pad(10 xy 10) }
   )
   private lazy val layout = container().withChildren(
     boxButton().textValue("Hello, World!")

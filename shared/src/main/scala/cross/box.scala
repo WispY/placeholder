@@ -60,28 +60,37 @@ object box {
   }
 
   /** Selects any box */
-  val anyBox: Selector = _ => true
+  val anyBox: Selector[Box] = _ => true
 
   /** Selects boxes that implement given trait */
-  def isA[A](implicit tag: ClassTag[A]): Selector = box => tag.runtimeClass.isInstance(box)
+  def isA[A <: Box](implicit tag: ClassTag[A]): Selector[A] = box => tag.runtimeClass.isInstance(box)
 
   /** Selects boxes that has given id */
-  def hasId(id: BoxId): Selector = box => box.id == id
+  def hasId(id: BoxId): Selector[Box] = box => box.id == id
 
   /** Selects boxes that has given class */
-  def hasClass(clazz: BoxClass): Selector = box => box.classes.contains(clazz)
+  def hasClass(clazz: BoxClass): Selector[Box] = box => box.classes.contains(clazz)
 
   /** Selects boxes with matching parent */
-  def hasAbsParent(selector: Selector): Selector = box => box.layout.absParents().exists(selector.appliesTo)
+  def hasAbsParent(selector: Selector[_]): Selector[Box] = box => box.layout.absParents().exists(selector.appliesTo)
 
   /** Selects boxes with matching children */
-  def hasAbsChild(selector: Selector): Selector = box => box.layout.absChildren().exists(selector.appliesTo)
+  def hasAbsChild(selector: Selector[_]): Selector[Box] = box => box.layout.absChildren().exists(selector.appliesTo)
 
   /** Converts box ids to id selector */
-  implicit def idSelector(id: BoxId): Selector = hasId(id)
+  implicit def idSelector(id: BoxId): Selector[Box] = hasId(id)
 
   /** Converts box class to selector */
-  implicit def classSelector(clazz: BoxClass): Selector = hasClass(clazz)
+  implicit def classSelector(clazz: BoxClass): Selector[Box] = hasClass(clazz)
+
+  /** Selector for container boxes */
+  val isContainer: Selector[ContainerBox] = isA[ContainerBox]
+
+  /** Selector for region boxes */
+  val isRegion: Selector[RegionBox] = isA[RegionBox]
+
+  /** Selector for text boxes */
+  val isText: Selector[TextBox] = isA[TextBox]
 
   /** The id of the box */
   case class BoxId(value: String = uuid) {
@@ -220,7 +229,7 @@ object box {
   }
 
   type Boxes = List[Box]
-  type AnyStyleKey = StyleKey[_, _ <: Box]
+  type AnyStyleKey = StyleKey[_]
 
   /** Refers to the box */
   case class BoxRef[A <: Box](box: A)
@@ -239,9 +248,9 @@ object box {
   }
 
   /** Refers to a single parameter for a style */
-  class StyleKey[A, B <: Box](box: B, defaultValue: A, updatesSize: Boolean) {
+  class StyleKey[A](box: Box, defaultValue: A, updatesSize: Boolean) {
     /** Writes a new style value */
-    def apply(newValue: A): B = {
+    def apply(newValue: A): Box = {
       val lastValue = apply()
       if (newValue != lastValue) {
         box.layout.style.write(box.style.set(this, newValue))
@@ -260,31 +269,34 @@ object box {
 
   object StyleKey {
     /** Creates a style parameter reference */
-    def apply[A, B <: Box](startingValue: A, box: B): StyleKey[A, B] = new StyleKey(box, startingValue, true)
+    def apply[A](startingValue: A, box: Box): StyleKey[A] = new StyleKey(box, startingValue, true)
   }
 
   object VisualStyleKey {
     /** Creates a style parameter reference */
-    def apply[A, B <: Box](startingValue: A, box: B, updatesSize: Boolean = true): StyleKey[A, B] = new StyleKey(box, startingValue, false)
+    def apply[A, B <: Box](startingValue: A, box: B, updatesSize: Boolean = true): StyleKey[A] = new StyleKey(box, startingValue, false)
   }
 
   /** Represents a box selector for style applications and searches */
-  trait Selector {
+  trait Selector[A <: Box] {
     /** Returns true if selector matches the box */
     def appliesTo(box: Box): Boolean
 
     /** Combines two selectors */
-    def &&(other: Selector): CompoundSelector = this match {
-      case CompoundSelector(delegates) => CompoundSelector(delegates :+ other)
-      case s => CompoundSelector(s :: other :: Nil)
+    def &&[B >: A <: Box](other: Selector[B]): CompoundSelector[A] = this match {
+      case CompoundSelector(delegates) => CompoundSelector((delegates :+ other).asInstanceOf[List[Selector[A]]])
+      case s => CompoundSelector((s :: other :: Nil).asInstanceOf[List[Selector[A]]])
     }
 
-    /** Converts selectors into styler */
-    def />(code: PartialFunction[Box, Unit]): Styler = Styler.apply(this)(code)
+    /** Converts selector into styler */
+    def |>(modifiers: (A => Unit)*): Styler = Styler.apply(this) { case a => modifiers.foreach(m => m.apply(a)) }
+
+    /** Converts selector into styler */
+    def |>>(code: PartialFunction[A, Unit]): Styler = Styler.apply(this)(code)
   }
 
   /** Combines a list of selectors as a grouped AND selector */
-  case class CompoundSelector(delegates: List[Selector]) extends Selector {
+  case class CompoundSelector[A <: Box](delegates: List[Selector[_ <: A]]) extends Selector[A] {
     override def appliesTo(box: Box): Boolean = delegates.forall(s => s.appliesTo(box))
   }
 
@@ -300,10 +312,10 @@ object box {
     }
 
     /** Creates a styles based on list of selectors */
-    def apply(selectors: Selector*)(code: PartialFunction[Box, Unit]): Styler = new Styler {
-      override def isDefinedAt(x: Box): Boolean = selectors.forall(s => s.appliesTo(x))
+    def apply[A <: Box](selector: Selector[A])(code: PartialFunction[A, Unit]): Styler = new Styler {
+      override def isDefinedAt(x: Box): Boolean = selector.appliesTo(x)
 
-      override def apply(x: Box): Unit = code.lift.apply(x)
+      override def apply(x: Box): Unit = code.lift.apply(x.asInstanceOf[A])
     }
   }
 

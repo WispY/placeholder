@@ -112,20 +112,20 @@ object app extends App with GlobalContext with Logging {
     val Odd = BoxClass()
 
     implicit val styles: Styler = StyleSheet(
-      hasClass(Even) /> { case region: RegionBox =>
-        region.fillColor(Colors.GreenDarkest)
-        region.pad(2.0 xy 2.0)
-        region.layout.fill.write(1 xy 1)
-      },
-      hasClass(Odd) /> { case region: RegionBox =>
-        region.fillColor(Colors.GreenDark)
-        region.pad(2.0 xy 2.0)
-      },
-      anyBox /> { case text: TextBox =>
-        text.textColor(Colors.PureWhite)
-        text.textFont(Roboto)
-        text.textSize(20.0)
-      },
+      isRegion && Even |> (
+        _.fillColor(Colors.GreenDark),
+        _.pad(2.0 xy 2.0),
+        _.fillBoth(),
+      ),
+      isRegion && Odd |> (
+        _.fillColor(Colors.GreenDark),
+        _.pad(2.0 xy 2.0),
+      ),
+      isText |> (
+        _.textColor(Colors.PureWhite),
+        _.textFont(Roboto),
+        _.textSize(20.0),
+      ),
     )
 
     (0 until 50)

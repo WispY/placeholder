@@ -169,10 +169,15 @@ class BoxSpec extends Spec {
     }
 
     "pad containers with style" in new ContainerTree {
+      val foo = isRegion && idA
+
       override def styler: Styler = StyleSheet(
-        isA[ContainerBox] /> { case container: ContainerBox => container.pad(1 xy 1) },
-        hasId(idB) /> { case container: ContainerBox => container.pad(2 xy 2) },
-        hasId(idA) /> { case container: ContainerBox => container.pad(3 xy 3) }
+        isContainer |> (_.pad(1 xy 1)),
+        isContainer && idB |> (
+          c => c.pad(2 xy 2),
+          c => c
+        ),
+        isContainer && idA |> (_.pad(3 xy 3))
       )
 
       boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 12 xy 12)
@@ -201,7 +206,7 @@ class BoxSpec extends Spec {
 
     "handle id style" in new ContainerTree {
       override def styler: Styler = StyleSheet(
-        idB /> { case container: ContainerBox => container.pad(2 xy 2) }
+        isContainer && idB |> (_.pad(2 xy 2))
       )
 
       boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 4 xy 4)
@@ -211,7 +216,7 @@ class BoxSpec extends Spec {
 
     "handle parent style" in new ContainerTree {
       override def styler: Styler = StyleSheet(
-        hasAbsParent(idA) /> { case container: ContainerBox => container.pad(1 xy 1) }
+        isContainer && hasAbsParent(idA) |> (_.pad(1 xy 1))
       )
 
       boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 4 xy 4)
@@ -221,7 +226,7 @@ class BoxSpec extends Spec {
 
     "handle and style" in new ContainerTree {
       override def styler: Styler = StyleSheet(
-        (hasAbsParent(idA) && hasAbsChild(idC)) /> { case container: ContainerBox => container.pad(1 xy 1) }
+        isContainer && hasAbsParent(idA) && hasAbsChild(idC) |> (_.pad(1 xy 1))
       )
 
       boxA.layout.absBounds() shouldBe Rec2d(0 xy 0, 2 xy 2)
@@ -244,7 +249,7 @@ class BoxSpec extends Spec {
     "layout button" in {
       implicit val context: BoxContext = new MonoText with IgnoreDrawable with NoRoot with IgnoreRegister
       implicit val styler: Styler = StyleSheet(
-        isA[ContainerBox] /> { case container: ContainerBox => container.pad(10 xy 10) }
+        isContainer |>> { case container: ContainerBox => container.pad(10 xy 10) }
       )
       val button = boxButton().textValue("Hello!")
       val root = container().withChildren(button)
@@ -259,16 +264,12 @@ class BoxSpec extends Spec {
       val b = BoxId("b")
       val c = BoxId("c")
       implicit val styles: Styler = StyleSheet(
-        hasId(a) /> { case region: RegionBox =>
-          region.pad(20.0 xy 20.0)
-          region.layout.fill.write(1 xy 1)
-        },
-        hasId(b) /> { case region: RegionBox =>
-          region.pad(20.0 xy 20.0)
-        },
-        hasId(c) /> { case text: TextBox =>
-          text.textSize(20.0)
-        },
+        isRegion && a |> (
+          _.pad(20.0 xy 20.0),
+          _.fillBoth(),
+        ),
+        isRegion && b |> (_.pad(20.0 xy 20.0)),
+        isText && c |> (_.textSize(20.0)),
       )
       val root = container(BoxId.Root)
       val boxA = region(a)
