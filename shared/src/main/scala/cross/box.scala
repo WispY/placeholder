@@ -750,4 +750,47 @@ object box {
     }
   }
 
+  object Stretcher {
+    def stretch[A <: AnyRef](list: List[A], fillCode: A => Double, minCode: A => Double, freeSpace: Double): List[(A, Double)] = {
+      val array = list.flatMap { a =>
+        val fill = fillCode.apply(a)
+        val min = minCode.apply(a)
+        if (fill > 0) Some(Stretchable(a, min, fill, min)) else None
+      }.sortBy(s => s.size).toArray
+
+      var space = freeSpace
+
+      // stretch up to the largest size
+      var index = 0
+      var leave = false
+      while (index < array.length && !leave) {
+        val current = array(index)
+        val currentSize = current.size
+        val nextSizeOpt = array.lift(index + 1).map(s => s.size)
+        nextSizeOpt match {
+          case None =>
+            // proceed to stretch the whole array
+            leave = true
+          case Some(same) if same == currentSize => // do nothing, skip to the next member
+          case Some(nextSize) =>
+            // stretch all previous members up to the nextSize
+            val sizePerMember = (space / (index + 1)) min (nextSize - currentSize)
+            space = space - sizePerMember * (index + 1)
+            array.take(index + 1).foreach(s => s.size = s.size + sizePerMember)
+        }
+        index = index + 1
+      }
+
+      // restore order and return
+      list.map { a =>
+        a -> array
+          .collectFirst { case s if s.value.eq(a) => s.size }
+          .getOrElse(minCode.apply(a))
+      }
+    }
+
+    case class Stretchable[A <: AnyRef](value: A, var size: Double, fill: Double, min: Double)
+
+  }
+
 }
