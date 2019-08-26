@@ -104,6 +104,9 @@ object common {
       case empty if empty.isEmpty => None
       case values => Some(values.max)
     }
+
+    /** Safely calculates max or returns default value for empty list */
+    def maxOr(default: A)(implicit ordering: Ordering[A]): A = list.maxOpt.getOrElse(default)
   }
 
   implicit class MapOps[A, B](val map: Map[A, B]) extends AnyVal {

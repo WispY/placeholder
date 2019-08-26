@@ -108,37 +108,83 @@ object app extends App with GlobalContext with Logging {
     refreshScreenSize()
     scaleToScreen(controller)
 
-    val Even = BoxClass()
-    val Odd = BoxClass()
+    val Structure = BoxClass()
+    val BoxList = BoxClass()
+
+    val headerId = BoxId()
+    val menuId = BoxId()
+    val contentId = BoxId()
+    val submenuId = BoxId()
+    val footerId = BoxId()
 
     implicit val styles: Styler = StyleSheet(
-      isRegion && Even |> (
-        _.fillColor(Colors.GreenDark),
-        _.pad(2.0 xy 2.0),
-        _.fillBoth(),
-      ),
-      isRegion && Odd |> (
-        _.fillColor(Colors.GreenDark),
-        _.pad(2.0 xy 2.0),
-      ),
-      isText |> (
-        _.textColor(Colors.PureWhite),
-        _.textFont(Roboto),
-        _.textSize(20.0),
-      ),
+      isRegion && (headerId || footerId) |> (
+        _.fillColor(Colors.GreenDarkest)
+        ),
+      isRegion && (menuId || submenuId) |> (
+        _.fillColor(Colors.GreenDark)
+        ),
+      isRegion && contentId |> (
+        _.fillColor(Colors.Green)
+        ),
+      isRegion && Structure |> (
+        _.pad(20 xy 20)
+        ),
+      isHBox && BoxList |> (
+        _.spacingX(10.0)
+        ),
+      isVBox && BoxList |> (
+        _.spacingY(10.0)
+        ),
+      isText && hasAbsParent(headerId || footerId) |> {
+        _.textColor(Colors.PureWhite)
+      }
     )
 
-    (0 until 50)
-      .map { index =>
-        region(BoxId(s"box-$index"))
-          .fillBoth()
-          .addClass(if (index % 2 == 0) Even else Odd)
-      }
-      .foldLeft(boxContext.root) { case (parent, child) =>
-        parent.withChildren(child)
-        child
-      }
-      .withChildren(text().textValue("Hello, world!"))
+    boxContext.root.withChildren(
+      vbox().fillBoth().withChildren(
+        // header
+        region(headerId).fillX().addClass(Structure).withChildren(
+          hbox().addClass(BoxList).withChildren(
+            text().textValue("OCWALK"),
+            text().textValue("Home"),
+            text().textValue("Library")
+          )
+        ),
+        hbox().fillBoth().withChildren(
+          // menu
+          region(menuId).fillY().addClass(Structure).withChildren(
+            vbox().addClass(BoxList).withChildren(
+              text().textValue("Stuff"),
+              text().textValue("And"),
+              text().textValue("Things")
+            )
+          ),
+          // content
+          region(contentId).fillBoth().addClass(Structure).withChildren(
+            vbox().addClass(BoxList).withChildren(
+              text().textValue("Content 1"),
+              text().textValue("Content 2"),
+              text().textValue("Content 3")
+            )
+          ),
+          // submenu
+          region(submenuId).fillY().addClass(Structure).withChildren(
+            vbox().addClass(BoxList).withChildren(
+              text().textValue("Lorem"),
+              text().textValue("Ipsum")
+            )
+          ),
+        ),
+        // footer
+        region(footerId).fillX().addClass(Structure).withChildren(
+          hbox().addClass(BoxList).withChildren(
+            text().textValue("Footer"),
+            text().textValue("Stuff")
+          )
+        )
+      )
+    )
 
     log.info("loaded test ui")
   }

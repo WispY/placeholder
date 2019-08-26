@@ -174,8 +174,7 @@ class BoxSpec extends Spec {
       override def styler: Styler = StyleSheet(
         isContainer |> (_.pad(1 xy 1)),
         isContainer && idB |> (
-          c => c.pad(2 xy 2),
-          c => c
+          c => c.pad(2 xy 2)
         ),
         isContainer && idA |> (_.pad(3 xy 3))
       )
@@ -288,6 +287,80 @@ class BoxSpec extends Spec {
       root.layout.absBounds() shouldBe Rec2d(0 xy 0, 200 xy 200)
       root.layout.relBounds() shouldBe Rec2d(0 xy 0, 200 xy 200)
       textC.layout.relBounds() shouldBe Rec2d(20 xy 20, 77 xy 5)
+    }
+
+    "layout grid box" in new SimpleBase {
+      //  +-----+--+---------+
+      //  | aa  |ab| ac      | fill:  1, 0, 2
+      //  |     |  |         | width: 20, 10, 20
+      //  +-----+--+---------+
+      //  | ba  |bb| bc      | fill:  1, 0, 2
+      //  +-----+--+---------+ width: 10, 20, 30
+      //  fill: 2,1
+      //  height: 40, 20
+      val aa = container(BoxId("aa")).fixedW(20).fillX().fixedH(40).fillY(2)
+      val ab = container(BoxId("ab")).fixedW(10)
+      val ac = container(BoxId("ac")).fixedW(20).fillX(2)
+      val ba = container(BoxId("ba")).fixedW(10).fillX().fixedH(20).fillY()
+      val bb = container(BoxId("bb")).fixedW(20)
+      val bc = container(BoxId("bc")).fixedW(30)
+
+      grid()
+        .mutate { g =>
+          g.fixedW(140)
+          g.fixedH(100)
+          g.columns(3)
+          g.pad(10.0 xy 5.0)
+          g.spacing(5.0 xy 10.0)
+        }
+        .withChildren(
+          aa, ab, ac,
+          ba, bb, bc
+        )
+
+      aa.layout.absArea() shouldBe Rec2d(10 xy 5, 40 xy 40)
+      ab.layout.absArea() shouldBe Rec2d(55 xy 5, 20 xy 40)
+      ac.layout.absArea() shouldBe Rec2d(80 xy 5, 50 xy 40)
+
+      ba.layout.absArea() shouldBe Rec2d(10 xy 55, 40 xy 40)
+      bb.layout.absArea() shouldBe Rec2d(55 xy 55, 20 xy 40)
+      bc.layout.absArea() shouldBe Rec2d(80 xy 55, 50 xy 40)
+    }
+
+    "layout hbox" in new SimpleBase {
+      val a = container().fixedW(10).fillBoth().fixedH(10)
+      val b = container().fixedW(20).fillY()
+      val c = container().fixedW(30).fillBoth().fixedH(20)
+      hbox()
+        .mutate { b =>
+          b.fixedW(100)
+          b.fixedH(50)
+          b.pad(10 xy 10)
+          b.spacingX(5)
+        }
+        .withChildren(a, b, c)
+
+      a.layout.absArea() shouldBe Rec2d(10 xy 10, 20 xy 30)
+      b.layout.absArea() shouldBe Rec2d(35 xy 10, 20 xy 30)
+      c.layout.absArea() shouldBe Rec2d(60 xy 10, 30 xy 30)
+    }
+
+    "layout vbox" in new SimpleBase {
+      val a = container().fixedH(10).fillBoth().fixedW(10)
+      val b = container().fixedH(20).fillX()
+      val c = container().fixedH(30).fillBoth().fixedW(20)
+      vbox()
+        .mutate { b =>
+          b.fixedW(50)
+          b.fixedH(100)
+          b.pad(10 xy 10)
+          b.spacingY(5)
+        }
+        .withChildren(a, b, c)
+
+      a.layout.absArea() shouldBe Rec2d(10 xy 10, 30 xy 20)
+      b.layout.absArea() shouldBe Rec2d(10 xy 35, 30 xy 20)
+      c.layout.absArea() shouldBe Rec2d(10 xy 60, 30 xy 30)
     }
   }
 }

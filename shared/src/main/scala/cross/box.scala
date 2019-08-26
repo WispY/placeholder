@@ -59,6 +59,36 @@ object box {
     }.bindAndRegister()
   }
 
+  /** Creates an instance of grid box container */
+  def grid(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): GridBox = {
+    val assignedId = id
+    new GridBox {
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }.bindAndRegister()
+  }
+
+  /** Creates an instance of horizontal box container */
+  def hbox(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): HBox = {
+    val assignedId = id
+    new HBox {
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }.bindAndRegister()
+  }
+
+  /** Creates an instance of vertical box container */
+  def vbox(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): VBox = {
+    val assignedId = id
+    new VBox {
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }.bindAndRegister()
+  }
+
   /** Selects any box */
   val anyBox: Selector[Box] = _ => true
 
@@ -91,6 +121,12 @@ object box {
 
   /** Selector for text boxes */
   val isText: Selector[TextBox] = isA[TextBox]
+
+  /** Selector for horizontal boxes */
+  val isHBox: Selector[HBox] = isA[HBox]
+
+  /** Selector for vertical boxes */
+  val isVBox: Selector[VBox] = isA[VBox]
 
   /** The id of the box */
   case class BoxId(value: String = uuid) {
@@ -213,6 +249,18 @@ object box {
       this
     }
 
+    /** Sets the fixed width of the component */
+    def fixedW(width: Double): this.type = {
+      boxLayout.fixedW.write(Some(width))
+      this
+    }
+
+    /** Sets the fixed height of the component */
+    def fixedH(height: Double): this.type = {
+      boxLayout.fixedH.write(Some(height))
+      this
+    }
+
     /** Binds the box internal state */
     def bind(): Unit = {
       boxLayout.absEnabled /> { case flag => updateClass(BoxClass.Enabled, flag) }
@@ -282,10 +330,16 @@ object box {
     /** Returns true if selector matches the box */
     def appliesTo(box: Box): Boolean
 
-    /** Combines two selectors */
-    def &&[B >: A <: Box](other: Selector[B]): CompoundSelector[A] = this match {
-      case CompoundSelector(delegates) => CompoundSelector((delegates :+ other).asInstanceOf[List[Selector[A]]])
-      case s => CompoundSelector((s :: other :: Nil).asInstanceOf[List[Selector[A]]])
+    /** Combines two selectors using AND */
+    def &&[B >: A <: Box](other: Selector[B]): AndSelector[A] = this match {
+      case AndSelector(delegates) => AndSelector((delegates :+ other).asInstanceOf[List[Selector[A]]])
+      case s => AndSelector((s :: other :: Nil).asInstanceOf[List[Selector[A]]])
+    }
+
+    /** Combines two selectors using OR */
+    def ||[B >: A <: Box](other: Selector[B]): OrSelector[A] = this match {
+      case OrSelector(delegates) => OrSelector((delegates :+ other).asInstanceOf[List[Selector[A]]])
+      case s => OrSelector((s :: other :: Nil).asInstanceOf[List[Selector[A]]])
     }
 
     /** Converts selector into styler */
@@ -296,8 +350,13 @@ object box {
   }
 
   /** Combines a list of selectors as a grouped AND selector */
-  case class CompoundSelector[A <: Box](delegates: List[Selector[_ <: A]]) extends Selector[A] {
+  case class AndSelector[A <: Box](delegates: List[Selector[_ <: A]]) extends Selector[A] {
     override def appliesTo(box: Box): Boolean = delegates.forall(s => s.appliesTo(box))
+  }
+
+  /** Combines a list of selectors as a grouped OR selector */
+  case class OrSelector[A <: Box](delegates: List[Selector[_ <: A]]) extends Selector[A] {
+    override def appliesTo(box: Box): Boolean = delegates.exists(s => s.appliesTo(box))
   }
 
   /** Configures the style of the box */
@@ -474,7 +533,7 @@ object box {
         nextParents.foreach { parent =>
           parent.layout.absParents /> { case grandparents => absParents.write(parent :: grandparents) }
           (parent.layout.absAreaX && relAreaX) /> { case (absParent, relSelf) => absAreaX.write(relSelf.offsetX(absParent)) }
-          (parent.layout.absAreaY && relAreaY) /> { case (absParent, relSelf) => absAreaY.write(relSelf.offsetY(absParent)) }
+          (parent.layout.absAreaY && relAreaY) /> { case (absParent, relSelf) => absAreaY.write(relSelf.offsetX(absParent)) }
           (parent.layout.absBoundsX && relBoundsX) /> { case (absParent, relSelf) => absBoundsX.write(relSelf.offsetX(absParent)) }
           (parent.layout.absBoundsY && relBoundsY) /> { case (absParent, relSelf) => absBoundsY.write(relSelf.offsetX(absParent)) }
           (parent.layout.absVisible && relVisible) /> { case (absParent, relSelf) => absVisible.write(absParent && relSelf) }
@@ -721,44 +780,90 @@ object box {
       (0 until columns()).map(index => rows.flatMap(row => row.lift(index))).toList
     }
 
-    /** Distributes given extra space among targets */
-    def distributeSpace[A](targets: List[(A, Double, Double)], space: Double): Map[A, Double] = {
-      Map.empty
-    }
-
     override def calculateLayoutX(): Unit = {
-      val columnFills = childrenColumns.map(col => col.map(c => c.layout.fill().x).maxOpt.getOrElse(0.0))
-      layout.relChildren().foreach { child => child.updateAreaX(pad().x + childOffset().x, layout.relArea().size.x - pad().x * 2) }
+      val columnBoxes = childrenColumns
+      val sizes = Stretcher.stretch[List[Box]](
+        list = columnBoxes,
+        fillCode = col => col.map(b => b.layout.fill().x).maxOr(0.0),
+        minCode = col => col.map(b => b.layout.minW()).maxOr(0.0),
+        layout.relAreaX().y - ((columnBoxes.size - 1) max 0) * spacing().x - pad().x * 2
+      )
+      sizes.foldLeft(pad().x) { case (offset, (column, size)) =>
+        column.foreach(c => c.updateAreaX(offset, size))
+        offset + size + spacing().x
+      }
     }
 
     override def calculateLayoutY(): Unit = {
-      layout.relChildren().foreach { child => child.updateAreaY(pad().y + childOffset().y, layout.relArea().size.y - pad().y * 2) }
+      val rowBoxes = childrenRows
+      val sizes = Stretcher.stretch[List[Box]](
+        list = rowBoxes,
+        fillCode = col => col.map(b => b.layout.fill().y).maxOr(0.0),
+        minCode = col => col.map(b => b.layout.minH()).maxOr(0.0),
+        layout.relAreaY().y - ((rowBoxes.size - 1) max 0) * spacing().y - pad().y * 2
+      )
+      sizes.foldLeft(pad().y) { case (offset, (row, size)) =>
+        row.foreach { c =>
+          c.updateAreaY(offset, size)
+        }
+        offset + size + spacing().y
+      }
     }
 
     override def calculateMinimumWidth: Double = {
       val width = childrenColumns
-        .map(col => col.map(c => c.layout.minW()).maxOpt.getOrElse(0.0))
+        .map(col => col.map(c => c.layout.minW()).maxOr(0.0))
         .sum
       width + pad().x * 2 + (columns() - 1) * spacing().x
     }
 
     override def calculateMinimumHeight: Double = {
       val height = childrenRows
-        .map(row => row.map(c => c.layout.minH()).maxOpt.getOrElse(0.0))
+        .map(row => row.map(c => c.layout.minH()).maxOr(0.0))
         .sum
       height + pad().y * 2 + (columns() - 1) * spacing().y
     }
   }
 
+  /** Box that places a list of components horizontally */
+  trait HBox extends GridBox {
+    override def bind(): Unit = {
+      super.bind()
+      layout.relChildren /> { case children => columns(children.size max 1) }
+    }
+
+    /** Sets the horizontal spacing between children */
+    def spacingX(value: Double): this.type = {
+      spacing(value xy spacing().y)
+      this
+    }
+  }
+
+  /** Box that places a list of components vertically */
+  trait VBox extends GridBox {
+    override def bind(): Unit = {
+      super.bind()
+      columns(1)
+    }
+
+    /** Sets the vertical spacing between children */
+    def spacingY(value: Double): this.type = {
+      spacing(spacing().x xy value)
+      this
+    }
+  }
+
   object Stretcher {
-    def stretch[A <: AnyRef](list: List[A], fillCode: A => Double, minCode: A => Double, freeSpace: Double): List[(A, Double)] = {
+    /** Distributes the free space between stretchable list of objects */
+    def stretch[A <: AnyRef](list: List[A], fillCode: A => Double, minCode: A => Double, totalSpace: Double): List[(A, Double)] = {
+      val minCache = list.map(a => a -> minCode.apply(a)).toMap
       val array = list.flatMap { a =>
         val fill = fillCode.apply(a)
-        val min = minCode.apply(a)
+        val min = minCache(a)
         if (fill > 0) Some(Stretchable(a, min, fill, min)) else None
       }.sortBy(s => s.size).toArray
 
-      var space = freeSpace
+      var space = totalSpace - minCache.values.sum
 
       // stretch up to the largest size
       var index = 0
@@ -781,15 +886,30 @@ object box {
         index = index + 1
       }
 
+      // stretch the leftover size
+      val totalFill = array.map(s => s.fill).sum
+      if (totalFill > 0) {
+        val sizePerFill = space / totalFill
+        array.foreach(s => s.size = s.size + s.fill * sizePerFill)
+      }
+
       // restore order and return
       list.map { a =>
         a -> array
           .collectFirst { case s if s.value.eq(a) => s.size }
-          .getOrElse(minCode.apply(a))
+          .getOrElse(minCache(a))
       }
     }
 
-    case class Stretchable[A <: AnyRef](value: A, var size: Double, fill: Double, min: Double)
+    /** Stores the stretching data and results
+      *
+      * @param value the stretched object
+      * @param size  the resulting size of stretched object
+      * @param fill  how much space should the object take from free space
+      * @param min   the minimum size of an object
+      * @tparam A the object type
+      */
+    private case class Stretchable[A <: AnyRef](value: A, var size: Double, fill: Double, min: Double)
 
   }
 
