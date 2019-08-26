@@ -51,19 +51,19 @@ class BoxSpec extends Spec {
     "assign single hierarchy" in new SimpleBase {
       val a = container()
       val b = container()
-      a.withChildren(b)
+      a.sub(b)
       a.layout.relChildren() shouldBe (b :: Nil)
       a.layout.absChildren() shouldBe (b :: Nil)
       b.layout.relParents() shouldBe (a :: Nil)
       b.layout.absParents() shouldBe (a :: Nil)
 
-      a.withChildren()
+      a.sub()
       a.layout.relChildren() shouldBe Nil
       a.layout.absChildren() shouldBe Nil
       b.layout.relParents() shouldBe Nil
       b.layout.absParents() shouldBe Nil
 
-      b.withChildren(a)
+      b.sub(a)
       b.layout.relChildren() shouldBe (a :: Nil)
       b.layout.absChildren() shouldBe (a :: Nil)
       a.layout.relParents() shouldBe (b :: Nil)
@@ -76,8 +76,8 @@ class BoxSpec extends Spec {
       val b = container()
       val c = container()
 
-      a.withChildren(
-        b.withChildren(c)
+      a.sub(
+        b.sub(c)
       )
       a.layout.relChildren() shouldBe (b :: Nil)
       a.layout.absChildren() shouldBe (b :: c :: Nil)
@@ -88,8 +88,8 @@ class BoxSpec extends Spec {
       c.layout.relParents() shouldBe (b :: Nil)
       c.layout.absParents() shouldBe (b :: a :: Nil)
 
-      a.withChildren()
-      b.withChildren()
+      a.sub()
+      b.sub()
       a.layout.relChildren() shouldBe Nil
       a.layout.absChildren() shouldBe Nil
       b.layout.relChildren() shouldBe Nil
@@ -99,8 +99,8 @@ class BoxSpec extends Spec {
       c.layout.relParents() shouldBe Nil
       c.layout.absParents() shouldBe Nil
 
-      c.withChildren(
-        b.withChildren(a)
+      c.sub(
+        b.sub(a)
       )
       c.layout.relChildren() shouldBe (b :: Nil)
       c.layout.absChildren() shouldBe (b :: a :: Nil)
@@ -117,7 +117,7 @@ class BoxSpec extends Spec {
       val b = container()
       val c = container()
 
-      a.withChildren(b, c)
+      a.sub(b, c)
 
       a.layout.relChildren() shouldBe (b :: c :: Nil)
       a.layout.absChildren() shouldBe (b :: c :: Nil)
@@ -126,7 +126,7 @@ class BoxSpec extends Spec {
       c.layout.relParents() shouldBe (a :: Nil)
       c.layout.absParents() shouldBe (a :: Nil)
 
-      a.withChildren()
+      a.sub()
       a.layout.relChildren() shouldBe Nil
       a.layout.absChildren() shouldBe Nil
       b.layout.relParents() shouldBe Nil
@@ -142,8 +142,8 @@ class BoxSpec extends Spec {
 
       implicit val s: Styler = styler
       val boxC = container(id = idC)
-      val boxB = container(id = idB).withChildren(boxC)
-      val boxA = container(id = idA).withChildren(boxB)
+      val boxB = container(id = idB).sub(boxC)
+      val boxA = container(id = idA).sub(boxB)
 
       def styler: Styler = Styler.Empty
     }
@@ -235,7 +235,7 @@ class BoxSpec extends Spec {
 
     "layout text box" in new SimpleBase {
       val label = text()
-      val button = container().withChildren(label).pad(10 xy 10)
+      val button = container().sub(label).pad(10 xy 10)
 
       button.layout.absBounds() shouldBe Rec2d(0 xy 0, 20 xy 25)
       label.layout.absBounds() shouldBe Rec2d(10 xy 10, 0 xy 5)
@@ -251,7 +251,7 @@ class BoxSpec extends Spec {
         isContainer |>> { case container: ContainerBox => container.pad(10 xy 10) }
       )
       val button = boxButton().textValue("Hello!")
-      val root = container().withChildren(button)
+      val root = container().sub(button)
 
       root.layout.absBounds() shouldBe Rec2d(0 xy 0, 75 xy 45)
       button.layout.absBounds() shouldBe Rec2d(10 xy 10, 55 xy 25)
@@ -274,9 +274,9 @@ class BoxSpec extends Spec {
       val boxA = region(a)
       val boxB = region(b)
       val textC = text(c).textValue("Hello, world!")
-      root.withChildren(
-        boxA.withChildren(
-          boxB.withChildren(
+      root.sub(
+        boxA.sub(
+          boxB.sub(
             textC
           )
         )
@@ -313,7 +313,7 @@ class BoxSpec extends Spec {
           g.pad(10.0 xy 5.0)
           g.spacing(5.0 xy 10.0)
         }
-        .withChildren(
+        .sub(
           aa, ab, ac,
           ba, bb, bc
         )
@@ -338,7 +338,7 @@ class BoxSpec extends Spec {
           b.pad(10 xy 10)
           b.spacingX(5)
         }
-        .withChildren(a, b, c)
+        .sub(a, b, c)
 
       a.layout.absArea() shouldBe Rec2d(10 xy 10, 20 xy 30)
       b.layout.absArea() shouldBe Rec2d(35 xy 10, 20 xy 30)
@@ -356,7 +356,7 @@ class BoxSpec extends Spec {
           b.pad(10 xy 10)
           b.spacingY(5)
         }
-        .withChildren(a, b, c)
+        .sub(a, b, c)
 
       a.layout.absArea() shouldBe Rec2d(10 xy 10, 30 xy 20)
       b.layout.absArea() shouldBe Rec2d(10 xy 35, 30 xy 20)

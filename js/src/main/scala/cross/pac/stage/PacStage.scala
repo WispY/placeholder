@@ -28,7 +28,7 @@ class PacStage(implicit generalConfig: GeneralConfig,
   private implicit val styler: Styler = StyleSheet(
     isA[ContainerBox] |>> { case container: ContainerBox => container.pad(10 xy 10) }
   )
-  private lazy val layout = container().withChildren(
+  private lazy val layout = container().sub(
     boxButton().textValue("Hello, World!")
   )
 
@@ -61,7 +61,7 @@ class PacStage(implicit generalConfig: GeneralConfig,
 
   override lazy val create: Future[Unit] = Future {
     log.info("setting up...")
-    boxContext.root.withChildren(layout)
+    boxContext.root.sub(layout)
     rootContainer.addTo(body)
     controller.model.screen /> { case size =>
       boxContext.root.layout.fixedW.write(Some(size.x))

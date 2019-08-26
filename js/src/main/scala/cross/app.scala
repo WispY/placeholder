@@ -136,51 +136,60 @@ object app extends App with GlobalContext with Logging {
       isVBox && BoxList |> (
         _.spacingY(10.0)
         ),
-      isText && hasAbsParent(headerId || footerId) |> {
+      isButton && hasAbsParent(headerId || footerId) |> (
         _.textColor(Colors.PureWhite)
-      }
+        ),
+      isButton |> (
+        _.cursor(Cursors.Auto),
+        _.pad(5.0 xy 5.0),
+        _.fillColor(Colors.Green)
+      ),
+      isButton && BoxClass.Hover |> (
+        _.cursor(Cursors.Pointer),
+        _.fillColor(Colors.GreenLight)
+      )
     )
 
-    boxContext.root.withChildren(
-      vbox().fillBoth().withChildren(
+    boxContext.root.sub(
+      vbox().fillBoth().sub(
         // header
-        region(headerId).fillX().addClass(Structure).withChildren(
-          hbox().addClass(BoxList).withChildren(
-            text().textValue("OCWALK"),
-            text().textValue("Home"),
-            text().textValue("Library")
+        region(headerId).fillX().addClass(Structure).sub(
+          hbox().addClass(BoxList).sub(
+            boxButton().textValue("OCWALK"),
+            boxButton().textValue("Home"),
+            boxButton().textValue("Library")
           )
         ),
-        hbox().fillBoth().withChildren(
+        hbox().fillBoth().sub(
           // menu
-          region(menuId).fillY().addClass(Structure).withChildren(
-            vbox().addClass(BoxList).withChildren(
-              text().textValue("Stuff"),
-              text().textValue("And"),
-              text().textValue("Things")
+          region(menuId).fillY().addClass(Structure).sub(
+            vbox().addClass(BoxList).sub(
+              boxButton().textValue("Stuff"),
+              boxButton().textValue("And"),
+              boxButton().textValue("Things")
             )
           ),
           // content
-          region(contentId).fillBoth().addClass(Structure).withChildren(
-            vbox().addClass(BoxList).withChildren(
-              text().textValue("Content 1"),
-              text().textValue("Content 2"),
-              text().textValue("Content 3")
+          region(contentId).fillBoth().addClass(Structure).sub(
+            vbox().addClass(BoxList).sub(
+              boxButton().textValue("Content 1"),
+              boxButton().textValue("Content 2"),
+              boxButton().textValue("Content 3")
             )
           ),
           // submenu
-          region(submenuId).fillY().addClass(Structure).withChildren(
-            vbox().addClass(BoxList).withChildren(
-              text().textValue("Lorem"),
-              text().textValue("Ipsum")
+          region(submenuId).fillY().addClass(Structure).sub(
+            vbox().addClass(BoxList).sub(
+              boxButton().textValue("Lorem"),
+              boxButton().textValue("Ipsum")
             )
           ),
         ),
         // footer
-        region(footerId).fillX().addClass(Structure).withChildren(
-          hbox().addClass(BoxList).withChildren(
-            text().textValue("Footer"),
-            text().textValue("Stuff")
+        region(footerId).fillX().addClass(Structure).sub(
+          hbox().addClass(BoxList).sub(
+            boxButton().textValue("Footer"),
+            boxButton().textValue("Stuff")
           )
         )
       )

@@ -122,6 +122,9 @@ object box {
   /** Selector for text boxes */
   val isText: Selector[TextBox] = isA[TextBox]
 
+  /** Selector for buttons */
+  val isButton: Selector[ButtonBox] = isA[ButtonBox]
+
   /** Selector for horizontal boxes */
   val isHBox: Selector[HBox] = isA[HBox]
 
@@ -163,7 +166,7 @@ object box {
     def selfAndAbsoluteChildren: List[Box] = this :: layout.absChildren()
 
     /** Replaces current children with a given list of children */
-    def withChildren(children: Box*): this.type = {
+    def sub(children: Box*): this.type = {
       val list = children.toList
       boxLayout.relChildren().foreach(child => child.updateParent(Nil))
       boxLayout.relChildren.write(list)
@@ -740,8 +743,20 @@ object box {
   /** Safe to use default font */
   val DefaultFont = Font("Arial")
 
+  /** Represents a style for button components */
+  trait ButtonStyle {
+    this: Box =>
+    /** The displayed cursor when hovered over the button */
+    lazy val cursor = VisualStyleKey(Cursors.Auto, this)
+  }
+
+  /** Represents how mouse pointer looks */
+  object Cursors extends Enumeration {
+    val Auto, Pointer = Value
+  }
+
   /** Interactive button box with text label */
-  trait ButtonBox extends RegionBox with Interactive with RegionStyle with TextStyle {
+  trait ButtonBox extends RegionBox with Interactive with RegionStyle with TextStyle with ButtonStyle {
     def boxContext: BoxContext
 
     override def bind(): Unit = {
