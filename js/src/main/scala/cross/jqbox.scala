@@ -5,14 +5,19 @@ import cross.common._
 import cross.util.logging.Logging
 import cross.util.mvc.GenericController
 import org.querki.jquery._
+import org.scalajs.dom
 
 object jqbox extends Logging {
   override protected def logKey: String = "jqbox"
 
   /** The document body */
   private val body = $("body")
+  /** The browser window */
+  private val window = $(dom.window)
   /** Registry of all current components */
   private var boxes: Map[BoxId, JQuery] = Map(BoxId.Root -> body)
+  /** Registry of all boxes that are being dragged */
+  private var draggedBoxes: List[Interactive] = Nil
 
   /** Creates new jq div box */
   def divBox: JQuery = $("<div>").addClass("box")
@@ -27,6 +32,11 @@ object jqbox extends Logging {
       boxContext.root.layout.fixedH.write(Some(size.y))
       boxes(BoxId.Root).width(size.x).height(size.y)
     }
+    val mouseUp: EventHandler = () => {
+      draggedBoxes.foreach(d => d.dragging.write(false))
+      draggedBoxes = Nil
+    }
+    window.mouseup(mouseUp)
   }
 
   implicit val boxContext: BoxContext = new BoxContext {
@@ -47,8 +57,7 @@ object jqbox extends Logging {
 
     /** Registers the box within the context */
     override def register(box: Box): Unit = {
-      val div = divBox
-        .attr("boxId", box.id.value)
+      val div = divBox.attr("boxId", box.id.value)
       boxes = boxes + (box.id -> div)
       box match {
         case button: ButtonBox =>
@@ -60,14 +69,19 @@ object jqbox extends Logging {
               .css("font-family", button.textFont().family)
               .css("font-size", button.textSize().px)
               .css("color", button.textColor().toHex)
-              .css("left", button.pad().x.px)
-              .css("top", button.pad().y.px)
+              .css("left", (button.pad().x + button.childOffset().x).px)
+              .css("top", (button.pad().y + button.childOffset().y).px)
             div.css("cursor", button.cursor().toString.toLowerCase)
           }
           div.append(span)
           val hoverIn: EventHandler = () => button.hovering.write(true)
           val hoverOut: EventHandler = () => button.hovering.write(false)
+          val mouseDown: EventHandler = () => {
+            button.dragging.write(true)
+            draggedBoxes = draggedBoxes :+ button
+          }
           div.hover(hoverIn, hoverOut)
+          div.mousedown(mouseDown)
         case region: RegionBox =>
           div.append(region.background.asInstanceOf[JqDrawComponent].draw)
         case text: TextBox =>
@@ -113,12 +127,30 @@ object jqbox extends Logging {
 
     /** Fills rectangle in the given area with given color */
     override def fill(area: Rec2d, color: Color, depth: Double): Unit = {
-      draw.append(
-        divBox
-          .css("background-color", color.toHex)
-          .width(area.size.x)
-          .height(area.size.y)
-      )
+      fillInternal(area.positionAt(Vec2d.Zero), color, depth)
+    }
+
+    /** Fills given area within the div relative bounds */
+    private def fillInternal(area: Rec2d, color: Color, depth: Double = 0): Unit = {
+      if (depth != 0.0) {
+        if (depth > 0) {
+          fillInternal(area, color.darker)
+          fillInternal(area.resizeTo(area.size - (0 xy depth)), color)
+        } else {
+          val shift = 0 xy depth.abs
+          fillInternal(area.resizeTo(area.size - shift).offsetBy(shift), color.darker)
+          fillInternal(area.resizeTo(area.size - shift * 2).offsetBy(shift * 2), color)
+        }
+      } else {
+        draw.append(
+          divBox
+            .css("background-color", color.toHex)
+            .css("left", area.position.x.px)
+            .css("top", area.position.y.px)
+            .width(area.size.x)
+            .height(area.size.y)
+        )
+      }
     }
   }
 

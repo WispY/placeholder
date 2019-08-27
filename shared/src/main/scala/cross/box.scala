@@ -642,7 +642,7 @@ object box {
   trait Interactive extends Box {
     /** True, if mouse is currently over the box */
     val hovering: Writeable[Boolean] = LazyData(false)
-    /** True, if mouse was pressed while hovering over the box */
+    /** True, while mouse is pressed and was first pressed over the element */
     val dragging: Writeable[Boolean] = LazyData(false)
     /** Updated when element is clicked */
     val click: Writeable[Unit] = Data()
@@ -650,7 +650,16 @@ object box {
     override def bind(): Unit = {
       super.bind()
       hovering /> { case flag => updateClass(BoxClass.Hover, flag) }
-      dragging /> { case flag => updateClass(BoxClass.Drag, flag) }
+      dragging /> { case flag =>
+        updateClass(BoxClass.Drag, flag)
+        if (!flag && hovering() && layout.absEnabled()) click.write()
+      }
+    }
+
+    /** Adds click event listener */
+    def onClick(code: => Unit)(implicit listenerId: ListenerId = ListenerId()): this.type = {
+      click.listen({ case _ => code }, false)
+      this
     }
   }
 
@@ -759,11 +768,6 @@ object box {
   trait ButtonBox extends RegionBox with Interactive with RegionStyle with TextStyle with ButtonStyle {
     def boxContext: BoxContext
 
-    override def bind(): Unit = {
-      super.bind()
-      layout.styleSize /> { case _ => childOffset(-fillDepth() xy 0) }
-    }
-
     override def calculateMinimumWidth: Double = {
       pad().x * 2 + textFont().textMetric(textValue(), textSize())(boxContext).x
     }
@@ -804,7 +808,7 @@ object box {
         layout.relAreaX().y - ((columnBoxes.size - 1) max 0) * spacing().x - pad().x * 2
       )
       sizes.foldLeft(pad().x) { case (offset, (column, size)) =>
-        column.foreach(c => c.updateAreaX(offset, size))
+        column.foreach(c => c.updateAreaX(offset + childOffset().x, size))
         offset + size + spacing().x
       }
     }
@@ -818,9 +822,7 @@ object box {
         layout.relAreaY().y - ((rowBoxes.size - 1) max 0) * spacing().y - pad().y * 2
       )
       sizes.foldLeft(pad().y) { case (offset, (row, size)) =>
-        row.foreach { c =>
-          c.updateAreaY(offset, size)
-        }
+        row.foreach(c => c.updateAreaY(offset + childOffset().y, size))
         offset + size + spacing().y
       }
     }

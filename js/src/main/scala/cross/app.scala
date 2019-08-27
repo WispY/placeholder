@@ -1,5 +1,6 @@
 package cross
 
+import cross.box.BoxClass.{Drag, Hover}
 import cross.common._
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
@@ -119,34 +120,43 @@ object app extends App with GlobalContext with Logging {
 
     implicit val styles: Styler = StyleSheet(
       isRegion && (headerId || footerId) |> (
-        _.fillColor(Colors.GreenDarkest)
+        _.fillColor(Colors.GreenDarkest),
         ),
       isRegion && (menuId || submenuId) |> (
-        _.fillColor(Colors.GreenDark)
+        _.fillColor(Colors.GreenDark),
         ),
       isRegion && contentId |> (
-        _.fillColor(Colors.Green)
+        _.fillColor(Colors.Green),
         ),
       isRegion && Structure |> (
-        _.pad(20 xy 20)
+        _.pad(20 xy 20),
         ),
       isHBox && BoxList |> (
-        _.spacingX(10.0)
+        _.spacingX(10.0),
         ),
       isVBox && BoxList |> (
-        _.spacingY(10.0)
+        _.spacingY(10.0),
         ),
       isButton && hasAbsParent(headerId || footerId) |> (
-        _.textColor(Colors.PureWhite)
+        _.textColor(Colors.PureWhite),
         ),
       isButton |> (
         _.cursor(Cursors.Auto),
-        _.pad(5.0 xy 5.0),
-        _.fillColor(Colors.Green)
+        _.pad(10.0 xy 10.0),
+        _.fillColor(Colors.Blue),
+        _.textSize(10),
+        _.textFont(RobotoSlab),
+        _.fillDepth(4.0),
+        _.childOffset(Vec2d.Zero),
       ),
-      isButton && BoxClass.Hover |> (
+      isButton && Hover |> (
         _.cursor(Cursors.Pointer),
-        _.fillColor(Colors.GreenLight)
+        _.fillColor(Colors.Blue.lighter)
+      ),
+      isButton && Hover && Drag |> (
+        _.fillColor(Colors.Blue.darker),
+        _.fillDepth(-4.0),
+        _.childOffset(0 xy 4.0),
       )
     )
 
@@ -155,7 +165,7 @@ object app extends App with GlobalContext with Logging {
         // header
         region(headerId).fillX().addClass(Structure).sub(
           hbox().addClass(BoxList).sub(
-            boxButton().textValue("OCWALK"),
+            boxButton().onClick(window.alert("foo")).textValue("OCWALK"),
             boxButton().textValue("Home"),
             boxButton().textValue("Library")
           )

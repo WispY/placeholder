@@ -724,6 +724,8 @@ object common {
     val OliveLight: Color = hex("#8f974a")
     /** DB32 #32 */
     val Olive: Color = hex("#8a6f30")
+
+
   }
 
   implicit class ColorOps(val color: Color) extends AnyVal {
