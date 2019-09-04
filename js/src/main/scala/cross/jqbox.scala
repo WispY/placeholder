@@ -71,6 +71,7 @@ object jqbox extends Logging {
               .css("color", button.textColor().toHex)
               .css("left", (button.pad().x + button.childOffset().x).px)
               .css("top", (button.pad().y + button.childOffset().y).px)
+              .addClass("disable-select")
             div.css("cursor", button.cursor().toString.toLowerCase)
           }
           div.append(span)

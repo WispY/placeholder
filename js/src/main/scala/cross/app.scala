@@ -147,7 +147,7 @@ object app extends App with GlobalContext with Logging {
         _.textSize(10),
         _.textFont(RobotoSlab),
         _.fillDepth(4.0),
-        _.childOffset(Vec2d.Zero),
+        _.childOffset(0 xy -2.0),
       ),
       isButton && Hover |> (
         _.cursor(Cursors.Pointer),
