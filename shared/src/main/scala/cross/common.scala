@@ -99,11 +99,26 @@ object common {
       case values => Some(values.min)
     }
 
+    /** Safely calculates minBy for non-empty lists */
+    def minByOpt[B](code: A => B)(implicit ordering: Ordering[B]): Option[A] = list match {
+      case empty if empty.isEmpty => None
+      case values => Some(values.minBy(code))
+    }
+
     /** Safely calculates max for non-empty lists */
     def maxOpt(implicit ordering: Ordering[A]): Option[A] = list match {
       case empty if empty.isEmpty => None
       case values => Some(values.max)
     }
+
+    /** Safely calculates maxBy for non-empty lists */
+    def maxByOpt[B](code: A => B)(implicit ordering: Ordering[B]): Option[A] = list match {
+      case empty if empty.isEmpty => None
+      case values => Some(values.maxBy(code))
+    }
+
+    /** Safely calculates min or returns default value for empty list */
+    def minOr(default: A)(implicit ordering: Ordering[A]): A = list.minOpt.getOrElse(default)
 
     /** Safely calculates max or returns default value for empty list */
     def maxOr(default: A)(implicit ordering: Ordering[A]): A = list.maxOpt.getOrElse(default)
@@ -573,6 +588,22 @@ object common {
     def contains(point: Vec2d): Boolean = {
       point.x >= position.x && point.y >= position.y && point.x <= position.x + size.x && point.y <= position.y + size.y
     }
+
+    /** Returns true if the rectangle intersects with the given one, false if outside or touches the edges */
+    def intersects(rec: Rec2d): Boolean = {
+      val ouside =
+        rec.position.x >= this.position.x + this.size.x ||
+          this.position.x >= rec.position.x + rec.size.x ||
+          rec.position.y >= this.position.y + this.size.y ||
+          this.position.y >= rec.position.y + rec.size.y
+      !ouside
+    }
+
+    /** Returns the rectangle area */
+    def area: Double = size.x * size.y
+
+    /** Returns the point within the rectangle at given scale */
+    def pointAt(scale: Vec2d): Vec2d = position + size * scale
   }
 
   object Rec2d {
@@ -581,6 +612,15 @@ object common {
 
     /** Creates rectangle from the corner coordinates */
     def fromCorners(a: Vec2d, b: Vec2d): Rec2d = Rec2d(a, b - a)
+
+    /** Creates rectangle that includes all of the given rectangles */
+    def include(recs: Rec2d*): Rec2d = {
+      val minX = recs.map(r => r.position.x).minOr(0.0)
+      val maxX = recs.map(r => r.position.x + r.size.x).maxOr(0.0)
+      val minY = recs.map(r => r.position.y).minOr(0.0)
+      val maxY = recs.map(r => r.position.y + r.size.y).maxOr(0.0)
+      fromCorners(minX xy minY, maxX xy maxY)
+    }
   }
 
   implicit class OffsetDateTimeOps(val odt: OffsetDateTime) extends AnyVal {

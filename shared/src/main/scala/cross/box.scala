@@ -2,6 +2,7 @@ package cross
 
 import cross.common._
 import cross.icon.MaterialDesign
+import cross.processing.packer
 
 import scala.reflect.ClassTag
 
@@ -899,6 +900,7 @@ object box {
 
     /** A set of icons */
     trait IconFamily
+
   }
 
   /** Box that renders a scalable icon */
@@ -910,6 +912,51 @@ object box {
     override def calculateLayoutX(): Unit = {}
 
     override def calculateLayoutY(): Unit = {}
+  }
+
+  trait ImageStyle {
+    this: Box =>
+//    lazy val imageValue = StyleKey()
+  }
+
+  object ImageStyle {
+
+    /** Contains multiple images in a single file */
+    case class Tileset(path: String) {
+      var images: List[ImageReference] = Nil
+
+      /** Returns the reference to image source */
+      def source(path: String): ImageSource = ImageSource(path, this)
+
+      /** Appends image to tileset registry */
+      def register(ref: ImageReference): Unit = images = images :+ ref
+
+      /** Generates the tileset sources */
+      def generate(workdir: String): Unit = packer.generateTileset(this, workdir)
+
+      /** Path to tileset data */
+      def dataPath: String = s"$path.ts"
+
+      /** Path to tileset image */
+      def imagePath: String = s"$path.png"
+    }
+
+    /** Refers to original image */
+    case class ImageSource(path: String, tileset: Tileset) {
+      /** Returns a reference to the image source with modified properties */
+      def ref(size: Vec2d = Vec2d.Zero, color: Color = Colors.PureBlack): ImageReference = {
+        val reference = ImageReference(this, size, color)
+        tileset.register(reference)
+        reference
+      }
+    }
+
+    /** Refers to a copy of original image */
+    case class ImageReference(source: ImageSource, size: Vec2d, color: Color)
+
+    /** Refers to an image source */
+    case class ImageValue(source: ImageReference, area: Rec2d)
+
   }
 
   object Stretcher {
