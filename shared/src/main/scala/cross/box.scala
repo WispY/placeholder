@@ -1,6 +1,7 @@
 package cross
 
 import cross.common._
+import cross.icon.MaterialDesign
 
 import scala.reflect.ClassTag
 
@@ -83,6 +84,16 @@ object box {
   def vbox(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): VBox = {
     val assignedId = id
     new VBox {
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }.bindAndRegister()
+  }
+
+  /** Creates an instance of icon box */
+  def icon(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): IconBox = {
+    val assignedId = id
+    new IconBox {
       override def id: BoxId = assignedId
 
       override def styler: Styler = assignedStyler
@@ -868,6 +879,37 @@ object box {
       spacing(spacing().x xy value)
       this
     }
+  }
+
+  /** Style for boxes with icons */
+  trait IconStyle {
+    this: Box =>
+    /** The actual image of the icon */
+    lazy val iconValue = VisualStyleKey(MaterialDesign.`3dRotation`, this)
+    /** The icon fill color */
+    lazy val iconColor = VisualStyleKey(Colors.PureBlack, this)
+    /** The width and height of the icon */
+    lazy val iconSize = StyleKey(16.0, this)
+  }
+
+  object IconStyle {
+
+    /** Actual icon value with native representation */
+    case class IconValue(family: IconFamily, native: String)
+
+    /** A set of icons */
+    trait IconFamily
+  }
+
+  /** Box that renders a scalable icon */
+  trait IconBox extends Box with IconStyle {
+    override def calculateMinimumWidth: Double = iconSize()
+
+    override def calculateMinimumHeight: Double = iconSize()
+
+    override def calculateLayoutX(): Unit = {}
+
+    override def calculateLayoutY(): Unit = {}
   }
 
   object Stretcher {

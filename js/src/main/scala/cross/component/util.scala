@@ -8,6 +8,7 @@ object util {
 
   val Roboto = Font("Roboto")
   val RobotoSlab = Font("Roboto Slab")
+  val MaterialIcons = Font("Material Icons")
 
   /** Represents the style of the text
     *

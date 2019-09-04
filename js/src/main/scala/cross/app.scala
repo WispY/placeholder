@@ -4,6 +4,7 @@ import cross.box.BoxClass.{Drag, Hover}
 import cross.common._
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
+import cross.icon.MaterialDesign
 import cross.pixi.{ScaleModes, Settings}
 import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
@@ -90,7 +91,7 @@ object app extends App with GlobalContext with Logging {
     //    } yield ()
 
     (for {
-      _ <- fonts.load(Roboto :: RobotoSlab :: Nil)
+      _ <- fonts.load(Roboto :: RobotoSlab :: MaterialIcons :: Nil)
       _ <- testUi(controller)
       _ <- spring.load()
       _ <- animation.load()
@@ -199,7 +200,11 @@ object app extends App with GlobalContext with Logging {
         region(footerId).fillX().addClass(Structure).sub(
           hbox().addClass(BoxList).sub(
             boxButton().textValue("Footer"),
-            boxButton().textValue("Stuff")
+            boxButton().textValue("Stuff"),
+            icon()
+              .mutate(_.iconValue(MaterialDesign.AddComment))
+              .mutate(_.iconSize(64.0))
+              .mutate(_.iconColor(Colors.PureWhite))
           )
         )
       )

@@ -2,6 +2,7 @@ package cross
 
 import cross.box._
 import cross.common._
+import cross.icon.MaterialDesign
 import cross.util.logging.Logging
 import cross.util.mvc.GenericController
 import org.querki.jquery._
@@ -24,6 +25,9 @@ object jqbox extends Logging {
 
   /** Creates new jq span box */
   def spanBox: JQuery = $("<span>").addClass("box")
+
+  /** Creates new jq i box */
+  def itemBox: JQuery = $("<i>").addClass("box")
 
   /** Listens to screen size and rescales the root */
   def scaleToScreen(controller: GenericController[_]): Unit = {
@@ -95,6 +99,25 @@ object jqbox extends Logging {
               .css("color", text.textColor().toHex)
           }
           div.append(span)
+        case icon: IconBox =>
+          val item = itemBox
+          icon.layout.style /> { case any =>
+            val familyClass = icon.iconValue().family match {
+              case MaterialDesign => "material-icons"
+            }
+            if (!item.hasClass(familyClass)) {
+              item
+                .removeClass()
+                .addClass("box")
+                .addClass("disable-select")
+                .addClass(familyClass)
+            }
+            item
+              .text(icon.iconValue().native)
+              .css("font-size", icon.iconSize().px)
+              .css("color", icon.iconColor().toHex)
+          }
+          div.append(item)
         case other => // ignore
       }
       box.layout.relParents /> {
