@@ -1,11 +1,10 @@
 package cross
 
-import cross.box.BoxClass.{Drag, Hover}
 import cross.common._
 import cross.component.util._
 import cross.general.config.{GeneralConfig, JsReader}
-import cross.icon.MaterialDesign
 import cross.pixi.{ScaleModes, Settings}
+import cross.processing.packer
 import cross.sakura.stage.{GameStage, LoadingStage}
 import cross.util.global.GlobalContext
 import cross.util.http._
@@ -110,105 +109,162 @@ object app extends App with GlobalContext with Logging {
     refreshScreenSize()
     scaleToScreen(controller)
 
-    val Structure = BoxClass()
-    val BoxList = BoxClass()
-
-    val headerId = BoxId()
-    val menuId = BoxId()
-    val contentId = BoxId()
-    val submenuId = BoxId()
-    val footerId = BoxId()
+    val fillId = BoxId("fill-box")
 
     implicit val styles: Styler = StyleSheet(
-      isRegion && (headerId || footerId) |> (
-        _.fillColor(Colors.GreenDarkest),
-        ),
-      isRegion && (menuId || submenuId) |> (
-        _.fillColor(Colors.GreenDark),
-        ),
-      isRegion && contentId |> (
-        _.fillColor(Colors.Green),
-        ),
-      isRegion && Structure |> (
-        _.pad(20 xy 20),
-        ),
-      isHBox && BoxList |> (
-        _.spacingX(10.0),
-        ),
-      isVBox && BoxList |> (
-        _.spacingY(10.0),
-        ),
-      isButton && hasAbsParent(headerId || footerId) |> (
-        _.textColor(Colors.PureWhite),
-        ),
-      isButton |> (
-        _.cursor(Cursors.Auto),
-        _.pad(10.0 xy 10.0),
-        _.fillColor(Colors.Blue),
-        _.textSize(10),
-        _.textFont(RobotoSlab),
-        _.fillDepth(4.0),
-        _.childOffset(0 xy -2.0),
-      ),
-      isButton && Hover |> (
-        _.cursor(Cursors.Pointer),
-        _.fillColor(Colors.Blue.lighter)
-      ),
-      isButton && Hover && Drag |> (
-        _.fillColor(Colors.Blue.darker),
-        _.fillDepth(-4.0),
-        _.childOffset(0 xy 4.0),
-      )
+      isRegion && fillId |> {
+        _.fillColor(Colors.RedDark.darker)
+      }
     )
 
-    boxContext.root.sub(
-      vbox().fillBoth().sub(
-        // header
-        region(headerId).fillX().addClass(Structure).sub(
-          hbox().addClass(BoxList).sub(
-            boxButton().onClick(window.alert("foo")).textValue("OCWALK"),
-            boxButton().textValue("Home"),
-            boxButton().textValue("Library")
-          )
-        ),
-        hbox().fillBoth().sub(
-          // menu
-          region(menuId).fillY().addClass(Structure).sub(
-            vbox().addClass(BoxList).sub(
-              boxButton().textValue("Stuff"),
-              boxButton().textValue("And"),
-              boxButton().textValue("Things")
-            )
-          ),
-          // content
-          region(contentId).fillBoth().addClass(Structure).sub(
-            vbox().addClass(BoxList).sub(
-              boxButton().textValue("Content 1"),
-              boxButton().textValue("Content 2"),
-              boxButton().textValue("Content 3")
-            )
-          ),
-          // submenu
-          region(submenuId).fillY().addClass(Structure).sub(
-            vbox().addClass(BoxList).sub(
-              boxButton().textValue("Lorem"),
-              boxButton().textValue("Ipsum")
-            )
-          ),
-        ),
-        // footer
-        region(footerId).fillX().addClass(Structure).sub(
-          hbox().addClass(BoxList).sub(
-            boxButton().textValue("Footer"),
-            boxButton().textValue("Stuff"),
-            icon()
-              .mutate(_.iconValue(MaterialDesign.AddComment))
-              .mutate(_.iconSize(64.0))
-              .mutate(_.iconColor(Colors.PureWhite))
-          )
-        )
+    val count = 100
+    val delay = 500
+    val parent = fbox(BoxId("free-box"))
+    parent.layout.align.write(Vec2d.TopLeft)
+    val regions = (0 until count)
+      .map { i =>
+        val box = region(BoxId(s"reg$i"))
+        box.fillColor(Color(255, 255.0 * i / count, 0))
+        box.layout.align.write(Vec2d.TopLeft)
+        box
+      }
+      .toList
+
+    val allRegions: Writeable[List[Vec2d]] = Data(Nil)
+    val curRegions: Writeable[List[Vec2d]] = Data(Nil)
+    val curAreas: Writeable[List[Rec2d]] = Data(Nil)
+
+    controller.model.tick /~ { case t => t / delay } /> { case Some(t) =>
+      log.info(s"all regions tick [$t]")
+      allRegions.write(
+        (0 until count)
+          .map { i => (50 xy 50).toDouble.random(min = 5 xy 5) }
+          .toList
+          .sortBy(v => -v.x * v.y)
       )
-    )
+    }
+
+    controller.model.tick /~ { case t => (t % delay) / (delay / count) } /> { case Some(i) =>
+      curRegions.write(allRegions().take(i.toInt))
+      log.info(s"cur regions index [$i]: ${curRegions()}")
+    }
+
+    curRegions /> { case list =>
+      val (total, areas) = packer.pack(list, 2 xy 2)
+      curAreas.write(areas)
+      areas.zipWithIndex.foreach { case (area, index) =>
+        regions.lift(index).foreach { region =>
+          region.fixedW(area.size.x).fixedH(area.size.y)
+          parent.assignPosition(region, area.position)
+        }
+      }
+      regions.drop(areas.size).foreach { region =>
+        region.fixedW(0.0).fixedH(0.0)
+        parent.assignPosition(region, Vec2d.Zero)
+      }
+    }
+
+    boxContext.root.sub(parent.sub(region(fillId).fillBoth() :: regions: _*))
+
+    //    val Structure = BoxClass()
+    //    val BoxList = BoxClass()
+    //
+    //    val headerId = BoxId()
+    //    val menuId = BoxId()
+    //    val contentId = BoxId()
+    //    val submenuId = BoxId()
+    //    val footerId = BoxId()
+    //
+    //    implicit val styles: Styler = StyleSheet(
+    //      isRegion && (headerId || footerId) |> (
+    //        _.fillColor(Colors.GreenDarkest),
+    //        ),
+    //      isRegion && (menuId || submenuId) |> (
+    //        _.fillColor(Colors.GreenDark),
+    //        ),
+    //      isRegion && contentId |> (
+    //        _.fillColor(Colors.Green),
+    //        ),
+    //      isRegion && Structure |> (
+    //        _.pad(20 xy 20),
+    //        ),
+    //      isHBox && BoxList |> (
+    //        _.spacingX(10.0),
+    //        ),
+    //      isVBox && BoxList |> (
+    //        _.spacingY(10.0),
+    //        ),
+    //      isButton && hasAbsParent(headerId || footerId) |> (
+    //        _.textColor(Colors.PureWhite),
+    //        ),
+    //      isButton |> (
+    //        _.cursor(Cursors.Auto),
+    //        _.pad(10.0 xy 10.0),
+    //        _.fillColor(Colors.Blue),
+    //        _.textSize(10),
+    //        _.textFont(RobotoSlab),
+    //        _.fillDepth(4.0),
+    //        _.childOffset(0 xy -2.0),
+    //      ),
+    //      isButton && Hover |> (
+    //        _.cursor(Cursors.Pointer),
+    //        _.fillColor(Colors.Blue.lighter)
+    //      ),
+    //      isButton && Hover && Drag |> (
+    //        _.fillColor(Colors.Blue.darker),
+    //        _.fillDepth(-4.0),
+    //        _.childOffset(0 xy 4.0),
+    //      )
+    //    )
+    //
+    //    boxContext.root.sub(
+    //      vbox().fillBoth().sub(
+    //        // header
+    //        region(headerId).fillX().addClass(Structure).sub(
+    //          hbox().addClass(BoxList).sub(
+    //            boxButton().onClick(window.alert("foo")).textValue("OCWALK"),
+    //            boxButton().textValue("Home"),
+    //            boxButton().textValue("Library")
+    //          )
+    //        ),
+    //        hbox().fillBoth().sub(
+    //          // menu
+    //          region(menuId).fillY().addClass(Structure).sub(
+    //            vbox().addClass(BoxList).sub(
+    //              boxButton().textValue("Stuff"),
+    //              boxButton().textValue("And"),
+    //              boxButton().textValue("Things")
+    //            )
+    //          ),
+    //          // content
+    //          region(contentId).fillBoth().addClass(Structure).sub(
+    //            vbox().addClass(BoxList).sub(
+    //              boxButton().textValue("Content 1"),
+    //              boxButton().textValue("Content 2"),
+    //              boxButton().textValue("Content 3")
+    //            )
+    //          ),
+    //          // submenu
+    //          region(submenuId).fillY().addClass(Structure).sub(
+    //            vbox().addClass(BoxList).sub(
+    //              boxButton().textValue("Lorem"),
+    //              boxButton().textValue("Ipsum")
+    //            )
+    //          ),
+    //        ),
+    //        // footer
+    //        region(footerId).fillX().addClass(Structure).sub(
+    //          hbox().addClass(BoxList).sub(
+    //            boxButton().textValue("Footer"),
+    //            boxButton().textValue("Stuff"),
+    //            icon()
+    //              .mutate(_.iconValue(MaterialDesign.AddComment))
+    //              .mutate(_.iconSize(64.0))
+    //              .mutate(_.iconColor(Colors.PureWhite))
+    //          )
+    //        )
+    //      )
+    //    )
 
     log.info("loaded test ui")
   }

@@ -17,8 +17,8 @@ object packer {
         .filter { place => placed.forall(p => !p.intersects(Rec2d(place, current))) }
         // map to rectangle
         .map { place => Rec2d(place, current) }
-        // find optimal place - place which extends the total area the least
-        .minByOpt { area => Rec2d.include(totalArea, area).area }
+        // find optimal place - place which extends the max total side the least
+        .minByOpt { area => Rec2d.include(totalArea, area).size.max }
         // no places means the rectangle is the first one, so it goes at 0:0
         .getOrElse(Rec2d(Vec2d.Zero, current))
       Rec2d.include(totalArea, optimalRect) -> (placed :+ optimalRect)

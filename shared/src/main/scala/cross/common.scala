@@ -450,6 +450,9 @@ object common {
       val scale = if (bounds.x < this.x || bounds.y < this.y) scales.min else scales.max
       (this * scale).toInt
     }
+
+    /** Converts vector to doubles */
+    def toDouble: Vec2d = Vec2d(x, y)
   }
 
   object Vec2i {
@@ -507,6 +510,9 @@ object common {
 
     /** Returns vec with only y component */
     def onlyY: Vec2d = Vec2d(x, 0)
+
+    /** Returns a random vector within current values */
+    def random(min: Vec2d = Vec2d.Zero, random: Random = new Random()): Vec2d = Vec2d(random.nextDouble() * (x - min.x) + min.x, random.nextDouble() * (y - min.y) + min.y)
   }
 
   object Vec2d {
@@ -658,8 +664,8 @@ object common {
     }
   }
 
-  /** Contains color values */
-  case class Color(r: Double, g: Double, b: Double, a: Double) {
+  /** Contains color values in range [0-255] */
+  case class Color(r: Double, g: Double, b: Double, a: Double = 255.0) {
     /** Converts the color to a single RGB integer */
     def toInt: Int = 65536 * r.toInt + 256 * g.toInt + b.toInt
 

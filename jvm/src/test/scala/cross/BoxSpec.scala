@@ -175,7 +175,7 @@ class BoxSpec extends Spec {
         isContainer |> (_.pad(1 xy 1)),
         isContainer && idB |> (
           c => c.pad(2 xy 2)
-        ),
+          ),
         isContainer && idA |> (_.pad(3 xy 3))
       )
 
@@ -361,6 +361,22 @@ class BoxSpec extends Spec {
       a.layout.absArea() shouldBe Rec2d(10 xy 10, 30 xy 20)
       b.layout.absArea() shouldBe Rec2d(10 xy 35, 30 xy 20)
       c.layout.absArea() shouldBe Rec2d(10 xy 60, 30 xy 30)
+    }
+
+    "layout free box" in new SimpleBase {
+      val fill = region().fillBoth()
+      val a = container().fixedW(20).fixedH(10)
+      val b = container().fixedW(5).fillY()
+      val c = container().fixedW(5).fixedH(5)
+      fbox()
+        .sub(a, b, c, fill)
+        .assignPosition(b, 5 xy 5)
+        .assignPosition(c, 20 xy 20)
+
+      fill.layout.absArea() shouldBe Rec2d(0 xy 0, 25 xy 25)
+      a.layout.absArea() shouldBe Rec2d(0 xy 0, 20 xy 10)
+      b.layout.absArea() shouldBe Rec2d(5 xy 5, 5 xy 20)
+      c.layout.absArea() shouldBe Rec2d(20 xy 20, 5 xy 5)
     }
   }
 }

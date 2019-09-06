@@ -101,6 +101,16 @@ object box {
     }.bindAndRegister()
   }
 
+  /** Creates an instance of free placement container box */
+  def fbox(id: BoxId = BoxId())(implicit context: BoxContext, assignedStyler: Styler): FreeBox = {
+    val assignedId = id
+    new FreeBox {
+      override def id: BoxId = assignedId
+
+      override def styler: Styler = assignedStyler
+    }.bindAndRegister()
+  }
+
   /** Selects any box */
   val anyBox: Selector[Box] = _ => true
 
@@ -914,9 +924,10 @@ object box {
     override def calculateLayoutY(): Unit = {}
   }
 
+  /** Style for boxes with images */
   trait ImageStyle {
     this: Box =>
-//    lazy val imageValue = StyleKey()
+    //    lazy val imageValue = StyleKey()
   }
 
   object ImageStyle {
@@ -957,6 +968,52 @@ object box {
     /** Refers to an image source */
     case class ImageValue(source: ImageReference, area: Rec2d)
 
+  }
+
+  /** Style for container boxes with free positions */
+  trait FreeStyle {
+    this: Box =>
+    /** Contains the position of child boxes */
+    lazy val positions = StyleKey(Map.empty[BoxId, Vec2d], this)
+
+
+    /** Sets the position for a given box to a given value */
+    def assignPosition(box: Box, position: Vec2d): this.type = assignPositionId(box.id, position)
+
+    /** Sets the position for a box with given id to a given value */
+    def assignPositionId(id: BoxId, position: Vec2d): this.type = {
+      positions(positions() + (id -> position))
+      this
+    }
+  }
+
+  /** Container with children positioned at freely assigned locations */
+  trait FreeBox extends Box with FreeStyle {
+    override def calculateMinimumWidth: Double = {
+      layout.relChildren()
+        .map(c => positions().getOrElse(c.id, Vec2d.Zero).x + c.layout.minW())
+        .maxOr(0.0)
+    }
+
+    override def calculateMinimumHeight: Double = {
+      layout.relChildren()
+        .map(c => positions().getOrElse(c.id, Vec2d.Zero).y + c.layout.minH())
+        .maxOr(0.0)
+    }
+
+    override def calculateLayoutX(): Unit = {
+      layout.relChildren().foreach { child =>
+        val pos = positions().getOrElse(child.id, Vec2d.Zero).x
+        child.updateAreaX(pos, layout.relBounds().size.x - pos)
+      }
+    }
+
+    override def calculateLayoutY(): Unit = {
+      layout.relChildren().foreach { child =>
+        val pos = positions().getOrElse(child.id, Vec2d.Zero).y
+        child.updateAreaY(pos, layout.relBounds().size.y - pos)
+      }
+    }
   }
 
   object Stretcher {
