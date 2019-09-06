@@ -453,6 +453,9 @@ object common {
 
     /** Converts vector to doubles */
     def toDouble: Vec2d = Vec2d(x, y)
+
+    /** Returns all points from 0:0 to the vector values */
+    def iterate: List[(Int, Int)] = (0 until y).flatMap(yi => (0 until x).map(xi => (xi, yi))).toList
   }
 
   object Vec2i {
@@ -669,6 +672,9 @@ object common {
     /** Converts the color to a single RGB integer */
     def toInt: Int = 65536 * r.toInt + 256 * g.toInt + b.toInt
 
+    /** Converts the color to a single ARGB integer */
+    def toArgb: Int = ((a.toInt & 0xFF) << 24) | ((r.toInt & 0xFF) << 16) | ((g.toInt & 0xFF) << 8) | ((b.toInt & 0xFF) << 0)
+
     /** Converts the color to a single RGB double */
     def toDouble: Double = toInt
 
@@ -704,6 +710,15 @@ object common {
             a = Integer.valueOf(hex.substring(6, 8), 16).toDouble
           )
       }
+    }
+
+    /** Parses color from ARGB int */
+    def argb(int: Int): Color = {
+      val r = (int >> 16) & 0xFF
+      val g = (int >> 8) & 0xFF
+      val b = (int >> 0) & 0xFF
+      val a = (int >> 24) & 0xFF
+      Color(r, g, b, a)
     }
 
     /** DB32 #1 */

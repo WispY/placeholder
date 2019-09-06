@@ -64,7 +64,7 @@ object app extends App with GlobalContext with Logging {
     } yield ()
   }
 
-  def startPac(path: String): Unit = {
+  def startPac(path: String)(implicit generalConfig: GeneralConfig): Unit = {
     import cross.pac.mvc._
 
     log.info("starting pac project")
@@ -269,7 +269,7 @@ object app extends App with GlobalContext with Logging {
     log.info("loaded test ui")
   }
 
-  def loginDiscord(code: String): Unit = for {
+  def loginDiscord(code: String)(implicit generalConfig: GeneralConfig): Unit = for {
     user <- Future.successful(None) // post[LoginDiscord, User]("/api/discord", LoginDiscord(code))
     _ = log.info(s"logged in as [$user]")
     _ = redirectSilent("/pac", preserveQuery = false)

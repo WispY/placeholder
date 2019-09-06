@@ -15,8 +15,6 @@ import scala.util.Try
 object http extends Logging {
   override protected def logKey: String = "http"
 
-  log.info("0")
-
   /** Performs the get http request */
   def get[A](path: String, parameters: List[(String, Any)] = Nil)(implicit config: GeneralConfig, aformat: BF[A]): Future[A] = {
     request("GET", path, parameters, None, response = true)(config, unitFormat, aformat)

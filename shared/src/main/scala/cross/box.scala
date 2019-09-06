@@ -2,7 +2,6 @@ package cross
 
 import cross.common._
 import cross.icon.MaterialDesign
-import cross.processing.packer
 
 import scala.reflect.ClassTag
 
@@ -942,9 +941,6 @@ object box {
       /** Appends image to tileset registry */
       def register(ref: ImageReference): Unit = images = images :+ ref
 
-      /** Generates the tileset sources */
-      def generate(workdir: String): Unit = packer.generateTileset(this, workdir)
-
       /** Path to tileset data */
       def dataPath: String = s"$path.ts"
 
@@ -955,7 +951,7 @@ object box {
     /** Refers to original image */
     case class ImageSource(path: String, tileset: Tileset) {
       /** Returns a reference to the image source with modified properties */
-      def ref(size: Vec2d = Vec2d.Zero, color: Color = Colors.PureBlack): ImageReference = {
+      def ref(size: Vec2d = Vec2d.Zero, color: Color => Color = c => c): ImageReference = {
         val reference = ImageReference(this, size, color)
         tileset.register(reference)
         reference
@@ -963,7 +959,7 @@ object box {
     }
 
     /** Refers to a copy of original image */
-    case class ImageReference(source: ImageSource, size: Vec2d, color: Color)
+    case class ImageReference(source: ImageSource, size: Vec2d, color: Color => Color)
 
     /** Refers to an image source */
     case class ImageValue(source: ImageReference, area: Rec2d)
