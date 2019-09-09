@@ -1,6 +1,7 @@
 package cross
 
 import cross.binary._
+import cross.common._
 import cross.format._
 
 /** Contains all messages to interact with server via websockets */
@@ -35,17 +36,27 @@ object protocol {
     */
   case class Connected(session: Session, player: Player) extends ManagerMessage
 
+  /** Messages related to downloadable resources */
+  sealed trait ResourceMessage extends Message
+
+  /** Describes tileset stored in a file */
+  case class TilesetAreas(areas: List[Rec2d]) extends ResourceMessage
+
   /** Messages related to lobby interactions */
   sealed trait LobbyMessage extends Message
 
   /** Messages related to game interactions */
   sealed trait GameMessage extends Message
 
-  implicit val f0 = stringFormat.map[Player](Player.apply, a => a.id)
-  implicit val f1 = stringFormat.map[Session](Session.apply, a => a.id)
+  implicit val PlayerFormat = stringFormat.map[Player](Player.apply, a => a.id)
+  implicit val SessionFormat = stringFormat.map[Session](Session.apply, a => a.id)
+  implicit val Vec2dFormat = format2(Vec2d.apply)
+  implicit val Rec2dFormat = format2(Rec2d.apply)
+  implicit val TilesetAreasFormat = format1(TilesetAreas)
 
   val registry = Registry[Message](
     format1(Connect),
-    format2(Connected)
+    format2(Connected),
+    TilesetAreasFormat
   )
 }

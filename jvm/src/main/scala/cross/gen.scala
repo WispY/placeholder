@@ -1,11 +1,14 @@
 package cross
 
 import java.awt.image.BufferedImage
-import java.io.File
+import java.io.{File, FileOutputStream, FileWriter}
+import java.util.Base64
 
+import cross.binary._
 import cross.box.ImageStyle.Tileset
 import cross.common._
 import cross.processing.packer
+import cross.protocol._
 import javax.imageio.ImageIO
 import net.coobird.thumbnailator.Thumbnails
 
@@ -41,7 +44,7 @@ object gen extends App {
       ref.copy(size = size.toDouble) -> out
     }
     println(s"Packing [${processed.size}] images")
-    val (totalSize, areas) = packer.pack(processed.map { case (ref, image) => ref.size}, 1 xy 1)
+    val (totalSize, areas) = packer.pack(processed.map { case (ref, image) => ref.size }, 1 xy 1)
     println(s"Rendering tileset")
     val out = new BufferedImage(totalSize.x.toInt, totalSize.y.toInt, BufferedImage.TYPE_INT_ARGB)
     processed.zip(areas).foreach { case ((ref, image), area) =>
@@ -52,6 +55,13 @@ object gen extends App {
     outFile.getParentFile.mkdirs()
     outFile.createNewFile()
     ImageIO.write(out, "png", outFile)
-    println(s"Successfully produced tileset [$tileset]")
+    println(s"Successfully produced tileset [${outFile.getAbsolutePath}]")
+    val bytes = TilesetAreas(areas).toBinary
+    val dataFile = new File(s"$target${tileset.dataPath}")
+    val stream = new FileWriter(dataFile)
+    stream.write(Base64.getEncoder.encodeToString(bytes.toByteArray))
+    stream.flush()
+    stream.close()
+    println(s"Successfully saved tileset data [${dataFile.getAbsolutePath}]")
   }
 }

@@ -963,7 +963,6 @@ object box {
 
     /** Refers to an image source */
     case class ImageValue(source: ImageReference, area: Rec2d)
-
   }
 
   /** Style for container boxes with free positions */
@@ -971,7 +970,6 @@ object box {
     this: Box =>
     /** Contains the position of child boxes */
     lazy val positions = StyleKey(Map.empty[BoxId, Vec2d], this)
-
 
     /** Sets the position for a given box to a given value */
     def assignPosition(box: Box, position: Vec2d): this.type = assignPositionId(box.id, position)

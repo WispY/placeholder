@@ -10,6 +10,7 @@ import org.scalajs.dom.{XMLHttpRequest, document, window}
 
 import scala.concurrent.{Future, Promise}
 import scala.scalajs.js.URIUtils
+import scala.scalajs.js.typedarray.{ArrayBuffer, Uint8Array}
 import scala.util.Try
 
 object http extends Logging {
@@ -17,17 +18,22 @@ object http extends Logging {
 
   /** Performs the get http request */
   def get[A](path: String, parameters: List[(String, Any)] = Nil)(implicit config: GeneralConfig, aformat: BF[A]): Future[A] = {
-    request("GET", path, parameters, None, response = true)(config, unitFormat, aformat)
+    request("GET", path, parameters, None, response = true, api = true)(config, unitFormat, aformat)
+  }
+
+  /** Retrieves the static resource for UI */
+  def resource[A](path: String, parameters: List[(String, Any)] = Nil)(implicit aformat: BF[A]): Future[A] = {
+    request("GET", path, parameters, None, response = true, api = false)(null, unitFormat, aformat)
   }
 
   /** Performs the post http request */
   def post[A, B](path: String, body: A)(implicit config: GeneralConfig, aformat: BF[A], bformat: BF[B]): Future[B] = {
-    request("POST", path, Nil, Some(body), response = true)(config, aformat, bformat)
+    request("POST", path, Nil, Some(body), response = true, api = true)(config, aformat, bformat)
   }
 
   /** Performs the post http request without parsing response */
   def postUnit[A](path: String, body: A)(implicit config: GeneralConfig, aformat: BF[A]): Future[Unit] = {
-    request("POST", path, Nil, Some(body), response = false)(config, aformat, unitFormat)
+    request("POST", path, Nil, Some(body), response = false, api = true)(config, aformat, unitFormat)
   }
 
   /** Redirects to given path within same server */
@@ -55,7 +61,7 @@ object http extends Logging {
   }
 
   /** Preforms the http request to given uri */
-  def request[A, B](method: String, path: String, parameters: List[(String, Any)], body: Option[A], response: Boolean)(implicit config: GeneralConfig, aformat: BF[A], bformat: BF[B]): Future[B] = {
+  def request[A, B](method: String, path: String, parameters: List[(String, Any)], body: Option[A], response: Boolean, api: Boolean)(implicit config: GeneralConfig, aformat: BF[A], bformat: BF[B]): Future[B] = {
     val query = if (parameters.isEmpty) "" else {
       val string = parameters
         .map { case (key, value) => s"${encode(key)}=${encode(value)}" }
@@ -75,11 +81,11 @@ object http extends Logging {
     request.onload = { _ =>
       if (response) {
         promise.complete(Try {
-          log.info("parsing response")
+          log.info(s"parsing response from [$path]")
           val base64 = request.response.asInstanceOf[String]
           val bytes = Base64.getDecoder.decode(base64)
           val b = ByteList(bytes).toScala[B]()
-          log.info("response successfully parsed")
+          log.info(s"response successfully parsed from [$path]")
           b
         })
       } else {
@@ -92,7 +98,8 @@ object http extends Logging {
       log.error(message, up)
       promise.failure(up)
     }
-    request.open(method, s"${config.server}$path$query", async = true)
+    val uri = if (api) s"${config.server}$path$query" else s"$path$query"
+    request.open(method, uri, async = true)
     request.responseType = "text"
     request.setRequestHeader("Content-Type", "text/plain")
     requestBase64 match {

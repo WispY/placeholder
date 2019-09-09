@@ -10,7 +10,7 @@ import cross.util.global.GlobalContext
 import cross.util.http._
 import cross.util.logging.Logging
 import cross.util.mvc.Ui
-import cross.util.{animation, fonts, spring}
+import cross.util.{animation, fonts, spring, tilesets}
 import org.scalajs.dom._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -91,6 +91,7 @@ object app extends App with GlobalContext with Logging {
 
     (for {
       _ <- fonts.load(Roboto :: RobotoSlab :: MaterialIcons :: Nil)
+      _ <- tilesets.load(ocwalk.style.tileset :: Nil)
       _ <- testUi(controller)
       _ <- spring.load()
       _ <- animation.load()
