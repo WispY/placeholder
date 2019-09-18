@@ -18,9 +18,7 @@ import akka.stream.Materializer
 import akka.util.Timeout
 import cross.binary._
 import cross.general.config.GeneralConfig
-import cross.general.protocol.User
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
-import cross.pac.protocol.ChatMessage
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -49,16 +47,6 @@ object akkautil {
     stringMarshaller(`text/plain`).compose { value =>
       val bytes = value.toBinary.toByteArray
       val base64 = Base64.getEncoder.encodeToString(bytes)
-      value match {
-        case list: List[ChatMessage] =>
-          import spray.json.DefaultJsonProtocol._
-          import spray.json._
-          implicit val userF: RootJsonFormat[User] = jsonFormat3(User)
-          implicit val messageF: RootJsonFormat[ChatMessage] = jsonFormat4(ChatMessage)
-          val json = list.asInstanceOf[List[ChatMessage]].toJson.compactPrint
-          println(json)
-        case _ =>
-      }
       base64
     }
   }
@@ -84,8 +72,8 @@ object akkautil {
 
   /** Provides the session data for the admin user */
   def adminSession()(implicit manager: SessionManagerRef, config: GeneralConfig): Directive1[Session] = session().flatMap { session =>
-    session.discordUser match {
-      case Some(user) if user.isAdmin =>
+    session.user match {
+      case Some(user) if user.admin =>
         provide(session)
       case Some(_) =>
         throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")

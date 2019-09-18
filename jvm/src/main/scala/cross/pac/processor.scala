@@ -341,7 +341,7 @@ object processor {
       val updateTimestamp = Option(message.getEditedTime).map(t => t.toInstant.toEpochMilli).getOrElse(createTimestamp)
       SubmissionMessage(
         id = message.getId,
-        author = DiscordUser(message.getAuthor.getId, message.getAuthor.getName),
+        author = DiscordUser(message.getAuthor.getId, message.getAuthor.getName, Option(message.getAuthor.getAvatarUrl).getOrElse(message.getAuthor.getDefaultAvatarUrl)),
         createTimestamp = createTimestamp,
         updateTimestamp = updateTimestamp,
         text = text,
@@ -413,7 +413,7 @@ object processor {
   /** Describes the art challenge period */
   case class ArtChallenge(title: String, start: Long, end: Option[Long])
 
-  implicit val userFormat: MF[DiscordUser] = format2(DiscordUser)
+  implicit val userFormat: MF[DiscordUser] = format3(DiscordUser)
   implicit val submissionDbFormat: MF[SubmissionDb] = format4(SubmissionDb)
   implicit val submissionImageFormat: MF[SubmissionImage] = format6(SubmissionImage)
   implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)

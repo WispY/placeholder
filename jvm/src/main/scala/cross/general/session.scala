@@ -4,7 +4,7 @@ import java.lang.System.currentTimeMillis
 import java.util.UUID
 
 import akka.actor.{Actor, ActorLogging, ActorRef}
-import cross.general.discord.DiscordUser
+import cross.general.protocol.User
 
 object session {
 
@@ -12,7 +12,7 @@ object session {
   case class SessionId(id: String)
 
   /** Describes user session on the server */
-  case class Session(id: SessionId, lastAccess: Long, discordUser: Option[DiscordUser])
+  case class Session(id: SessionId, lastAccess: Long, user: Option[User])
 
   /** Wraps the reference to session manager actor */
   case class SessionManagerRef(ref: ActorRef)
@@ -41,7 +41,7 @@ object session {
     private def emptySession: Session = Session(
       id = SessionId(UUID.randomUUID().toString),
       lastAccess = currentTimeMillis(),
-      discordUser = None
+      user = None
     )
   }
 

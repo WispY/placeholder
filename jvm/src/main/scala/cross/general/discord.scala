@@ -27,19 +27,19 @@ object discord extends SprayJsonSupport with LazyLogging {
                                   `scope`: String)
 
   /** Describes the logged in discord user */
-  case class DiscordUser(id: String, name: String) {
+  case class DiscordUser(id: String, name: String, avatar: String) {
     /** Converts the discord user to general user */
-    def asUser(implicit config: GeneralConfig): User = User(id, name, isAdmin)
+    def asUser(implicit config: GeneralConfig): User = User(id, name, avatar, isAdmin)
 
     /** Returns true if user is one of the admins */
     def isAdmin(implicit config: GeneralConfig): Boolean = config.discordAdmins.contains(id)
   }
 
-  /** User in discord api */
-  case class DiscordApiUser(id: String, username: String)
+  /** User in discord api: https://discordapp.com/developers/docs/resources/user */
+  case class DiscordApiUser(id: String, username: String, avatar: Option[String])
 
   implicit val discordTokenResponseFormat: RootJsonFormat[DiscordTokenResponse] = jsonFormat5(DiscordTokenResponse)
-  implicit val discordUserFormat: RootJsonFormat[DiscordApiUser] = jsonFormat2(DiscordApiUser)
+  implicit val discordUserFormat: RootJsonFormat[DiscordApiUser] = jsonFormat3(DiscordApiUser)
 
   /** Authorizes the user from given discord oauth2 code */
   def authorize(code: String, config: GeneralConfig)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[Authorization] = for {
@@ -65,7 +65,8 @@ object discord extends SprayJsonSupport with LazyLogging {
     response <- Http().singleRequest(HttpRequest(method = HttpMethods.GET, uri = "https://discordapp.com/api/v6/users/@me").addHeader(auth))
     _ <- if (response.status.isSuccess()) UnitFuture else Future.failed(IllegalRequestException(StatusCodes.Unauthorized, "Failed to read Discord user"))
     body <- Unmarshal(response).to[DiscordApiUser]
-    user = DiscordUser(body.id, body.username)
+    avatar = body.avatar.map(hash => s"https://cdn.discordapp.com/avatars/${body.id}/$hash.png").getOrElse("https://discordapp.com/assets/322c936a8c8be1b803cd94861bdfa868.png")
+    user = DiscordUser(body.id, body.username, avatar)
   } yield user
 
 }

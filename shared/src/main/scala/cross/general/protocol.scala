@@ -10,10 +10,11 @@ object protocol {
 
   /** Contains discord user information
     *
-    * @param id    the discord id of the user
-    * @param name  the displayed discord name of the user
-    * @param admin true, if user is recognized as project admin
+    * @param id     the discord id of the user
+    * @param name   the displayed discord name of the user
+    * @param avatar the url to user's uploaded avatar or default avatar
+    * @param admin  true, if user is recognized as project admin
     */
-  case class User(id: String, name: String, admin: Boolean)
+  case class User(id: String, name: String, avatar: String, admin: Boolean)
 
 }

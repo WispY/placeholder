@@ -48,7 +48,7 @@ object routes extends SprayJsonSupport with LazyLogging {
 
     /** Returns OptionUser(Some(user)) if browser session contains a valid login, or OptionUser(None) if user did not log in */
     `GET /api/user`.apply { session =>
-      complete(OptionUser(session.discordUser.map(u => u.asUser)))
+      complete(OptionUser(session.user))
     },
 
     /** Authorizes the user via discord using grant code */
@@ -61,7 +61,7 @@ object routes extends SprayJsonSupport with LazyLogging {
         _ = logger.info("reading discord user data")
         discordUser <- discord.selfUser(auth)
         _ = logger.info(s"successfully authorized as [$discordUser], updating session")
-        updated <- (manager.ref ? UpdateSession(session.id, s => s.copy(discordUser = Some(discordUser)))).mapTo[Session]
+        updated <- (manager.ref ? UpdateSession(session.id, s => s.copy(user = Some(discordUser.asUser)))).mapTo[Session]
         sessionId = updated.id
       } yield (discordUser, sessionId)) { (discordUser, sessionId) =>
         resetSession(sessionId) {
