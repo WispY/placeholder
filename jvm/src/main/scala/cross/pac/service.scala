@@ -55,10 +55,34 @@ object service {
           }
           _ = reply ! view
         } yield ()
+
+      case GetArtChallenges =>
+        val reply = sender
+        for {
+          _ <- UnitFuture
+          _ = log.info("reading all challenges")
+          list <- challenges.find(
+            sort = $ => $(_.start $desc)
+          )
+          _ = log.info(s"found [${list.size}] art challenges")
+          view = list.map { challenge =>
+            protocol.ArtChallenge(
+              id = challenge.id,
+              name = challenge.title,
+              video = None,
+              startTimestamp = challenge.start,
+              endTimestamp = challenge.end
+            )
+          }
+          _ = reply ! view
+        } yield ()
     }
   }
 
   /** Requests all admin messages */
   object GetAdminMessages
+
+  /** Requests all art challenges */
+  object GetArtChallenges
 
 }

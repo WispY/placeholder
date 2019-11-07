@@ -18,10 +18,14 @@ object json extends SprayJsonSupport {
   /** Simply wraps status list into an object */
   case class StatusList(statuses: List[SystemStatus])
 
+  /** Simply wraps challenge list into an object */
+  case class ArtChallengeList(challenges: List[ArtChallenge])
+
   implicit val loginDiscordFormat: RootJsonFormat[LoginDiscord] = jsonFormat1(LoginDiscord)
   implicit val userFormat: RootJsonFormat[User] = jsonFormat4(User)
   implicit val optionUserFormat: RootJsonFormat[OptionUser] = jsonFormat1(OptionUser)
-  implicit val artChallengeFormat: RootJsonFormat[ArtChallenge] = jsonFormat0(ArtChallenge)
+  implicit val artChallengeFormat: RootJsonFormat[ArtChallenge] = jsonFormat5(ArtChallenge)
+  implicit val artChallengeListFormat: RootJsonFormat[ArtChallengeList] = jsonFormat1(ArtChallengeList)
   implicit val messageFormat: RootJsonFormat[ChatMessage] = jsonFormat4(ChatMessage)
   implicit val messageListFormat: RootJsonFormat[MessageList] = jsonFormat1(MessageList)
   implicit val systemStatusFormat: RootJsonFormat[SystemStatus] = jsonFormat3(SystemStatus)

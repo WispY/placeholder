@@ -87,7 +87,9 @@ lazy val cross = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "com.typesafe.akka" %% "akka-http-testkit" % "10.1.8" % Test,
     libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.22" % Test,
     // robots
-    libraryDependencies += "com.1stleg" % "jnativehook" % "2.0.2"
+    libraryDependencies += "com.1stleg" % "jnativehook" % "2.0.2",
+    // fake names
+    libraryDependencies += "com.github.javafaker" % "javafaker" % "1.0.1",
   )
   .jsSettings(
     name := "js",

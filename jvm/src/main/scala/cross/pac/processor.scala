@@ -5,6 +5,7 @@ import java.util.UUID
 
 import akka.actor.{ActorRef, Scheduler}
 import akka.pattern.pipe
+import com.github.javafaker.Faker
 import com.vdurmont.emoji.EmojiParser
 import cross.actors.LockActor
 import cross.common._
@@ -20,6 +21,7 @@ import net.dv8tion.jda.core.entities.Message
 import org.mongodb.scala.{Document, MongoClient, Observable}
 
 import scala.collection.JavaConverters._
+import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
 
 object processor {
@@ -64,12 +66,24 @@ object processor {
           _ <- messages.ensureIndices($ => List(
             $(_.id $asc, _.updateTimestamp $asc),
             $(_.createTimestamp $asc),
-            $(_.images.anyElement.id $asc)
+            $(_.images.anyElement.id $asc),
           ))
           _ <- challenges.ensureIndices($ => List(
             $(_.start $asc),
-            $(_.end $asc)
+            $(_.start $desc),
+            $(_.end $asc),
           ))
+
+          // MOCKS START
+          _ <- challenges.deleteMany()
+          mockChallenges = (0 until 1000).map { index =>
+            val name = s"${new Faker().ancient().titan()} ${new Faker().book().genre().capitalize}"
+            val start = currentTimeMillis - (1 + index * 7).days.toMillis
+            val end = if (index == 0) None else Some(start + 7.days.toMillis)
+            ArtChallenge(uuid, s"$name $index", start, end)
+          }
+          _ <- Future.sequence(mockChallenges.map(challenges.insertOne))
+          // MOCKS END
 
           _ = log.info("checking if any messages are stored in db")
           count <- messages.countDocuments()
@@ -411,13 +425,13 @@ object processor {
   case class SubmissionDb(id: String, author: DiscordUser, messages: List[String], timestamp: Long)
 
   /** Describes the art challenge period */
-  case class ArtChallenge(title: String, start: Long, end: Option[Long])
+  case class ArtChallenge(id: String, title: String, start: Long, end: Option[Long])
 
   implicit val userFormat: MF[DiscordUser] = format3(DiscordUser)
   implicit val submissionDbFormat: MF[SubmissionDb] = format4(SubmissionDb)
   implicit val submissionImageFormat: MF[SubmissionImage] = format6(SubmissionImage)
   implicit val submissionMessageFormat: MF[SubmissionMessage] = format6(SubmissionMessage)
-  implicit val artChallengeFormat: MF[ArtChallenge] = format3(ArtChallenge)
+  implicit val artChallengeFormat: MF[ArtChallenge] = format4(ArtChallenge)
 
   implicit class ObservableOps(val obs: Observable[Document]) extends AnyVal {
     /** Converts a list of mongo results into scala */

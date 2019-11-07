@@ -19,7 +19,8 @@ object config {
     * @param discordClient   the id of discord application for oauth
     * @param discordSecret   the secret of discord application for oauth
     * @param discordRedirect the uri where discord redirected oauth request
-    *                        @param discordAdmins the list of user ids treated as discord admins
+    * @param discordAdmins   the list of user ids treated as discord admins
+    * @param adminApiCheck   true if the api endpoints for admins should check the role
     */
   case class GeneralConfig(host: String,
                            port: Int,
@@ -29,7 +30,8 @@ object config {
                            discordClient: String,
                            discordSecret: String,
                            discordRedirect: String,
-                           discordAdmins: List[String])
+                           discordAdmins: List[String],
+                           adminApiCheck: Boolean)
 
   val DefaultGeneralConfig = GeneralConfig(
     host = "localhost",
@@ -39,13 +41,14 @@ object config {
     discordClient = "changeme",
     discordSecret = "changeme",
     discordRedirect = "http://127.0.0.1:8080/discord",
-    discordAdmins = "337379582770675712" :: "254380888152997889" :: Nil
+    discordAdmins = "337379582770675712" :: "254380888152997889" :: Nil,
+    adminApiCheck = true
   )
 
   implicit val reader: ConfigReader = JvmReader
-  implicit val generalConfigFormat: CF[GeneralConfig] = format8(GeneralConfig)
+  implicit val generalConfigFormat: CF[GeneralConfig] = format9(GeneralConfig)
 
-  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat8(GeneralConfig)
+  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat9(GeneralConfig)
 
   val Config: GeneralConfig = configureNamespace("general", Some(DefaultGeneralConfig))
 

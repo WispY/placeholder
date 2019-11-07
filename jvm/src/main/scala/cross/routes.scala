@@ -24,4 +24,8 @@ object routes {
   val `GET /api/pac/health` = get & path("api" / "pac" / "health")
 
   def `GET /api/pac/admin-messages`(implicit manager: SessionManagerRef, config: GeneralConfig) = get & path("api" / "pac" / "admin-messages") & adminSession()
+
+  val `GET /api/pac/challenges` = get & path("api" / "pac" / "challenges")
+
+  val `GET /api/pac/submissions?challenge={challengeId}` = get & path("api" / "pac" / "submissions") & parameter("challenge")
 }

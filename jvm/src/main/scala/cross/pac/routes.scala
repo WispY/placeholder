@@ -14,7 +14,7 @@ import cross.general.session.SessionManagerRef
 import cross.pac.config.PacConfig
 import cross.pac.json._
 import cross.pac.protocol._
-import cross.pac.service.GetAdminMessages
+import cross.pac.service.{GetAdminMessages, GetArtChallenges}
 import cross.routes._
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -44,12 +44,17 @@ object routes extends LazyLogging {
       }
     },
 
-    /** Returns a list of chat messages from admins */
+    /** Returns a list of all chat messages from admins */
     `GET /api/pac/admin-messages`.apply { session =>
       implicit val to: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
       onSuccess(service ? GetAdminMessages) { case list: List[ChatMessage] => complete(MessageList(list)) }
-    }
+    },
 
+    /** Returns a list of all art challenges, sorted from most recent to the oldest */
+    `GET /api/pac/challenges` {
+      implicit val to: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
+      onSuccess(service ? GetArtChallenges) { case list: List[ArtChallenge] => complete(ArtChallengeList(list)) }
+    }
 
   )
 

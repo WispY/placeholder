@@ -72,13 +72,17 @@ object akkautil {
 
   /** Provides the session data for the admin user */
   def adminSession()(implicit manager: SessionManagerRef, config: GeneralConfig): Directive1[Session] = session().flatMap { session =>
-    session.user match {
-      case Some(user) if user.admin =>
-        provide(session)
-      case Some(_) =>
-        throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")
-      case None =>
-        throw IllegalRequestException(StatusCodes.Forbidden, "User is not logged in")
+    if (config.adminApiCheck) {
+      session.user match {
+        case Some(user) if user.admin =>
+          provide(session)
+        case Some(_) =>
+          throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")
+        case None =>
+          throw IllegalRequestException(StatusCodes.Forbidden, "User is not logged in")
+      }
+    } else {
+      provide(session)
     }
   }
 
