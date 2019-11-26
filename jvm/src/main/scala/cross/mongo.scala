@@ -176,13 +176,13 @@ object mongo {
           case Operations.LessThanOrEqualTo => "$lte"
           case Operations.In => "$in"
           case Operations.Exists => "$exists"
-          case other => sys.error(s"unknown operation: $other")
         }
         writePrimitive(mergePath(path) :+ FieldPathSegment(operator), bson, value)
       case UnaryOperation(path, Operations.SortAsc) =>
         writePrimitive(mergePath(path), bson, 1)
       case UnaryOperation(path, Operations.SortDesc) =>
         writePrimitive(mergePath(path), bson, -1)
+      case other => sys.error(s"unknown operation: $other")
     }
     Document(bson)
   }

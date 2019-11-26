@@ -27,5 +27,5 @@ object routes {
 
   val `GET /api/pac/challenges` = get & path("api" / "pac" / "challenges")
 
-  val `GET /api/pac/submissions?challenge={challengeId}` = get & path("api" / "pac" / "submissions") & parameter("challenge")
+  val `GET /api/pac/submissions?challengeId={challengeId}` = get & path("api" / "pac" / "submissions") & parameter("challengeId")
 }

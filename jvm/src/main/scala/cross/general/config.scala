@@ -14,6 +14,7 @@ object config {
     *
     * @param host            the host ip for server binding
     * @param port            the server http port
+    * @param external        the base external url for the server
     * @param timeout         the general request timeout
     * @param corsOrigin      the CORS origin for the server
     * @param discordClient   the id of discord application for oauth
@@ -24,6 +25,7 @@ object config {
     */
   case class GeneralConfig(host: String,
                            port: Int,
+                           external: String,
                            timeout: FiniteDuration,
                            corsOrigin: String,
 
@@ -31,11 +33,15 @@ object config {
                            discordSecret: String,
                            discordRedirect: String,
                            discordAdmins: List[String],
-                           adminApiCheck: Boolean)
+                           adminApiCheck: Boolean) {
+    /** Returns an absolute url to a given path */
+    def url(path: String): String = s"$external$path"
+  }
 
   val DefaultGeneralConfig = GeneralConfig(
     host = "localhost",
     port = 8081,
+    external = "http://127.0.0.1:8081",
     timeout = 30.seconds,
     corsOrigin = "http://127.0.0.1:8080",
     discordClient = "changeme",
@@ -46,9 +52,9 @@ object config {
   )
 
   implicit val reader: ConfigReader = JvmReader
-  implicit val generalConfigFormat: CF[GeneralConfig] = format9(GeneralConfig)
+  implicit val generalConfigFormat: CF[GeneralConfig] = format10(GeneralConfig)
 
-  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat9(GeneralConfig)
+  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat10(GeneralConfig)
 
   val Config: GeneralConfig = configureNamespace("general", Some(DefaultGeneralConfig))
 

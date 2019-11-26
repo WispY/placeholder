@@ -14,10 +14,12 @@ import cross.general.session.SessionManagerRef
 import cross.pac.config.PacConfig
 import cross.pac.json._
 import cross.pac.protocol._
-import cross.pac.service.{GetAdminMessages, GetArtChallenges}
+import cross.pac.service.{GetAdminMessages, GetArtChallenges, GetSubmissions}
 import cross.routes._
+import spray.json.RootJsonFormat
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
@@ -26,7 +28,7 @@ object routes extends LazyLogging {
   def pacRoutes(service: ActorRef, bot: ActorRef, thumbnailer: ActorRef, processor: ActorRef)(implicit generalConfig: GeneralConfig, pacConfig: PacConfig, system: ActorSystem, manager: SessionManagerRef, materializer: Materializer, ec: ExecutionContext): List[Route] = List(
     /** Returns the status of all project systems */
     `GET /api/pac/health` {
-      implicit val tc: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
+      implicit val timeout: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
       onComplete(
         List(service, bot, thumbnailer, processor)
           .map(a => (a ? GetStatus).map {
@@ -46,17 +48,25 @@ object routes extends LazyLogging {
 
     /** Returns a list of all chat messages from admins */
     `GET /api/pac/admin-messages`.apply { session =>
-      implicit val to: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
-      onSuccess(service ? GetAdminMessages) { case list: List[ChatMessage] => complete(MessageList(list)) }
+      askFor[MessageList](service, GetAdminMessages)
     },
 
     /** Returns a list of all art challenges, sorted from most recent to the oldest */
     `GET /api/pac/challenges` {
-      implicit val to: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
-      onSuccess(service ? GetArtChallenges) { case list: List[ArtChallenge] => complete(ArtChallengeList(list)) }
-    }
+      askFor[ArtChallengeList](service, GetArtChallenges)
+    },
 
+    /** Returns a list of art challenge submissions for a challenge with a given id, sorted from oldest to newest */
+    `GET /api/pac/submissions?challengeId={challengeId}` { challengeId =>
+      askFor[SubmissionList](service, GetSubmissions(challengeId))
+    },
   )
+
+  /** Builds a route that responds with what service sends back */
+  def askFor[A](service: ActorRef, message: Any)(implicit format: RootJsonFormat[A], generalConfig: GeneralConfig, tag: ClassTag[A]): Route = {
+    implicit val timeout: Timeout = Timeout.durationToTimeout(generalConfig.timeout)
+    onSuccess((service ? message).mapTo[A]) { value => complete(value) }
+  }
 
   /** Requests actor status */
   object GetStatus

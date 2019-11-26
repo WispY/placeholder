@@ -4,6 +4,9 @@ import cross.general.protocol._
 
 object protocol {
 
+  /** Simply wraps message list into an object */
+  case class MessageList(messages: List[ChatMessage])
+
   /** Describes a message from the user
     *
     * @param id              the discord message id
@@ -13,6 +16,9 @@ object protocol {
     */
   case class ChatMessage(id: String, text: String, author: User, createTimestamp: Long)
 
+  /** Simply wraps challenge list into an object */
+  case class ArtChallengeList(challenges: List[ArtChallenge])
+
   /** Describes an art challenge topic held within some time span
     *
     * @param id             the internal id of the art challenge
@@ -20,8 +26,17 @@ object protocol {
     * @param video          Some(url) to the video containing art challenge review, None if video is not linked
     * @param startTimestamp the epoch millis when the art challenge was started
     * @param endTimestamp   Some(epoch millis) when the art challenge ended, None if art challenge is ongoing
+    * @param submissions    the url to art challenge submissions
     */
-  case class ArtChallenge(id: String, name: String, video: Option[String], startTimestamp: Long, endTimestamp: Option[Long])
+  case class ArtChallenge(id: String,
+                          name: String,
+                          video: Option[String],
+                          startTimestamp: Long,
+                          endTimestamp: Option[Long],
+                          submissions: String)
+
+  /** Simply wraps submission list into an object */
+  case class SubmissionList(submissions: List[Submission])
 
   /** Describes a single art challenge entry from the user
     *

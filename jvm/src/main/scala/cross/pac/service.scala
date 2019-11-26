@@ -2,13 +2,13 @@ package cross.pac
 
 import akka.actor.{Actor, ActorLogging, Scheduler}
 import akka.pattern.pipe
-import cross.common.UnitFuture
-import cross.format.{$$, _}
+import cross.common._
+import cross.format._
 import cross.general.config.GeneralConfig
 import cross.mongo._
 import cross.pac.config.PacConfig
 import cross.pac.processor.{ArtChallenge, SubmissionDb, SubmissionMessage}
-import cross.pac.protocol.ChatMessage
+import cross.pac.protocol._
 import cross.pac.routes.{GetStatus, SystemStatus}
 import org.mongodb.scala.MongoClient
 
@@ -53,7 +53,7 @@ object service {
               createTimestamp = message.createTimestamp
             )
           }
-          _ = reply ! view
+          _ = reply ! MessageList(view)
         } yield ()
 
       case GetArtChallenges =>
@@ -71,10 +71,53 @@ object service {
               name = challenge.title,
               video = None,
               startTimestamp = challenge.start,
-              endTimestamp = challenge.end
+              endTimestamp = challenge.end,
+              submissions = generalConfig.url(s"/api/pac/submissions?challengeId=${challenge.id}")
             )
           }
-          _ = reply ! view
+          _ = reply ! ArtChallengeList(view)
+        } yield ()
+
+      case GetSubmissions(challengeId) =>
+        val reply = sender
+        for {
+          _ <- UnitFuture
+          _ = log.info(s"looking for art challenge [$challengeId] submissions")
+          challengeOpt <- challenges.findOne(
+            query = $ => $(_.id $eq challengeId)
+          )
+          _ = log.info(s"found challenge [${challengeOpt.map(_.id)}]")
+          list <- challengeOpt.map(challenge => submissions.find(
+            query = $ => $(
+              _.timestamp $gte challenge.start,
+              _.timestamp $lte challenge.end.getOrElse(Long.MaxValue)
+            ),
+            sort = $ => $(_.timestamp $asc)
+          )).getOrElse(Nil.future)
+          _ = log.info(s"found submissions [${list.size}]")
+          mappings <- Future.sequence(list.map { submission =>
+            messages.find(
+              query = $ => $(_.id $in submission.messages),
+              sort = $ => $(_.createTimestamp $asc)
+            ).map(messages => submission -> messages)
+          })
+          _ = log.info(s"found messages [${mappings.map(_._2.size).sum}]")
+          view = mappings.map { case (submission, messageList) =>
+            protocol.Submission(
+              id = submission.id,
+              author = submission.author.asUser(generalConfig),
+              createTimestamp = submission.timestamp,
+              text = messageList.map(message => message.text.trim).filterNot(text => text.isEmpty),
+              resources = messageList.flatMap(message => message.images).map { image =>
+                SubmissionResource(
+                  id = image.id,
+                  url = image.url,
+                  thumbnail = image.thumbnail
+                )
+              }
+            )
+          }
+          _ = reply ! SubmissionList(view)
         } yield ()
     }
   }
@@ -84,5 +127,8 @@ object service {
 
   /** Requests all art challenges */
   object GetArtChallenges
+
+  /** Requests all submissions for a given art challenge */
+  case class GetSubmissions(challengeId: String)
 
 }
