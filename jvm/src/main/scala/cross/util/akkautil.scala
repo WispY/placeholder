@@ -7,7 +7,7 @@ import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
 import akka.http.scaladsl.marshalling.PredefinedToResponseMarshallers._
 import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
 import akka.http.scaladsl.model.MediaTypes.`text/plain`
-import akka.http.scaladsl.model.headers.{HttpCookiePair, RawHeader}
+import akka.http.scaladsl.model.headers.{HttpCookie, HttpCookiePair}
 import akka.http.scaladsl.model.{HttpRequest, IllegalRequestException, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{Directive0, Directive1}
@@ -77,7 +77,7 @@ object akkautil {
       session.user match {
         case Some(user) if user.admin =>
           provide(session)
-        case Some(_) =>withCredentials
+        case Some(_) =>
           throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")
         case None =>
           throw IllegalRequestException(StatusCodes.Forbidden, "User is not logged in")
@@ -89,8 +89,7 @@ object akkautil {
 
   /** Updates the session cookie */
   def resetSession(id: SessionId): Directive0 = {
-    respondWithHeader(RawHeader("Set-Cookie", s"session=${id.id}; Path=/; HttpOnly; SameSite=None"))
-    // setCookie(HttpCookie("session", value = id.id, httpOnly = true, secure = false))
+    setCookie(HttpCookie("session", value = id.id, httpOnly = true, secure = false))
   }
 
   /** Attempts to execute future several times with a delay between attempts */
