@@ -77,7 +77,7 @@ object routes extends SprayJsonSupport with LazyLogging {
         refreshed <- (manager.ref ? ForgetSession(session.id)).mapTo[Session]
       } yield refreshed.id) { sessionId =>
         resetSession(sessionId) {
-          complete()
+          complete(EmptyJson())
         }
       }
     }

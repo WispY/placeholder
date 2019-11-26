@@ -4,6 +4,16 @@ import cross.general.protocol._
 
 object protocol {
 
+  /** Common fields for paginated responses */
+  trait Page {
+    /** The requested or default entity offset */
+    def offset: Int
+    /** The requested or default page size limit */
+    def limit: Int
+    /** The total number of entities on the server */
+    def total: Int
+  }
+
   /** Simply wraps message list into an object */
   case class MessageList(messages: List[ChatMessage])
 
