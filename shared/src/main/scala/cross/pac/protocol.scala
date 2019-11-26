@@ -8,14 +8,19 @@ object protocol {
   trait Page {
     /** The requested or default entity offset */
     def offset: Int
+
     /** The requested or default page size limit */
     def limit: Int
+
     /** The total number of entities on the server */
     def total: Int
   }
 
+  /** The page parameters coming from request */
+  case class Pagination(offset: Int, limit: Int)
+
   /** Simply wraps message list into an object */
-  case class MessageList(messages: List[ChatMessage])
+  case class MessageList(messages: List[ChatMessage], offset: Int, limit: Int, total: Int) extends Page
 
   /** Describes a message from the user
     *
@@ -27,7 +32,7 @@ object protocol {
   case class ChatMessage(id: String, text: String, author: User, createTimestamp: Long)
 
   /** Simply wraps challenge list into an object */
-  case class ArtChallengeList(challenges: List[ArtChallenge])
+  case class ArtChallengeList(challenges: List[ArtChallenge], offset: Int, limit: Int, total: Int) extends Page
 
   /** Describes an art challenge topic held within some time span
     *
@@ -46,7 +51,7 @@ object protocol {
                           submissions: String)
 
   /** Simply wraps submission list into an object */
-  case class SubmissionList(submissions: List[Submission])
+  case class SubmissionList(submissions: List[Submission], offset: Int, limit: Int, total: Int) extends Page
 
   /** Describes a single art challenge entry from the user
     *

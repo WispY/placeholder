@@ -14,10 +14,13 @@ object config {
 
   /** PAC project configuration
     *
-    * @param bot       the configuration for pac discord bot
-    * @param processor the configuration for pac processor
+    * @param bot         the configuration for pac discord bot
+    * @param processor   the configuration for pac processor
+    * @param thumbnailer the configuration for pac thumbnailer
     */
-  case class PacConfig(bot: PacBotConfig, processor: PacProcessorConfig, thumbnailer: PacThumbnailerConfig)
+  case class PacConfig(bot: PacBotConfig,
+                       processor: PacProcessorConfig,
+                       thumbnailer: PacThumbnailerConfig)
 
   /** Configures discord bot
     *

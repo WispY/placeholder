@@ -47,18 +47,18 @@ object routes extends LazyLogging {
     },
 
     /** Returns a list of all chat messages from admins */
-    `GET /api/pac/admin-messages`.apply { session =>
-      askFor[MessageList](service, GetAdminMessages)
+    `GET /api/pac/admin-messages?pagination`.apply { case (pagination, session) =>
+      askFor[MessageList](service, GetAdminMessages(pagination))
     },
 
     /** Returns a list of all art challenges, sorted from most recent to the oldest */
-    `GET /api/pac/challenges` {
-      askFor[ArtChallengeList](service, GetArtChallenges)
+    `GET /api/pac/challenges?pagination`.apply { pagination =>
+      askFor[ArtChallengeList](service, GetArtChallenges(pagination))
     },
 
     /** Returns a list of art challenge submissions for a challenge with a given id, sorted from oldest to newest */
-    `GET /api/pac/submissions?challengeId={challengeId}` { challengeId =>
-      askFor[SubmissionList](service, GetSubmissions(challengeId))
+    `GET /api/pac/submissions?challengeId={challengeId}&pagination`.apply { case (challengeId, pagination) =>
+      askFor[SubmissionList](service, GetSubmissions(challengeId, pagination))
     },
   )
 

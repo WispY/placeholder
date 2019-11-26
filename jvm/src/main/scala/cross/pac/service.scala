@@ -34,7 +34,7 @@ object service {
           .map(list => SystemStatus("pac.service", healthy = true) :: list)
           .pipeTo(sender)
 
-      case GetAdminMessages =>
+      case GetAdminMessages(pagination) =>
         val reply = sender
         for {
           _ <- UnitFuture
@@ -42,8 +42,11 @@ object service {
           _ = log.info(s"reading all admin messages [$admins]")
           list <- messages.find(
             query = $ => $(_.author.id $in admins),
-            sort = $ => $(_.createTimestamp $asc)
+            sort = $ => $(_.createTimestamp $asc),
+            skip = pagination.offset,
+            limit = pagination.limit
           )
+          total <- messages.countDocuments($ => $(_.author.id $in admins))
           _ = log.info(s"found [${list.size}] admin messages")
           view = list.map { message =>
             ChatMessage(
@@ -53,17 +56,20 @@ object service {
               createTimestamp = message.createTimestamp
             )
           }
-          _ = reply ! MessageList(view)
+          _ = reply ! MessageList(view, pagination.offset, pagination.limit, total)
         } yield ()
 
-      case GetArtChallenges =>
+      case GetArtChallenges(pagination) =>
         val reply = sender
         for {
           _ <- UnitFuture
           _ = log.info("reading all challenges")
           list <- challenges.find(
-            sort = $ => $(_.start $desc)
+            sort = $ => $(_.start $desc),
+            skip = pagination.offset,
+            limit = pagination.limit
           )
+          total <- challenges.countDocuments()
           _ = log.info(s"found [${list.size}] art challenges")
           view = list.map { challenge =>
             protocol.ArtChallenge(
@@ -75,10 +81,10 @@ object service {
               submissions = generalConfig.url(s"/api/pac/submissions?challengeId=${challenge.id}")
             )
           }
-          _ = reply ! ArtChallengeList(view)
+          _ = reply ! ArtChallengeList(view, pagination.offset, pagination.limit, total)
         } yield ()
 
-      case GetSubmissions(challengeId) =>
+      case GetSubmissions(challengeId, pagination) =>
         val reply = sender
         for {
           _ <- UnitFuture
@@ -87,13 +93,23 @@ object service {
             query = $ => $(_.id $eq challengeId)
           )
           _ = log.info(s"found challenge [${challengeOpt.map(_.id)}]")
-          list <- challengeOpt.map(challenge => submissions.find(
-            query = $ => $(
+          list <- challengeOpt.map { challenge =>
+            submissions.find(
+              query = $ => $(
+                _.timestamp $gte challenge.start,
+                _.timestamp $lte challenge.end.getOrElse(Long.MaxValue)
+              ),
+              sort = $ => $(_.timestamp $asc),
+              skip = pagination.offset,
+              limit = pagination.limit
+            )
+          }.getOrElse(Nil.future)
+          total <- challengeOpt.map { challenge =>
+            submissions.countDocuments(query = $ => $(
               _.timestamp $gte challenge.start,
               _.timestamp $lte challenge.end.getOrElse(Long.MaxValue)
-            ),
-            sort = $ => $(_.timestamp $asc)
-          )).getOrElse(Nil.future)
+            ))
+          }.getOrElse(0.future)
           _ = log.info(s"found submissions [${list.size}]")
           mappings <- Future.sequence(list.map { submission =>
             messages.find(
@@ -117,18 +133,18 @@ object service {
               }
             )
           }
-          _ = reply ! SubmissionList(view)
+          _ = reply ! SubmissionList(view, pagination.offset, pagination.limit, total)
         } yield ()
     }
   }
 
   /** Requests all admin messages */
-  object GetAdminMessages
+  case class GetAdminMessages(pagination: Pagination)
 
   /** Requests all art challenges */
-  object GetArtChallenges
+  case class GetArtChallenges(pagination: Pagination)
 
   /** Requests all submissions for a given art challenge */
-  case class GetSubmissions(challengeId: String)
+  case class GetSubmissions(challengeId: String, pagination: Pagination)
 
 }

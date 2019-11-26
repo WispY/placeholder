@@ -23,9 +23,9 @@ object routes {
 
   val `GET /api/pac/health` = get & path("api" / "pac" / "health")
 
-  def `GET /api/pac/admin-messages`(implicit manager: SessionManagerRef, config: GeneralConfig) = get & path("api" / "pac" / "admin-messages") & adminSession()
+  def `GET /api/pac/admin-messages?pagination`(implicit manager: SessionManagerRef, config: GeneralConfig) = get & path("api" / "pac" / "admin-messages") & pagination & adminSession()
 
-  val `GET /api/pac/challenges` = get & path("api" / "pac" / "challenges")
+  def `GET /api/pac/challenges?pagination`(implicit config: GeneralConfig) = get & path("api" / "pac" / "challenges") & pagination
 
-  val `GET /api/pac/submissions?challengeId={challengeId}` = get & path("api" / "pac" / "submissions") & parameter("challengeId")
+  def `GET /api/pac/submissions?challengeId={challengeId}&pagination`(implicit config: GeneralConfig) = get & path("api" / "pac" / "submissions") & parameter("challengeId") & pagination
 }

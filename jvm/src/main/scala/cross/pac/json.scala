@@ -23,13 +23,13 @@ object json extends SprayJsonSupport {
   implicit val userFormat: RootJsonFormat[User] = jsonFormat4(User)
   implicit val optionUserFormat: RootJsonFormat[OptionUser] = jsonFormat1(OptionUser)
   implicit val artChallengeFormat: RootJsonFormat[ArtChallenge] = jsonFormat6(ArtChallenge)
-  implicit val artChallengeListFormat: RootJsonFormat[ArtChallengeList] = jsonFormat1(ArtChallengeList)
+  implicit val artChallengeListFormat: RootJsonFormat[ArtChallengeList] = jsonFormat4(ArtChallengeList)
   implicit val messageFormat: RootJsonFormat[ChatMessage] = jsonFormat4(ChatMessage)
-  implicit val messageListFormat: RootJsonFormat[MessageList] = jsonFormat1(MessageList)
+  implicit val messageListFormat: RootJsonFormat[MessageList] = jsonFormat4(MessageList)
   implicit val systemStatusFormat: RootJsonFormat[SystemStatus] = jsonFormat3(SystemStatus)
   implicit val statusListFormat: RootJsonFormat[StatusList] = jsonFormat1(StatusList)
   implicit val submissionResourceFormat: RootJsonFormat[SubmissionResource] = jsonFormat3(SubmissionResource)
   implicit val submissionFormat: RootJsonFormat[Submission] = jsonFormat5(Submission)
-  implicit val submissionListFormat: RootJsonFormat[SubmissionList] = jsonFormat1(SubmissionList)
+  implicit val submissionListFormat: RootJsonFormat[SubmissionList] = jsonFormat4(SubmissionList)
 
 }

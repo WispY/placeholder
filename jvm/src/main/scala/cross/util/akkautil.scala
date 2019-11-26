@@ -20,6 +20,7 @@ import cross.binary._
 import cross.general.config.GeneralConfig
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
 import cross.pac.json._
+import cross.pac.protocol.Pagination
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -135,4 +136,16 @@ object akkautil {
 
   /** Requires the json body but does not care about it's content */
   val emptyJson: Directive0 = entity(as[EmptyJson]).tflatMap(_ => pass)
+
+  /** Reads pagination parameters from the request */
+  def pagination(implicit config: GeneralConfig): Directive1[Pagination] = {
+    parameters("offset".as[Int].?, "limit".as[Int].?).tflatMap { case (offset, limit) =>
+      val pagination = Pagination(offset.getOrElse(0), limit.getOrElse(config.pageSize))
+      validate(pagination.offset >= 0, "offset must be >= 0").tflatMap { _ =>
+        validate(pagination.limit > 0, "limit must be > 0").tflatMap { _ =>
+          provide(pagination)
+        }
+      }
+    }
+  }
 }

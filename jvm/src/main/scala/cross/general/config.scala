@@ -22,6 +22,7 @@ object config {
     * @param discordRedirect the uri where discord redirected oauth request
     * @param discordAdmins   the list of user ids treated as discord admins
     * @param adminApiCheck   true if the api endpoints for admins should check the role
+    * @param pageSize        the default page size for paginated apis
     */
   case class GeneralConfig(host: String,
                            port: Int,
@@ -33,7 +34,9 @@ object config {
                            discordSecret: String,
                            discordRedirect: String,
                            discordAdmins: List[String],
-                           adminApiCheck: Boolean) {
+                           adminApiCheck: Boolean,
+
+                           pageSize: Int) {
     /** Returns an absolute url to a given path */
     def url(path: String): String = s"$external$path"
   }
@@ -48,13 +51,13 @@ object config {
     discordSecret = "changeme",
     discordRedirect = "http://127.0.0.1:8080/discord",
     discordAdmins = "337379582770675712" :: "254380888152997889" :: Nil,
-    adminApiCheck = true
+    adminApiCheck = true,
+    pageSize = 100
   )
 
   implicit val reader: ConfigReader = JvmReader
-  implicit val generalConfigFormat: CF[GeneralConfig] = format10(GeneralConfig)
-
-  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat10(GeneralConfig)
+  implicit val generalConfigFormat: CF[GeneralConfig] = format11(GeneralConfig)
+  implicit val generalConfigJsonFormat: RootJsonFormat[GeneralConfig] = jsonFormat11(GeneralConfig)
 
   val Config: GeneralConfig = configureNamespace("general", Some(DefaultGeneralConfig))
 

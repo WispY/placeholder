@@ -262,18 +262,19 @@ object mongo {
     } yield ()
 
     /** Counts document in collection that match given query */
-    def countDocuments(query: CCT => Document = empty): Future[Long] = for {
+    def countDocuments(query: CCT => Document = empty): Future[Int] = for {
       collection <- delegate
       count <- collection.countDocuments(query.apply(cct)).toFuture
-    } yield count
+    } yield count.toInt
 
     /** Finds documents that match given query */
-    def find(query: CCT => Document = empty, sort: CCT => Document = empty, limit: Int = -1): Future[List[A]] = for {
+    def find(query: CCT => Document = empty, sort: CCT => Document = empty, skip: Int = -1, limit: Int = -1): Future[List[A]] = for {
       collection <- delegate
       sortDocument = sort.apply(cct)
       documents <- collection
         .find(query.apply(cct))
         .chainIf(limit >= 0)(s => s.limit(limit))
+        .chainIf(skip >= 0)(s => s.skip(skip))
         .chainIf(sortDocument.nonEmpty)(s => s.sort(sortDocument))
         .toFuture
       entities = documents.map(d => d.toScala[A]).toList
