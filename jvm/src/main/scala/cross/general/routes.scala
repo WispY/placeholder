@@ -57,7 +57,7 @@ object routes extends SprayJsonSupport with LazyLogging {
       onSuccess(for {
         _ <- UnitFuture
         _ = logger.info("authorizing discord user")
-        auth <- discord.authorize(login.code, config)
+        auth <- discord.authorize(login.code, login.redirect, config)
         _ = logger.info("reading discord user data")
         discordUser <- discord.selfUser(auth)
         _ = logger.info(s"successfully authorized as [$discordUser], updating session")

@@ -42,14 +42,14 @@ object discord extends SprayJsonSupport with LazyLogging {
   implicit val discordUserFormat: RootJsonFormat[DiscordApiUser] = jsonFormat3(DiscordApiUser)
 
   /** Authorizes the user from given discord oauth2 code */
-  def authorize(code: String, config: GeneralConfig)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[Authorization] = for {
+  def authorize(code: String, redirect: Option[String], config: GeneralConfig)(implicit s: ActorSystem, m: Materializer, ec: ExecutionContext): Future[Authorization] = for {
     _ <- UnitFuture
     request = FormData(
       "client_id" -> config.discordClient,
       "client_secret" -> config.discordSecret,
       "grant_type" -> "authorization_code",
       "code" -> code,
-      "redirect_uri" -> config.discordRedirect,
+      "redirect_uri" -> redirect.getOrElse(config.discordRedirect),
       "scope" -> "identify"
     )
     entity <- Marshal(request).to[RequestEntity]

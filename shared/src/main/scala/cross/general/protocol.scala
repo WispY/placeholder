@@ -4,9 +4,10 @@ object protocol {
 
   /** Logs in the discord user
     *
-    * @param code the code value contained in discord redirection url as a query parameter
+    * @param code     the code value contained in discord redirection url as a query parameter
+    * @param redirect Some(custom url) where discord redirects after login, None if server default can be used
     */
-  case class LoginDiscord(code: String)
+  case class LoginDiscord(code: String, redirect: Option[String])
 
   /** Contains discord user information
     *

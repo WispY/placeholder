@@ -9,13 +9,17 @@ import spray.json._
 
 object json extends SprayJsonSupport {
 
+  /** Represents an empty json body */
+  case class EmptyJson()
+
   /** Simply wraps user into an object */
   case class OptionUser(user: Option[User])
 
   /** Simply wraps status list into an object */
   case class StatusList(statuses: List[SystemStatus])
 
-  implicit val loginDiscordFormat: RootJsonFormat[LoginDiscord] = jsonFormat1(LoginDiscord)
+  implicit val emptyJsonFormat: RootJsonFormat[EmptyJson] = jsonFormat0(EmptyJson)
+  implicit val loginDiscordFormat: RootJsonFormat[LoginDiscord] = jsonFormat2(LoginDiscord)
   implicit val userFormat: RootJsonFormat[User] = jsonFormat4(User)
   implicit val optionUserFormat: RootJsonFormat[OptionUser] = jsonFormat1(OptionUser)
   implicit val artChallengeFormat: RootJsonFormat[ArtChallenge] = jsonFormat6(ArtChallenge)

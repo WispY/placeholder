@@ -7,7 +7,7 @@ import akka.http.scaladsl.marshalling.PredefinedToEntityMarshallers._
 import akka.http.scaladsl.marshalling.PredefinedToResponseMarshallers._
 import akka.http.scaladsl.marshalling.{ToEntityMarshaller, ToResponseMarshaller}
 import akka.http.scaladsl.model.MediaTypes.`text/plain`
-import akka.http.scaladsl.model.headers.{HttpCookie, HttpCookiePair}
+import akka.http.scaladsl.model.headers.{HttpCookiePair, RawHeader}
 import akka.http.scaladsl.model.{HttpRequest, IllegalRequestException, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{Directive0, Directive1}
@@ -19,6 +19,7 @@ import akka.util.Timeout
 import cross.binary._
 import cross.general.config.GeneralConfig
 import cross.general.session.{EnsureSession, Session, SessionId, SessionManagerRef}
+import cross.pac.json._
 
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -76,7 +77,7 @@ object akkautil {
       session.user match {
         case Some(user) if user.admin =>
           provide(session)
-        case Some(_) =>
+        case Some(_) =>withCredentials
           throw IllegalRequestException(StatusCodes.Forbidden, "User is not an admin")
         case None =>
           throw IllegalRequestException(StatusCodes.Forbidden, "User is not logged in")
@@ -87,7 +88,10 @@ object akkautil {
   }
 
   /** Updates the session cookie */
-  def resetSession(id: SessionId): Directive0 = setCookie(HttpCookie("session", value = id.id, httpOnly = true, secure = false))
+  def resetSession(id: SessionId): Directive0 = {
+    respondWithHeader(RawHeader("Set-Cookie", s"session=${id.id}; Path=/; HttpOnly; SameSite=None"))
+    // setCookie(HttpCookie("session", value = id.id, httpOnly = true, secure = false))
+  }
 
   /** Attempts to execute future several times with a delay between attempts */
   def retryFuture[A](code: () => Future[A], attempts: Int, delay: FiniteDuration)(implicit ec: ExecutionContext, s: Scheduler): Future[A] = {
@@ -129,4 +133,7 @@ object akkautil {
   def delayCode[A](code: () => A, delay: FiniteDuration)(implicit ec: ExecutionContext, s: Scheduler): Future[A] = {
     delayFuture(() => Future(code.apply()), delay)
   }
+
+  /** Requires the json body but does not care about it's content */
+  val emptyJson: Directive0 = entity(as[EmptyJson]).tflatMap(_ => pass)
 }

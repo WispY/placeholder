@@ -19,7 +19,7 @@ object routes {
 
   def `GET /api/user`(implicit manager: SessionManagerRef) = get & path("api" / "user") & session()
 
-  def `POST /api/signout`(implicit manager: SessionManagerRef) = post & path("api" / "signout") & session()
+  def `POST /api/signout`(implicit manager: SessionManagerRef) = post & path("api" / "signout") & session() & emptyJson
 
   val `GET /api/pac/health` = get & path("api" / "pac" / "health")
 
